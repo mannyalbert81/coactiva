@@ -376,6 +376,25 @@ class FirmasDigitalesController extends ControladorBase{
 		
 	}
 	
+	public function DocumentosFirmarApplet()
+	{
+		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['id_usuario'])&&isset($_POST['id_usuario']))
+		{
+			if($_POST['filesIds']!=""||$_POST['mac']!=""||$_POST['id_usuario']!=""||$_POST['id_usuario']!=""){
+				
+				echo 'Bienvenido';
+				
+			}else{
+				
+				echo 'error en el envio de datos';
+			}
+			
+		}else{
+			echo 'error sus Datos no han sido enviados';
+		}
+		
+	}
+	
 	
 }
 ?>
