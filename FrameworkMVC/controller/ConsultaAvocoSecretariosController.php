@@ -636,19 +636,28 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 	
 	public  function EnviarApplet()
 	{
+		//pasar parametros 
 		
 		session_start();
 		
 		$consulta = array();
 		
+		$resultUsuario="";
+		$resultnombreFiles="";
+		$ruta="";
+		$resultIds="";
+		
 		$avoco=new AvocoConocimientoModel();
 		
 		if(isset($_POST['file_firmar']))
 		{
+			$resultUsuario=$_SESSION['id_usuarios'];
 			
 			$arrayFilesAfirmar=$_POST['file_firmar'];
 			$cadenaFiles="";
 			$cadenaId="";
+			$ruta="Avoco";
+			
 				
 				foreach ($arrayFilesAfirmar as $res)
 				{
@@ -658,9 +667,9 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 			//$cadenaFiles = substr($cadenaFiles, 0, -1);
 			//$cadenaId = substr($cadenaId, 0, -1);
 			
-			$cadenaId = trim($cadenaId,",");
+			$resultIds = trim($cadenaId,",");
 			
-			$consulta=$avoco->getBy("id_avoco_conocimiento in ('$cadenaId')");
+			$consulta=$avoco->getBy("id_avoco_conocimiento in ('$resultIds')");
 			
 			if (!empty($consulta)) {  foreach($consulta as $res) {
 						
@@ -668,20 +677,25 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 					}
 				}
 			
-			$cadenaFiles = trim($cadenaFiles,",");
+			$resultnombreFiles = trim($cadenaFiles,",");
 			
+			
+			
+			$this->view("FirmarPdf",array(
+						
+					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds
+			
+			));
+			
+			/*
+			 * 
 			$this->view("Error",array(
 						
-					"resultado"=>$cadenaFiles
+					"resultado"=>$resultUsuario." df ".$resultnombreFiles." df ".$ruta." df ".$resultIds
 			
 			));
-			/*$this->view("FirmarPdf",array(
-						
-					"resultUsuario"=>$resultUsuario,"resultCertificado"=>$resultCertificado
 			
-			));
-			*/
-			
+			 */
 			
 		}else {
 			
