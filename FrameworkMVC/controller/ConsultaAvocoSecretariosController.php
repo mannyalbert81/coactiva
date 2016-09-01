@@ -634,6 +634,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		
 	}
 	
+	//funcion que envia al applet
 	public  function EnviarApplet()
 	{
 		//pasar parametros 
@@ -679,11 +680,23 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 			
 			$resultnombreFiles = trim($cadenaFiles,",");
 			
+			$certificado=new CertificadosModel();
+			$firma = new FirmasDigitalesModel();
+			
+			$msg="";
+			
+			$conCertificado= $certificado->getBy("id_usuarios_certificado_digital='$resultUsuario'");
+			
+			$conFirma=$firma->getBy("id_usuarios='$resultUsuario'");
+			
+			if(empty($conCertificado)){$msg="Usted no tiene registrado un Certfificado electronico";}
+			
+			if(empty($conFirma)){$msg="Usted no cuenta con una firma digital registrado en el sistema";}
 			
 			
 			$this->view("FirmarPdf",array(
 						
-					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds
+					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds,"msg"=>$msg
 			
 			));
 			
