@@ -138,8 +138,8 @@
 				
 				<?php 
 					$codebase="http://186.4.241.148:4000/FrameworkMVC/view/";
-					$code="verfirma.Certificados.class";
-					$archive="Certificados.jar";
+					$code="firmarDocumentos.SignDocuments.class";
+					$archive="firmarDocumentos.jar";
 					
 				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="1100" height="400">'.
 				'<param name="idUsuario" value="'.$id_usuario.'">'.
