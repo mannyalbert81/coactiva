@@ -112,7 +112,7 @@
 		    	<div class="col-xs-12 col-md-12">
 				
 				<span style="height: 400px">
-				!! No ha selecionado documentos a firmar
+				<?php $Msg=$msg; echo $Msg; ?>
 				</span>
 		    	
 		         </div>
