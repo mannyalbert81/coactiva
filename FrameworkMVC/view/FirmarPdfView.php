@@ -105,7 +105,7 @@
             <hr/>
             
            
-          <?php if ($msg=="") { ?>
+          <?php if ($msg!="") { ?>
           
               <div class="row">
 				 

@@ -693,17 +693,12 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 			
 			if(empty($conFirma)){$msg="Usted no cuenta con una firma digital registrado en el sistema";}
 			
-			$this->view("Error",array(
 			
-					"resultado"=>$msg
-						
-			));
-			
-			/*$this->view("FirmarPdf",array(
+			$this->view("FirmarPdf",array(
 						
 					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds,"msg"=>$msg
 			
-			));*/
+			));
 			
 			/*
 			 * 
