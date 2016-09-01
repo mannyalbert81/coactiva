@@ -584,7 +584,7 @@ class EntidadBase{
     
     //cuando se selecciona archivos a firmar
     
-    public function getPermisosFirmarPdfs($id_usuario)
+    public function getPermisosFirmarPdfs($id_usuario,$Maclocal=null)
     {
     	$resultado=array('valor'=>0,'error'=>'','estado'=>false);
     	 
@@ -598,13 +598,13 @@ class EntidadBase{
     	{
     		//verficar si se encuentra en la maquina personal del usuario
     
-    		$macLocal=$this->verMacAddress();
+    		//$macLocal=$this->verMacAddress();
     		$macUsuario=$resultCertificados[0]->mac_certificado_digital;
     		
     		//$resultMac=$certficados->getBy("mac_certificado_digital='$macLocal' AND id_usuarios_certificado_digital='$id_usuario'");
         	//if (!empty($resultMac))
         	
-    		if($macUsuario===$macLocal)
+    		if($macUsuario===$Maclocal)
     		{
     			$firmas= new FirmasDigitalesModel();
     			$resultFirmas=$firmas->getBy("id_usuarios='$id_usuario'");
