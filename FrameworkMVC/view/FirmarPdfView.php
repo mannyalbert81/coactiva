@@ -140,14 +140,14 @@
 					$codebase="http://186.4.241.148:4000/FrameworkMVC/view/";
 					$code="verfirma.Certificados.class";
 					$archive="Certificados.jar";
-					$rutaFiles='SECRETARIO';
+					$user='SECRETARIO';
 					
 				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="1100" height="400">'.
 				'<param name="idUsuario" value="'.$id_usuario.'">'.
 				'<param name="listaFiles" value="'.$cadenaNombres.'">'.
 				'<param name="rutaFiles" value="'.$rutaFiles.'">'.
 				'<param name="listaIds" value="'.$cadenaIds.'">'.
-				'<param name="ff" value="'.$rutaFiles.'">'.
+				'<param name="usuario" value="'.$user.'">'.
 				'</applet>';
 				?>
 				
