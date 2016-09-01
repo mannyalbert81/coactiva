@@ -1,35 +1,15 @@
 <?php
-require('fpdi.php');
-require('fpdf.php');
-class concat_pdf extends FPDI 
+include 'PDFMerger/PDFMerger.php';
 
-{
+$pdf = new PDFMerger;
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonDocumentos/';
+$directoriofinal = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonUnida/';
 
-var $files = array();
-
-function setFiles($files) 
-{
-$this->files = $files;
-}
-
-function concat() 
-{
-foreach($this->files AS $file) 
-{
-$pagecount = $this->setSourceFile($file);
-for ($i = 1; $i <= $pagecount; $i++) 
-{
-$tplidx = $this->ImportPage($i);
-$s = $this->getTemplatesize($tplidx);
-$this->AddPage($s['h'] > $s['w'] ? 'P' : 'L');
-$this->useTemplate($tplidx);
-}
-}
-}
-}
-
-$pdf =& new concat_pdf();
-$pdf->setFiles(array('RazonDocumentos/RazonDocumentos1005.PDF', 'RazonAvoco/RazonAvoco1000.PDF'));
-$pdf->concat();
-$pdf->Output('RazonUnido/RazonUnida.pdf','F');
+$pdf->addPDF($directorio.'RazonDocumentos1005.pdf', 'all')
+	->addPDF($directorio.'RazonDocumentos1004.pdf', 'all')
+	
+	->merge('download','');
+	
+	//REPLACE 'file' WITH 'browser', 'download', 'string', or 'file' for output options
+	//You do not need to give a file path for browser, string, or download - just the name.
 ?>
