@@ -202,15 +202,11 @@
        
        <?php
        
-      
        $sel_cuerpo="";
        $sel_id_avoco="";
        
-      
-        
        if($_SERVER['REQUEST_METHOD']=='GET')
        {
-       	
        	if(isset($_GET['dato']))
        	{
        	$a=stripslashes($_GET['dato']);
@@ -223,11 +219,8 @@
        	$sel_cuerpo=$_dato['cuerpo'];
        	$sel_id_avoco=$_dato['idAvoco'];
        	}
-      
        }
-      
-         
-		?>
+      ?>
  
 			  
 			  <div class="container">
