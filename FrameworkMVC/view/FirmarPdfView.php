@@ -142,7 +142,7 @@
 					$archive="firmarDocumentos.jar";
 					$user='SECRETARIO';
 
-				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="1100" height="400">'.
+				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="500" height="400">'.
 				'<param name="idUsuario" value="'.$id_usuario.'">'.
 				'<param name="listaFiles" value="'.$cadenaNombres.'">'.
 				'<param name="rutaFiles" value="'.$rutaFiles.'">'.
