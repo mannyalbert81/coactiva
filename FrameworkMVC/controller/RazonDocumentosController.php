@@ -94,6 +94,7 @@ public function index(){
 		$razon_documentos=new RazonDocumentosModel();
 		
 		$juicio = new  JuiciosModel();
+		$docuemntos = new DocumentosModel();
 		$nombre_controladores = "ConsultaDocumentosSecretarios";
 		$id_rol= $_SESSION['id_rol'];
 		$resultPer = $razon_documentos->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
@@ -105,6 +106,10 @@ public function index(){
 		
 			$resultado = null;
 			$razon_documentos = new RazonDocumentosModel();
+			$nombre_documentos = '';
+			$nombre_final= '';
+			
+				
 		
 		//_nombre_categorias character varying, _path_categorias character varying
 			if (isset ($_POST["id_documentos"]) && isset($_POST["Guardar"]))
@@ -122,7 +127,10 @@ public function index(){
 				$_id_usuario_registra   = $_SESSION['id_usuarios'];
 			    $_cuerpo_razon_documentos   = $cuerpo. $_POST["cuerpo_razon_documentos"];
 				
-				
+			    $consultaDocumento=$docuemntos->getBy("documentos.id_documentos = '$_id_documentos'");
+			    $nombre_documentos = $consultaDocumento [0]->nombre_documento;
+			    
+			    
 					if (isset($_POST["Guardar"]))
 					{
 						
@@ -130,8 +138,11 @@ public function index(){
 						
 						$consecutivo= new ConsecutivosModel();
 						$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='RAZONDOCUMENTOS'");
-						
+						$ConsultaConsecutivoDocumentoUnido= $consecutivo->getBy("documento_consecutivos='DOCUMENTOUNIDO'");
 						$identificador=$resultConsecutivo[0]->real_consecutivos;
+						$identificador_documento_unido= $ConsultaConsecutivoDocumentoUnido [0]->real_consecutivos;
+						$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='DOCUMENTOUNIDO'");
+						
 						
 						
 						$ruta_razon_documentos = "RazonDocumentos";
@@ -165,7 +176,7 @@ public function index(){
 				
 				
 				print "<script language='JavaScript'>
-				setTimeout(window.open('http://$host$uri/view/ireports/ContRazonDocumentosReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_razon_documentos','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+				setTimeout(window.open('http://$host$uri/view/ireports/ContRazonDocumentosReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_razon_documentos&nombre_documentos=$nombre_documentos&identificador_documento_unido=$identificador_documento_unido','Popup','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 				</script>";
 				
 				print("<script>window.location.replace('index.php?controller=ConsultaDocumentosSecretarios&action=consulta_secretarios_firmados');</script>");

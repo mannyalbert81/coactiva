@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-08-31T17:37:50 -->
+<!-- 2016-09-02T13:50:33 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -21,9 +21,9 @@
 		</band>
 	</title>
 	<detail>
-		<band height="387" splitType="Stretch">
+		<band height="357" splitType="Stretch">
 			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
-				<reportElement x="40" y="-10" width="460" height="388" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b2129fe7-24ba-4dc3-8428-f44b3fa0fc3c"/>
+				<reportElement x="40" y="10" width="460" height="250" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b2129fe7-24ba-4dc3-8428-f44b3fa0fc3c"/>
 				<textElement textAlignment="Justified" markup="html">
 					<font fontName="DejaVu Sans Mono" size="12"/>
 					<paragraph lineSpacing="Proportional"/>
@@ -31,6 +31,13 @@
 				<textFieldExpression><![CDATA[$F{cuerpo_razon_avoco_conocimiento}]]></textFieldExpression>
 				<patternExpression><![CDATA[$F{avoco_vistos_documentos}]]></patternExpression>
 			</textField>
+			<staticText>
+				<reportElement x="40" y="310" width="120" height="30" uuid="f75fb722-99db-4ba8-b554-fe85643d9b0d"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECRETARIA DE COACTIVA]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>

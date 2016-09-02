@@ -48,6 +48,8 @@ $estado=$_GET['estado'];
 	
 				$id= $_GET['identificador'];
 				$nombre=$_GET['nombre'];
+				$nombre_documentos=$_GET['nombre_documentos'];
+				$identificador_documento_unido=$_GET['identificador_documento_unido'];
 				//aqui va la consulta
 				$sql="SELECT
 				razon_documentos.cuerpo_razon_documentos
@@ -71,13 +73,51 @@ $estado=$_GET['estado'];
 				
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 	
+		}	
+			class Pdf_concat extends FPDI {
+			var $files = array();	
+			 
+			function setFiles($files) {
+				$this->files = $files;
+			}
+		
+			function concat() {
+				foreach($this->files AS $file) {
+					$pagecount = $this->setSourceFile($file);
+					for ($i = 1; $i <= $pagecount; $i++) {
+						$tplidx = $this->ImportPage($i);
+						$s = $this->getTemplatesize($tplidx);
+						$this->AddPage('P', array($s['w'], $s['h']));
+						$this->useTemplate($tplidx);
+					}
+				}
+			}
+		}
+		$directorio1 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Providencias/';
+		$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonProvidenciasUnida/';
+		
+		$file2merge=array($directorio1.$nombre_documentos.'.pdf', $directorio.$nombre.'.pdf');
+		$pdf = new Pdf_concat();
+		$pdf->setFiles($file2merge);
+		$pdf->concat();
+		$pdf->Output($directorio3.'RazonDocumentoUnido'.$identificador_documento_unido.'.pdf', "F");
+		
+		$dir=($directorio.$nombre.'.pdf'); 
+		if(file_exists($dir))
+		{
+			if(unlink($dir))
+				print "El archivo fue borrado";
+		}
+		else
+			print "Este archivo no existe";
+		
+		echo "<script type='text/javascript'>";
+		echo "window.close()";
+		echo "</script>";
+		exit();
 				
-				echo "<script type='text/javascript'>";
-				echo "window.close()";
-				echo "</script>";
-				exit();
 				
-           }
+           
 
 ?>
 

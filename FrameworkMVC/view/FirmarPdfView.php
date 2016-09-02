@@ -105,14 +105,14 @@
             <hr/>
             
            
-          <?php if ($resultnombreFiles=="") { ?>
+          <?php if ($msg!="") { ?>
           
               <div class="row">
 				 
 		    	<div class="col-xs-12 col-md-12">
 				
 				<span style="height: 400px">
-				!! No ha selecionado documentos a firmar
+				<?php $Msg=$msg; echo $Msg; ?>
 				</span>
 		    	
 		         </div>
@@ -138,14 +138,16 @@
 				
 				<?php 
 					$codebase="http://186.4.241.148:4000/FrameworkMVC/view/";
-					$code="verfirma.Certificados.class";
-					$archive="Certificados.jar";
-					
-				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="1100" height="400">'.
+					$code="firmarDocumentos.SignDocuments.class";
+					$archive="firmarDocumentos.jar";
+					$user='SECRETARIO';
+
+				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="500" height="400">'.
 				'<param name="idUsuario" value="'.$id_usuario.'">'.
 				'<param name="listaFiles" value="'.$cadenaNombres.'">'.
 				'<param name="rutaFiles" value="'.$rutaFiles.'">'.
 				'<param name="listaIds" value="'.$cadenaIds.'">'.
+				'<param name="usuario" value="'.$user.'">'.
 				'</applet>';
 				?>
 				
