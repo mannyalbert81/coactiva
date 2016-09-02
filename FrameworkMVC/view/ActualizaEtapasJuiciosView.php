@@ -177,7 +177,7 @@
                 {
             	 $("#id_etapas_juicios").prop("disabled","");
           	     $("#actualizar").prop("disabled","");
-                 0
+                 
                 }else
                     {
                 	  $("#id_etapas_juicios").prop("disabled","disabled");
@@ -186,7 +186,7 @@
                     }
                 
                 });
- 	 });
+ 	    });
        </script>
        
         <script >
