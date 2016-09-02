@@ -94,6 +94,7 @@ public function index(){
 		$razon_avoco=new RazonAvocoModel();
 		
 		$juicio = new  JuiciosModel();
+		$avocoConocimiento = new AvocoConocimientoModel();
 		$nombre_controladores = "ConsultaAvocoSecretarios";
 		$id_rol= $_SESSION['id_rol'];
 		$resultPer = $razon_avoco->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
@@ -105,6 +106,8 @@ public function index(){
 		
 			$resultado = null;
 			$razon_avoco = new RazonAvocoModel();
+			$nombre_avoco_conocimiento = '';
+			$nombre_final= '';
 		
 		//_nombre_categorias character varying, _path_categorias character varying
 			if (isset ($_POST["id_avoco_conocimiento"]) && isset($_POST["Guardar"]))
@@ -122,7 +125,10 @@ public function index(){
 				$_id_usuario_registra   = $_SESSION['id_usuarios'];
 			    $_cuerpo_razon_avoco_conocimiento   = $cuerpo. $_POST["cuerpo_razon_avoco_conocimiento"];
 				
-				
+			    $consultaAvoco=$avocoConocimiento->getBy("avoco_conocimiento.id_avoco_conocimiento = '$_id_avoco_conocimiento'");
+			    $nombre_avoco_conocimiento = $consultaAvoco [0]->nombre_documento;
+			   
+			 
 					if (isset($_POST["Guardar"]))
 					{
 						
@@ -130,9 +136,10 @@ public function index(){
 						
 						$consecutivo= new ConsecutivosModel();
 						$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='RAZONAVOCO'");
-						
+						$ConsultaConsecutivoAvocoUnido= $consecutivo->getBy("documento_consecutivos='AVOCOUNIDO'");
 						$identificador=$resultConsecutivo[0]->real_consecutivos;
-						
+						$identificador_avoco_unido= $ConsultaConsecutivoAvocoUnido [0]->real_consecutivos;
+						$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCOUNIDO'");
 						
 						$ruta_razon_avoco_conocimiento = "RazonAvoco";
 						
@@ -165,7 +172,7 @@ public function index(){
 				
 				
 				print "<script language='JavaScript'>
-				setTimeout(window.open('http://$host$uri/view/ireports/ContRazonAvocoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_razon_avoco_conocimiento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+				setTimeout(window.open('http://$host$uri/view/ireports/ContRazonAvocoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_razon_avoco_conocimiento&nombre_avoco_conocimiento=$nombre_avoco_conocimiento&identificador_avoco_unido=$identificador_avoco_unido','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 				</script>";
 				
 				print("<script>window.location.replace('index.php?controller=ConsultaAvocoSecretarios&action=consulta_secretarios_avoco_firmados');</script>");
