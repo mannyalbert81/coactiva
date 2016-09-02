@@ -74,9 +74,14 @@ $estado=$_GET['estado'];
 				
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 
+				
+				
+				
+				
+					
 		}
 		class Pdf_concat extends FPDI {
-			var $files = array();
+			var $files = array();	
 			 
 			function setFiles($files) {
 				$this->files = $files;
@@ -95,16 +100,27 @@ $estado=$_GET['estado'];
 			}
 		}
 		$directorio1 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
-		$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonUnida/';
+		$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonAvocoUnida/';
 		
 		$file2merge=array($directorio1.$nombre_avoco_conocimiento.'.pdf', $directorio.$nombre.'.pdf');
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
-		$pdf->Output($directorio3.'AvocoUnido'.$identificador_avoco_unido.'.pdf', "F");
+		$pdf->Output($directorio3.'RazonAvocoUnido'.$identificador_avoco_unido.'.pdf', "F");
 		
+		$dir=($directorio.$nombre.'.pdf'); 
+		if(file_exists($dir))
+		{
+			if(unlink($dir))
+				print "El archivo fue borrado";
+		}
+		else
+			print "Este archivo no existe";
 		
-				
+		echo "<script type='text/javascript'>";
+		echo "window.close()";
+		echo "</script>";
+		exit();
 
 			
 ?>
