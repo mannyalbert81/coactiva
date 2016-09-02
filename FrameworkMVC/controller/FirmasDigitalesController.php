@@ -378,11 +378,100 @@ class FirmasDigitalesController extends ControladorBase{
 	
 	public function DocumentosFirmarApplet()
 	{
-		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['id_usuario'])&&isset($_POST['id_usuario']))
+		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['ruta'])&&isset($_POST['id_usuario']))
 		{
-			if($_POST['filesIds']!=""||$_POST['mac']!=""||$_POST['id_usuario']!=""||$_POST['id_usuario']!=""){
+			if($_POST['filesIds']!=""||$_POST['mac']!=""||$_POST['ruta']!=""||$_POST['id_usuario']!=""){
 				
-				echo 'Bienvenido';
+				$respuesta="";
+				$cantidadFirmados=0;
+				
+				$firmas= new FirmasDigitalesModel();
+				$avoco=new AvocoConocimientoModel();
+				$tipo_notificacion = new TipoNotificacionModel();
+				$asignacion_secreatario= new AsignacionSecretariosModel();
+				$avoco=new AvocoConocimientoModel();
+				
+				$_id_usuarios=$_POST['id_usuario'];
+				$_ruta=$_POST['ruta'];
+				$_macCliente=$_POST['mac'];
+				$_id_documentos=$_POST['filesIds'];
+				$_nombreDocumentos="";
+				
+				
+				$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+					
+				
+					
+				$permisosFirmar=$avoco->getPermisosFirmarPdfs($_id_usuarios);
+					
+				//para las notificaciones
+				$_nombre_tipo_notificacion="avoco";
+				$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+				$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+				$descripcion="Avoco Firmado por";
+				$numero_movimiento=0;
+				$id_impulsor="";
+				
+				
+					
+				if($permisosFirmar['estado'])
+				{
+				
+					$id_firma = $permisosFirmar['valor'];
+					
+					$array_documento = explode(",", $_id_documentos);
+				
+				
+					foreach ($array_documento as $id )
+					{
+						
+				
+						if(!empty($id))
+						{
+							$cantidadFirmados=$cantidadFirmados+1;
+				
+							$id_avoco = $id;
+				
+							$resultDocumento=$avoco->getBy("id_avoco_conocimiento='$id_avoco'");
+				
+							$nombrePdf=$resultDocumento[0]->nombre_documento;
+				
+							$nombrePdf=$nombrePdf.".pdf";
+				
+							$_ruta=$resultDocumento[0]->ruta_documento;
+				
+							$id_rol=$_SESSION['id_rol'];
+				
+							$destino.=$ruta.'/';
+							
+							$respuesta="Documentos firmados (";
+				
+				
+							try {
+									
+								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol);
+									
+								$firmas->UpdateBy("firma_secretario='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_documento'");
+									
+								//$this->notificacionImpulsor($nombrePdf);
+									
+									
+				
+							} catch (Exception $e) {
+									
+								echo $e->getMessage();
+							}
+				
+						}
+					}
+					
+					echo $respuesta.$cantidadFirmados.")";
+				}else{
+					
+					echo $permisosFirmar['error'];
+				}
+				
+				
 				
 			}else{
 				
