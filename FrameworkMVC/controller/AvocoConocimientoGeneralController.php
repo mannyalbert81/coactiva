@@ -99,7 +99,7 @@ public function index(){
 			{
 				//estado de documento pdf
 				$_estado = "";
-				
+				$cuerpo="";
 				$dato=array();
 				
 				//identificador de pdf
@@ -112,7 +112,8 @@ public function index(){
 				$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
 				$_id_secretario     		= $_POST["id_secretario"];
 				$_id_impulsor     			= $_POST["id_impulsor"];
-				
+				$_cuerpo_avoco     			= $cuerpo.$_POST["cuerpo_avoco"];
+				$_avoco_manual  = "TRUE";
 			
 					if (isset($_POST["Guardar"]))
 					{
@@ -130,9 +131,9 @@ public function index(){
 						
 						$nombre_documento=$repositorio_documento.$identificador;
 						
-						$funcion = "ins_avoco_conocimiento";
+						$funcion = "ins_avoco_conocimiento_manual";
 							
-						$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar'";
+						$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar', '$_cuerpo_avoco', '$_avoco_manual'";
 						$avoco->setFuncion($funcion);
 														
 						$avoco->setParametros($parametros);
@@ -165,7 +166,7 @@ public function index(){
 				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 				
 				print "<script language='JavaScript'>
-				setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+				setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoManualReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 				</script>";
 				
 				print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index');</script>");
@@ -188,7 +189,7 @@ public function index(){
           public function VisualizarAvocoGeneral(){
           
           	session_start();
-          
+          	$cuerpo='';
           
           	$usuarios = new UsuariosModel();
           	$juicios = new JuiciosModel();
@@ -209,6 +210,7 @@ public function index(){
           		$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
           		$_id_secretario     		= $_POST["id_secretario"];
           		$_id_abogado      			= $_POST["id_impulsor"];
+          		$_cuerpo_avoco     			= $_POST["cuerpo_avoco"];
           		
           			
           
@@ -241,6 +243,7 @@ public function index(){
           			
           		$dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
           		$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+          		$dato['cuerpo_avoco']=$cuerpo.$_cuerpo_avoco;
           		$dato['ciudad']=$resultCiudad[0]->nombre_ciudad;
           		$dato['juicio_referido']=$resultJuicio[0]->juicio_referido_titulo_credito;
           		$dato['cliente']=$resultJuicio[0]->nombres_clientes;
@@ -263,7 +266,7 @@ public function index(){
           			
           			
           		//cargar array q va por get
-          			
+          		$arrayGet['cuerpo']=$_cuerpo_avoco;
           		$arrayGet['id_juicio']=$_id_juicio;
           		$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
           		$arrayGet['id_reemplazo']=$_id_secretario_reemplazar;
@@ -291,7 +294,7 @@ public function index(){
           		
           		
           		print "<script language='JavaScript'>
-          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSinGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoManualReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
           		</script>";
           		
           		print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index&dato=$resultArray');</script>");
