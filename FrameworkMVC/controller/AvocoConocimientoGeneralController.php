@@ -112,7 +112,7 @@ public function index(){
 				$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
 				$_id_secretario     		= $_POST["id_secretario"];
 				$_id_impulsor     			= $_POST["id_impulsor"];
-				$_tipo_avoco     			= $_POST["tipo_avoco"];
+				
 			
 					if (isset($_POST["Guardar"]))
 					{
@@ -159,7 +159,7 @@ public function index(){
 					}
 			   }
 				
-			   if($_tipo_avoco == "con_garante"){
+			  
 			   
 				$host  = $_SERVER['HTTP_HOST'];
 				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -170,20 +170,7 @@ public function index(){
 				
 				print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index');</script>");
 			   
-			   }else
-				{
-					
-					$host  = $_SERVER['HTTP_HOST'];
-					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-					
-					print "<script language='JavaScript'>
-					setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSinGaranteReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
-					</script>";
-					
-					print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index');</script>");
-					
-		
-				}
+			   
 		
 			}else
 				{
@@ -222,7 +209,7 @@ public function index(){
           		$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
           		$_id_secretario     		= $_POST["id_secretario"];
           		$_id_abogado      			= $_POST["id_impulsor"];
-          		$_tipo_avoco     			= $_POST["tipo_avoco"];
+          		
           			
           
           		//consulta datos de juicio
@@ -296,7 +283,7 @@ public function index(){
           
           	$resultArray=urlencode(serialize($arrayGet));
           
-          	if($_tipo_avoco == "sin_garante"){
+          	
           
           		$host  = $_SERVER['HTTP_HOST'];
           		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -310,21 +297,7 @@ public function index(){
           		print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index&dato=$resultArray');</script>");
           		
           
-          	}
-          	 elseif ($_tipo_avoco == "con_garante"){
-          
-          		$host  = $_SERVER['HTTP_HOST'];
-          		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-          		
-          		print "<script language='JavaScript'>
-          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
-          		</script>";
-          		
-          		print("<script>window.location.replace('index.php?controller=AvocoConocimientoGeneral&action=index&dato=$resultArray');</script>");
-          		
-          		
-          
-          	}
+          	
           
           
           }

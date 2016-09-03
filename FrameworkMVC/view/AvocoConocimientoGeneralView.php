@@ -328,14 +328,7 @@
 			 <br>
 			 <hr>
 		 	        
-		 	  <div class="col-xs-6 col-md-3">
-			   <p  class="formulario-subtitulo" >Tipo Avoco</p>
-			  
-			   <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
-			   <option value="con_garante"  >Con Garante</option>
-			    <option value="sin_garante"  >Sin Garante</option>
-		     </select>
-			  </div>    
+		 	     
 		 	        
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
