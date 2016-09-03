@@ -378,99 +378,39 @@ class FirmasDigitalesController extends ControladorBase{
 	
 	public function DocumentosFirmarApplet()
 	{
+		session_start();
+		
 		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['ruta'])&&isset($_POST['id_usuario']))
 		{
-			if($_POST['filesIds']!=""||$_POST['mac']!=""||$_POST['ruta']!=""||$_POST['id_usuario']!=""){
+			if(is_null($_POST['filesIds']) || is_null($_POST['mac']) || is_null($_POST['ruta']) || is_null($_POST['id_usuario'])){
 				
-				$respuesta="";
-				$cantidadFirmados=0;
+				$rutaXfirmar=$_POST['ruta'];
+				$macCliente=$_POST['mac'];
+				$idsFiles=$_POST['filesIds'];
+				$id_usuario=$_POST['id_usuario'];
 				
-				$firmas= new FirmasDigitalesModel();
-				$avoco=new AvocoConocimientoModel();
-				$tipo_notificacion = new TipoNotificacionModel();
-				$asignacion_secreatario= new AsignacionSecretariosModel();
-				$avoco=new AvocoConocimientoModel();
+				$respuestaCliente="";
 				
-				$_id_usuarios=$_POST['id_usuario'];
-				$_ruta=$_POST['ruta'];
-				$_macCliente=$_POST['mac'];
-				$_id_documentos=$_POST['filesIds'];
-				$_nombreDocumentos="";
+				// saber a donde dirigirse  de acuerdo a la ruta
 				
-				
-				$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
-					
-				
-					
-				$permisosFirmar=$avoco->getPermisosFirmarPdfs($_id_usuarios);
-					
-				//para las notificaciones
-				$_nombre_tipo_notificacion="avoco";
-				$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
-				$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
-				$descripcion="Avoco Firmado por";
-				$numero_movimiento=0;
-				$id_impulsor="";
-				
-				
-					
-				if($permisosFirmar['estado'])
+				switch ($rutaXfirmar)
 				{
-				
-					$id_firma = $permisosFirmar['valor'];
+					case "Avoco" :
+							$respuestaCliente=$this->firmarAvoco($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
+						break;
 					
-					$array_documento = explode(",", $_id_documentos);
-				
-				
-					foreach ($array_documento as $id )
-					{
+					case "Providencias" :
+							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
+						break;
+					
+					case "Oficios":
+							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
+						break;
 						
-				
-						if(!empty($id))
-						{
-							$cantidadFirmados=$cantidadFirmados+1;
-				
-							$id_avoco = $id;
-				
-							$resultDocumento=$avoco->getBy("id_avoco_conocimiento='$id_avoco'");
-				
-							$nombrePdf=$resultDocumento[0]->nombre_documento;
-				
-							$nombrePdf=$nombrePdf.".pdf";
-				
-							$_ruta=$resultDocumento[0]->ruta_documento;
-				
-							$id_rol=$_SESSION['id_rol'];
-				
-							$destino.=$ruta.'/';
-							
-							$respuesta="Documentos firmados (";
-				
-				
-							try {
-									
-								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol);
-									
-								$firmas->UpdateBy("firma_secretario='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_documento'");
-									
-								//$this->notificacionImpulsor($nombrePdf);
-									
-									
-				
-							} catch (Exception $e) {
-									
-								echo $e->getMessage();
-							}
-				
-						}
-					}
-					
-					echo $respuesta.$cantidadFirmados.")";
-				}else{
-					
-					echo $permisosFirmar['error'];
+					default: break;
 				}
 				
+				echo $respuestaCliente;
 				
 				
 			}else{
@@ -484,6 +424,322 @@ class FirmasDigitalesController extends ControladorBase{
 		
 	}
 	
+	
+	public function firmarAvoco($idsFiles,$rutaFiles,$id_Usuario,$mac)
+	{
+		$respuesta="";
+		$cantidadFirmados=0;
+		$consultaUsuarios=null;
+		
+		$usuarios= new UsuariosModel();
+		$firmas= new FirmasDigitalesModel();
+		$avoco=new AvocoConocimientoModel();
+		$tipo_notificacion = new TipoNotificacionModel();
+		$asignacion_secreatario= new AsignacionSecretariosModel();
+		
+		
+		$_id_usuarios=$id_Usuario;
+		$_ruta=$rutaFiles;
+		$_macCliente=$mac;
+		$_id_documentos=$idsFiles;
+		$_nombreDocumentos="";
+		
+				
+		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+			
+		
+			
+		$permisosFirmar=$avoco->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
+			
+		//para las notificaciones
+		$_nombre_tipo_notificacion="avoco";
+		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+		$descripcion="Avoco Firmado por";
+		$numero_movimiento=0;
+		$id_impulsor="";
+		
+		//para obtener rol de usuario
+		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
+		$id_rol=$consultaUsuarios[0]->id_rol;
+		
+			
+		if($permisosFirmar['estado'])
+		{
+		
+			$id_firma = $permisosFirmar['valor'];
+				
+			$array_documento = explode(",", $_id_documentos);
+		
+		
+			foreach ($array_documento as $id )
+			{
+		
+		
+				if(!empty($id))
+				{
+					$cantidadFirmados=$cantidadFirmados+1;
+		
+					$id_avoco = $id;
+		
+					$resultDocumento=$avoco->getBy("id_avoco_conocimiento='$id_avoco'");
+		
+					$nombrePdf=$resultDocumento[0]->nombre_documento;
+		
+					$nombrePdf=$nombrePdf.".pdf";
+		
+					$_ruta=$resultDocumento[0]->ruta_documento;
+						
+					//para metodo dentro del farmework
+					//$id_rol=$_SESSION['id_rol'];
+		
+					$destino.=$_ruta.'/';
+						
+					$respuesta="Documentos firmados (";
+		
+		
+					try {
+							
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+							
+						$firmas->UpdateBy("firma_secretario='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_avoco'");
+							
+						//$this->notificacionImpulsor($nombrePdf);
+							
+							
+		
+					} catch (Exception $e) {
+							
+						$respuesta= $e->getMessage();
+					}
+		
+				}
+			}
+				
+		$respuesta.=$cantidadFirmados.")";
+			 
+		}else{
+				
+			$respuesta= $permisosFirmar['error'];
+		}
+		
+		return $respuesta;
+			
+	}
+	
+	public function firmarProvidencias($idsFiles,$rutaFiles,$id_Usuario,$mac)
+	{
+		$respuesta="";
+		$cantidadFirmados=0;
+		$consultaUsuarios=null;
+		
+		$usuarios= new UsuariosModel();
+		$firmas= new FirmasDigitalesModel();
+		$documentos=new DocumentosModel();
+		$tipo_notificacion = new TipoNotificacionModel();
+		$asignacion_secreatario= new AsignacionSecretariosModel();
+		
+		
+		$_id_usuarios=$id_Usuario;
+		$_ruta=$rutaFiles;
+		$_macCliente=$mac;
+		$_id_documentos=$idsFiles;
+		$_nombreDocumentos="";
+		
+		
+		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+		
+		$permisosFirmar=$documentos->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
+			
+		//para las notificaciones
+		$_nombre_tipo_notificacion="providencia_secretario";
+		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+		$descripcion="Providencia Firmada por";
+		$numero_movimiento=0;
+		$id_impulsor="";
+		
+		//para obtener rol de usuario session inabilitado para metodo en applet
+		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
+		$id_rol=$consultaUsuarios[0]->id_rol;
+		
+			
+		if($permisosFirmar['estado'])
+		{
+		
+			$id_firma = $permisosFirmar['valor'];
+				
+			$array_documento = explode(",", $_id_documentos);
+		
+		
+			foreach ($array_documento as $id )
+			{
+		
+		
+				if(!empty($id))
+				{
+					$cantidadFirmados=$cantidadFirmados+1;
+		
+					$id_providencia = $id;
+		
+					$resultDocumento=$documentos->getBy("id_documentos='$id_providencia'");
+		
+					$nombrePdf=$resultDocumento[0]->nombre_documento;
+		
+					$nombrePdf=$nombrePdf.".pdf";
+		
+					$_ruta=$resultDocumento[0]->ruta_documento;
+						
+					//para metodo dentro del farmework
+					//$id_rol=$_SESSION['id_rol'];
+		
+					$destino.=$_ruta.'/';
+						
+					$respuesta="Documentos firmados (";
+		
+		
+					try {
+							
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+							
+						$firmas->UpdateBy("firma_secretario='TRUE'", "documentos", "id_documentos='$id_providencia'");
+							
+						//$this->notificacionImpulsor($nombrePdf);
+							
+							
+		
+					} catch (Exception $e) {
+							
+						$respuesta= $e->getMessage();
+					}
+		
+				}
+			}
+				
+		$respuesta.=$cantidadFirmados.")";
+			 
+		}else{
+				
+			$respuesta= $permisosFirmar['error'];
+		}
+		
+		return $respuesta;
+	
+	}
+	
+	public function firmarOficios()
+	{
+		$respuesta="";
+		$cantidadFirmados=0;
+		$consultaUsuarios=null;
+		
+		$usuarios= new UsuariosModel();
+		$firmas= new FirmasDigitalesModel();
+		$oficios=new OficiosModel();
+		$tipo_notificacion = new TipoNotificacionModel();
+		$asignacion_secreatario= new AsignacionSecretariosModel();
+		
+		
+		$_id_usuarios=$id_Usuario;
+		$_ruta=$rutaFiles;
+		$_macCliente=$mac;
+		$_id_documentos=$idsFiles;
+		$_nombreDocumentos="";
+		
+		
+		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+		
+		$permisosFirmar=$oficios->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
+			
+		//para las notificaciones
+		$_nombre_tipo_notificacion="providencia_secretario";
+		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+		$descripcion="Oficio Firmado por";
+		$numero_movimiento=0;
+		$id_impulsor="";
+		
+		//para obtener rol de usuario session inabilitado para metodo en applet
+		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
+		$id_rol=$consultaUsuarios[0]->id_rol;
+		
+			
+		if($permisosFirmar['estado'])
+		{
+		
+			$id_firma = $permisosFirmar['valor'];
+		
+			$array_documento = explode(",", $_id_documentos);
+		
+		
+			foreach ($array_documento as $id )
+			{
+		
+		
+				if(!empty($id))
+				{
+					$cantidadFirmados=$cantidadFirmados+1;
+		
+					$id_providencia = $id;
+		
+					$resultDocumento=$documentos->getBy("id_documentos='$id_providencia'");
+		
+					$nombrePdf=$resultDocumento[0]->nombre_documento;
+		
+					$nombrePdf=$nombrePdf.".pdf";
+		
+					$_ruta=$resultDocumento[0]->ruta_documento;
+		
+					//para metodo dentro del farmework
+					//$id_rol=$_SESSION['id_rol'];
+		
+					$destino.=$_ruta.'/';
+		
+					$respuesta="Documentos firmados (";
+		
+		
+					try {
+							
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+							
+						$firmas->UpdateBy("firma_secretario='TRUE'", "documentos", "id_documentos='$id_providencia'");
+							
+						//$this->notificacionImpulsor($nombrePdf);
+							
+							
+		
+					} catch (Exception $e) {
+							
+						$respuesta= $e->getMessage();
+					}
+		
+				}
+			}
+		
+			$respuesta.=$cantidadFirmados.")";
+		
+		}else{
+		
+			$respuesta= $permisosFirmar['error'];
+		}
+		
+		return $respuesta;
+	
+	}
+	
+	public function firmarCitaciones()
+	{
+	
+	}
+	
+	/*
+	 * $traza=new TrazasModel();
+						$_nombre_controlador = "Controladores";
+						$_accion_trazas  = "Editar";
+						$_parametros_trazas = $_id_controladores;
+						$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+						
+	 */
 	
 }
 ?>

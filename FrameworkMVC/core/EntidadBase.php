@@ -638,10 +638,11 @@ class EntidadBase{
     	return $resultado;
     }
     
-    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol)
+    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol,$id_usuario=null)
     {
     	@@ session_start();
-    	$id_usuario=$_SESSION['id_usuarios'];
+    	//para metodos dentro del framework
+    	//$id_usuario=$_SESSION['id_usuarios'];
     	
     	$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
     	$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';

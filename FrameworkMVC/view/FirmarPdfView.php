@@ -83,7 +83,7 @@
 	   $cadenaNombres="";
 	   $cadenaIds="";
 	   $rutaFiles="";
-	  
+	   $nombre_usuario="";
 	   
        if($resultUsuario!="")
 	   {
@@ -91,6 +91,7 @@
 		   $cadenaNombres=$resultnombreFiles;
 		   $cadenaIds=$resultIds;
 		   $rutaFiles=$ruta;
+		   $nombre_usuario=$nombreUsuario;
 	   }
 		?>
 
@@ -140,14 +141,14 @@
 					$codebase="http://186.4.241.148:4000/FrameworkMVC/view/";
 					$code="firmarDocumentos.SignDocuments.class";
 					$archive="firmarDocumentos.jar";
-					$user='SECRETARIO';
+					
 
 				 $aplet = '<applet code='.$code.' archive='.$archive.' codebase='.$codebase.' type="application/x-java-applet;jpi-version=7" width="500" height="400">'.
 				'<param name="idUsuario" value="'.$id_usuario.'">'.
 				'<param name="listaFiles" value="'.$cadenaNombres.'">'.
 				'<param name="rutaFiles" value="'.$rutaFiles.'">'.
 				'<param name="listaIds" value="'.$cadenaIds.'">'.
-				'<param name="usuario" value="'.$user.'">'.
+				'<param name="usuario" value="'.$nombre_usuario.'">'.
 				'</applet>';
 				?>
 				
