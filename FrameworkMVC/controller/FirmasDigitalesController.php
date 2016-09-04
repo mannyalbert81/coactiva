@@ -376,6 +376,7 @@ class FirmasDigitalesController extends ControladorBase{
 		
 	}
 	
+	//firmar documentos con el applet metodo general
 	public function DocumentosFirmarApplet()
 	{
 		session_start();
@@ -389,25 +390,60 @@ class FirmasDigitalesController extends ControladorBase{
 				$idsFiles=$_POST['filesIds'];
 				$id_usuario=$_POST['id_usuario'];
 				
+				$user = new UsuariosModel();
+				$permisosFirmar=$user->getPermisosFirmarPdfs($id_usuario,$macCliente);
+				
+				//para obtener rol de usuario
+				$consultaUsuarios=$user->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
+				$id_rol=$consultaUsuarios[0]->id_rol;
+				
+				//para las notificaciones
+				$tipo_notificacion = new TipoNotificacionModel();
+				$asignacion_secretario= new AsignacionSecretariosModel();
+				$_nombre_tipo_notificacion="";
+				$descripcion="";
+				$numero_movimiento=0;
+				$id_impulsor="";
 				$respuestaCliente="";
 				
-				// saber a donde dirigirse  de acuerdo a la ruta
+				//saber si tiene permiso para firmar
 				
-				switch ($rutaXfirmar)
+				if($permisosFirmar['estado'])
 				{
-					case "Avoco" :
-							$respuestaCliente=$this->firmarAvoco($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
-						break;
+					$id_firma = $permisosFirmar['valor'];
 					
-					case "Providencias" :
-							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
-						break;
-					
-					case "Oficios":
-							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$macCliente);
-						break;
+					// saber a donde dirigirse  de acuerdo a la ruta
+					switch ($rutaXfirmar)
+					{
 						
-					default: break;
+						case "Avoco" :
+							$respuestaCliente=$this->firmarAvoco($idsFiles,$rutaXfirmar,$id_usuario,$id_rol,$id_firma);
+							$_nombre_tipo_notificacion="avoco";
+							$descripcion="Avoco Firmado por";
+							break;
+								
+						case "Providencias" :
+							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$id_rol,$id_firma);
+							$_nombre_tipo_notificacion="providencia_secretario";
+							$descripcion="Providencia Firmada por";
+							break;
+								
+						case "Oficios":
+							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$id_rol,$id_firma);
+							$_nombre_tipo_notificacion="oficio_secretario";
+							$descripcion="Oficio Firmado por";
+							break;
+					
+						default: break;
+					}
+					
+					$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+					$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+					
+				}else {
+					
+					$respuestaCliente=$permisosFirmar['error'];
+					
 				}
 				
 				echo $respuestaCliente;
@@ -425,51 +461,25 @@ class FirmasDigitalesController extends ControladorBase{
 	}
 	
 	
-	public function firmarAvoco($idsFiles,$rutaFiles,$id_Usuario,$mac)
+	public function firmarAvoco($idsFiles,$rutaFiles,$id_Usuario,$rol,$idfirma)
 	{
 		$respuesta="";
 		$cantidadFirmados=0;
 		$consultaUsuarios=null;
 		
-		$usuarios= new UsuariosModel();
 		$firmas= new FirmasDigitalesModel();
 		$avoco=new AvocoConocimientoModel();
-		$tipo_notificacion = new TipoNotificacionModel();
-		$asignacion_secreatario= new AsignacionSecretariosModel();
-		
 		
 		$_id_usuarios=$id_Usuario;
 		$_ruta=$rutaFiles;
-		$_macCliente=$mac;
 		$_id_documentos=$idsFiles;
 		$_nombreDocumentos="";
 		
-				
 		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
-			
 		
-			
-		$permisosFirmar=$avoco->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
-			
-		//para las notificaciones
-		$_nombre_tipo_notificacion="avoco";
-		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
-		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
-		$descripcion="Avoco Firmado por";
-		$numero_movimiento=0;
-		$id_impulsor="";
-		
-		//para obtener rol de usuario
-		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
-		$id_rol=$consultaUsuarios[0]->id_rol;
-		
-			
-		if($permisosFirmar['estado'])
-		{
-		
-			$id_firma = $permisosFirmar['valor'];
+		$id_firma = $idfirma;
 				
-			$array_documento = explode(",", $_id_documentos);
+		$array_documento = explode(",", $_id_documentos);
 		
 		
 			foreach ($array_documento as $id )
@@ -500,74 +510,45 @@ class FirmasDigitalesController extends ControladorBase{
 		
 					try {
 							
-						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+							$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
+								
+							$firmas->UpdateBy("firma_secretario='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_avoco'");
+								
+							//$this->notificacionImpulsor($nombrePdf);
+						
+						} catch (Exception $e) {
 							
-						$firmas->UpdateBy("firma_secretario='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_avoco'");
-							
-						//$this->notificacionImpulsor($nombrePdf);
-							
-							
-		
-					} catch (Exception $e) {
-							
-						$respuesta= $e->getMessage();
-					}
-		
+							$respuesta= $e->getMessage();
+						}
+					
+					$respuesta.=$cantidadFirmados.")";
 				}
+		
+				
 			}
-				
-		$respuesta.=$cantidadFirmados.")";
-			 
-		}else{
-				
-			$respuesta= $permisosFirmar['error'];
-		}
 		
 		return $respuesta;
 			
 	}
 	
-	public function firmarProvidencias($idsFiles,$rutaFiles,$id_Usuario,$mac)
+	public function firmarProvidencias($idsFiles,$rutaFiles,$id_Usuario,$rol,$idfirma)
 	{
 		$respuesta="";
 		$cantidadFirmados=0;
-		$consultaUsuarios=null;
-		
-		$usuarios= new UsuariosModel();
+	
 		$firmas= new FirmasDigitalesModel();
 		$documentos=new DocumentosModel();
-		$tipo_notificacion = new TipoNotificacionModel();
-		$asignacion_secreatario= new AsignacionSecretariosModel();
 		
 		
 		$_id_usuarios=$id_Usuario;
 		$_ruta=$rutaFiles;
-		$_macCliente=$mac;
 		$_id_documentos=$idsFiles;
 		$_nombreDocumentos="";
 		
 		
 		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
 		
-		$permisosFirmar=$documentos->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
-			
-		//para las notificaciones
-		$_nombre_tipo_notificacion="providencia_secretario";
-		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
-		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
-		$descripcion="Providencia Firmada por";
-		$numero_movimiento=0;
-		$id_impulsor="";
-		
-		//para obtener rol de usuario session inabilitado para metodo en applet
-		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
-		$id_rol=$consultaUsuarios[0]->id_rol;
-		
-			
-		if($permisosFirmar['estado'])
-		{
-		
-			$id_firma = $permisosFirmar['valor'];
+		$id_firma = $idfirma;
 				
 			$array_documento = explode(",", $_id_documentos);
 		
@@ -618,56 +599,30 @@ class FirmasDigitalesController extends ControladorBase{
 				
 		$respuesta.=$cantidadFirmados.")";
 			 
-		}else{
-				
-			$respuesta= $permisosFirmar['error'];
-		}
+		
 		
 		return $respuesta;
 	
 	}
 	
-	public function firmarOficios()
+	public function firmarOficios($idsFiles,$rutaFiles,$id_Usuario,$rol,$idfirma)
 	{
 		$respuesta="";
 		$cantidadFirmados=0;
 		$consultaUsuarios=null;
 		
-		$usuarios= new UsuariosModel();
 		$firmas= new FirmasDigitalesModel();
 		$oficios=new OficiosModel();
-		$tipo_notificacion = new TipoNotificacionModel();
-		$asignacion_secreatario= new AsignacionSecretariosModel();
-		
 		
 		$_id_usuarios=$id_Usuario;
 		$_ruta=$rutaFiles;
-		$_macCliente=$mac;
 		$_id_documentos=$idsFiles;
 		$_nombreDocumentos="";
 		
 		
 		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
 		
-		$permisosFirmar=$oficios->getPermisosFirmarPdfs($_id_usuarios,$_macCliente);
-			
-		//para las notificaciones
-		$_nombre_tipo_notificacion="providencia_secretario";
-		$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
-		$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
-		$descripcion="Oficio Firmado por";
-		$numero_movimiento=0;
-		$id_impulsor="";
-		
-		//para obtener rol de usuario session inabilitado para metodo en applet
-		$consultaUsuarios=$usuarios->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
-		$id_rol=$consultaUsuarios[0]->id_rol;
-		
-			
-		if($permisosFirmar['estado'])
-		{
-		
-			$id_firma = $permisosFirmar['valor'];
+		$id_firma = $idfirma;
 		
 			$array_documento = explode(",", $_id_documentos);
 		
@@ -718,10 +673,7 @@ class FirmasDigitalesController extends ControladorBase{
 		
 			$respuesta.=$cantidadFirmados.")";
 		
-		}else{
 		
-			$respuesta= $permisosFirmar['error'];
-		}
 		
 		return $respuesta;
 	

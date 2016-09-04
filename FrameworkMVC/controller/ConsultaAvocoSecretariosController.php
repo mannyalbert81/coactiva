@@ -658,6 +658,8 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 			$cadenaFiles="";
 			$cadenaId="";
 			$ruta="Avoco";
+			$nombreUsuario="";
+			
 			
 				
 				foreach ($arrayFilesAfirmar as $res)
@@ -693,22 +695,24 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 			
 			if(empty($conFirma)){$msg="Usted no cuenta con una firma digital registrado en el sistema";}
 			
+			$nombreUsuario=$_SESSION['nombre_usuarios'];
+			
 			
 			$this->view("FirmarPdf",array(
 						
-					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds,"msg"=>$msg
+					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds,"msg"=>$msg,"nombreUsuario"=>$nombreUsuario
 			
 			));
 			
-			/*
-			 * 
-			$this->view("Error",array(
+			 
+			/*$this->view("Error",array(
 						
-					"resultado"=>$resultUsuario." df ".$resultnombreFiles." df ".$ruta." df ".$resultIds
+					"resultado"=>$resultUsuario."resultnombreFiles".$resultnombreFiles."ruta".$ruta."resultIds".$resultIds."msg".$msg."nombreUsuario".$nombreUsuario
 			
-			));
 			
-			 */
+			));*/
+			
+			
 			
 		}else {
 			
