@@ -84,6 +84,8 @@
 	   $cadenaIds="";
 	   $rutaFiles="";
 	   $nombre_usuario="";
+	   $nombre_controlador="";
+	   $nombre_accion="";
 	   
        if($resultUsuario!="")
 	   {
@@ -92,6 +94,8 @@
 		   $cadenaIds=$resultIds;
 		   $rutaFiles=$ruta;
 		   $nombre_usuario=$nombreUsuario;
+		   $nombre_controlador=$controlador;
+		   $nombre_accion=$accion;
 	   }
 		?>
 
@@ -149,10 +153,24 @@
 				'<param name="rutaFiles" value="'.$rutaFiles.'">'.
 				'<param name="listaIds" value="'.$cadenaIds.'">'.
 				'<param name="usuario" value="'.$nombre_usuario.'">'.
+				'<param name="ctrl" value="'.$nombre_controlador.'">'.
+				'<param name="acc" value="'.$nombre_accion.'">'.
 				'</applet>';
 				?>
 				
 				<?php echo  $aplet;?>
+				
+				<?php //para pruebas
+				/*
+				echo $id_usuario;
+				echo $cadenaNombres;
+				echo $rutaFiles;
+				echo $cadenaIds;
+				echo $nombre_usuario;
+				echo $nombre_controlador;
+				echo $nombre_accion;*/
+				//termina pruebas
+				?>
 		    	
 		         </div>
 		         

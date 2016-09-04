@@ -383,7 +383,7 @@ class FirmasDigitalesController extends ControladorBase{
 		
 		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['ruta'])&&isset($_POST['id_usuario']))
 		{
-			if(is_null($_POST['filesIds']) || is_null($_POST['mac']) || is_null($_POST['ruta']) || is_null($_POST['id_usuario'])){
+			if(!is_null($_POST['filesIds']) || !is_null($_POST['mac']) || !is_null($_POST['ruta']) || !is_null($_POST['id_usuario'])){
 				
 				$rutaXfirmar=$_POST['ruta'];
 				$macCliente=$_POST['mac'];
@@ -394,7 +394,7 @@ class FirmasDigitalesController extends ControladorBase{
 				$permisosFirmar=$user->getPermisosFirmarPdfs($id_usuario,$macCliente);
 				
 				//para obtener rol de usuario
-				$consultaUsuarios=$user->getCondiciones("id_rol", "usuarios", "id_usuarios='$_id_usuarios'", "id_rol");
+				$consultaUsuarios=$user->getCondiciones("id_rol", "usuarios", "id_usuarios='$id_usuario'", "id_rol");
 				$id_rol=$consultaUsuarios[0]->id_rol;
 				
 				//para las notificaciones
@@ -429,7 +429,7 @@ class FirmasDigitalesController extends ControladorBase{
 							break;
 								
 						case "Oficios":
-							$respuestaCliente=$this->firmarProvidencias($idsFiles,$rutaXfirmar,$id_usuario,$id_rol,$id_firma);
+							$respuestaCliente=$this->firmarOficios($idsFiles,$rutaXfirmar,$id_usuario,$id_rol,$id_firma);
 							$_nombre_tipo_notificacion="oficio_secretario";
 							$descripcion="Oficio Firmado por";
 							break;
@@ -441,6 +441,12 @@ class FirmasDigitalesController extends ControladorBase{
 					$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
 					
 				}else {
+					
+					$traza=new TrazasModel();
+					$_nombre_controlador = "Firmas Digitales";
+					$_accion_trazas  = "Se intento Firmar desde ";
+					$_parametros_trazas = $macCliente;
+					$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador,$id_usuario);
 					
 					$respuestaCliente=$permisosFirmar['error'];
 					
@@ -480,7 +486,7 @@ class FirmasDigitalesController extends ControladorBase{
 		$id_firma = $idfirma;
 				
 		$array_documento = explode(",", $_id_documentos);
-		
+		$respuesta="Documentos firmados (";
 		
 			foreach ($array_documento as $id )
 			{
@@ -505,7 +511,7 @@ class FirmasDigitalesController extends ControladorBase{
 		
 					$destino.=$_ruta.'/';
 						
-					$respuesta="Documentos firmados (";
+					
 		
 		
 					try {
@@ -551,7 +557,7 @@ class FirmasDigitalesController extends ControladorBase{
 		$id_firma = $idfirma;
 				
 			$array_documento = explode(",", $_id_documentos);
-		
+			$respuesta="Documentos firmados (";
 		
 			foreach ($array_documento as $id )
 			{
@@ -576,12 +582,12 @@ class FirmasDigitalesController extends ControladorBase{
 		
 					$destino.=$_ruta.'/';
 						
-					$respuesta="Documentos firmados (";
+					
 		
 		
 					try {
 							
-						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
 							
 						$firmas->UpdateBy("firma_secretario='TRUE'", "documentos", "id_documentos='$id_providencia'");
 							
@@ -625,7 +631,7 @@ class FirmasDigitalesController extends ControladorBase{
 		$id_firma = $idfirma;
 		
 			$array_documento = explode(",", $_id_documentos);
-		
+			$respuesta="Documentos firmados (";
 		
 			foreach ($array_documento as $id )
 			{
@@ -635,29 +641,29 @@ class FirmasDigitalesController extends ControladorBase{
 				{
 					$cantidadFirmados=$cantidadFirmados+1;
 		
-					$id_providencia = $id;
+					$id_oficio = $id;
 		
-					$resultDocumento=$documentos->getBy("id_documentos='$id_providencia'");
+					$resultDocumento=$oficios->getBy("id_oficios='$id_oficio'");
 		
-					$nombrePdf=$resultDocumento[0]->nombre_documento;
+					$nombrePdf=$resultDocumento[0]->nombre_oficio;
 		
 					$nombrePdf=$nombrePdf.".pdf";
 		
-					$_ruta=$resultDocumento[0]->ruta_documento;
+					$_ruta=$resultDocumento[0]->ruta_oficio;
 		
 					//para metodo dentro del farmework
 					//$id_rol=$_SESSION['id_rol'];
 		
 					$destino.=$_ruta.'/';
 		
-					$respuesta="Documentos firmados (";
+					
 		
 		
 					try {
 							
-						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
 							
-						$firmas->UpdateBy("firma_secretario='TRUE'", "documentos", "id_documentos='$id_providencia'");
+						$firmas->UpdateBy("firma_secretario='TRUE'", "oficios", "id_oficios='$id_oficio'");
 							
 						//$this->notificacionImpulsor($nombrePdf);
 							
@@ -679,8 +685,75 @@ class FirmasDigitalesController extends ControladorBase{
 	
 	}
 	
-	public function firmarCitaciones()
+	public function firmarCitaciones($idsFiles,$rutaFiles,$id_Usuario,$rol,$idfirma)
 	{
+		$respuesta="";
+		$cantidadFirmados=0;
+		$consultaUsuarios=null;
+		
+		$firmas= new FirmasDigitalesModel();
+		$citaciones=new CitacionesModel();
+		
+		$_id_usuarios=$id_Usuario;
+		$_ruta=$rutaFiles;
+		$_id_documentos=$idsFiles;
+		$_nombreDocumentos="";
+		
+		
+		$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+		
+		$id_firma = $idfirma;
+		
+		$array_documento = explode(",", $_id_documentos);
+		
+		$respuesta="Documentos firmados (";
+		
+		foreach ($array_documento as $id )
+		{
+			
+		
+			if(!empty($id))
+			{
+				$cantidadFirmados=$cantidadFirmados+1;
+		
+				$id_citaciones = $id;
+		
+				$resultDocumento=$citaciones->getBy("id_citaciones='$id_citaciones'");
+		
+				$nombrePdf=$resultDocumento[0]->nombre_citacion;
+		
+				$nombrePdf=$nombrePdf.".pdf";
+		
+				$_ruta=$resultDocumento[0]->ruta_citacion;
+		
+				//para metodo dentro del farmework
+				//$id_rol=$_SESSION['id_rol'];
+		
+				$destino.=$_ruta.'/';
+		
+				try {
+						
+					$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
+						
+					$firmas->UpdateBy("firma_citador='TRUE'", "citaciones", "id_citaciones='$id_citaciones'");
+						
+					//$this->notificacionImpulsor($nombrePdf);
+						
+						
+		
+				} catch (Exception $e) {
+						
+					$respuesta= $e->getMessage();
+				}
+		
+			}
+		}
+		
+		$respuesta.=$cantidadFirmados.")";
+		
+		
+		
+		return $respuesta;
 	
 	}
 	
