@@ -238,6 +238,7 @@
        $sel_detalle="";
        $sel_observacion="";
        $sel_avoco="";
+       $sel_cuerpo="";
        
        $datosGet=array();
        
@@ -263,6 +264,7 @@
        	
        	$datosGet=unserialize($a);
        	
+       	$sel_cuerpo=$datosGet['cuerpo'];
        	
        	}
       
@@ -328,14 +330,7 @@
 			 <br>
 			 <hr>
 		 	        
-		 	  <div class="col-xs-6 col-md-3">
-			   <p  class="formulario-subtitulo" >Tipo Avoco</p>
-			  
-			   <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
-			   <option value="con_garante"  >Con Garante</option>
-			    <option value="sin_garante"  >Sin Garante</option>
-		     </select>
-			  </div>    
+		 	     
 		 	        
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
@@ -404,7 +399,7 @@
 		 <div class="form-group">
 		      
 		      <?php  include ("view/ckeditor/ckeditor.php");
-			   $valor = "$sel_avoco";
+			   $valor = "$sel_cuerpo";
 			   $CKEditor = new CKEditor();
 			   $config = array();
 			   $config['toolbar'] = array(
@@ -415,7 +410,7 @@
 			   		  array( 'Styles','Format','Font','FontSize')
 			   	  );
 			  $CKEditor->basePatch = "./ckeditor/";
-			   $CKEditor->editor("avoco_vistos_documentos",$valor,$config);
+			   $CKEditor->editor("cuerpo_avoco",$valor,$config);
 			   //$CKEditor->replaceAll();
 	           ?> 
 	           
@@ -424,7 +419,7 @@
 	          <div class="col-xs-12 col-md-12" style="margin-top:10px">
 		       
   				<label for="comment"><?php setlocale(LC_ALL,"es_ES");  echo strftime("%A %d de %B del %Y");?></label>
-  				<textarea class="form-control" rows="8" id="avoco" name="avoco"  <?php echo $habilitar;?>><?php echo "Vistos: ".$sel_avoco;?></textarea>
+  				<textarea class="form-control" rows="8" id="avoco" name="avoco" ><?php echo "Vistos: ".$sel_cuerpo;?></textarea>
   				<div id="mensaje_avoco" class="errores"></div>
 			 
 			  </div>
