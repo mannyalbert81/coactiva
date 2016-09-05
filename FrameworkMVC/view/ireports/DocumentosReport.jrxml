@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-05T13:33:08 -->
+<!-- 2016-09-05T16:11:59 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -26,7 +26,8 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="122" splitType="Stretch">
+		<band height="96" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
 				<reportElement x="40" y="10" width="320" height="30" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
 				<textElement>
@@ -49,7 +50,7 @@
 				<text><![CDATA[JUZGADO COACTIVA]]></text>
 			</staticText>
 			<textField evaluationTime="Report" pattern="MMM d, yyyy h:mm:ss a">
-				<reportElement x="40" y="90" width="440" height="20" uuid="3a0abc96-1186-42c5-b3a0-5bdbdb9018d1"/>
+				<reportElement x="40" y="70" width="440" height="20" uuid="3a0abc96-1186-42c5-b3a0-5bdbdb9018d1"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
