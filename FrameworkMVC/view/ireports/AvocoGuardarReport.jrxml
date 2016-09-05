@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-25T10:56:03 -->
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-09-05T12:52:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -65,10 +65,6 @@ JUZGADO DE COACTIVA
 				</textElement>
 				<text><![CDATA[JUZGADO COACTIVA]]></text>
 			</staticText>
-			<image>
-				<reportElement x="420" y="0" width="120" height="50" uuid="fe499f17-f12d-42e4-a815-7f7620371a78"/>
-				<imageExpression><![CDATA["C:/Users/User/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondo_blanco.jpg"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="40" y="90" width="360" height="20" uuid="61e55dec-48ce-4f93-b90b-bc44ff27ed27"/>
 				<textElement>
@@ -76,6 +72,10 @@ JUZGADO DE COACTIVA
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre_ciudad}+",  "+$P{fecha}+" - "+$P{hora}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="370" y="10" width="150" height="50" uuid="7dbb29d2-ee07-439d-bf3b-b165cbcf9bfb"/>
+				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondo_blanco.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<detail>

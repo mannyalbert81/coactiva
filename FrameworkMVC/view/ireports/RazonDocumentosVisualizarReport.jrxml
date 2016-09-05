@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-02T13:50:13 -->
+<!-- 2016-09-05T12:51:28 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -20,7 +20,7 @@
 	<title>
 		<band height="77" splitType="Stretch">
 			<image>
-				<reportElement x="370" y="10" width="150" height="50" uuid="85c5aff0-8a43-427d-9332-d9ab85251e95"/>
+				<reportElement x="400" y="10" width="150" height="50" uuid="85c5aff0-8a43-427d-9332-d9ab85251e95"/>
 				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondo_blanco.jpg"]]></imageExpression>
 			</image>
 		</band>
