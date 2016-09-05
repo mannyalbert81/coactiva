@@ -621,5 +621,164 @@ public function index(){
 	
 	}
 	
+	
+	
+	
+	public function consulta_secretario(){
+	
+		session_start();
+	
+		//Creamos el objeto usuario
+		$resultSet="";
+		$clientes = new ClientesModel();
+		$usuarios = new UsuariosModel();
+	
+	
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+			
+		$tablas   = "public.usuarios,
+                     public.ciudad";
+			
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+			
+		$id       = "usuarios.id_ciudad";
+	
+			
+		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+	
+		// saber los impulsores del secretario
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " asignacion_secretarios_view.id_abogado,
+					  asignacion_secretarios_view.impulsores";
+			
+		$tablas   = "public.asignacion_secretarios_view";
+			
+		$where    = "public.asignacion_secretarios_view.id_secretario = '$_id_usuarios'";
+			
+		$id       = "asignacion_secretarios_view.id_abogado";
+		$resultImpul=$clientes->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+	
+		$clientes = new ClientesModel();
+	
+	
+		if (isset(  $_SESSION['usuario_usuarios']) )
+		{
+			$permisos_rol = new PermisosRolesModel();
+			$nombre_controladores = "ClientesSecretarios";
+			$id_rol= $_SESSION['id_rol'];
+			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+	
+			if (!empty($resultPer))
+			{
+					
+				if(isset($_POST["buscar"])){
+	
+					$id_ciudad=$_POST['id_ciudad'];
+					$id_usuarios=$_POST['id_usuarios'];
+					$identificacion=$_POST['identificacion'];
+					$numero_juicio=$_POST['numero_juicio'];
+					$fechadesde=$_POST['fecha_desde'];
+					$fechahasta=$_POST['fecha_hasta'];
+	
+					$citaciones= new CitacionesModel();
+	
+	
+					$columnas = "juicios.id_juicios,
+					clientes.id_clientes,
+  					clientes.nombres_clientes,
+  					clientes.identificacion_clientes,
+  					ciudad.nombre_ciudad,
+  					tipo_persona.nombre_tipo_persona,
+  					juicios.juicio_referido_titulo_credito,
+  					asignacion_secretarios_view.impulsores,
+  					asignacion_secretarios_view.secretarios,
+					titulo_credito.id_titulo_credito,
+  					etapas_juicios.nombre_etapas,
+  					tipo_juicios.nombre_tipo_juicios,
+  					juicios.creado,
+  					titulo_credito.total";
+	
+					$tablas="public.clientes,
+					  public.ciudad,
+					  public.tipo_persona,
+					  public.juicios,
+					  public.titulo_credito,
+					  public.etapas_juicios,
+					  public.tipo_juicios,
+					  public.asignacion_secretarios_view";
+	
+					$where="ciudad.id_ciudad = clientes.id_ciudad AND
+					tipo_persona.id_tipo_persona = clientes.id_tipo_persona AND
+					juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+					juicios.id_clientes = clientes.id_clientes AND
+					juicios.id_tipo_juicios = tipo_juicios.id_tipo_juicios AND
+					etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
+					juicios.id_usuarios= asignacion_secretarios_view.id_abogado";
+	
+					$id="juicios.id_juicios";
+	
+	
+					$where_0 = "";
+					$where_1 = "";
+					$where_2 = "";
+					$where_3 = "";
+					$where_4 = "";
+	
+	
+					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
+	
+					if($id_usuarios!=0){$where_1=" AND asignacion_secretarios_view.id_abogado='$id_usuarios'";}
+	
+					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
+	
+					if($numero_juicio!=""){$where_3=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
+	
+					if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
+	
+	
+					$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4;
+	
+	
+					$resultSet=$citaciones->getCondiciones($columnas ,$tablas , $where_to, $id);
+				}
+	
+				$this->view("ConsultaClientesSecretarios",array(
+						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultImpul"=>$resultImpul
+							
+				));
+	
+	
+			}
+			else
+			{
+				$this->view("Error",array(
+						"resultado"=>"No tiene Permisos de Acceso a Consulta Clientes Secretarios"
+	
+				));
+	
+				exit();
+			}
+	
+		}
+		else
+		{
+			$this->view("ErrorSesion",array(
+					"resultSet"=>""
+	
+			));
+	
+		}
+	
+	}
+	
 }
 ?>

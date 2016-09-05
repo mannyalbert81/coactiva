@@ -132,7 +132,7 @@
 		 <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Impulsores:</p>
 			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" >
-			  	<option value="0">--Seleccione--</option>
+			  	<option value="0">--Todos--</option>
 			  		<?php foreach($resultImpul as $res) {?>
 						 <option value="<?php echo $res->id_abogado; ?>"<?php if($sel_id_usuarios==$res->id_abogado){echo "selected";}?>  ><?php echo $res->impulsores; ?> </option>
 			           
