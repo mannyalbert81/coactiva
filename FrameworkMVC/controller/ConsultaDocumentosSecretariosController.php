@@ -253,6 +253,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 	
 		//Creamos el objeto usuario
 		$resultSet="";
+		
 		$documentos_secretarios=new DocumentosModel();
 		$usuarios = new UsuariosModel();
 		// saber la ciudad del usuario
