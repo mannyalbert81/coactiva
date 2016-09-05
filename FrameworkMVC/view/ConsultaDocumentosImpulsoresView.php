@@ -223,7 +223,7 @@
 		 
 		 <?php if(!empty($resultSet))  {?>
 		 <a href="/FrameworkMVC/view/ireports/ContDocumentosGeneralReport.php?id_ciudad=<?php  echo $sel_id_ciudad ?>&identificacion=<?php  echo $sel_identificacion?>&numero_juicio=<?php  echo $sel_numero_juicio?>&id_usuarios=<?php  echo $sel_id_usuarios?>&fecha_desde=<?php  echo $sel_fecha_desde?>&fecha_hasta=<?php  echo $sel_fecha_hasta?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" style="margin-top: 10px;"/>          
+		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" onclick="this.form.action='index.php?controller=ConsultaDocumentosImpulsores&action=EnviarApplet'" style="margin-top: 10px;"/>          
 		  <?php } else {?>
 		  
 		  <?php } ?>

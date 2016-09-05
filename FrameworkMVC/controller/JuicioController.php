@@ -53,7 +53,7 @@ class JuicioController extends ControladorBase{
 									  etapas_juicios.nombre_etapas, 
 									  tipo_juicios.nombre_tipo_juicios, 
 									  juicios.descipcion_auto_pago_juicios, 
-									  estados_procesales_juicios.nombre_estado_procesal_juicios, 
+									  estados_procesales_juicios.nombres_estados_procesales_juicios, 
 									  juicios.fecha_emision_juicios, 
 									  estados_auto_pago_juicios.nombre_estados_auto_pago_juicios, 
 									  juicios.nombre_archivado_juicios";
@@ -234,7 +234,7 @@ class JuicioController extends ControladorBase{
 					//para estados procesales juicios "Auto de Pago"
 					$col_est_procesales="*";
 					$tbl_est_procesales="estados_procesales_juicios";
-					$whre_est_procesales="nombre_estado_procesal_juicios LIKE 'Auto de Pago'";
+					$whre_est_procesales="nombres_estados_procesales_juicios LIKE 'Auto de Pago'";
 					$result_est_procesales=$aprobacion_auto_pago->getCondiciones($col_est_procesales, $tbl_est_procesales, $whre_est_procesales, "id_estados_procesales_juicios");
 					
 					$id_estados_procesales_juicios=$result_est_procesales[0]->id_estados_procesales_juicios;
@@ -724,7 +724,7 @@ class JuicioController extends ControladorBase{
 					juicios.juicio_referido_titulo_credito,
 					clientes.nombres_clientes,
 					clientes.identificacion_clientes,
-					estados_procesales_juicios.nombre_estado_procesal_juicios,
+					estados_procesales_juicios.nombres_estados_procesales_juicios,
 				    documentos.fecha_emision_documentos,
 					documentos.hora_emision_documentos,
 					documentos.detalle_documentos,

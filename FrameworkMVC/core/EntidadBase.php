@@ -308,16 +308,21 @@ class EntidadBase{
     
     
     
-    public function AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador)
+    public function AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador,$id_usario=null)
     {
     
     
     	$traza=new TrazasModel();
     		
     	$funcion = "ins_trazas";
+    	
+    	$_id_usuarios="";
     
+    	if(is_null($id_usario)){
     	$_id_usuarios=$_SESSION['id_usuarios'];
-    
+    	}else{
+    	$_id_usuarios=$id_usario;
+    	}
     	
     	$parametros = "'$_id_usuarios', '$_accion_trazas', '$_parametros_trazas', '$_nombre_controlador'  ";
     
@@ -638,10 +643,11 @@ class EntidadBase{
     	return $resultado;
     }
     
-    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol)
+    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol,$id_usuario=null)
     {
     	@@ session_start();
-    	$id_usuario=$_SESSION['id_usuarios'];
+    	//para metodos dentro del framework
+    	//$id_usuario=$_SESSION['id_usuarios'];
     	
     	$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
     	$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';
