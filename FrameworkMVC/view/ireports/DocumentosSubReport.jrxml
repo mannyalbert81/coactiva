@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-05T13:14:06 -->
+<!-- 2016-09-05T13:34:20 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -34,7 +34,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="67" splitType="Stretch">
 			<image>
 				<reportElement x="395" y="9" width="150" height="50" uuid="f51338cc-f96f-41c5-b0ce-36a414a5e501"/>
 				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondo_blanco.jpg"]]></imageExpression>
@@ -42,30 +42,30 @@ WHERE
 		</band>
 	</title>
 	<pageHeader>
-		<band height="160" splitType="Stretch">
+		<band height="115" splitType="Stretch">
 			<textField>
-				<reportElement x="40" y="60" width="320" height="30" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
+				<reportElement x="40" y="10" width="320" height="30" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["JUICIO COACTIVO #"+$F{juicio_referido_titulo_credito}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="40" y="80" width="320" height="20" uuid="d3595bc1-39c4-42ca-9e5e-8afef99a9528"/>
+				<reportElement x="40" y="30" width="320" height="20" uuid="d3595bc1-39c4-42ca-9e5e-8afef99a9528"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombres_clientes}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="40" y="100" width="130" height="30" uuid="67f3b531-5010-43ae-bf11-596809d6fe2e"/>
+				<reportElement x="40" y="50" width="130" height="30" uuid="67f3b531-5010-43ae-bf11-596809d6fe2e"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUZGADO COACTIVA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="140" width="450" height="20" uuid="1d8e57d0-78e5-4003-badc-d02ce0284809"/>
+				<reportElement x="40" y="90" width="450" height="20" uuid="1d8e57d0-78e5-4003-badc-d02ce0284809"/>
 				<textElement>
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
