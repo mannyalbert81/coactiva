@@ -8,41 +8,83 @@ class FirmarOficiosController extends ControladorBase{
 
 
 	
-	public function consulta_firmar(){
+	public function consulta_oficios_secretarios(){
 	
 		session_start();
 	
 		//Creamos el objeto usuario
 		$resultSet="";
 	
+		$oficios_secretarios=new OficiosModel();
 		$usuarios = new UsuariosModel();
-		$resultUsu= $usuarios->getAll("nombre_usuarios");
+		// saber la ciudad del usuario
+		$_id_usuarios= $_SESSION["id_usuarios"];
 	
-		$oficios = new OficiosModel();
+		$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+			
+		$tablas   = "public.usuarios,
+                     public.ciudad";
+			
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+			
+		$id       = "usuarios.id_ciudad";
+		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+		// saber los impulsores del secretario
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " asignacion_secretarios_view.id_abogado,
+					  asignacion_secretarios_view.impulsores";
+			
+		$tablas   = "public.asignacion_secretarios_view";
+			
+		$where    = "public.asignacion_secretarios_view.id_secretario = '$_id_usuarios'";
+			
+		$id       = "asignacion_secretarios_view.id_abogado";
+		$resultImpul=$oficios_secretarios->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+		$ciudad = new CiudadModel();
+		$resultCiu = $ciudad->getAll("nombre_ciudad");
+	
+	
+		$usuarios = new UsuariosModel();
+		$resultUsu = $usuarios->getAll("nombre_usuarios");
+	
+	
+		$oficios_secretarios=new OficiosModel();
 	
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
 		{
+			//notificaciones
+			$oficios_secretarios->MostrarNotificaciones($_SESSION['id_usuarios']);
+				
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "FirmarOficios";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $oficios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$resultPer = $oficios_secretarios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 	
 			if (!empty($resultPer))
 			{
 					
 				if(isset($_POST["buscar"])){
 	
+					$id_ciudad=$_POST['id_ciudad'];
 					$id_usuarios=$_POST['id_usuarios'];
 					$identificacion=$_POST['identificacion'];
 					$numero_juicio=$_POST['numero_juicio'];
-					$numero_oficios=$_POST['numero_oficios'];
 					$fechadesde=$_POST['fecha_desde'];
 					$fechahasta=$_POST['fecha_hasta'];
 	
-					$oficios= new OficiosModel();
-						
+					$oficios_secretarios=new OficiosModel();
+	
+	
 					$columnas = "oficios.id_oficios,
+							ciudad.nombre_ciudad,
 					oficios.creado,
 					oficios.numero_oficios,
 					juicios.id_juicios,
@@ -57,13 +99,15 @@ class FirmarOficiosController extends ControladorBase{
 					public.juicios,
 					public.entidades,
 					public.clientes,
-					public.usuarios";
+					public.usuarios,
+					public.ciudad";
 	
-					$where="juicios.id_juicios = oficios.id_juicios AND
+					$where="juicios.id_ciudad = ciudad.id_ciudad AND juicios.id_juicios = oficios.id_juicios AND
 					entidades.id_entidades = oficios.id_entidades AND
 					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios AND oficios.firma_impulsor='TRUE' AND oficios.firma_secretario='FALSE'";
 	
 					$id="oficios.id_oficios";
+				
 	
 	
 					$where_0 = "";
@@ -73,121 +117,28 @@ class FirmarOficiosController extends ControladorBase{
 					$where_4 = "";
 	
 	
-					if($id_usuarios!=0){$where_0=" AND usuarios.id_usuarios='$id_usuarios'";}
-	
-					if($numero_juicio!=""){$where_1=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
+					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
+						
+					if($id_usuarios!=0){$where_1=" AND usuarios.id_usuarios='$id_usuarios'";}
 	
 					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
 	
-					if($numero_oficios!=""){$where_3=" AND oficios.numero_oficios='$numero_oficios'";}
-	
+					if($numero_juicio!=""){$where_3=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
+						
 					if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  oficios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
 	
-	
 					$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4;
-	
-	
-					$resultSet=$oficios->getCondiciones($columnas ,$tablas , $where_to, $id);
+					$resultSet=$oficios_secretarios->getCondiciones($columnas ,$tablas , $where_to, $id);
 	
 	
 				}
-				
-			if(isset($_POST['firmar']))
-				{
-					/*
-					$firmas= new FirmasDigitalesModel();
-					$oficios = new OficiosModel();
-					$tipo_notificacion = new TipoNotificacionModel();
-					$asignacion_secreatario= new AsignacionSecretariosModel();
-					
-					
-					$ruta="";
-					$nombrePdf="";
-					
-					$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
-					
-					$array_documento=$_POST['file_firmar'];
-					
-										
-					$permisosFirmar=$permisos_rol->getPermisosFirmarPdfs($_SESSION['id_usuarios']);
-					
-					//para las notificaciones 
-					$_nombre_tipo_notificacion="documentos";					
-					$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");						
-					$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;					
-					$descripcion="Documento Firmado por";
-					$numero_movimiento=0;
-					$id_impulsor="";
-					
-					
-					if($permisosFirmar['estado'])
-					{
-						
-						$id_firma = $permisosFirmar['valor'];
-						
-						
-						foreach ($array_documento as $id )
-						{
-														
-							if(!empty($id))
-							{
-								
-								$id_oficios = $id;
-								
-								$resultOficio=$oficios->getBy("id_oficios='$id_oficios'");
-								
-								$nombrePdf=$resultOficio[0]->nombre_oficio;
-								
-								$nombrePdf.=".pdf";
-								
-								$ruta=$resultOficio[0]->ruta_oficio;
-				
-								$id_rol=$_SESSION['id_rol'];
-								
-								$destino.=$ruta.'/';
-								
-								
-								try {
-									
-									$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol);
-									
-									$firmas->UpdateBy("firma_secretario='TRUE'", "oficios", "id_oficios='$id_oficios'");
-									
-									//dirigir notificacion
-									$usuarioDestino=$resultOficio[0]->id_usuario_registra_oficios;
-									
-									//$result_notificaciones=$firmas->CrearNotificacion($id_tipo_notificacion, $usuarioDestino, $descripcion, $numero_movimiento, $nombrePdf);
-											
-									
-																		
-								} catch (Exception $e) {
-									
-									echo $e->getMessage();
-								}
-								
-							}
-						}
-					}else{
-						//para cuando no puede firmar
-						
-						$this->view("Error", array("resultado"=>"Error <br>".$permisosFirmar['error']));
-						exit();
-						
-					} 
-					*/
-				}
-				
-	
 	
 	
 	
 				$this->view("ConsultaOficiosFirmar",array(
-						"resultSet"=>$resultSet,"resultUsu"=>$resultUsu
+						"resultSet"=>$resultSet,"resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu, "resultDatos"=>$resultDatos, "resultImpul"=>$resultImpul
 							
 				));
-				
-				
-				
 	
 	
 	
@@ -195,7 +146,7 @@ class FirmarOficiosController extends ControladorBase{
 			else
 			{
 				$this->view("Error",array(
-						"resultado"=>"No tiene Permisos de Acceso a Consulta Oficios"
+						"resultado"=>"No tiene Permisos de Acceso a Consulta Oficios Secretarios"
 	
 				));
 	
@@ -214,6 +165,157 @@ class FirmarOficiosController extends ControladorBase{
 	
 	}
 	
+	
+	
+	public function consulta_oficios_secretarios_firmados(){
+	
+		session_start();
+	
+		//Creamos el objeto usuario
+		$resultSet="";
+		$oficios_secretarios=new OficiosModel();
+		$usuarios = new UsuariosModel();
+		// saber la ciudad del usuario
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+			
+		$tablas   = "public.usuarios,
+                     public.ciudad";
+			
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+			
+		$id       = "usuarios.id_ciudad";
+		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+		// saber los impulsores del secretario
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " asignacion_secretarios_view.id_abogado,
+					  asignacion_secretarios_view.impulsores";
+			
+		$tablas   = "public.asignacion_secretarios_view";
+			
+		$where    = "public.asignacion_secretarios_view.id_secretario = '$_id_usuarios'";
+			
+		$id       = "asignacion_secretarios_view.id_abogado";
+		$resultImpul=$oficios_secretarios->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+		$ciudad = new CiudadModel();
+		$resultCiu = $ciudad->getAll("nombre_ciudad");
+	
+	
+		$usuarios = new UsuariosModel();
+		$resultUsu = $usuarios->getAll("nombre_usuarios");
+	
+	
+		$oficios_secretarios=new OficiosModel();$documentos_secretarios=new DocumentosModel();
+	
+	
+		if (isset(  $_SESSION['usuario_usuarios']) )
+		{
+			$permisos_rol = new PermisosRolesModel();
+			$nombre_controladores = "FirmarOficios";
+			$id_rol= $_SESSION['id_rol'];
+			$resultPer = $oficios_secretarios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+	
+			if (!empty($resultPer))
+			{
+					
+				if(isset($_POST["buscar"])){
+	
+					$id_ciudad=$_POST['id_ciudad'];
+					$id_usuarios=$_POST['id_usuarios'];
+					$identificacion=$_POST['identificacion'];
+					$numero_juicio=$_POST['numero_juicio'];
+					$fechadesde=$_POST['fecha_desde'];
+					$fechahasta=$_POST['fecha_hasta'];
+	
+				$oficios_secretarios=new OficiosModel();
+	
+	
+					$columnas = "oficios.id_oficios,
+							ciudad.nombre_ciudad,
+					oficios.creado,
+					oficios.numero_oficios,
+					juicios.id_juicios,
+					juicios.juicio_referido_titulo_credito,
+					juicios.id_titulo_credito,
+					clientes.nombres_clientes,
+					clientes.identificacion_clientes,
+					entidades.id_entidades,
+					entidades.nombre_entidades";
+	
+					$tablas="public.oficios,
+					public.juicios,
+					public.entidades,
+					public.clientes,
+					public.usuarios,
+					public.ciudad";
+	
+					$where=" juicios.id_ciudad = ciudad.id_ciudad AND juicios.id_juicios = oficios.id_juicios AND
+					entidades.id_entidades = oficios.id_entidades AND
+					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios AND oficios.firma_impulsor='TRUE' AND oficios.firma_secretario='FALSE'";
+	
+					$id="oficios.id_oficios";
+				
+	
+					$where_0 = "";
+					$where_1 = "";
+					$where_2 = "";
+					$where_3 = "";
+					$where_4 = "";
+	
+	
+					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
+	
+					if($id_usuarios!=0){$where_1=" AND usuarios.id_usuarios='$id_usuarios'";}
+	
+					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
+	
+					if($numero_juicio!=""){$where_3=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
+	
+					if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  oficios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
+	
+	
+					$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4;
+	
+	
+					$resultSet=$oficios_secretarios->getCondiciones($columnas ,$tablas , $where_to, $id);
+	
+				}
+	
+				$this->view("ConsultaOficiosSecretariosFirmados",array(
+						"resultSet"=>$resultSet,"resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu, "resultDatos"=>$resultDatos, "resultImpul"=>$resultImpul
+							
+				));
+	
+			}
+			else
+			{
+				$this->view("Error",array(
+						"resultado"=>"No tiene Permisos de Acceso a Consulta Oficios Secretarios Firmados"
+	
+				));
+	
+				exit();
+			}
+	
+		}
+		else
+		{
+			$this->view("ErrorSesion",array(
+					"resultSet"=>""
+	
+			));
+	
+		}
+	
+	}
 	
 	//funcion utilizado por el applet de java
 	public  function EnviarApplet()

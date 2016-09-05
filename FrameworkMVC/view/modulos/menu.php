@@ -108,9 +108,17 @@ $controladores=$_SESSION['controladores'];
           <li style="<?php echo getcontrolador("Oficios",$controladores) ?>">
           <a href="index.php?controller=Oficios&action=consulta"><span class="glyphicon glyphicon-copy" aria-hidden="true"> Oficios</span> </a>
           </li>
-          <li style="<?php echo getcontrolador("Juicio",$controladores) ?>">
+          <li style="<?php echo getcontrolador("FirmarOficios",$controladores) ?>">
+          <a href="index.php?controller=FirmarOficios&action=consulta_oficios_secretarios_firmados"><span class="glyphicon glyphicon-copy" aria-hidden="true"> Oficios</span> </a>
+          </li>
+          
+          <li style="<?php echo getcontrolador("JuicioImpulsor",$controladores) ?>">
           <a href="index.php?controller=Juicio&action=consulta"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Juicios</span> </a>
           </li>
+          <li style="<?php echo getcontrolador("JuicioSecretario",$controladores) ?>">
+          <a href="index.php?controller=Juicio&action=consulta_secretario"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Juicios</span> </a>
+          </li>
+          
           <li style="<?php echo getcontrolador("Clientes",$controladores) ?>">
           <a href="index.php?controller=Clientes&action=consulta"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Clientes</span> </a>
           </li>
@@ -138,11 +146,11 @@ $controladores=$_SESSION['controladores'];
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-refresh" ><?php echo " Juicios" ;?> </span> <span class="caret"></span></a>
           <ul class="dropdown-menu">
           
-          <li style="<?php echo getcontrolador("Juicio",$controladores) ?>">
+          <li style="<?php echo getcontrolador("JuicioMixto",$controladores) ?>">
           <a href="index.php?controller=Juicio&action=consulta_seguimiento_juicio"><span class="glyphicon glyphicon-sort" aria-hidden="true"> Seguimiento Juicio</span> </a>
           </li>
           <li style="<?php echo getcontrolador("AutoPagos",$controladores) ?>">
-          <a href="index.php?controller=AutoPagos&action=index"><span class="glyphicon glyphicon-filter" aria-hidden="true"> Auto Pagos</span> </a>
+          <a href="index.php?controller=AutoPagos&action=index"><span class="glyphicon glyphicon-filter" aria-hidden="true"> Generar Auto Pago</span> </a>
           </li>
           <li style="<?php echo getcontrolador("AprobacionAutoPago",$controladores) ?>">
           <a href="index.php?controller=AprobacionAutoPago&action=index"><span class="glyphicon glyphicon-tasks" aria-hidden="true"> Aprobacion Auto Pagos</span> </a>
@@ -205,7 +213,7 @@ $controladores=$_SESSION['controladores'];
           <ul class="dropdown-menu">
          
           <li style="<?php echo getcontrolador("FirmarOficios",$controladores) ?>">
-          <a href="index.php?controller=FirmarOficios&action=consulta_firmar"><span class="glyphicon glyphicon-leaf" aria-hidden="true"> Oficios</span> </a>
+          <a href="index.php?controller=FirmarOficios&action=consulta_oficios_secretarios"><span class="glyphicon glyphicon-leaf" aria-hidden="true"> Oficios</span> </a>
           </li>
           <li style="<?php echo getcontrolador("ConsultaDocumentosImpulsores",$controladores) ?>">
           <a href="index.php?controller=ConsultaDocumentosImpulsores&action=consulta_impulsores"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>

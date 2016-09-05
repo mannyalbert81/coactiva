@@ -85,7 +85,7 @@
   
   <div class="row" style="background-color: #ffffff;">
   
-  <form action="<?php echo $helper->url("Juicio","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+  <form action="<?php echo $helper->url("Juicio","consulta_seguimiento_juicio"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
   
      
      <div class="col-lg-12">

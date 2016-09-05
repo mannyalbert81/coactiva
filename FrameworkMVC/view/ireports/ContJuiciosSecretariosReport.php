@@ -25,7 +25,7 @@ $PHPJasperXML->debugsql=false;
 $id_ciudad=0;
 $identificacion=0;
 $numero_juicio=0;
-$titulo_credito=0;
+$id_usuarios=0;
 $fecha_desde=0;
 $fecha_hasta=0;
 $sql="";
@@ -54,11 +54,11 @@ if ($_GET['numero_juicio']!="")
 	$detallesql=$detallesql." AND juicios.juicio_referido_titulo_credito = '$numero_juicio'";
 }
 	
-if ($_GET['numero_titulo']!="")
+if ($_GET['id_usuarios']!="")
 {
 		
-	$titulo_credito= $_GET['numero_titulo'];
-	$detallesql=$detallesql." AND juicios.id_titulo_credito = '$titulo_credito'";
+	$id_usuarios= $_GET['id_usuarios'];
+	$detallesql=$detallesql." AND asignacion_secretarios_view.id_abogado = '$id_usuarios'";
 }
 	
 if ($_GET['fecha_desde']!="" && $_GET['fecha_hasta']!="")

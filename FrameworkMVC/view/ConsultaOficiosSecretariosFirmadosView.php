@@ -4,7 +4,7 @@
       <head>
       
         <meta charset="utf-8"/>
-        <title>Consulta Oficios Firmar - coactiva 2016</title>
+        <title>Consulta Oficios Secretarios Firmados- coactiva 2016</title>
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		  			   
@@ -64,8 +64,30 @@
             
         </style>
          
+                
+	<script>
+	$(document).ready(function(){
+			$("#fecha_hasta").change(function(){
+				 var startDate = new Date($('#fecha_desde').val());
+
+                 var endDate = new Date($('#fecha_hasta').val());
+
+                 if (startDate > endDate){
+ 
+                    $("#mensaje_fecha_hasta").text("Fecha desde no debe ser mayor ");
+		    		$("#mensaje_fecha_hasta").fadeIn("slow"); //Muestra mensaje de error  
+		    		$("#fecha_hasta").val("");
+
+                        }
+				});
+
+			 $( "#fecha_hasta" ).focus(function() {
+				  $("#mensaje_fecha_hasta").fadeOut("slow");
+			   });
+			});
+        </script>
         
-	 
+ 
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -75,8 +97,8 @@
        <?php include("view/modulos/menu.php"); ?>
        
        <?php
-      
- $sel_id_ciudad = "";
+       
+       $sel_id_ciudad = "";
        $sel_id_usuarios = "";
        $sel_identificacion="";
        $sel_numero_juicio="";
@@ -98,7 +120,7 @@
        	 
        }
        
-		?>
+     	?>
  
   
   <div class="container">
@@ -107,12 +129,12 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("FirmarOficios","consulta_oficios_secretarios"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("FirmarOficios","consulta_oficios_secretarios_firmados"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
          
-       	 <h4 style="color:#ec971f;">Firmar Oficios</h4>
+       	 <h4 style="color:#ec971f;">Consulta Oficios Secretarios Firmados</h4>
        	 
        	 
        	 <div class="panel panel-default">
@@ -120,7 +142,7 @@
   			
   			
 		   			
-         <div class="col-xs-2">
+          <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Ciudad:</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
 			  		<?php foreach($resultDatos as $res) {?>
@@ -169,10 +191,13 @@
 		 
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
+  		
+		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion()" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 
 		 <?php if(!empty($resultSet))  {?>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" onclick="this.form.action='index.php?controller=FirmarOficios&action=EnviarApplet'" class="btn btn-info" style="margin-top: 10px;"/>
-		           
+		 <a href="/FrameworkMVC/view/ireports/ContDocumentosGeneralReport.php?id_ciudad=<?php  echo $sel_id_ciudad ?>&identificacion=<?php  echo $sel_identificacion?>&numero_juicio=<?php  echo $sel_numero_juicio?>&id_usuarios=<?php  echo $sel_id_usuarios?>&fecha_desde=<?php  echo $sel_fecha_desde?>&fecha_hasta=<?php  echo $sel_fecha_hasta?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
+		 
+		        
 		  <?php } else {?>
 		  
 		  <?php } ?>
@@ -184,11 +209,12 @@
 		 
 		 <div class="col-lg-12">
 		 
-	      <div class="col-lg-12">
+	     <div class="col-lg-12">
 		 <div class="col-lg-10"></div>
 		 <div class="col-lg-2">
 		 <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultSet)) echo "  ".count($resultSet);?></span>
 		 </div>
+		 
 		 </div>
 		 
 		 <div class="col-lg-12">
@@ -196,8 +222,7 @@
 		 <section class="" style="height:300px;overflow-y:scroll;">
         <table class="table table-hover ">
 	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b></b></th>
-	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
+	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Nº Oficio</th>
 	    		<th style="color:#456789;font-size:80%;">Nº Juicio</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
@@ -211,31 +236,51 @@
             
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
-	        		
-	        		   <td> <input type="checkbox" name="file_firmar[]" id="file_firmar" class="marcados" value="<?php echo $res->id_oficios; ?>"/>      </td>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_oficios; ?></td>
+	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_oficios; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_oficios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		                <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_entidades; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
-		              
+		               
 		               <td style="color:#000000;font-size:80%;">
-		                <a href="<?php echo $helper->url("Oficios","abrirPdf"); ?>&id=<?php echo $res->id_oficios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:85%;">VER</a>
-		               </td> 
+		               <a href="<?php echo $helper->url("Oficios","abrirPdf"); ?>&id=<?php echo $res->id_documentos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
+		               </td>
+		                
+
 		    		</tr>
-		        <?php } }  ?>
-           
-       	</table>     
-      </section>
-		 
-		 		 
+		        <?php } }else {  ?>
+
+                <tr>
+	                  	<td></td>
+            			<td></td>
+            			<td></td>
+            			<td></td>
+            			<td colspan="5" style="color:#ec971f;font-size:8;" style="text-aling:center";> <?php echo '<span id="snResult">NO EXISTE DATOS PARA ESOS FILTROS</span>' ?></td>
+	       				
+		    	</tr>
+		    		
+		    		<?php }?>
+               
+               
+       	</table>
+       </section>
+		</div>
 		 </div>
-		 </div>
-		
-		
-      
+<div class="text-center">	
+  <ul class="pagination">
+  <li><a href="#">&laquo;</a></li>
+  <li><a href="#">1</a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#">&raquo;</a></li>
+</ul>                       
+ </div>
+
+
        </form>
      
       </div>
