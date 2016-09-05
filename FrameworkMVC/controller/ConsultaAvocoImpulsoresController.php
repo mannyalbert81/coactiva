@@ -569,7 +569,8 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 		$ruta="";
 		$resultIds="";
 	
-		$avoco=new AvocoConocimientoModel();
+		$documentos = new DocumentosModel();
+		$avoco = new AvocoConocimientoModel();
 	
 		if(isset($_POST['file_firmar']))
 		{
@@ -670,7 +671,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 				//para las notificaciones
 				$tipo_notificacion = new TipoNotificacionModel();
 				$asignacion_secretario= new AsignacionSecretariosModel();
-				$_nombre_tipo_notificacion="avoco";
+				$_nombre_tipo_notificacion="avoco_impulsor";
 				$descripcion="Avoco Firmado por";
 				$numero_movimiento=0;
 				$id_impulsor="";
@@ -688,7 +689,8 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 					$consultaUsuarios=null;
 						
 					$firmas= new FirmasDigitalesModel();
-					$avoco=new AvocoConocimientoModel();
+					$avoco = new AvocoConocimientoModel();
+					$documentos = new DocumentosModel();
 						
 					$_id_usuarios=$id_Usuario;
 					$_ruta=$rutaFiles;
@@ -752,7 +754,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 				}else {
 	
 					$traza=new TrazasModel();
-					$_nombre_controlador = "Firmas Digitales";
+					$_nombre_controlador = "Consulta Avoco Impulsores";
 					$_accion_trazas  = "Se intento Firmar desde ";
 					$_parametros_trazas = $macCliente;
 					$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador,$id_usuario);

@@ -444,6 +444,226 @@ class ConsultaDocumentosImpulsoresController extends ControladorBase{
 	
 		
 	}
+	
+	//funcion que envia al applet
+	public  function EnviarApplet()
+	{
+		//pasar parametros
+	
+		session_start();
+	
+		$consulta = array();
+	
+		$resultUsuario="";
+		$resultnombreFiles="";
+		$ruta="";
+		$resultIds="";
+	
+		$documentos = new DocumentosModel();
+	
+		if(isset($_POST['file_firmar']))
+		{
+			$resultUsuario=$_SESSION['id_usuarios'];
+	
+			$arrayFilesAfirmar=$_POST['file_firmar'];
+			$cadenaFiles="";
+			$cadenaId="";
+			$ruta="Providencias";
+			$nombreUsuario="";
+			$controlador="ConsultaDocumentosImpulsores";
+			$accion="FirmarProvidenciaImpulsorApplet";
+	
+			foreach ($arrayFilesAfirmar as $res)
+			{
+				$cadenaId.=$res.",";
+			}
+	
+			//$cadenaFiles = substr($cadenaFiles, 0, -1);
+			//$cadenaId = substr($cadenaId, 0, -1);
+	
+			$resultIds = trim($cadenaId,",");
+	
+			$consulta=$documentos->getBy("id_documentos in ('$resultIds')");
+	
+			if (!empty($consulta)) {  foreach($consulta as $res) {
+	
+				$cadenaFiles.=$res->nombre_documento;
+			}
+			}
+	
+			$resultnombreFiles = trim($cadenaFiles,",");
+	
+			$certificado=new CertificadosModel();
+			$firma = new FirmasDigitalesModel();
+	
+			$msg="";
+	
+			$conCertificado= $certificado->getBy("id_usuarios_certificado_digital='$resultUsuario'");
+	
+			$conFirma=$firma->getBy("id_usuarios='$resultUsuario'");
+	
+			if(empty($conCertificado)){$msg="Usted no tiene registrado un Certfificado electronico";}
+	
+			if(empty($conFirma)){$msg="Usted no cuenta con una firma digital registrado en el sistema";}
+	
+			$nombreUsuario=$_SESSION['nombre_usuarios'];
+	
+	
+			$this->view("FirmarPdf",array(
+	
+					"resultUsuario"=>$resultUsuario,"resultnombreFiles"=>$resultnombreFiles,"ruta"=>$ruta,"resultIds"=>$resultIds,"msg"=>$msg,"nombreUsuario"=>$nombreUsuario,"controlador"=>$controlador,"accion"=>$accion
+	
+			));
+	
+	
+			/*$this->view("Error",array(
+	
+			"resultado"=>$resultUsuario."resultnombreFiles".$resultnombreFiles."ruta".$ruta."resultIds".$resultIds."msg".$msg."nombreUsuario".$nombreUsuario
+	
+	
+			));*/
+	
+	
+	
+		}else {
+	
+			$this->view("Error",array(
+	
+					"resultado"=>"no hay archivos"
+	
+			));
+		}
+	
+	}
+	
+	//metodo utilizado por el applet para firmar avoco
+	public  function FirmarProvidenciaImpulsorApplet()
+	{
+		session_start();
+	
+		if(isset($_POST['filesIds'])&&isset($_POST['mac'])&&isset($_POST['ruta'])&&isset($_POST['id_usuario']))
+		{
+			if(!is_null($_POST['filesIds']) || !is_null($_POST['mac']) || !is_null($_POST['ruta']) || !is_null($_POST['id_usuario'])){
+	
+				$rutaXfirmar=$_POST['ruta'];
+				$macCliente=$_POST['mac'];
+				$idsFiles=$_POST['filesIds'];
+				$id_usuario=$_POST['id_usuario'];
+	
+				$user = new UsuariosModel();
+				$permisosFirmar=$user->getPermisosFirmarPdfs($id_usuario,$macCliente);
+	
+				//para obtener rol de usuario
+				$consultaUsuarios=$user->getCondiciones("id_rol", "usuarios", "id_usuarios='$id_usuario'", "id_rol");
+				$id_rol=$consultaUsuarios[0]->id_rol;
+	
+				//para las notificaciones
+				$tipo_notificacion = new TipoNotificacionModel();
+				$asignacion_secretario= new AsignacionSecretariosModel();
+				$_nombre_tipo_notificacion="providencia_impulsor";
+				$descripcion="Providencia Firmada por";
+				$numero_movimiento=0;
+				$id_impulsor="";
+				$respuestaCliente="";
+				$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+				$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+	
+				//saber si tiene permiso para firmar
+	
+				if($permisosFirmar['estado'])
+				{
+					$id_firma = $permisosFirmar['valor'];
+	
+					$cantidadFirmados=0;
+					$consultaUsuarios=null;
+	
+					$firmas= new FirmasDigitalesModel();
+					$documentos = new DocumentosModel();
+	
+					$_id_usuarios=$id_Usuario;
+					$_ruta=$rutaFiles;
+					$_id_documentos=$idsFiles;
+					$_nombreDocumentos="";
+	
+					$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+	
+	
+	
+					$array_documento = explode(",", $_id_documentos);
+					$respuestaCliente="Documentos firmados (";
+	
+					foreach ($array_documento as $id )
+					{
+	
+	
+						if(!empty($id))
+						{
+							$cantidadFirmados=$cantidadFirmados+1;
+	
+							$id_providencia = $id;
+	
+							$resultDocumento=$documentos->getBy("id_documentos='$id_providencia'");
+	
+							$nombrePdf=$resultDocumento[0]->nombre_documento;
+	
+							$nombrePdf=$nombrePdf.".pdf";
+	
+							$_ruta=$resultDocumento[0]->ruta_documento;
+	
+							//para metodo dentro del farmework
+							//$id_rol=$_SESSION['id_rol'];
+	
+							$destino.=$_ruta.'/';
+	
+							try {
+									
+								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
+	
+								$firmas->UpdateBy("firma_impulsor='TRUE'", "documentos", "id_documentos='$id_providencia'");
+	
+								//crear notificacion usa variable de session
+								//$this->notificacionImpulsor($nombrePdf);
+	
+							} catch (Exception $e) {
+									
+								$respuestaCliente= $e->getMessage();
+							}
+	
+	
+						}
+	
+	
+					}
+	
+					$respuestaCliente.=$cantidadFirmados.")";
+	
+	
+	
+				}else {
+	
+					$traza=new TrazasModel();
+					$_nombre_controlador = "Consulta Documentos Impulsor";
+					$_accion_trazas  = "Se intento Firmar desde ";
+					$_parametros_trazas = $macCliente;
+					$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador,$id_usuario);
+	
+					$respuestaCliente=$permisosFirmar['error'];
+	
+				}
+	
+				echo $respuestaCliente;
+	
+	
+			}else{
+	
+				echo 'error en el envio de datos';
+			}
+	
+		}else{
+			echo 'error sus Datos no han sido enviados';
+		}
+	
+	}
 
 
 
