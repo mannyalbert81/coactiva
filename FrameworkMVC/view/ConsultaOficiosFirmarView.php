@@ -106,7 +106,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("Oficios","consulta_firmar"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("FirmarOficios","consulta_firmar"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -163,7 +163,7 @@
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
 		 <?php if(!empty($resultSet))  {?>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" onclick="this.form.action='index.php?controller=Oficios&action=EnviarApplet'" class="btn btn-info" style="margin-top: 10px;"/>
+		 <input type="submit" value="Firmar" id="firmar" name="firmar" onclick="this.form.action='index.php?controller=FirmarOficios&action=EnviarApplet'" class="btn btn-info" style="margin-top: 10px;"/>
 		           
 		  <?php } else {?>
 		  
