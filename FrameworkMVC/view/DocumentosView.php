@@ -217,14 +217,6 @@
        	 }
        	 
        }
-       
-      /* $sel_id_juicio = "";
-       $sel_id_usuarios = "";
-       $sel_identificacion="";
-       $sel_numero_juicio="";
-       
-       $sel_fecha_desde="";
-       $sel_fecha_hasta="";*/
         
        if($_SERVER['REQUEST_METHOD']=='GET')
        {
@@ -324,7 +316,7 @@
 			  	<p  class="formulario-subtitulo" >Estado Procesal:</p>
 			  	 <select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" readonly>
 				 <?php foreach($resultEstPro as $res) {?>
-						<option value="<?php echo $res->id_estados_procesales_juicios; ?>"  ><?php echo $res->nombre_estado_procesal_juicios; ?> </option>
+						<option value="<?php echo $res->id_estados_procesales_juicios; ?>"  ><?php echo $res->nombre_estados_procesales_juicios; ?> </option>
 			        <?php } ?>
 				</select> 
 				   
