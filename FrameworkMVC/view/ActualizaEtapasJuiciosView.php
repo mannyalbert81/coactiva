@@ -267,7 +267,7 @@
 		   			
           <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Ciudad:</p>
-			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control">
 			  		<?php foreach($resultDatos as $res) {?>
 						 <option value="<?php echo $res->id_ciudad; ?>" <?php if($sel_id_ciudad==$res->id_ciudad){echo "selected";}?>   ><?php echo $res->nombre_ciudad; ?> </option>
 			            <?php } ?>
@@ -305,8 +305,7 @@
 			  	<input type="date"  name="fecha_hasta" id="fecha_hasta" value="<?php echo $sel_fecha_hasta;?>" class="form-control "/> 
 			    <div id="mensaje_fecha_hasta" class="errores"></div>
 		</div>
-		<td style="color:#000000;font-size:75%;"></td> 
-		 
+		
   		
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 10px">
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
