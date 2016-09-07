@@ -812,6 +812,8 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 												
 											//crear notificacion usa variable de session
 											//$this->notificacionImpulsor($nombrePdf);
+											
+											$respuestaCliente.=$res.' ';
 										
 										} catch (Exception $e) {
 											
