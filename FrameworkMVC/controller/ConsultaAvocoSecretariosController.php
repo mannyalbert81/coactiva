@@ -15,7 +15,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		$avoco_secretarios=new AvocoConocimientoModel();
 		$usuarios = new UsuariosModel();
 		// saber la ciudad del usuario
-		$_id_usuarios= $_SESSION["id_usuarios"]; 
+		$_id_usuario= $_SESSION["id_usuarios"]; 
 		
 		$columnas = " usuarios.id_ciudad, 
 					  ciudad.nombre_ciudad, 
@@ -24,7 +24,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		$tablas   = "public.usuarios, 
                      public.ciudad";
 			
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
 			
 		$id       = "usuarios.id_ciudad";
 		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
@@ -103,7 +103,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes AND 
-						  avoco_conocimiento.firma_impulsor='TRUE' AND avoco_conocimiento.firma_secretario='FALSE'";
+						  avoco_conocimiento.firma_impulsor='TRUE' AND avoco_conocimiento.firma_secretario='FALSE' AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
 
 					$id="avoco_conocimiento.id_avoco_conocimiento";
 						
@@ -255,7 +255,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		$usuarios = new UsuariosModel();
 		
 	
-		$_id_usuarios= $_SESSION["id_usuarios"];
+		$_id_usuario= $_SESSION["id_usuarios"];
 	
 		
 		$resultDatos=$usuarios->getCondiciones("usuarios.id_ciudad,
@@ -263,10 +263,10 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 					 							usuarios.nombre_usuarios" ,
 												"public.usuarios,public.ciudad",
 												"ciudad.id_ciudad = usuarios.id_ciudad AND
-												usuarios.id_usuarios = '$_id_usuarios'",
+												usuarios.id_usuarios = '$_id_usuario'",
 												"usuarios.id_ciudad");
 		
-	
+		$_id_usuarios= $_SESSION["id_usuarios"];
 		$resultImpul=$avoco_secretarios->getCondiciones("asignacion_secretarios_view.id_abogado,
 					  									asignacion_secretarios_view.impulsores" ,
 														"public.asignacion_secretarios_view" ,
@@ -312,7 +312,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 							clientes.id_clientes = juicios.id_clientes AND
 							avoco_conocimiento.firma_secretario='FALSE' AND
 							notificaciones.visto_notificaciones ='FALSE' AND
-							notificaciones.usuario_destino_notificaciones='$_id_usuarios'";
+							notificaciones.usuario_destino_notificaciones='$_id_usuarios' AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
 	
 					$id="avoco_conocimiento.id_avoco_conocimiento";
 	
@@ -362,7 +362,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		$avoco_secretarios=new AvocoConocimientoModel();
 		$usuarios = new UsuariosModel();
 		// saber la ciudad del usuario
-		$_id_usuarios= $_SESSION["id_usuarios"];
+		$_id_usuario= $_SESSION["id_usuarios"];
 	
 		$columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
@@ -371,7 +371,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 		$tablas   = "public.usuarios,
                      public.ciudad";
 			
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
 			
 		$id       = "usuarios.id_ciudad";
 		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
@@ -448,7 +448,7 @@ class ConsultaAvocoSecretariosController extends ControladorBase{
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes
-						AND avoco_conocimiento.firma_impulsor='TRUE' AND avoco_conocimiento.firma_secretario ='TRUE'";
+						AND avoco_conocimiento.firma_impulsor='TRUE' AND avoco_conocimiento.firma_secretario ='TRUE' AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
 	
 					$id="avoco_conocimiento.id_avoco_conocimiento";
 	

@@ -170,7 +170,7 @@
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
          
-       	 <h4 style="color:#ec971f;">Consulta Juicios</h4>
+       	 <h4 style="color:#ec971f;">Consulta Clientes</h4>
        	 
        	 
        	 <div class="panel panel-default">
@@ -265,7 +265,7 @@
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario</th>
-	    		<th style="color:#456789;font-size:80%;">Etapa</th>
+	    		<th style="color:#456789;font-size:80%;">Estado Precesal</th>
 	    		<th style="color:#456789;font-size:80%;">Tipo Juicio</th>
 	    		<th style="color:#456789;font-size:80%;">Fecha Emision</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
@@ -286,7 +286,7 @@
 		                <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?>     </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_etapas; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_juicios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?>     </td> 

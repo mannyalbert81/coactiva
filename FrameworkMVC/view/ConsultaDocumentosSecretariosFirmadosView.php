@@ -243,7 +243,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_emision_documentos; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
 		            
 		               <td style="color:#000000;font-size:80%;">
 		               <a href="<?php echo $helper->url("ConsultaDocumentosSecretarios","abrirPdf"); ?>&id=<?php echo $res->id_documentos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>

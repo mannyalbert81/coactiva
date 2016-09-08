@@ -123,7 +123,7 @@ $controladores=$_SESSION['controladores'];
           <a href="index.php?controller=Clientes&action=consulta"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Clientes</span> </a>
           </li>
           <li style="<?php echo getcontrolador("ClientesSecretarios",$controladores) ?>">
-          <a href="index.php?controller=Clientes&action=consulta_secretarios"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Clientes</span> </a>
+          <a href="index.php?controller=Clientes&action=consulta_secretario"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"> Clientes</span> </a>
           </li>
           
           <li style="<?php echo getcontrolador("ConsultaDocumentosImpulsores",$controladores) ?>">
