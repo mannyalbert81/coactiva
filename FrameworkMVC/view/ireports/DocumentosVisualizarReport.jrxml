@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-06T10:48:07 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
+<!-- 2016-09-07T13:56:31 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
 	<parameter name="ciudad" class="java.lang.String"/>
 	<parameter name="juicio_referido" class="java.lang.String"/>
 	<parameter name="fecha_emision_documentos" class="java.lang.String"/>
@@ -23,9 +24,11 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="66" splitType="Stretch">
+		<band height="64" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<image>
-				<reportElement x="395" y="10" width="150" height="50" uuid="b072d1d3-491b-4646-8268-b5cb98bb0fb1"/>
+				<reportElement x="300" y="0" width="154" height="64" uuid="b072d1d3-491b-4646-8268-b5cb98bb0fb1"/>
 				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondo_blanco.jpg"]]></imageExpression>
 			</image>
 		</band>
@@ -33,29 +36,30 @@
 	<pageHeader>
 		<band height="96" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<textField>
-				<reportElement x="40" y="10" width="320" height="30" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
+				<reportElement x="0" y="0" width="454" height="24" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["JUICIO COACTIVO #"+$P{juicio_referido}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="40" y="30" width="320" height="20" uuid="d3595bc1-39c4-42ca-9e5e-8afef99a9528"/>
+				<reportElement x="0" y="24" width="454" height="24" uuid="d3595bc1-39c4-42ca-9e5e-8afef99a9528"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="40" y="50" width="130" height="30" uuid="67f3b531-5010-43ae-bf11-596809d6fe2e"/>
+				<reportElement x="0" y="48" width="454" height="24" uuid="67f3b531-5010-43ae-bf11-596809d6fe2e"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUZGADO COACTIVA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="70" width="360" height="20" uuid="1d8e57d0-78e5-4003-badc-d02ce0284809"/>
+				<reportElement x="0" y="72" width="454" height="24" uuid="1d8e57d0-78e5-4003-badc-d02ce0284809"/>
 				<textElement>
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
@@ -64,21 +68,24 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="387" splitType="Stretch">
-			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
-				<reportElement x="40" y="0" width="460" height="370" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b2129fe7-24ba-4dc3-8428-f44b3fa0fc3c"/>
-				<textElement textAlignment="Justified" markup="styled">
-					<font fontName="Arial" size="12"/>
-					<paragraph lineSpacing="Proportional"/>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Page" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="454" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b2129fe7-24ba-4dc3-8428-f44b3fa0fc3c"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="12"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{avoco_vistos_documentos}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
+		<band height="28" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+			<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 			<staticText>
-				<reportElement x="97" y="6" width="320" height="12" forecolor="#000000" uuid="ddba44e4-51f1-4823-a329-b4d064fb12f9"/>
+				<reportElement x="0" y="0" width="454" height="28" forecolor="#000000" uuid="ddba44e4-51f1-4823-a329-b4d064fb12f9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tw Cen MT Condensed Extra Bold" size="10" isBold="true" isItalic="true"/>
 				</textElement>
