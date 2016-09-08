@@ -692,8 +692,8 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 					$avoco = new AvocoConocimientoModel();
 					$documentos = new DocumentosModel();
 						
-					$_id_usuarios=$id_Usuario;
-					$_ruta=$rutaFiles;
+					$_id_usuarios=$id_usuario;
+					//$_ruta=$rutaFiles;
 					$_id_documentos=$idsFiles;
 					$_nombreDocumentos="";
 	
@@ -729,7 +729,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 	
 							try {
 									
-								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
+								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
 	
 								$firmas->UpdateBy("firma_impulsor='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_avoco'");
 	
