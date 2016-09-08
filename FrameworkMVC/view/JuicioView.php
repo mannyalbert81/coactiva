@@ -153,7 +153,6 @@
 	    		<th style="color:#456789;font-size:80%;">Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Etapa</th>
 	    		<th style="color:#456789;font-size:80%;">Tipo</th>
 	    		<th style="color:#456789;font-size:80%;">Descripcion</th>
 	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
@@ -178,7 +177,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>  </td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_etapas; ?>  </td>
+		               
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_juicios; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->descipcion_auto_pago_juicios; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado_procesal_juicios; ?>  </td>
