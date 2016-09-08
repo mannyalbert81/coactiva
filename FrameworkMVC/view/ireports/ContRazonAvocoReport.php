@@ -80,6 +80,7 @@ $estado=$_GET['estado'];
 				
 					
 		}
+		
 		class Pdf_concat extends FPDI {
 			var $files = array();	
 			 
