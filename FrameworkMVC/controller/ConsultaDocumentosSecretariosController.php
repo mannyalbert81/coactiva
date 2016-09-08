@@ -641,8 +641,8 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 					$firmas= new FirmasDigitalesModel();
 					$documentos= new DocumentosModel();
 	
-					$_id_usuarios=$id_Usuario;
-					$_ruta=$rutaFiles;
+					$_id_usuarios=$id_usuario;
+					//$_ruta=$rutaFiles;
 					$_id_documentos=$idsFiles;
 					$_nombreDocumentos="";
 	
@@ -678,7 +678,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 	
 							try {
 									
-								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$rol,$_id_usuarios);
+								$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
 	
 								$firmas->UpdateBy("firma_secretario='TRUE'", "documentos", "id_documentos='$id_providencias'");
 	
