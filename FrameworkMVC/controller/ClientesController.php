@@ -547,7 +547,8 @@ public function index(){
   					etapas_juicios.nombre_etapas, 
   					tipo_juicios.nombre_tipo_juicios, 
   					juicios.creado, 
-  					titulo_credito.total";
+  					titulo_credito.total,
+							estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes, 
 					  public.ciudad, 
@@ -556,7 +557,8 @@ public function index(){
 					  public.titulo_credito, 
 					  public.etapas_juicios, 
 					  public.tipo_juicios,
-					  public.asignacion_secretarios_view";
+					  public.asignacion_secretarios_view,
+							 public.estados_procesales_juicios";
 	
 					$where="ciudad.id_ciudad = clientes.id_ciudad AND
 					  tipo_persona.id_tipo_persona = clientes.id_tipo_persona AND
@@ -564,6 +566,7 @@ public function index(){
 					  juicios.id_clientes = clientes.id_clientes AND
 					  juicios.id_tipo_juicios = tipo_juicios.id_tipo_juicios AND
 					  etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
+					  estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND 
 					  juicios.id_usuarios= asignacion_secretarios_view.id_abogado AND juicios.id_usuarios ='$_id_usuarios'";
 	
 					$id="juicios.id_juicios";
@@ -634,7 +637,7 @@ public function index(){
 		$usuarios = new UsuariosModel();
 	
 	
-		$_id_usuarios= $_SESSION["id_usuarios"];
+		$_id_usuario= $_SESSION["id_usuarios"];
 	
 		$columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
@@ -643,7 +646,7 @@ public function index(){
 		$tablas   = "public.usuarios,
                      public.ciudad";
 			
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
 			
 		$id       = "usuarios.id_ciudad";
 	
@@ -675,7 +678,7 @@ public function index(){
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "ClientesSecretarios";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$resultPer = $clientes->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 	
 			if (!empty($resultPer))
 			{
@@ -689,7 +692,7 @@ public function index(){
 					$fechadesde=$_POST['fecha_desde'];
 					$fechahasta=$_POST['fecha_hasta'];
 	
-					$citaciones= new CitacionesModel();
+					$clientes = new ClientesModel();
 	
 	
 					$columnas = "juicios.id_juicios,
@@ -705,7 +708,8 @@ public function index(){
   					etapas_juicios.nombre_etapas,
   					tipo_juicios.nombre_tipo_juicios,
   					juicios.creado,
-  					titulo_credito.total";
+  					titulo_credito.total,
+					estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes,
 					  public.ciudad,
@@ -714,7 +718,8 @@ public function index(){
 					  public.titulo_credito,
 					  public.etapas_juicios,
 					  public.tipo_juicios,
-					  public.asignacion_secretarios_view";
+					  public.asignacion_secretarios_view,
+					 public.estados_procesales_juicios";
 	
 					$where="ciudad.id_ciudad = clientes.id_ciudad AND
 					tipo_persona.id_tipo_persona = clientes.id_tipo_persona AND
@@ -722,7 +727,8 @@ public function index(){
 					juicios.id_clientes = clientes.id_clientes AND
 					juicios.id_tipo_juicios = tipo_juicios.id_tipo_juicios AND
 					etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
-					juicios.id_usuarios= asignacion_secretarios_view.id_abogado";
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND 
+					juicios.id_usuarios= asignacion_secretarios_view.id_abogado AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
 	
 					$id="juicios.id_juicios";
 	
@@ -748,7 +754,7 @@ public function index(){
 					$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4;
 	
 	
-					$resultSet=$citaciones->getCondiciones($columnas ,$tablas , $where_to, $id);
+					$resultSet=$clientes->getCondiciones($columnas ,$tablas , $where_to, $id);
 				}
 	
 				$this->view("ConsultaClientesSecretarios",array(

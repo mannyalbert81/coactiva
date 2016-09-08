@@ -247,7 +247,7 @@
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
-	    		<th style="color:#456789;font-size:80%;">Secretario</th>
+	    		<th style="color:#456789;font-size:80%;">Secretario Entrante</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario Saliente </th>
 	    		<th style="color:#456789;font-size:80%;">Fecha </th>

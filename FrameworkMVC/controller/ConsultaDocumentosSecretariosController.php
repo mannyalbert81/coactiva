@@ -15,7 +15,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 		$documentos_secretarios=new DocumentosModel();
 		$usuarios = new UsuariosModel();
 		// saber la ciudad del usuario
-		$_id_usuarios= $_SESSION["id_usuarios"]; 
+		$_id_usuario= $_SESSION["id_usuarios"]; 
 		
 		$columnas = " usuarios.id_ciudad, 
 					  ciudad.nombre_ciudad, 
@@ -24,7 +24,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 		$tablas   = "public.usuarios, 
                      public.ciudad";
 			
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
 			
 		$id       = "usuarios.id_ciudad";
 		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
@@ -91,24 +91,23 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 								  documentos.detalle_documentos, 
 								  documentos.observacion_documentos, 
 								  documentos.avoco_vistos_documentos, 
-								  usuarios.id_usuarios,
-							      usuarios.nombre_usuarios, 
-								  usuarios.imagen_usuarios";
+								  asignacion_secretarios_view.impulsores,
+  					              asignacion_secretarios_view.secretarios";
 
 					$tablas=" public.documentos, 
 							  public.ciudad, 
 							  public.juicios, 
-							  public.usuarios, 
+							  public.asignacion_secretarios_view, 
 							  public.clientes, 
 							  public.estados_procesales_juicios";
 
 					$where="ciudad.id_ciudad = documentos.id_ciudad AND
 						  juicios.id_juicios = documentos.id_juicio AND
-						  usuarios.id_usuarios = documentos.id_usuario_registra_documentos AND
+						  documentos.id_usuario_registra_documentos = asignacion_secretarios_view.id_abogado AND
 						  clientes.id_clientes = juicios.id_clientes AND
 						  estados_procesales_juicios.id_estados_procesales_juicios = documentos.id_estados_procesales_juicios
-						 AND documentos.firma_impulsor ='TRUE' AND documentos.firma_secretario ='FALSE'";
-
+						 AND documentos.firma_impulsor ='TRUE' AND documentos.firma_secretario ='FALSE' AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
+					
 					$id="documentos.id_documentos";
 						
 						
@@ -121,7 +120,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 
 					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 					
-					if($id_usuarios!=0){$where_1=" AND usuarios.id_usuarios='$id_usuarios'";}
+					if($id_usuarios!=0){$where_1=" AND asignacion_secretarios_view.id_abogado='$id_usuarios'";}
 						
 					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
 						
@@ -257,7 +256,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 		$documentos_secretarios=new DocumentosModel();
 		$usuarios = new UsuariosModel();
 		// saber la ciudad del usuario
-		$_id_usuarios= $_SESSION["id_usuarios"];
+		$_id_usuario= $_SESSION["id_usuarios"];
 	
 		$columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
@@ -266,7 +265,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 		$tablas   = "public.usuarios,
                      public.ciudad";
 			
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
 			
 		$id       = "usuarios.id_ciudad";
 		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
@@ -332,23 +331,22 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 								  documentos.detalle_documentos,
 								  documentos.observacion_documentos,
 								  documentos.avoco_vistos_documentos,
-								  usuarios.id_usuarios,
-							      usuarios.nombre_usuarios,
-								  usuarios.imagen_usuarios";
+								  asignacion_secretarios_view.impulsores,
+  					              asignacion_secretarios_view.secretarios";
 	
 					$tablas=" public.documentos,
 							  public.ciudad,
 							  public.juicios,
-							  public.usuarios,
+							  public.asignacion_secretarios_view,
 							  public.clientes,
 							  public.estados_procesales_juicios";
 	
 					$where="ciudad.id_ciudad = documentos.id_ciudad AND
 						  juicios.id_juicios = documentos.id_juicio AND
-						  usuarios.id_usuarios = documentos.id_usuario_registra_documentos AND
+						 documentos.id_usuario_registra_documentos = asignacion_secretarios_view.id_abogado AND
 						  clientes.id_clientes = juicios.id_clientes AND
 						  estados_procesales_juicios.id_estados_procesales_juicios = documentos.id_estados_procesales_juicios
-						 AND documentos.firma_impulsor ='TRUE' AND documentos.firma_secretario ='TRUE'";
+						 AND documentos.firma_impulsor ='TRUE' AND documentos.firma_secretario ='TRUE' AND asignacion_secretarios_view.id_secretario='$_id_usuarios'";
 	
 					$id="documentos.id_documentos";
 	
@@ -362,7 +360,7 @@ class ConsultaDocumentosSecretariosController extends ControladorBase{
 	
 					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 						
-					if($id_usuarios!=0){$where_1=" AND usuarios.id_usuarios='$id_usuarios'";}
+					if($id_usuarios!=0){$where_1=" AND asignacion_secretarios_view.id_abogado='$id_usuarios'";}
 	
 					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
 	
