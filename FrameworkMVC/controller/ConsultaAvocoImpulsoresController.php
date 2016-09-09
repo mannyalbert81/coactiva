@@ -660,6 +660,8 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 				$macCliente=$_POST['mac'];
 				$idsFiles=$_POST['filesIds'];
 				$id_usuario=$_POST['id_usuario'];
+				
+				//
 	
 				$user = new UsuariosModel();
 				$permisosFirmar=$user->getPermisosFirmarPdfs($id_usuario,$macCliente);

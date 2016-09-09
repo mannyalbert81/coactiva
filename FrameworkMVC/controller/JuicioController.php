@@ -884,7 +884,7 @@ class JuicioController extends ControladorBase{
 					juicios.juicio_referido_titulo_credito,
 					clientes.nombres_clientes,
 					clientes.identificacion_clientes,
-					estados_procesales_juicios.nombres_estados_procesales_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
 				    documentos.fecha_emision_documentos,
 					documentos.hora_emision_documentos,
 					documentos.detalle_documentos,
