@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-06T10:21:14 -->
+<!-- 2016-09-09T14:41:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -27,13 +27,15 @@
 	<detail>
 		<band height="292" splitType="Stretch">
 			<textField isStretchWithOverflow="true" evaluationTime="Report" pattern="" isBlankWhenNull="true">
-				<reportElement x="20" y="0" width="500" height="90" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b2129fe7-24ba-4dc3-8428-f44b3fa0fc3c"/>
+				<reportElement x="0" y="0" width="454" height="60" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="136608cf-857a-4c76-b345-9a7a055b1f25"/>
 				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
-					<font size="12"/>
-					<paragraph lineSpacing="Proportional"/>
+					<font size="12" isBold="false"/>
+					<paragraph lineSpacing="Proportional" tabStopWidth="41"/>
 				</textElement>
-				<textFieldExpression><![CDATA["<p style=color: #FFFFFF>MASOFTINI</p>" +$P{cuerpo_avoco}+"<p style=color: #FFFFFF>MASOFTFIN</p>" ]]></textFieldExpression>
-				<patternExpression><![CDATA[$F{cuerpo_avoco}]]></patternExpression>
+				<textFieldExpression><![CDATA["MASOFTINI"+
+$P{cuerpo_avoco}
++"MASOFTFIN"]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{juicio_referido_titulo_credito}]]></patternExpression>
 			</textField>
 		</band>
 	</detail>
