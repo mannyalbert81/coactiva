@@ -212,7 +212,7 @@ class EtapasJuiciosController extends ControladorBase{
 			{
 			
 				$_id_juicios = $_POST["id_juicios"];
-				$_id_etapas_juicios = $_POST["id_etapas_juicios"];
+				$_id_etapas_juicios = $_POST["id_estados_procesales_juicios"];
 				$_id_usuario_registra_llamada      = $_SESSION['id_usuarios'];
 				
 				
@@ -240,14 +240,12 @@ class EtapasJuiciosController extends ControladorBase{
 			
 				$_id_juicios = $_POST["id_juicios"];
 				$_numero_juicio     = $_POST["juicio_referido_titulo_credito"];
-				$_etapa_juicios   = $_POST["id_etapas_juicios"];
-				$_tipo_juicios   = $_POST["id_tipo_juicios"];
 				$_estados_procesales   = $_POST["id_estados_procesales_juicios"];
 				
 			
 				
 				
-				$colval = " juicio_referido_titulo_credito = '$_numero_juicio', id_etapas_juicios = '$_etapa_juicios', id_tipo_juicios = '$_tipo_juicios', id_estados_procesales_juicios = '$_estados_procesales'";
+				$colval = " juicio_referido_titulo_credito = '$_numero_juicio', id_estados_procesales_juicios = '$_estados_procesales'";
 				$tabla = "juicios";
 				$where = "id_juicios = '$_id_juicios'    ";
 					
@@ -294,13 +292,6 @@ class EtapasJuiciosController extends ControladorBase{
 		$ciudad = new CiudadModel();
 		$resultCiu = $ciudad->getAll("nombre_ciudad");
 		 
-		
-		$etapa_juicios = new EtapasJuiciosModel();
-		$resultEtapas =$etapa_juicios->getAll("nombre_etapas");
-		
-		$tipo_juicios = new TipoJuiciosModel();
-		$resultTipJui =$tipo_juicios->getAll("nombre_tipo_juicios");
-		
 		$estados_pro = new EstadosProcesalesModel();
 		$resultEstPro =$estados_pro->getAll("nombre_estados_procesales_juicios");
 		
@@ -514,7 +505,7 @@ class EtapasJuiciosController extends ControladorBase{
 				}
 	     
 				$this->view("ActualizaEtapasJuicios",array(
-						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultEtapas"=>$resultEtapas, "resultEdit"=>$resultEdit, "resultTipoIdent"=> $resultTipoIdent, "resultTipoPer"=> $resultTipoPer, "resultCiu"=>$resultCiu, "resultTipJui"=>$resultTipJui, "resultEstPro"=>$resultEstPro
+						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultEdit"=>$resultEdit, "resultTipoIdent"=> $resultTipoIdent, "resultTipoPer"=> $resultTipoPer, "resultCiu"=>$resultCiu, "resultEstPro"=>$resultEstPro
 							
 				));
 	

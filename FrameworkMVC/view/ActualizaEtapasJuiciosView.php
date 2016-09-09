@@ -237,8 +237,7 @@
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario</th>
-	    		<th style="color:#456789;font-size:80%;">Etapa</th>
-	    		<th style="color:#456789;font-size:80%;">Tipo Juicio</th>
+	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th></th>
 	    		<th></th>
@@ -254,8 +253,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?>     </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_etapas; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_juicios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
 		               <td>
 			           		<div class="right">
@@ -432,25 +430,6 @@
 		    
 		    <div class="row">
 		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Etapa</p>
-			  	<select name="id_etapas_juicios" id="id_etapas_juicios"  class="form-control" <?php echo $habilitar;?>>
-					<?php foreach($resultEtapas as $res) {?>
-						<option value="<?php echo $res->id_etapas_juicios; ?>" <?php if ($res->id_etapas_juicios == $resEdit->id_etapas_juicios ) echo ' selected="selected" '  ; ?> ><?php echo $res->nombre_etapas; ?> </option>
-			         	
-			        <?php } ?>
-				</select> 
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Tipo Juicio</p>
-			  	<select name="id_tipo_juicios" id="id_tipo_juicios"  class="form-control" <?php echo $habilitar;?>>
-					<?php foreach($resultTipJui as $res) {?>
-						<option value="<?php echo $res->id_tipo_juicios; ?>" <?php if ($res->id_tipo_juicios == $resEdit->id_tipo_juicios ) echo ' selected="selected" '  ; ?> ><?php echo $res->nombre_tipo_juicios; ?> </option>
-			        <?php } ?>
-				</select> 
-			  </div>
-			  
 			    <div class="col-xs-4 col-md-4">
 			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
 			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
@@ -462,23 +441,7 @@
 			  
 		    </div>
   			 <br>
-  			 <div class="row">
-		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Año</p>
-			  	<input type="text" name="year_juicios" id="year_juicios" value="<?php echo $resEdit->year_juicios; ?>" class="form-control"readonly/>
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Numero</p>
-			  	<input type="text" name="numero_juicios" id="numero_juicios" value="<?php echo $resEdit->numero_juicios; ?>" class="form-control" readonly/>
-			  </div>
-			  
-			   <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Creacion</p>
-			  	<input type="text" name="creado" id="creado" value="<?php echo $resEdit->creado; ?>" class="form-control" readonly/>
-			  </div>
-		    </div>
+  			 
   			 
   			  </div>	 
 		     </div>	
@@ -648,24 +611,6 @@
 		    
 		    <div class="row">
 		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Etapa</p>
-			  	<select name="id_etapas_juicios" id="id_etapas_juicios"  class="form-control" <?php echo $habilitar;?>>
-					<?php foreach($resultEtapas as $res) {?>
-						<option value="<?php echo $res->id_etapas_juicios; ?>"  ><?php echo $res->nombre_etapas; ?> </option>
-			        <?php } ?>
-				</select> 
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Tipo Juicio</p>
-			  	<select name="id_tipo_juicios" id="id_tipo_juicios"  class="form-control" <?php echo $habilitar;?>>
-					<?php foreach($resultTipJui as $res) {?>
-						<option value="<?php echo $res->id_tipo_juicios; ?>"  ><?php echo $res->nombre_tipo_juicios; ?> </option>
-			        <?php } ?>
-				</select> 
-			  </div>
-			  
 			    <div class="col-xs-4 col-md-4">
 			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
 			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
@@ -676,24 +621,7 @@
 			  </div>
 			  
 		    </div>
-  			 <br>
-  			 <div class="row">
-		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Año</p>
-			  	<input type="text" name="year_juicios" id="year_juicios" value="" class="form-control"readonly/>
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Numero</p>
-			  	<input type="text" name="numero_juicios" id="numero_juicios" value="" class="form-control" readonly/>
-			  </div>
-			  
-			   <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Creacion</p>
-			  	<input type="text" name="creado" id="creado" value="" class="form-control" readonly/>
-			  </div>
-		    </div>
+  			 
   			 
   			  </div>	 
 		     </div>	
