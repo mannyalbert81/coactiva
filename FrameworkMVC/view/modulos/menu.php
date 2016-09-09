@@ -162,7 +162,7 @@ $controladores=$_SESSION['controladores'];
     	  <a href="index.php?controller=ImpresionAutoPago&action=index"><span class=" glyphicon glyphicon-triangle-bottom" aria-hidden="true"> Impresion Auto Pagos</span> </a>
           </li>
           <li style="<?php echo getcontrolador("EtapasJuicios",$controladores) ?>">
-    	  <a href="index.php?controller=EtapasJuicios&action=consulta_juicios"><span class=" glyphicon glyphicon-triangle-bottom" aria-hidden="true"> Actualizar Etapas Juicios</span> </a>
+    	  <a href="index.php?controller=EtapasJuicios&action=consulta_juicios"><span class=" glyphicon glyphicon-triangle-bottom" aria-hidden="true"> Actualizar Juicios</span> </a>
           </li>
 </ul>
 </li>
