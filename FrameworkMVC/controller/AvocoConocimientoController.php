@@ -21,6 +21,8 @@ public function index(){
 			$resulSecretario=array();
 			$resultDatos=array();
 			$resulSet=array();
+			$arrayOpciones=array("con_garante"=>'--Con Garante--',"sin_garante"=>'--Sin Garante--');
+			
 			
 			$_id_usuarios= $_SESSION["id_usuarios"];
 			
@@ -52,6 +54,7 @@ public function index(){
 					$juicio_referido=$_POST['juicios'];
 				
 					$resulSet=$juicio->getCondiciones("id_juicios,juicio_referido_titulo_credito", "juicios", "juicio_referido_titulo_credito='$juicio_referido'", "id_juicios");
+					
 				}
 				
 			}
@@ -64,7 +67,7 @@ public function index(){
 			}
 			
 			$this->view("AvocoConocimiento",array(
-					 "resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
+					 "resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos, "arrayOpciones"=>$arrayOpciones
 			
 			));
 		}

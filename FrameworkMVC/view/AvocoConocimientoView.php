@@ -241,17 +241,20 @@
        $sel_detalle="";
        $sel_observacion="";
        $sel_avoco="";
+       $sel_tipo_avoco="";
+       
        
        $datosGet=array();
        
        
        if($_SERVER['REQUEST_METHOD']=='POST' )
        {
+       $sel_tipo_avoco = $_POST['tipo_avoco'];
        
        	if(!empty($resulSet))
        	{
-       	$sel_juicios = $_POST['juicios'];
-       	 }
+        $sel_juicios = $_POST['juicios'];
+        }
        	 
        }
        
@@ -278,7 +281,7 @@
        	$habilitar="";
        }
        
-		   
+       
 		?>
  
 			  
@@ -333,10 +336,10 @@
 		 	        
 		 	  <div class="col-xs-6 col-md-3">
 			   <p  class="formulario-subtitulo" >Tipo Avoco</p>
-			  
-			   <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
-			   <option value="con_garante"  >Con Garante</option>
-			    <option value="sin_garante"  >Sin Garante</option>
+			  <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
+			  <?php foreach($arrayOpciones as $res=>$val) {?>
+						<option value="<?php echo $res; ?>" <?php if($sel_tipo_avoco==$res){echo 'selected="selected"';}?>><?php echo $val;  ?> </option>
+					<?php } ?>
 		     </select>
 			  </div>    
 		 	        
