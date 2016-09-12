@@ -249,9 +249,7 @@
        
        if($_SERVER['REQUEST_METHOD']=='POST' )
        {
-       $sel_tipo_avoco = $_POST['tipo_avoco'];
-       
-       	if(!empty($resulSet))
+        if(!empty($resulSet))
        	{
         $sel_juicios = $_POST['juicios'];
         }
@@ -268,8 +266,6 @@
        	$datosGet=urldecode($a);
        	
        	$datosGet=unserialize($a);
-       	
-       	
        	}
       
        }
@@ -405,9 +401,7 @@
 		    		
 		<div class="col-xs-12 col-md-12" style="margin-top:10px">
 		 <div class="form-group">
-		       
-	        
-		      <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
+		     <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
 		      </div>
 		       <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px"  >
 			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" <?php echo $habilitar;?>/>
