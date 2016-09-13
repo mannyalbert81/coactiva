@@ -259,7 +259,7 @@ class FirmarOficiosController extends ControladorBase{
 	
 					$where=" juicios.id_ciudad = ciudad.id_ciudad AND juicios.id_juicios = oficios.id_juicios AND
 					entidades.id_entidades = oficios.id_entidades AND
-					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios AND oficios.firma_impulsor='TRUE' AND oficios.firma_secretario='FALSE'";
+					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios AND oficios.firma_impulsor='TRUE' AND oficios.firma_secretario='TRUE'";
 	
 					$id="oficios.id_oficios";
 				

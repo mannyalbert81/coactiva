@@ -74,8 +74,6 @@ class ReasignarTituloController extends ControladorBase{
 						$idTitulo="titulo_credito.id_titulo_credito";
 						
 						$resultSet=$reasignar_titulo->getCondiciones($columnaTitulo, $tblTitulo, $whereTitulo, $idTitulo);
-						
-					
 					}
 					
 					
@@ -202,15 +200,7 @@ class ReasignarTituloController extends ControladorBase{
 				$colval="id_usuarios='$_id_usuario'";
 				$tabla="asignacion_titulo_credito";
 				$where="id_titulo_credito='$_id_titulo_credito'";
-				/*
-				$this->view("Error",array(
-							
-						"resultado"=>$_id_titulo_credito."hola"
-				
-				));
-				exit();*/
-				
-				//$resultado=$reasignarTitulo->UpdateBy($colval, $tabla, $where);
+			    $resultado=$reasignarTitulo->UpdateBy($colval, $tabla, $where);
 				
 			}
 			
