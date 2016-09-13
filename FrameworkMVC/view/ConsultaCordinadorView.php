@@ -248,7 +248,7 @@
   			
 		   <div class="row">
 	     <div class="col-xs-2">
-			  	<p  class="formulario-subtitulo" style="" >Ciudad:</p>
+			  	<p  class="formulario-subtitulo" style="" >Juzgado:</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control">
 			  	<option value="0"  >--Seleccione--</option>
 			  		<?php foreach($resultCiu as $res) {?>

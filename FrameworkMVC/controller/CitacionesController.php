@@ -16,7 +16,7 @@ class CitacionesController extends ControladorBase{
 		$resultSet=$citaciones->getAll("id_citaciones");
 
 		$ciudad = new CiudadModel();
-		$resultCiu = $ciudad->getAll("nombre_ciudad");                                                                                                                                                                                                                                                                                  
+		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");                                                                                                                                                                                                                                                                                  
 
 		$tipo_citaciones = new TipoCitacionesModel();
 		$resultTipoCit =$tipo_citaciones->getAll("nombre_tipo_citaciones");
@@ -101,18 +101,21 @@ class CitacionesController extends ControladorBase{
 					$contenido_busqueda=$_POST["contenido_busqueda"];
 
 					$citaciones= new CitacionesModel();
-
+					
+					$_id_usuarios= $_SESSION["id_usuarios"];
 
 					$columnas = " clientes.id_clientes,
 							juicios.id_juicios,
 								  clientes.identificacion_clientes,
 								  clientes.nombres_clientes,
-								  juicios.juicio_referido_titulo_credito";
+								  juicios.juicio_referido_titulo_credito,
+							      usuarios.nombre_usuarios";
 
 					$tablas   = " public.clientes,
-                                  public.juicios";
+                                  public.juicios,
+							      public.usuarios";
 
-					$where    = "juicios.id_clientes = clientes.id_clientes";
+					$where    = "juicios.id_usuarios= usuarios.id_usuarios AND juicios.id_clientes = clientes.id_clientes AND juicios.id_usuarios = '$_id_usuarios'";
 
 					$id       = "juicios.juicio_referido_titulo_credito";
 

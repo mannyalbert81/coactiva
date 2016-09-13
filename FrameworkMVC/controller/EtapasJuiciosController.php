@@ -290,7 +290,7 @@ class EtapasJuiciosController extends ControladorBase{
 		$resultTipoPer =$tipo_persona->getAll("nombre_tipo_persona");
 			
 		$ciudad = new CiudadModel();
-		$resultCiu = $ciudad->getAll("nombre_ciudad");
+		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
 		 
 		$estados_pro = new EstadosProcesalesModel();
 		$resultEstPro =$estados_pro->getAll("nombre_estados_procesales_juicios");

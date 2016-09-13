@@ -27,7 +27,7 @@ class AutoPagosController extends ControladorBase{
 			$id_rol= $_SESSION['id_rol'];
 			
 			$ciudad = new CiudadModel();
-			$resultCiu = $ciudad->getAll("nombre_ciudad");
+			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
 			
 			$usuarios=new UsuariosModel();
 			$resultUsu = $usuarios->getAll("nombre_usuarios");

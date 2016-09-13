@@ -45,7 +45,7 @@ public function index(){
 			
 			
 			$ciudad = new CiudadModel();
-			$resultCiu = $ciudad->getAll("nombre_ciudad");
+			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'" );
 			
 	
 			$usuarios = new UsuariosModel();
@@ -456,7 +456,7 @@ public function index(){
 				$where    = " usuarios.id_usuarios = '$_id_usuario' ";
 				$resultEdit = $usuarios->getBy($where);
 				
-				$resultCiu = $ciudad->getAll("nombre_ciudad");
+				$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
 				
 
 				if ( isset($_POST["Guardar"]) )
