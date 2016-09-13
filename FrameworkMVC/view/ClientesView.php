@@ -343,7 +343,7 @@
 		    <div class="row">
 		    
 		    <div class="col-xs-6 col-md-6">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 					<?php foreach($resultCiu as $res) {?>
 						<option value="<?php echo $res->id_ciudad; ?>" <?php if ($res->id_ciudad == $resEdit->id_ciudad ) echo ' selected="selected" '  ; ?>  ><?php echo $res->nombre_ciudad; ?> </option>
@@ -442,7 +442,7 @@
 		    <div class="row">
 		    
 		    <div class="col-xs-6 col-md-6">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 					<?php foreach($resultCiu as $res) {?>
 						<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
@@ -538,7 +538,7 @@
 	    		<th style="color:#456789;font-size:80%;">Teléfono</th>
 	    		<th style="color:#456789;font-size:80%;">Celular</th>
 	    		<th style="color:#456789;font-size:80%;">Dirección</th>
-	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    		<th style="color:#456789;font-size:80%;">Nombres Garante</th>
 	    		<th style="color:#456789;font-size:80%;">Identificación Garante</th>
 	    		

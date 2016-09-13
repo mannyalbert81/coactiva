@@ -345,7 +345,7 @@ $(document).ready(function() {
 		    </div>
             	
 		   	<div class="col-xs-6 col-md-6">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 					<?php foreach($resultCiu as $resCiu) {?>
 						<option value="<?php echo $resCiu->id_ciudad; ?>" <?php if($sel_id_ciudad==$resCiu->id_ciudad){echo "selected";}?> ><?php echo $resCiu->nombre_ciudad; ?> </option>

@@ -40,7 +40,7 @@ public function index(){
 				
 				if(isset($_POST['Validar']))
 				{
-					$resultDatos=$ciudad->getAll("nombre_ciudad");
+					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
 					
 					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 																"public.rol,public.usuarios", 

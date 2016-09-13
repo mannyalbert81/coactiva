@@ -288,7 +288,7 @@
 		     <?php } } else {?>
   			
              <div class="col-xs-6 col-md-4" >
-			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	<p  class="formulario-subtitulo" >Juzgado:</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly >
 					<?php foreach($resultDatos as $res) {?>
 						 <option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>

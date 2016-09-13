@@ -17,7 +17,7 @@ public function index(){
 			
 			
 			$ciudad = new CiudadModel();
-			$resultCiu = $ciudad->getAll("nombre_ciudad");
+			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
 			
 			$juicios = new JuiciosModel();
 			$resultJui = $juicios->getAll("juicio_referido_titulo_credito");

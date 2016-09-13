@@ -232,7 +232,7 @@
 		    <h4 style="color:#ec971f;">Asignar Titulos Credito</h4>
             	<hr/>
 		   	<div class="col-xs-6">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 					<option value="0">--Seleccione--</option>
 					<?php foreach($resultCiu as $resCiu) {?>
@@ -314,7 +314,7 @@
 	    		<th style="color:#456789;font-size:80%;">Celular Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th style="color:#456789;font-size:80%;">Fecha Corte</th>
-	    		<th style="color:#456789;font-size:80%;">Nombre Ciudad</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    		
 	    		<th></th>
 	    		<th></th>
