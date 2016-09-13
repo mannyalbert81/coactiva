@@ -250,6 +250,110 @@ class TipoNotificacionController extends ControladorBase{
 	
 	}
 	
+	public function pruebaFirmarOld()
+	{
+		$documentos = new DocumentosModel();
+		
+		$destino="C:/Users/Masoft/Desktop/pdf_pruebas/";
+		$nombrePdf="Avoco1078.pdf";
+		$id_firma="33";
+		$id_rol="3";
+		$id_usuario="42";
+		
+		/*$resultado = $documentos->FirmarPDFs($destino, $nombrePdf, $id_firma, $id_rol,$id_usuario);
+		
+		$this->view("Error", array("resultado"=>$resultado));*/
+		
+		
+		//para metodos dentro del framework
+		//$id_usuario=$_SESSION['id_usuarios'];
+		 
+		/*$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
+		$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';
+		 
+		$moveTo = $tmp.$nombrePdf;
+		$moveOf = $destino.$nombrePdf;
+		 
+		rename($moveOf,$moveTo);
+		 
+		$origen=$moveTo;
+		$destino=$moveOf;
+		$tipo_pdf="";
+		$add_page="false";
+		$total_espacio=0;
+		//error en la conversion
+		$nombre_pdf_bd = $origen;
+		
+		//$this->view("Error", array("resultado"=>$total_espacio.' pagina agregada-->'.$add_page.' consulta-->'.$nombre_pdf_bd));
+		 
+		/*$conAddPage=$documentos->getCondiciones("nombre_pdf,tipo_pdf", "pdf", "nombre_pdf='C:/Users/Masoft/git/coactiva/documentos/tmp_documentos/Avoco1078.pdf'", "id_pdf");
+		 
+		if(!empty($conAddPage)){
+			$add_page="true";
+			$total_espacio=$this->extraerEspacio($origen, $add_page);
+		}else {
+			$total_espacio=$this->extraerEspacio($origen, $add_page);
+				
+		}*/
+		
+		//$this->view("Error", array("resultado"=>$total_espacio.' pagina agregada-->'.$add_page.' consulta-->'.print_r($conAddPage)));
+		/*
+		$comando = 'start "" /b "' . $ruta_ejecutable . '" ' . $id_firma . ' ' . $origen . ' ' . $destino . ' '.$id_rol.
+		' '.$id_usuario.' '.$total_espacio.' '.$add_page.' ';
+		
+		$comando_esc = escapeshellcmd ( $comando );
+		
+		exec ( $comando_esc, $resultadoSalida, $ejecucion );
+		
+		$this->view("Error", array("resultado"=>print_r($resultadoSalida)));*/
+		//return $resultadoSalida;
+		
+	}
+	
+	public function pruebaFirmar()
+	{
+		$documentos = new DocumentosModel();
+		
+		$destino="C:/Users/Masoft/Desktop/pdf_pruebas/";
+		$nombrePdf="Avoco1091.pdf";
+		$id_firma="33";
+		$id_rol="6";
+		$id_usuario="42";
+		
+		$resultado = $documentos->FirmarPDFs($destino, $nombrePdf, $id_firma, $id_rol,$id_usuario);
+		
+		$this->view("Error", array("resultado"=>print_r($resultado)));
+		
+	}
+	
+	
+	public function extraerEspacio($filePath,$addpage)
+	{
+		$ruta_exec_extract_line = $_SERVER['DOCUMENT_ROOT'].'/documentos/extraer/VerEspacioPdf.exe';
+		 
+		$comando_extraer = 'start "" /b "' . $ruta_exec_extract_line . '" ' . $filePath . ' '. $addpage . ' ';
+	
+		$comando_esc_extraer = escapeshellcmd ( $comando_extraer );
+	
+		exec ( $comando_esc_extraer, $resultadoExtraer, $ejecucion_extraer );
+	
+		$total_espacio=$resultadoExtraer[0];
+		 
+		return $total_espacio;
+	}
+	
+	public function pruebaverlineas()
+	{
+		$documentos = new DocumentosModel();
+		
+		$str_origen="C:/Users/Masoft/Desktop/Avoco1091.pdf";
+		
+		$addpage="false";
+		
+		$resultado = $documentos->extraerEspacio($str_origen, $addpage);
+		
+		$this->view("Error", array("resultado"=>$resultado));
+	}
 	
 	
 }

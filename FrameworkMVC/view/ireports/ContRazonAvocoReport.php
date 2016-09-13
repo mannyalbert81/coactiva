@@ -69,10 +69,10 @@ $estado=$_GET['estado'];
 		} else 
 		{
 		
-				$id= $_GET['identificador'];
-				$nombre=$_GET['nombre'];
-				$nombre_avoco_conocimiento=$_GET['nombre_avoco_conocimiento'];
-				$identificador_avoco_unido=$_GET['identificador_avoco_unido'];
+				//$id= $_GET['identificador'];
+				//$nombre=$_GET['nombre'];
+				//$nombre_avoco_conocimiento=$_GET['nombre_avoco_conocimiento'];
+				//$identificador_avoco_unido=$_GET['identificador_avoco_unido'];
 				//aqui va la consulta
 				$sql="SELECT
 				razon_avoco_conocimiento.cuerpo_razon_avoco_conocimiento
@@ -95,25 +95,11 @@ $estado=$_GET['estado'];
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 		}			
 				
-
-				
-
-		
-		class Pdf_concat extends FPDI {
-			var $files = array();	
-			 
-			function setFiles($files) {
-				$this->files = $files;
-			}
-
-		}
-		
-		
-		$file2merge=array($directorio1.'Avoco1073.pdf', $directorio.'RazonAvoco1090.pdf');
+		$file2merge=array($directorio1.$nombre_avoco_conocimiento.'.pdf', $directorio.$nombre.'.pdf');
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
-		$pdf->Output($directorio3.'RazonAvocoUnida.pdf', "F");
+		$pdf->Output($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf', "F");
 
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
