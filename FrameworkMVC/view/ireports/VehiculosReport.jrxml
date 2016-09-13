@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-22T12:14:18 -->
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-09-05T13:00:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VehiculosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5955712-b99a-4538-ad86-41065f296b63">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -72,8 +72,8 @@ FROM vehiculos_embargados
 				</jr:Code128>
 			</componentElement>
 			<image>
-				<reportElement x="4" y="17" width="126" height="40" uuid="af716069-33fd-4476-97a0-c940be1f0831"/>
-				<imageExpression><![CDATA["C:/Users/User/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondonegro.jpg"]]></imageExpression>
+				<reportElement x="4" y="10" width="115" height="50" uuid="67f0fc46-bbcf-47e6-94da-bbbd19e8d8c8"/>
+				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondonegro.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

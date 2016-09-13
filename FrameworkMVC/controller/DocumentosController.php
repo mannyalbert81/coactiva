@@ -23,7 +23,7 @@ public function index(){
 			$resultJui = $juicios->getAll("juicio_referido_titulo_credito");
 			
 			$estados_procesales = new EstadosProcesalesModel();
-			$resultEstPro = $estados_procesales->getBy("nombre_estado_procesal_juicios='Providencia'");
+			$resultEstPro = $estados_procesales->getBy("nombre_estados_procesales_juicios='PROVIDENCIA'");
 			
 			
 			

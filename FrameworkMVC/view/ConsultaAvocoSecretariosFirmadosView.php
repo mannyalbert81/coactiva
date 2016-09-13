@@ -154,6 +154,7 @@
 		 <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Impulsores:</p>
 			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" >
+			  	<option value="0">--Todos--</option>
 			  		<?php foreach($resultImpul as $res) {?>
 						 <option value="<?php echo $res->id_abogado; ?>"<?php if($sel_id_usuarios==$res->id_abogado){echo "selected";}?>  ><?php echo $res->impulsores; ?> </option>
 			           
@@ -221,7 +222,7 @@
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
-	    		<th style="color:#456789;font-size:80%;">Secretario</th>
+	    		<th style="color:#456789;font-size:80%;">Secretario Entrante</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario Saliente </th>
 	    		<th style="color:#456789;font-size:80%;">Fecha </th>
@@ -245,7 +246,11 @@
 		               <td style="color:#000000;font-size:80%;">
 		               <a href="<?php echo $helper->url("ConsultaAvocoSecretarios","abrirPdf"); ?>&id=<?php echo $res->id_avoco_conocimiento; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
 		               </td> 
+		               <td style="color:#000000;font-size:80%;">
+		               <a href="<?php echo $helper->url("RazonAvoco","index"); ?>&id_juicios=<?php echo $res->id_juicios; ?>&id_avoco_conocimiento=<?php echo $res->id_avoco_conocimiento; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">--RAZÓN--</a>
+			           </td>
 		    		</tr>
+		    		
 		        <?php } }else {  ?>
 
                 <tr>

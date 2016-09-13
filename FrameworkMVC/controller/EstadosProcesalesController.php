@@ -48,10 +48,10 @@ class EstadosProcesalesController extends ControladorBase{
 					{
 					
 						$_id_estados_procesales_juicios = $_GET["id_estados_procesales_juicios"];
-						$columnas = " id_estados_procesales_juicios, nombre_estado_procesal_juicios";
+						$columnas = " id_estados_procesales_juicios, nombre_estados_procesales_juicios";
 						$tablas   = "estados_procesales_juicios";
 						$where    = "id_estados_procesales_juicios = '$_id_estados_procesales_juicios' "; 
-						$id       = "nombre_estado_procesal_juicios";
+						$id       = "nombre_estados_procesales_juicios";
 							
 						
 						$resultEdit = $estados_procesales->getCondiciones($columnas ,$tablas ,$where, $id);
@@ -140,13 +140,13 @@ class EstadosProcesalesController extends ControladorBase{
 		
 			//_nombre_controladores
 			
-			if (isset ($_POST["nombre_estado_procesal_juicios"]) )
+			if (isset ($_POST["nombre_estados_procesales_juicios"]) )
 				
 			{
 				
 				
 				
-				$_nombre_estado_procesal_juicios = $_POST["nombre_estado_procesal_juicios"];
+				$_nombre_estado_procesal_juicios = $_POST["nombre_estados_procesales_juicios"];
 				
 				
 				if(isset($_POST["id_estados_procesales_juicios"])) 
@@ -154,7 +154,7 @@ class EstadosProcesalesController extends ControladorBase{
 					
 					$_id_estados_procesales_juicios = $_POST["id_estados_procesales_juicios"];
 					
-					$colval = " nombre_estado_procesal_juicios = '$_nombre_estado_procesal_juicios'   ";
+					$colval = " nombre_estados_procesales_juicios = '$_nombre_estado_procesal_juicios'   ";
 					$tabla = "estados_procesales_juicios";
 					$where = "id_estados_procesales_juicios = '$_id_estados_procesales_juicios'    ";
 					

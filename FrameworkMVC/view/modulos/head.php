@@ -144,7 +144,7 @@ $(document).ready(function(){
 			
 			<div class="dropdown">
 			
-				  <button id="noti_btn" class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-user" ><FONT  SIZE=1><?php echo " ".$_SESSION['nombre_usuarios'];?></FONT></span>
+				  <button id="noti_btn" class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-user" ><?php echo " ".$_SESSION['usuario_usuarios'];?></span>
 				  
 				  <span class="caret"></span>
 				  </button>

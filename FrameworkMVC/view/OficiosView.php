@@ -127,8 +127,34 @@
 	                selected +=$(this)+' esta '+$(this).val()+', ';
 	            }
 	        }); 
-
+	       
 	        if (selected != '') {
+	            return true;
+	        }
+	        else{
+	            alert('Debes seleccionar un juicio.');
+	            return false;
+	        }
+
+	      
+	    }); 
+
+	});
+	</script>
+
+<script >
+	$(document).ready(function() {
+		
+		$('#Guardar1').click(function(){
+	        var selected1 = '';  
+	          
+	        $('.marcados').each(function(){
+	            if (this.checked) {
+	                selected1 +=$(this)+' esta '+$(this).val()+', ';
+	            }
+	        }); 
+	       
+	        if (selected1 != '') {
 	            return true;
 	        }
 	        else{
@@ -143,6 +169,63 @@
 	</script>
 	
 	
+	
+	
+	      <script>
+       $(document).ready(function(){
+
+    	   $("#id_entidades").prop("disabled","disabled");
+    	   $("#Guardar").prop("disabled","disabled");
+    	   $("#Guardar1").prop("disabled","disabled");
+ 
+
+            $(".marcados").click(function(){
+
+            	var cant = $("input:checked").length;
+            	
+                if(cant!=0)
+                {
+            	 $("#id_entidades").prop("disabled","");
+          	     $("#Guardar").prop("disabled","");
+          	   $("#Guardar1").prop("disabled","");
+                }else
+                    {
+                	  $("#id_entidades").prop("disabled","disabled");
+               	      $("#Guardar").prop("disabled","disabled");
+               	   $("#Guardar1").prop("disabled","disabled");
+                    }
+                
+                });
+ 	 });
+       </script>
+       
+        <script >
+    $(document).ready(function(){
+        
+        $("#marcar_todo").change(function () {
+            if ($(this).is(':checked')) {
+               
+                $(".marcados").prop('checked', true); 
+               
+         	    $("#id_entidades").prop("disabled","");
+         	   $("#Guardar").prop("disabled","");
+         	   $("#Guardar1").prop("disabled","");
+               
+
+                
+            } else {
+                
+                $("input:checkbox").prop('checked', false);
+                $("input[type=checkbox]").prop('checked', false);
+                $("#id_entidades").prop("disabled","disabled");
+         	   $("#Guardar").prop("disabled","disabled");
+         	   $("#Guardar1").prop("disabled","disabled");
+               
+               
+            }
+        });
+        });
+	</script>
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -180,9 +263,11 @@
           <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
             
 		     <?php } } else {?>
+		     	 <div class="panel panel-default">
+  			<div class="panel-body">
 		    
 			  <div class="row">
-			  <div class="col-xs-6 col-md-6">
+			  <div class="col-xs-12 col-md-12" style="text-align: center; ">
 			  	<p  class="formulario-subtitulo" >Entidad:</p>
 			  	<select name="id_entidades" id="id_entidades"  class="form-control" >
 					<?php foreach($resultEnt as $res) {?>
@@ -191,7 +276,8 @@
 				</select> 			  
 			  </div>
 			  </div>
-			  
+			  </div>
+			  </div>
 			   
 			  <hr>
 		    
@@ -201,9 +287,10 @@
 		     
 		     
 		       <div class="row">
-			  <div class="col-xs-12 col-md-6" style="text-align: center;" >
-			  	<input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
+			  <div class="col-xs-12 col-md-12" style="text-align: center;" >
+			  	<input type="submit" id="Guardar" name="Guardar" value="Generar Oficio Automatico" onClick="Ok()" class="btn btn-success"/>
 			  </div>
+			  
 			</div>     
                
 		
@@ -260,8 +347,10 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		              <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		              <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		             
-		           	   
+		            
+		           	   <td style="color:#000000;font-size:80%;">
+		               <a href="<?php echo $helper->url("InsertaOficiosManual","index"); ?>&id_juicios=<?php echo $res->id_juicios; ?>&juicio_referido_titulo_credito=<?php echo $res->juicio_referido_titulo_credito; ?>&nombres_clientes=<?php echo $res->nombres_clientes; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:85%;">Generar Oficio Manual</a>
+			           </td>
 			            
 		    		</tr>
 		        <?php } } ?>

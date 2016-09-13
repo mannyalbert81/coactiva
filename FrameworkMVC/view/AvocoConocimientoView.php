@@ -25,11 +25,10 @@
            <!-- AQUI NOTIFICAIONES -->
 		<script type="text/javascript" src="view/css/lib/alertify.js"></script>
 		<link rel="stylesheet" href="view/css/themes/alertify.core.css" />
-		<link rel="stylesheet" href="view/css/themes/alertify.default.css" />
+		<link rel="stylesheet" href="view/css/themes/alertify.de43fault.css" />
 		
 		<script>
-
-		function Ok(){
+            function Ok(){
 				alertify.success("Has Pulsado en Guardar"); 
 				return false;
 			}
@@ -120,8 +119,6 @@
 		}); 
 
 	</script>
-	
-
 
 	
 	 <script>
@@ -244,17 +241,18 @@
        $sel_detalle="";
        $sel_observacion="";
        $sel_avoco="";
+       $sel_tipo_avoco="";
+       
        
        $datosGet=array();
        
        
        if($_SERVER['REQUEST_METHOD']=='POST' )
        {
-       
-       	if(!empty($resulSet))
+        if(!empty($resulSet))
        	{
-       	$sel_juicios = $_POST['juicios'];
-       	 }
+        $sel_juicios = $_POST['juicios'];
+        }
        	 
        }
        
@@ -268,8 +266,6 @@
        	$datosGet=urldecode($a);
        	
        	$datosGet=unserialize($a);
-       	
-       	
        	}
       
        }
@@ -281,7 +277,7 @@
        	$habilitar="";
        }
        
-		   
+       
 		?>
  
 			  
@@ -302,8 +298,7 @@
 					 
 			  </div>
 			     <br>
-			     <br>
-			 </div>
+			</div>
     
      
      
@@ -322,16 +317,27 @@
 	        
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
 	         echo 	$res->id_juicios;
-	         }}elseif (!empty($datosGet)){echo $datosGet['id_juicio'];}?>">
+
+	         }}elseif (   !empty($datosGet)){echo $datosGet['id_juicio'];}?>">
+
 		   	<div id="mensaje_juicio" class="errores"></div>	   
 		    </div>
 			  
 			  <div class="col-xs-12 col-md-3">
 		     <p  class="formulario-subtitulo" >Validar:</p>
-			  <input type="submit" id="Validar" name="Validar" value="Validar" onClick="Ok()" class="btn btn-warning"/>
+			  <input type="submit" id="Validar" name="Validar" value="Validar"  class="btn btn-warning"/>
 			 </div>
 			 <br>
 			 <hr>
+		 	        
+		 	  <div class="col-xs-6 col-md-3">
+			   <p  class="formulario-subtitulo" >Tipo Avoco</p>
+			  <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
+			  <?php foreach($arrayOpciones as $res=>$val) {?>
+						<option value="<?php echo $res; ?>" <?php if($sel_tipo_avoco==$res){echo 'selected="selected"';}?>><?php echo $val;  ?> </option>
+					<?php } ?>
+		     </select>
+			  </div>    
 		 	        
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
@@ -339,6 +345,7 @@
 				     <?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
 			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
 					<?php foreach($resulSecretario as $res) {?>
 					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
 			        <?php }} ?>
@@ -350,24 +357,29 @@
 			
 			  
 			  <hr>
-			  
 			   <div class="col-xs-6 col-md-4" >
 			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" <?php echo $habilitar;?>>
 			  		<?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
 			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
 					<?php foreach($resultDatos as $res) {?>
 					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
 					<?php }} ?>
+					
 				</select> 
 			 </div>
 			 	        
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario:</p>
 			  	 <select name="id_secretario" id="id_secretario"  class="form-control" <?php echo $habilitar;?> >
+			  	 
 				 <?php if (!empty($datosGet)){ ?>
+				 
 			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
+			  	 
 			  	 <?php }?>
 				</select> 
 				   
@@ -376,8 +388,10 @@
 			  <div class="col-xs-6 col-md-3">
 			  	<p  class="formulario-subtitulo" >Impulsor:</p>
 			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control" <?php echo $habilitar;?>>
-			  	 <?php if (!empty($datosGet)){ ?>
+			   	 <?php if (!empty($datosGet)){ ?>
+			  	 
 			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
+			  	
 			  	<?php } ?>
 			     </select>
   		
@@ -387,9 +401,7 @@
 		    		
 		<div class="col-xs-12 col-md-12" style="margin-top:10px">
 		 <div class="form-group">
-		       
-	        
-		      <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
+		     <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
 		      </div>
 		       <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px"  >
 			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" <?php echo $habilitar;?>/>

@@ -177,31 +177,31 @@
 		});
 	</script>
 	
-	<script >
-        $(document).ready(function() {
-		$('#Guardar').click(function(){
-	        var selected = '';  
-	          
-	        $('.marcados').each(function(){
-	            if (this.checked) {
-	                selected +=$(this)+' esta '+$(this).val()+', ';
-	            }
-	        }); 
-
-	        if (selected != '') {
-	            return true;
-	        }
-	        else{
-	            alert('Debes seleccionar un juicio.');
-	            return false;
-	        }
-
-
-	      
-	    }); 
-
-	});
-	</script>
+		<script >
+	        $(document).ready(function() {
+			$('#Guardar').click(function(){
+		        var selected = '';  
+		          
+		        $('.marcados').each(function(){
+		            if (this.checked) {
+		                selected +=$(this)+' esta '+$(this).val()+', ';
+		            }
+		        }); 
+	
+		        if (selected != '') {
+		            return true;
+		        }
+		        else{
+		            alert('Debes seleccionar un juicio.');
+		            return false;
+		        }
+	
+	
+		      
+		    }); 
+	
+		});
+		</script>
 	
 	 <script >
 $(document).ready(function() {
@@ -245,6 +245,7 @@ $(document).ready(function() {
         });
         });
     </script>
+
     
     <script >
         $(document).ready(function() {
@@ -287,6 +288,7 @@ $(document).ready(function() {
 			});
         });
 	</script>
+
 
 		
     </head>
@@ -365,8 +367,8 @@ $(document).ready(function() {
 			  <div class="col-xs-6 col-md-6">
 			  	<p  class="formulario-subtitulo" >Citador Judicial</p>
 			  	<select name="id_usuarioCitador" id="id_usuarioCitador"  class="form-control" >
-							
-	
+					<option value="0"  > -- SIN ESPECIFICAR -- </option>
+								
 				</select> 			  
 			  </div>
 			  </div>
@@ -452,7 +454,6 @@ $(document).ready(function() {
 	        		<tr>
 	        		  <th style="color:#456789;font-size:80%;"><input type="checkbox" id="id_juicios[]"   name="id_juicios[]"  value="<?php echo $res->id_juicios; ?>" class="marcados"></th>
 	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
-	                   
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		              <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		              <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 

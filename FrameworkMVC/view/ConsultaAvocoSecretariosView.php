@@ -178,6 +178,7 @@
 		 <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Impulsores:</p>
 			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" >
+			  	<option value="0">--Todos--</option>
 			  		<?php foreach($resultImpul as $res) {?>
 						 <option value="<?php echo $res->id_abogado; ?>"<?php if($sel_id_usuarios==$res->id_abogado){echo "selected";}?>  ><?php echo $res->impulsores; ?> </option>
 			           
@@ -219,7 +220,7 @@
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion()" class="btn btn-warning " style="margin-top: 10px;"/> 	
 		 
 		 <?php if(!empty($resultSet))  {?>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" style="margin-top: 10px;"/>
+		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" onclick="this.form.action='index.php?controller=ConsultaAvocoSecretarios&action=EnviarApplet'" style="margin-top: 10px;"/>
 		         
 		  <?php } else {?>
 		  
@@ -251,7 +252,7 @@
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
-	    		<th style="color:#456789;font-size:80%;">Secretario</th>
+	    		<th style="color:#456789;font-size:80%;">Secretario Entrante</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario Saliente </th>
 	    		<th style="color:#456789;font-size:80%;">Fecha </th>

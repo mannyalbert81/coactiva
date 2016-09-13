@@ -117,8 +117,7 @@ class EtapasJuiciosController extends ControladorBase{
 
 		$nombre_controladores = "EtapasJuicios";
 		$id_rol= $_SESSION['id_rol'];
-        $resultPer = $permisos_rol->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-        $resultPer = $etapas_juicios->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+         $resultPer = $etapas_juicios->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 
 		
 		
@@ -193,90 +192,88 @@ class EtapasJuiciosController extends ControladorBase{
 	}
 	
 	
+	public function ActualizarEtapasJuicios(){
 	
-	public function ActualizaEtapasJuicios(){
-			
 		session_start();
-		$permisos_rol=new PermisosRolesModel();
-		$etapas_juicios = new EtapasJuiciosModel();
-		$permisos_rol=new PermisosRolesModel();
 	
+		$resultado = null;
+		$notificaciones = new NotificacionesModel();
+		$tipo_notificacion = new TipoNotificacionModel();
+		$permisos_rol=new PermisosRolesModel();
+		$etapas_juicios = new EtapasJuiciosModel(); 
 		$nombre_controladores = "EtapasJuicios";
 		$id_rol= $_SESSION['id_rol'];
-		$resultPer = $permisos_rol->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-		$resultPer = $etapas_juicios->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-	
-	
+		$resultPer = $etapas_juicios->getPermisosEditar("   nombre_controladores = '$nombre_controladores' AND id_rol = '$id_rol' " );
 	
 		if (!empty($resultPer))
 		{
-	
-	
-	
-			$resultado = null;
 				
-			$etapas_juicios = new EtapasJuiciosModel();
-	
-			//_nombre_controladores
-				
-			if (isset ($_POST["nombre_etapas"]) )
-	
+			if (isset ($_POST["actualizar"]) )
 			{
-	
-	
-	
-				$_nombre_etapas = $_POST["nombre_etapas"];
-	
-	
-				if(isset($_POST["id_etapas_juicios"]))
-				{
+			
+				$_id_juicios = $_POST["id_juicios"];
+				$_id_etapas_juicios = $_POST["id_estados_procesales_juicios"];
+				$_id_usuario_registra_llamada      = $_SESSION['id_usuarios'];
+				
+				
 						
-					$_id_etapas_juicios = $_POST["id_etapas_juicios"];
-						
-					$colval = " nombre_etapas = '$_nombre_etapas'   ";
-					$tabla = "etapas_juicios";
-					$where = "id_etapas_juicios = '$_id_etapas_juicios'    ";
-						
-					$resultado=$etapas_juicios->UpdateBy($colval, $tabla, $where);
-						
-				}else {
-						
-						
-	
-					$funcion = "ins_etapas_juicios";
-	
-					$parametros = " '$_nombre_etapas'  ";
-						
-					$etapas_juicios->setFuncion($funcion);
-	
-					$etapas_juicios->setParametros($parametros);
-	
-	
-					$resultado=$etapas_juicios->Insert();
-						
-					$traza=new TrazasModel();
-					$_nombre_controlador = "Etapas Juicios";
-					$_accion_trazas  = "Guardar";
-					$_parametros_trazas = $_nombre_etapas;
-					$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-				}
-	
+				$funcion = "ins_actualizar_etapas_juicios";
+							$parametros = "'$_id_juicios','$_id_etapas_juicios', '$_id_usuario_registra_llamada'";
+							$etapas_juicios->setFuncion($funcion);
+							$etapas_juicios->setParametros($parametros);
+							$resultado=$etapas_juicios->Insert();
+			
+					
+							$traza=new TrazasModel();
+							$_nombre_controlador = "EtapasJuicios";
+							$_accion_trazas  = "Guardar";
+							$_parametros_trazas = $_id_juicios;
+							$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+								
 			}
-			$this->redirect("EtapasJuicios", "index");
+			
+			
+			if(isset($_POST["id_juicios"]))
+			{
+				
+				$juicios = new JuiciosModel();
+			
+				$_id_juicios = $_POST["id_juicios"];
+				$_numero_juicio     = $_POST["juicio_referido_titulo_credito"];
+				$_estados_procesales   = $_POST["id_estados_procesales_juicios"];
+				
+			
+				
+				
+				$colval = " juicio_referido_titulo_credito = '$_numero_juicio', id_estados_procesales_juicios = '$_estados_procesales'";
+				$tabla = "juicios";
+				$where = "id_juicios = '$_id_juicios'    ";
+					
+				$resultado=$juicios->UpdateBy($colval, $tabla, $where);
+			
+			}
+			else{
+					
+			
+			}
+			
+				
 	
+			$this->redirect("EtapasJuicios", "consulta_juicios");
+	
+				
 		}
 		else
 		{
 			$this->view("Error",array(
-						
-					"resultado"=>"No tiene Permisos de Actualizar Etapas Juicios"
+					"resultado"=>"No tiene Permisos para Actualizar Etapas Juicios"
 	
 			));
-	
 	
 		}
 	
 	}
+	
 	
 	
 	public function consulta_juicios(){
@@ -285,14 +282,18 @@ class EtapasJuiciosController extends ControladorBase{
 	
 		//Creamos el objeto usuario
 		$resultSet="";
-	
 		
-		$etapa_juicios = new EtapasJuiciosModel();
-		$resultEtapas =$etapa_juicios->getAll("nombre_etapas");
-		
-		
-		
-		
+		$tipo_identificacion = new TipoIdentificacionModel();
+		$resultTipoIdent = $tipo_identificacion->getAll("nombre_tipo_identificacion");
+			
+		$tipo_persona = new TipoPersonaModel();
+		$resultTipoPer =$tipo_persona->getAll("nombre_tipo_persona");
+			
+		$ciudad = new CiudadModel();
+		$resultCiu = $ciudad->getAll("nombre_ciudad");
+		 
+		$estados_pro = new EstadosProcesalesModel();
+		$resultEstPro =$estados_pro->getAll("nombre_estados_procesales_juicios");
 		
 		
 		$ciudad = new CiudadModel();
@@ -314,7 +315,7 @@ class EtapasJuiciosController extends ControladorBase{
 			
 		$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
 	
-		$citaciones = new CitacionesModel();
+		$juicios = new JuiciosModel();
 	
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
@@ -322,10 +323,85 @@ class EtapasJuiciosController extends ControladorBase{
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "EtapasJuicios";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $citaciones->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 	
 			if (!empty($resultPer))
 			{
+				
+				$resultEdit="";
+				
+				if (isset ($_GET["id_juicios"])   )
+				{
+					$_id_juicios = $_GET["id_juicios"];
+				
+				
+					$columnas = "clientes.id_clientes,
+							  tipo_identificacion.id_tipo_identificacion,
+							  tipo_identificacion.nombre_tipo_identificacion,
+							  clientes.identificacion_clientes,
+							  clientes.nombres_clientes,
+							  clientes.telefono_clientes,
+							  clientes.celular_clientes,
+							  clientes.direccion_clientes,
+							  ciudad.id_ciudad,
+							  ciudad.nombre_ciudad,
+							  tipo_persona.id_tipo_persona,
+							  tipo_persona.nombre_tipo_persona,
+							  clientes.nombre_garantes,
+							  clientes.identificacion_garantes,
+							  clientes.telefono_garantes,
+							  clientes.celular_garantes,
+							  titulo_credito.id_titulo_credito,
+							  titulo_credito.numero_titulo_credito,
+							  titulo_credito.total_total_titulo_credito,
+							  juicios.id_juicios,
+							  juicios.juicio_referido_titulo_credito,
+							  asignacion_secretarios_view.id_abogado,
+							  asignacion_secretarios_view.id_secretario,
+							  asignacion_secretarios_view.secretarios,
+							  asignacion_secretarios_view.impulsores,
+							  etapas_juicios.id_etapas_juicios,
+							  etapas_juicios.nombre_etapas,
+							  tipo_juicios.id_tipo_juicios,
+							  tipo_juicios.nombre_tipo_juicios,
+							  estados_auto_pago_juicios.id_estados_auto_pago_juicios,
+							  estados_auto_pago_juicios.nombre_estados_auto_pago_juicios,
+							  estados_procesales_juicios.id_estados_procesales_juicios,
+							  estados_procesales_juicios.nombre_estados_procesales_juicios,
+							  juicios.year_juicios,
+							  juicios.numero_juicios,
+							  juicios.creado";
+					
+					$tablas="public.clientes,
+						  public.ciudad,
+						  public.juicios,
+						  public.titulo_credito,
+						  public.tipo_identificacion,
+						  public.tipo_persona,
+						  public.etapas_juicios,
+						  public.tipo_juicios,
+						  public.estados_auto_pago_juicios,
+						  public.asignacion_secretarios_view,
+						  public.estados_procesales_juicios";
+					
+					$where="clientes.id_ciudad = ciudad.id_ciudad AND
+					clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
+					clientes.id_clientes = titulo_credito.id_clientes AND
+					juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+					tipo_identificacion.id_tipo_identificacion = clientes.id_tipo_identificacion AND
+					etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
+					tipo_juicios.id_tipo_juicios = juicios.id_tipo_juicios AND
+					estados_auto_pago_juicios.id_estados_auto_pago_juicios = juicios.id_estados_auto_pago_juicios AND
+					asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND juicios.id_juicios ='$_id_juicios'";
+					
+					$id="juicios.id_juicios";
+					
+					$resultEdit = $juicios->getCondiciones($columnas ,$tablas ,$where, $id);
+				
+						
+				}
+				
 					
 				if(isset($_POST["buscar"])){
 	
@@ -339,37 +415,65 @@ class EtapasJuiciosController extends ControladorBase{
 					$citaciones= new CitacionesModel();
 	
 	
-					$columnas = "juicios.id_juicios,
-					clientes.id_clientes,
-  					clientes.nombres_clientes,
-  					clientes.identificacion_clientes,
-  					ciudad.nombre_ciudad,
-  					tipo_persona.nombre_tipo_persona,
-  					juicios.juicio_referido_titulo_credito,
-  					asignacion_secretarios_view.impulsores,
-  					asignacion_secretarios_view.secretarios,
-					titulo_credito.id_titulo_credito,
-  					etapas_juicios.nombre_etapas,
-  					tipo_juicios.nombre_tipo_juicios,
-  					juicios.creado,
-  					titulo_credito.total";
+					$columnas = "clientes.id_clientes, 
+							  tipo_identificacion.id_tipo_identificacion, 
+							  tipo_identificacion.nombre_tipo_identificacion, 
+							  clientes.identificacion_clientes, 
+							  clientes.nombres_clientes, 
+							  clientes.telefono_clientes, 
+							  clientes.celular_clientes, 
+							  clientes.direccion_clientes, 
+							  ciudad.id_ciudad, 
+							  ciudad.nombre_ciudad, 
+							  tipo_persona.id_tipo_persona, 
+							  tipo_persona.nombre_tipo_persona, 
+							  clientes.nombre_garantes, 
+							  clientes.identificacion_garantes, 
+							  clientes.telefono_garantes, 
+							  clientes.celular_garantes, 
+							  titulo_credito.id_titulo_credito, 
+							  titulo_credito.numero_titulo_credito, 
+							  titulo_credito.total_total_titulo_credito, 
+							  juicios.id_juicios, 
+							  juicios.juicio_referido_titulo_credito, 
+							  asignacion_secretarios_view.id_abogado, 
+							  asignacion_secretarios_view.id_secretario, 
+							  asignacion_secretarios_view.secretarios, 
+							  asignacion_secretarios_view.impulsores, 
+							  etapas_juicios.id_etapas_juicios, 
+							  etapas_juicios.nombre_etapas, 
+							  tipo_juicios.id_tipo_juicios, 
+							  tipo_juicios.nombre_tipo_juicios, 
+							  estados_auto_pago_juicios.id_estados_auto_pago_juicios, 
+							  estados_auto_pago_juicios.nombre_estados_auto_pago_juicios, 
+							  estados_procesales_juicios.id_estados_procesales_juicios, 
+							  estados_procesales_juicios.nombre_estados_procesales_juicios, 
+							  juicios.year_juicios, 
+							  juicios.numero_juicios,
+							  juicios.creado";
 	
-					$tablas="public.clientes,
-					  public.ciudad,
-					  public.tipo_persona,
-					  public.juicios,
-					  public.titulo_credito,
-					  public.etapas_juicios,
-					  public.tipo_juicios,
-					  public.asignacion_secretarios_view";
+					$tablas="public.clientes, 
+						  public.ciudad, 
+						  public.juicios, 
+						  public.titulo_credito, 
+						  public.tipo_identificacion, 
+						  public.tipo_persona, 
+						  public.etapas_juicios, 
+						  public.tipo_juicios, 
+						  public.estados_auto_pago_juicios, 
+						  public.asignacion_secretarios_view, 
+						  public.estados_procesales_juicios";
 	
-					$where="ciudad.id_ciudad = clientes.id_ciudad AND
-					tipo_persona.id_tipo_persona = clientes.id_tipo_persona AND
-					juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
-					juicios.id_clientes = clientes.id_clientes AND
-					juicios.id_tipo_juicios = tipo_juicios.id_tipo_juicios AND
-					etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
-					juicios.id_usuarios= asignacion_secretarios_view.id_abogado AND juicios.id_usuarios ='$_id_usuarios'";
+					$where="clientes.id_ciudad = ciudad.id_ciudad AND
+					  clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
+					  clientes.id_clientes = titulo_credito.id_clientes AND
+					  juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+					  tipo_identificacion.id_tipo_identificacion = clientes.id_tipo_identificacion AND
+					  etapas_juicios.id_etapas_juicios = juicios.id_etapas_juicios AND
+					  tipo_juicios.id_tipo_juicios = juicios.id_tipo_juicios AND
+					  estados_auto_pago_juicios.id_estados_auto_pago_juicios = juicios.id_estados_auto_pago_juicios AND
+					  asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND
+					  estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND juicios.id_usuarios ='$_id_usuarios'";
 	
 					$id="juicios.id_juicios";
 	
@@ -387,7 +491,7 @@ class EtapasJuiciosController extends ControladorBase{
 	
 					if($identificacion!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion'";}
 	
-					if($titulo_credito!=""){$where_3=" AND juicios.id_titulo_credito='$titulo_credito'";}
+					if($titulo_credito!=""){$where_3=" AND titulo_credito.numero_titulo_credito='$titulo_credito'";}
 	
 					if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
 	
@@ -399,12 +503,9 @@ class EtapasJuiciosController extends ControladorBase{
 	
 	
 				}
-	
-	
-	
-	
+	     
 				$this->view("ActualizaEtapasJuicios",array(
-						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultEtapas"=>$resultEtapas
+						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultEdit"=>$resultEdit, "resultTipoIdent"=> $resultTipoIdent, "resultTipoPer"=> $resultTipoPer, "resultCiu"=>$resultCiu, "resultEstPro"=>$resultEstPro
 							
 				));
 	

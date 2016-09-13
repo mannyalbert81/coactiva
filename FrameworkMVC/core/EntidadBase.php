@@ -308,16 +308,21 @@ class EntidadBase{
     
     
     
-    public function AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador)
+    public function AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador,$id_usario=null)
     {
     
     
     	$traza=new TrazasModel();
     		
     	$funcion = "ins_trazas";
+    	
+    	$_id_usuarios="";
     
+    	if(is_null($id_usario)){
     	$_id_usuarios=$_SESSION['id_usuarios'];
-    
+    	}else{
+    	$_id_usuarios=$id_usario;
+    	}
     	
     	$parametros = "'$_id_usuarios', '$_accion_trazas', '$_parametros_trazas', '$_nombre_controlador'  ";
     
@@ -584,7 +589,7 @@ class EntidadBase{
     
     //cuando se selecciona archivos a firmar
     
-    public function getPermisosFirmarPdfs($id_usuario)
+    public function getPermisosFirmarPdfs($id_usuario,$Maclocal=null)
     {
     	$resultado=array('valor'=>0,'error'=>'','estado'=>false);
     	 
@@ -598,13 +603,13 @@ class EntidadBase{
     	{
     		//verficar si se encuentra en la maquina personal del usuario
     
-    		$macLocal=$this->verMacAddress();
+    		//$macLocal=$this->verMacAddress();
     		$macUsuario=$resultCertificados[0]->mac_certificado_digital;
     		
     		//$resultMac=$certficados->getBy("mac_certificado_digital='$macLocal' AND id_usuarios_certificado_digital='$id_usuario'");
         	//if (!empty($resultMac))
         	
-    		if($macUsuario===$macLocal)
+    		if($macUsuario===$Maclocal)
     		{
     			$firmas= new FirmasDigitalesModel();
     			$resultFirmas=$firmas->getBy("id_usuarios='$id_usuario'");
@@ -638,10 +643,11 @@ class EntidadBase{
     	return $resultado;
     }
     
-    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol)
+    public function FirmarPDFs($destino,$nombrePdf,$id_firma,$id_rol,$id_usuario=null)
     {
     	@@ session_start();
-    	$id_usuario=$_SESSION['id_usuarios'];
+    	//para metodos dentro del framework
+    	//$id_usuario=$_SESSION['id_usuarios'];
     	
     	$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
     	$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';

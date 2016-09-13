@@ -65,60 +65,7 @@
         </style>
          
          
-                  <script >
-		$(document).ready(function(){
-
-		    // cada vez que se cambia el valor del combo
-		    $("#buscar").click(function() 
-			{
-		    	var identificacion = $("#identificacion").val();
-		    	var numero_juicio = $("#numero_juicio").val();
-		    			   				
-		    	if (identificacion == "")
-		    	{
-			    	
-		    		$("#mensaje_identificacion").text("Introduzca una Identificacion");
-		    		$("#mensaje_identificacion").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_identificacion").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}
-		    	
-
-				if (numero_juicio == "")
-		    	{
-			    	
-		    		$("#mensaje_juicio").text("Introduzca un Juicio");
-		    		$("#mensaje_juicio").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_juicio").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}
-			}); 
-
-
-		 
-				
-				$( "#identificacion" ).focus(function() {
-					$("#mensaje_identificacion").fadeOut("slow");
-					});
-					
-					
-						$( "#numero_juicio" ).focus(function() {
-							$("#mensaje_juicio").fadeOut("slow");
-						});
-
-					    
-		}); 
-
-	</script>
-         
+                          
          
          
          
@@ -276,7 +223,7 @@
 		 
 		 <?php if(!empty($resultSet))  {?>
 		 <a href="/FrameworkMVC/view/ireports/ContDocumentosGeneralReport.php?id_ciudad=<?php  echo $sel_id_ciudad ?>&identificacion=<?php  echo $sel_identificacion?>&numero_juicio=<?php  echo $sel_numero_juicio?>&id_usuarios=<?php  echo $sel_id_usuarios?>&fecha_desde=<?php  echo $sel_fecha_desde?>&fecha_hasta=<?php  echo $sel_fecha_hasta?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" style="margin-top: 10px;"/>          
+		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" onclick="this.form.action='index.php?controller=ConsultaDocumentosImpulsores&action=EnviarApplet'" style="margin-top: 10px;"/>          
 		  <?php } else {?>
 		  
 		  <?php } ?>
@@ -321,7 +268,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado_procesal_juicios; ?></td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?></td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_emision_documentos; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
 		            

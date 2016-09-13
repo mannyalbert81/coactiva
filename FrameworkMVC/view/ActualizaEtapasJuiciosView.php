@@ -72,45 +72,9 @@
                 
             
         </style>
-         
-         <script >
-		$(document).ready(function(){
+      
 
-		$("#tipo_gasto").change(function(){
-
-
-           var $valor_tipo_gasto = $("#valor_a_distribuir");
-
-           var id_tipo_gasto = $(this).val();
-
-           $valor_tipo_gasto.empty();
-
-           
-           if(id_tipo_gasto > 0)
-           {
-        	  var datos = {id_tipo_gasto : $(this).val() };
-  
-        	  var resultTipogasto= $.post("<?php echo $helper->url("DistribucionGastos","devuelveTipoGasto"); ?>", datos, function(resultTipo_gasto) {
-        		  }, "json");    		  
-
-        	  resultTipogasto.done(function(resultTipo_gasto ) {
-
-        		  $.each(resultTipo_gasto, function(index, value) {
-        			  $valor_tipo_gasto.val(value.valor_tipo_gasto);
-  			 	     });
-            	  });
-
-           }
-           else
-           {
-        	  
-           }
-
-			});  
-				    
-		});
-
-	</script>
+	
 	<script>
 	$(document).ready(function(){
 			$("#fecha_hasta").change(function(){
@@ -134,13 +98,8 @@
         </script>
        
        
-			 <script languaje="javascript">
-			function ocultar(id_juicios) {
-			document.all[id_juicios].style.display = "checkbox";
-			}
-			</script>
-    
-    
+ 
+ 
     
     </head>
     <body style="background-color: #d9e3e4;">
@@ -172,6 +131,10 @@
 
        }
        
+       $habilitar="disabled";
+       if(!empty($resultEdit)){
+       	$habilitar="";
+       }
 		?>
  
   
@@ -234,9 +197,9 @@
 			  	<input type="date"  name="fecha_hasta" id="fecha_hasta" value="<?php echo $sel_fecha_hasta;?>" class="form-control "/> 
 			    <div id="mensaje_fecha_hasta" class="errores"></div>
 		</div>
-		 
-  			</div>
-  		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
+		
+  		
+  		<div class="col-lg-12" style="text-align: center; margin-bottom: 10px">
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
 		
 		<?php if(!empty($resultSet))  {?>
@@ -245,10 +208,13 @@
 		  <?php } ?>
 		 </div>
 		</div>
-        	
+        	</div>	
+		
+		 
 		 </div>
-		 
-		 
+			 
+			 
+		<?php if(!empty($resultSet))  {?>	 
 		 <div class="col-lg-12">
 		 
 		 <div class="col-lg-12">
@@ -260,22 +226,18 @@
 		 <div class="col-lg-12">
 		 
 		 
-		 <section class="" style="height:300px;overflow-y:scroll;">
+		 <section class="" style="height:200px;overflow-y:scroll;">
         <table class="table table-hover ">
 	         <tr >
-	             <th style="color:#456789;font-size:80%;"></th>
-	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
+	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Coactivad@</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
-	    		<th style="color:#456789;font-size:80%;">Tipo Persona</th>
-	    		<th style="color:#456789;font-size:80%;">Nº Juicio</th>
+	    	<th style="color:#456789;font-size:80%;">Nº Juicio</th>
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario</th>
-	    		<th style="color:#456789;font-size:80%;">Etapa</th>
-	    		<th style="color:#456789;font-size:80%;">Tipo Juicio</th>
-	    		<th style="color:#456789;font-size:80%;">Fecha Emision</th>
+	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th></th>
 	    		<th></th>
@@ -283,41 +245,431 @@
             
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
-	        		
-	        		   <th style="color:#456789;font-size:80%;"><input type="checkbox" id="id_juicios"   name="id_juicios"  value="<?php echo $res->id_juicios; ?>" ocultar();></th>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
+	        	       <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
 	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_persona; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?>     </td>
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?>     </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:75%;"><select name="id_etapas_juicios" id="id_etapas_juicios"><?php foreach($resultEtapas as $res1) {?><option value="<?php echo $res1->id_etapas_juicios; ?>" ><?php echo $res1->nombre_etapas; ?> </option><?php } ?></select></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_juicios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?>     </td> 
-		             
-		               <td>
-		               		 <div class="right">
-		              		 	<input type="button" id="actualizar" value="Actualizar" class="btn btn-success"  style="font-size:60%;"/>
-			                </div>
-		               </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
 		               <td>
 			           		<div class="right">
 			           			<a href="/FrameworkMVC/view/ireports/ContJuiciosSubReport.php?id_juicios=<?php echo $res->id_juicios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:70%;">Ver</a>
 		             		</div>
 			            
 			          </td>  
+			          <td>
+			           		<div class="right">
+			                    <a href="<?php echo $helper->url("EtapasJuicios","consulta_juicios"); ?>&id_juicios=<?php echo $res->id_juicios; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:75%;">--Seleccionar--</a>
+			                </div>
+			            
+			             </td>
 		    		</tr>
 		        <?php } }  ?>
-           
+              
        	</table>     
         </section>
       
-        </div>
-	    </div>
+       
+	     </div>
+		</div>
+		 <?php } else {?>
+		  
+		  <?php } ?> 
+		
+		
+		<br>
+		<br>
+	
+		
+		 <div class="col-lg-12">
+		
+  		
+  		<?php if (!empty($resultEdit) ) { foreach($resultEdit as $resEdit) {?>
+            
+          <div class="col-lg-8">
+		     <div class="panel panel-default">
+  			<div class="panel-body">
+  			
+  			<h4 style="color:#ec971f; text-align: center;" >Datos del Cliente</h4>
+  			<hr>
+		    <div class="row">
+		    
+		    <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Tipo Identificacion</p>
+			  	<select name="id_tipo_identificacion" id="id_tipo_identificacion"  class="form-control" readonly>
+					<?php foreach($resultTipoIdent as $resTipoIdent) {?>
+					<option value="<?php echo $resTipoIdent->id_tipo_identificacion; ?>"  <?php if ($resTipoIdent->id_tipo_identificacion == $resEdit->id_tipo_identificacion ) echo ' selected="selected" '  ; ?> ><?php echo $resTipoIdent->nombre_tipo_identificacion; ?> </option>
+						   <?php } ?>
+				</select> 
+			  </div>
+		    
+		    <div class="col-xs-8 col-md-8">
+			  	<p  class="formulario-subtitulo" >Nombres Cliente</p>
+			  	<input type="text" name="nombres_clientes" id="nombres_clientes" value="<?php echo $resEdit->nombres_clientes; ?>" class="form-control" readonly/>
+			   </div>
+			  
+			   </div>
+			   
+			   
+		    <div class="row">
+		    
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >TelÃ©fono</p>
+			  	<input type="text" name="telefono_clientes" id="telefono_clientes" value="<?php echo $resEdit->telefono_clientes; ?>" class="form-control" readonly/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Celular </p>
+			  	<input type="text" name="celular_clientes" id="celular_clientes" value="<?php echo $resEdit->celular_clientes; ?>" class="form-control" readonly/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
+					<?php foreach($resultCiu as $res) {?>
+						<option value="<?php echo $res->id_ciudad; ?>" <?php if ($res->id_ciudad == $resEdit->id_ciudad ) echo ' selected="selected" '  ; ?>  ><?php echo $res->nombre_ciudad; ?> </option>
+						
+			        <?php } ?>
+				</select> 
+			    </div>
+		    </div>
+		    
+		     <div class="row">
+		    
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Tipo Persona</p>
+			  	<select name="id_tipo_persona" id="id_tipo_persona"  class="form-control" readonly>
+					<?php foreach($resultTipoPer as $res) {?>
+						<option value="<?php echo $res->id_tipo_persona; ?>"  <?php if ($res->id_tipo_persona == $resEdit->id_tipo_persona ) echo ' selected="selected" '  ; ?>  ><?php echo $res->nombre_tipo_persona; ?> </option>
+						
+			        <?php } ?>
+				</select> 
+			  </div>
+			  <div class="col-xs-8 col-md-8">
+			  	<p  class="formulario-subtitulo" >DirecciÃ³n</p>
+			  	<input type="text" name="direccion_clientes" id="direccion_clientes" value="<?php echo $resEdit->direccion_clientes; ?>" class="form-control" readonly/>
+			  </div>
+			  
+		    </div>
+		    
+		    
+			  
+			  </div>
+		    </div> 
+          </div> 
+          
+          <div class="col-lg-4">
+		     
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+		     
+		     <h4 style="color:#ec971f; text-align: center;" >Datos del Garante</h4>
+		     <hr>
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Nombre</p>
+			  	<input type="text" name="nombre_garantes" id="nombre_garantes" value="<?php echo $resEdit->nombre_garantes; ?>" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Identificacion</p>
+			  	<input type="text" name="identificacion_garantes" id="identificacion_garantes" value="<?php echo $resEdit->identificacion_garantes; ?>" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Telefono</p>
+			  	<input type="text" name="telefono_garantes" id="telefono_garantes" value="<?php echo $resEdit->telefono_garantes; ?>" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     </div>
+		     </div>
+		     </div>
+          
+          
+           <div class="col-lg-8">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Juicio</h4>
+		     <hr>
+  			 
+  			 <div class="row">
+		    
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Juicio</p>
+			  	<input type="text" name="juicio_referido_titulo_credito" id="juicio_referido_titulo_credito" value="<?php echo $resEdit->juicio_referido_titulo_credito; ?>" class="form-control" <?php echo $habilitar;?>/>
+			   <input type="hidden"  name="id_juicios" id="id_juicios" value="<?php echo $resEdit->id_juicios; ?>" class="form-control"/> 
+			 
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Impulsor</p>
+			  	<input type="text" name="impulsores" id="impulsores" value="<?php echo $resEdit->impulsores; ?>" class="form-control" readonly/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Secretario</p>
+			  	<input type="text" name="secretarios" id="secretarios" value="<?php echo $resEdit->secretarios; ?>" class="form-control" readonly/>
+			  </div>
+			  
+		    </div>
+		    
+		    <div class="row">
+		    
+			    <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
+			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
+					<?php foreach($resultEstPro as $res) {?>
+						<option value="<?php echo $res->id_estados_procesales_juicios; ?>" <?php if ($res->id_estados_procesales_juicios == $resEdit->id_estados_procesales_juicios ) echo ' selected="selected" '  ; ?> ><?php echo $res->nombre_estados_procesales_juicios; ?> </option>
+			        <?php } ?>
+				</select> 
+			  </div>
+			  
+		    </div>
+  			 <br>
+  			 
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>	
+  			 	 
+		     	 
+		      <div class="col-lg-4">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Titulo Credito</h4>
+		     <hr>
+  			 <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Titulo Credito</p>
+			  	<input type="text" name="numero_titulo_credito" id="numero_titulo_credito" value="<?php echo $resEdit->numero_titulo_credito; ?>" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Deuda</p>
+			  	<input type="text" name="total_total_titulo_credito" id="total_total_titulo_credito" value="<?php echo $resEdit->total_total_titulo_credito; ?>" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     </div>	 
+		     </div>	
+		     </div>	
+          
+		     <?php } } else {?>
+		     
+		     <div class="col-lg-8">
+		     
+		    <div class="panel panel-default">
+  			<div class="panel-body">
+		    <h4 style="color:#ec971f; text-align: center;" >Datos del Cliente</h4>
+		    <hr>
+		  <div class="row">
+		    
+		    <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Tipo Identificacion</p>
+			  	<select name="id_tipo_identificacion" id="id_tipo_identificacion"  class="form-control" <?php echo $habilitar;?>>
+					<?php foreach($resultTipoIdent as $resTipoIdent) {?>
+						<option value="<?php echo $resTipoIdent->id_tipo_identificacion; ?>"  ><?php echo $resTipoIdent->nombre_tipo_identificacion; ?> </option>
+			        <?php } ?>
+				</select> 
+			  </div>
+		    
+		    <div class="col-xs-8 col-md-8">
+			  	<p  class="formulario-subtitulo" >Nombres </p>
+			  	<input type="text" name="nombres_clientes" id="nombres_clientes" value="" class="form-control" <?php echo $habilitar;?>/>
+			  </div>
+			  </div>
+			   
+			   
+		    <div class="row">
+		    
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >TelÃ©fono</p>
+			  	<input type="text" name="telefono_clientes" id="telefono_clientes" value="" class="form-control" <?php echo $habilitar;?>/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Celular </p>
+			  	<input type="text" name="celular_clientes" id="celular_clientes" value="" class="form-control" <?php echo $habilitar;?>/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" <?php echo $habilitar;?>>
+					<?php foreach($resultCiu as $res) {?>
+						<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
+			        <?php } ?>
+				</select> 
+			  </div>
+		    </div>
+		    
+		    <div class="row">
+		    <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Tipo Persona</p>
+			  	<select name="id_tipo_persona" id="id_tipo_persona"  class="form-control" <?php echo $habilitar;?>>
+					<?php foreach($resultTipoPer as $res) {?>
+						<option value="<?php echo $res->id_tipo_persona; ?>"  ><?php echo $res->nombre_tipo_persona; ?> </option>
+			        <?php } ?>
+				</select> 
+			  </div>
+			  
+			  <div class="col-xs-8 col-md-8">
+			  	<p  class="formulario-subtitulo" >DirecciÃ³n</p>
+			  	<input type="text" name="direccion_clientes" id="direccion_clientes" value="" class="form-control" <?php echo $habilitar;?>/>
+			  </div>
+			  
+		    </div>
+		    
+			  </div>
+			   </div> 
+		     	 </div>
+		     	 
+		     	 
+		     	 <div class="col-lg-4">
+		     
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+		     
+		     <h4 style="color:#ec971f; text-align: center;" >Datos del Garante</h4>
+		     <hr>
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Nombre</p>
+			  	<input type="text" name="nombre_garantes" id="nombre_garantes" value="" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Identificacion</p>
+			  	<input type="text" name="identificacion_garantes" id="identificacion_garantes" value="" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Telefono</p>
+			  	<input type="text" name="telefono_garantes" id="telefono_garantes" value="" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     </div>
+		     </div>
+		     </div>
+		     
+		     
+		      <div class="col-lg-8">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Juicio</h4>
+		     <hr>
+  			 
+  			 <div class="row">
+		    
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Juicio</p>
+			  	<input type="text" name="juicio_referido_titulo_credito" id="juicio_referido_titulo_credito" value="" class="form-control" <?php echo $habilitar;?>/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Impulsor</p>
+			  	<input type="text" name="impulsores" id="impulsores" value="" class="form-control" readonly/>
+			  </div>
+			  
+			  <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Secretario</p>
+			  	<input type="text" name="secretarios" id="secretarios" value="" class="form-control" readonly/>
+			  </div>
+			  
+		    </div>
+		    
+		    <div class="row">
+		    
+			    <div class="col-xs-4 col-md-4">
+			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
+			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
+					<?php foreach($resultEstPro as $res) {?>
+						<option value="<?php echo $res->id_estados_procesales_juicios; ?>"  ><?php echo $res->nombre_estados_procesales_juicios; ?> </option>
+			        <?php } ?>
+				</select> 
+			  </div>
+			  
+		    </div>
+  			 
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>	
+  			 	 
+		     	 
+		      <div class="col-lg-4">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Titulo Credito</h4>
+		     <hr>
+  			 <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Titulo Credito</p>
+			  	<input type="text" name="numero_titulo_credito" id="numero_titulo_credito" value="" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Deuda</p>
+			  	<input type="text" name="total_total_titulo_credito" id="total_total_titulo_credito" value="" class="form-control" readonly/>
+			  </div>
+			
+		     </div>
+		     
+		     </div>	 
+		     </div>	
+		     </div>		
+		     
+		      
+		     <?php } ?>
+  		
+		</div>
+		
+		<div class="row">
+		 <div class="col-xs-12 col-md-12" style="text-align: center;">
+		
+  		     <input type="submit" id="actualizar" name="actualizar"  onclick="this.form.action='<?php echo $helper->url("EtapasJuicios","ActualizarEtapasJuicios"); ?>'" class="btn btn-success" value="Actualizar" style="margin-top: 30px;" <?php echo $habilitar;?>/>
+			
+  		</div>
+		
+		</div>
+		<br>
+		<br>
 		</form>
      
       </div>

@@ -65,27 +65,7 @@
         </style>
          
         
-	<script>
-	$(document).ready(function(){
-			$("#fecha_hasta").change(function(){
-				 var startDate = new Date($('#fecha_desde').val());
-
-                 var endDate = new Date($('#fecha_hasta').val());
-
-                 if (startDate > endDate){
- 
-                    $("#mensaje_fecha_hasta").text("Fecha desde no debe ser mayor ");
-		    		$("#mensaje_fecha_hasta").fadeIn("slow"); //Muestra mensaje de error  
-		    		$("#fecha_hasta").val("");
-
-                        }
-				});
-
-			 $( "#fecha_hasta" ).focus(function() {
-				  $("#mensaje_fecha_hasta").fadeOut("slow");
-			   });
-			});
-        </script>
+	 
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -96,22 +76,23 @@
        
        <?php
       
+ $sel_id_ciudad = "";
        $sel_id_usuarios = "";
        $sel_identificacion="";
        $sel_numero_juicio="";
-       $sel_numero_oficios="";
+      
        $sel_fecha_desde="";
        $sel_fecha_hasta="";
-        
        
        if($_SERVER['REQUEST_METHOD']=='POST' )
        {
-       	 
-       	 
+       
+       
+       	$sel_id_ciudad = $_POST['id_ciudad'];
        	$sel_id_usuarios = $_POST['id_usuarios'];
        	$sel_identificacion=$_POST['identificacion'];
        	$sel_numero_juicio=$_POST['numero_juicio'];
-       	$sel_numero_oficios=$_POST['numero_oficios'];
+      
        	$sel_fecha_desde=$_POST['fecha_desde'];
        	$sel_fecha_hasta=$_POST['fecha_hasta'];
        	 
@@ -126,7 +107,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("Oficios","consulta_firmar"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("FirmarOficios","consulta_oficios_secretarios"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -139,12 +120,25 @@
   			
   			
 		   			
-          <div class="col-xs-2">
-			  	<p  class="formulario-subtitulo" style="" >Usuario:</p>
-			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" readonly>
-			  		
-					 <option value="<?php echo $_SESSION['id_usuarios'];  ?>" <?php if($sel_id_usuarios==$_SESSION['id_usuarios']){echo "selected";}?>  ><?php echo $_SESSION['nombre_usuarios'];  ?></option>  
-			   </select>
+         <div class="col-xs-2">
+			  	<p  class="formulario-subtitulo" style="" >Ciudad:</p>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
+			  		<?php foreach($resultDatos as $res) {?>
+						 <option value="<?php echo $res->id_ciudad; ?>" <?php if($sel_id_ciudad==$res->id_ciudad){echo "selected";}?>  ><?php echo $res->nombre_ciudad; ?> </option>
+			            <?php } ?>
+				</select>
+		 </div>
+		 
+		 <div class="col-xs-2">
+			  	<p  class="formulario-subtitulo" style="" >Impulsores:</p>
+			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" >
+			  	<option value="0">--Todos--</option>
+			  		<?php foreach($resultImpul as $res) {?>
+						 <option value="<?php echo $res->id_abogado; ?>"<?php if($sel_id_usuarios==$res->id_abogado){echo "selected";}?>  ><?php echo $res->impulsores; ?> </option>
+			           
+			            <?php } ?>  
+			            
+				</select>
 		 </div>
 		 
 		 <div class="col-xs-2 ">
@@ -157,15 +151,10 @@
 		  <div class="col-xs-2 ">
 			  	<p  class="formulario-subtitulo" >Nº Juicio:</p>
 			  	<input type="text"  name="numero_juicio" id="numero_juicio" value="<?php echo $sel_numero_juicio;?>" class="form-control"/> 
-			    <div id="mensaje_nombres" class="errores"></div>
+			    <div id="mensaje_juicio" class="errores"></div>
 
          </div>
-          <div class="col-xs-2 ">
-			  	<p  class="formulario-subtitulo" >Nº Oficio:</p>
-			  	<input type="text"  name="numero_oficios" id="numero_oficios" value="<?php echo $sel_numero_oficios;?>" class="form-control"/> 
-			    <div id="mensaje_numero_oficios" class="errores"></div>
-
-         </div>
+          
          
          <div class="col-xs-2 ">
          		<p class="formulario-subtitulo" >Desde:</p>
@@ -183,7 +172,7 @@
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
 		 <?php if(!empty($resultSet))  {?>
-		 <input type="submit" value="Firmar" id="firmar" name="firmar" class="btn btn-info" style="margin-top: 10px;"/>
+		 <input type="submit" value="Firmar" id="firmar" name="firmar" onclick="this.form.action='index.php?controller=FirmarOficios&action=EnviarApplet'" class="btn btn-info" style="margin-top: 10px;"/>
 		           
 		  <?php } else {?>
 		  

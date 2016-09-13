@@ -64,26 +64,7 @@
             
         </style>
        
-    <script>
-	$(document).ready(function(){
-		$("#buscar").click(function(){
-			var criterio=$("#criterio_busqueda").val();
-			var contenido=$("#contenido_busqueda").val();
-
-			if(contenido==''){
-				$("#mensaje_contenido_busqueda").text("Ingrese Contenido a buscar");
-	    		$("#mensaje_contenido_busqueda").fadeIn("slow"); 
-	            return false;
-				}else{
-				return true;
-					}
-			});
-		$( "#contenido_busqueda" ).focus(function() {
-			  $("#mensaje_contenido_busqueda").fadeOut("slow");
-		    });
-	
-		});
-    </script>
+  
     
     </head>
     <body style="background-color: #d9e3e4;">
@@ -104,7 +85,7 @@
   
   <div class="row" style="background-color: #ffffff;">
   
-  <form action="<?php echo $helper->url("Juicio","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+  <form action="<?php echo $helper->url("Juicio","consulta_seguimiento_juicio"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
   
      
      <div class="col-lg-12">
@@ -172,7 +153,6 @@
 	    		<th style="color:#456789;font-size:80%;">Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Etapa</th>
 	    		<th style="color:#456789;font-size:80%;">Tipo</th>
 	    		<th style="color:#456789;font-size:80%;">Descripcion</th>
 	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
@@ -197,7 +177,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>  </td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_etapas; ?>  </td>
+		               
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_tipo_juicios; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->descipcion_auto_pago_juicios; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado_procesal_juicios; ?>  </td>

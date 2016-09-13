@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-08T12:53:52 -->
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-09-05T12:59:32 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -62,8 +62,8 @@
 				</jr:Code128>
 			</componentElement>
 			<image>
-				<reportElement x="4" y="17" width="126" height="40" uuid="97b3e586-2b73-429a-84ff-495bbf452199"/>
-				<imageExpression><![CDATA["C:/Users/User/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondonegro.jpg"]]></imageExpression>
+				<reportElement x="4" y="10" width="115" height="50" uuid="bcf23709-4dd1-4e8c-81c7-09a82cd150ed"/>
+				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondonegro.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
