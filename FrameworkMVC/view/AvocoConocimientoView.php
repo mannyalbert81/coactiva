@@ -224,14 +224,10 @@
 	<script>
        $(document).ready(function(){
 
-    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
-    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
-    	   $("#id_ciudad").prop("disabled","disabled");
-    	   $("#id_secretario").prop("disabled","disabled");
-    	   $("#id_impulsor").prop("disabled","disabled");
     	   $("#Guardar").prop("disabled","disabled");
     	   $("#Visualizar").prop("disabled","disabled");
-           
+    	   
+ 
 
             $("#con_garante").click(function(){
 
@@ -239,33 +235,26 @@
             	
                 if(cant!=0)
                 {
-            	 $("#id_secretario_reemplazo").prop("disabled","");
-            	 $("#id_impulsor_reemplazo").prop("disabled","");
-          	     $("#id_ciudad").prop("disabled","");
-          	     $("#id_secretario").prop("disabled","");
-          	     $("#id_impulsor").prop("disabled","");
-          	     $("#Guardar").prop("disabled","");
+            	 $("#Guardar").prop("disabled","");
           	     $("#Visualizar").prop("disabled","");
+          	    
                 }else
                     {
-                	 
+                	  $("#Guardar").prop("disabled","disabled");
+               	      $("#Visualizar").prop("disabled","disabled");
+               	    
                     }
                 
                 });
  	    });
        </script>
-	
-	   <script>
+       <script>
        $(document).ready(function(){
 
-    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
-    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
-    	   $("#id_ciudad").prop("disabled","disabled");
-    	   $("#id_secretario").prop("disabled","disabled");
-    	   $("#id_impulsor").prop("disabled","disabled");
     	   $("#Guardar").prop("disabled","disabled");
     	   $("#Visualizar").prop("disabled","disabled");
-           
+    	   
+ 
 
             $("#sin_garante").click(function(){
 
@@ -273,32 +262,26 @@
             	
                 if(cant!=0)
                 {
-            	 $("#id_secretario_reemplazo").prop("disabled","");
-            	 $("#id_impulsor_reemplazo").prop("disabled","");
-          	     $("#id_ciudad").prop("disabled","");
-          	     $("#id_secretario").prop("disabled","");
-          	     $("#id_impulsor").prop("disabled","");
-          	     $("#Guardar").prop("disabled","");
+            	 $("#Guardar").prop("disabled","");
           	     $("#Visualizar").prop("disabled","");
+          	    
                 }else
                     {
-                	
+                	  $("#Guardar").prop("disabled","disabled");
+               	      $("#Visualizar").prop("disabled","disabled");
+               	    
                     }
+                
                 });
  	    });
        </script>
-	
-	  <script>
+       <script>
        $(document).ready(function(){
 
-    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
-    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
-    	   $("#id_ciudad").prop("disabled","disabled");
-    	   $("#id_secretario").prop("disabled","disabled");
-    	   $("#id_impulsor").prop("disabled","disabled");
     	   $("#Guardar").prop("disabled","disabled");
     	   $("#Visualizar").prop("disabled","disabled");
-           
+    	   
+ 
 
             $("#secretario").click(function(){
 
@@ -306,33 +289,27 @@
             	
                 if(cant!=0)
                 {
-            	 $("#id_secretario_reemplazo").prop("disabled","");
-            	 $("#id_impulsor_reemplazo").prop("disabled","");
-          	     $("#id_ciudad").prop("disabled","");
-          	     $("#id_secretario").prop("disabled","");
-          	     $("#id_impulsor").prop("disabled","");
-          	     $("#Guardar").prop("disabled","");
+            	 $("#Guardar").prop("disabled","");
           	     $("#Visualizar").prop("disabled","");
+          	    
                 }else
                     {
-                	
+                	  $("#Guardar").prop("disabled","disabled");
+               	      $("#Visualizar").prop("disabled","disabled");
+               	    
                     }
                 
                 });
  	    });
        </script>
-
-       <script>
+  
+   <script>
        $(document).ready(function(){
 
-    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
-    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
-    	   $("#id_ciudad").prop("disabled","disabled");
-    	   $("#id_secretario").prop("disabled","disabled");
-    	   $("#id_impulsor").prop("disabled","disabled");
     	   $("#Guardar").prop("disabled","disabled");
     	   $("#Visualizar").prop("disabled","disabled");
-           
+    	   
+ 
 
             $("#impulsor").click(function(){
 
@@ -340,22 +317,92 @@
             	
                 if(cant!=0)
                 {
-            	 $("#id_secretario_reemplazo").prop("disabled","");
-            	 $("#id_impulsor_reemplazo").prop("disabled","");
-          	     $("#id_ciudad").prop("disabled","");
-          	     $("#id_secretario").prop("disabled","");
-          	     $("#id_impulsor").prop("disabled","");
-          	     $("#Guardar").prop("disabled","");
+            	 $("#Guardar").prop("disabled","");
           	     $("#Visualizar").prop("disabled","");
+          	    
                 }else
                     {
-                	  
+                	  $("#Guardar").prop("disabled","disabled");
+               	      $("#Visualizar").prop("disabled","disabled");
+               	    
                     }
                 
                 });
  	    });
        </script>
+      <script >
+	$(document).ready(function(){
+		$("#div_con_garante").fadeOut("slow");
 
+		
+		$("#con_garante").click(function(){
+			var cant = $("input:checked").length;
+        	
+            if(cant!=0)
+            {		
+			$('#div_con_garante').toggle("slow");
+            }else
+            {
+            	$("#div_con_garante").fadeOut("slow");
+       	    }
+		});
+	});
+	</script>
+
+
+       <script >
+	$(document).ready(function(){
+			
+		$("#sin_garante").click(function(){
+					
+			$('#div_sin_garante').toggle("slow");
+		
+		});
+	});
+	</script>
+	<script >
+	$(document).ready(function(){
+	
+		$("#div_sin_garante").fadeOut("slow");
+		
+	});
+	</script>
+
+    <script >
+	$(document).ready(function(){
+			
+		$("#secretario").click(function(){
+					
+			$('#div_secretario').toggle("slow");
+		
+		});
+	});
+	</script>
+	<script >
+	$(document).ready(function(){
+	
+		$("#div_secretario").fadeOut("slow");
+		
+	});
+	</script>
+     
+     <script >
+	$(document).ready(function(){
+			
+		$("#impulsor").click(function(){
+					
+			$('#div_impulsor').toggle("slow");
+		
+		});
+	});
+	</script>
+	<script >
+	$(document).ready(function(){
+	
+		$("#div_impulsor").fadeOut("slow");
+		
+	});
+	</script>
     </head>
     <body style="background-color: #d9e3e4;">
     
@@ -498,7 +545,7 @@
 		    </div>
 		    </div>
 			 
-		 	   <div class="col-lg-12">   
+		 	   <div class="col-lg-12"  id="div_con_garante" style="display: none;">   
 		 	  <div class="panel panel-default">
   			  <div class="panel-body"> 
 		 	    
@@ -549,7 +596,6 @@
 					<?php foreach($resultDatos as $res) {?>
 					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
 					<?php }} ?>
-					
 				</select> 
 			 </div>
 			 	        
@@ -578,7 +624,259 @@
   		
 		    </div>
 		   
-		    		
+		</div>
+		</div>
+		</div>
+		
+		 <div class="col-lg-12"  id="div_sin_garante" style="display: none;">   
+		 	  <div class="panel panel-default">
+  			  <div class="panel-body"> 
+		 	    
+		 	     <div class="row">   
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
+			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulSecretario as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			   <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
+			  	 <select name="id_impulsor_reemplazo" id="id_impulsor_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo1']; ?>"  ><?php echo $datosGet['reemplazo1']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulImpulsor as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			  </div>
+			  <br>
+			
+			  
+			  <hr>
+			   <div class="col-xs-6 col-md-4" >
+			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
+			  		<?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resultDatos as $res) {?>
+					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
+					<?php }} ?>
+				</select> 
+			 </div>
+			 	        
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario:</p>
+			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
+			  	 
+				 <?php if (!empty($datosGet)){ ?>
+				 
+			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
+			  	 
+			  	 <?php }?>
+				</select> 
+				   
+			  </div>
+			  
+			  <div class="col-xs-6 col-md-3">
+			  	<p  class="formulario-subtitulo" >Impulsor:</p>
+			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
+			   	 <?php if (!empty($datosGet)){ ?>
+			  	 
+			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
+			  	
+			  	<?php } ?>
+			     </select>
+  		
+		    </div>
+		   
+		</div>
+		</div>
+		</div>
+		
+		 <div class="col-lg-12"  id="div_secretario" style="display: none;">   
+		 	  <div class="panel panel-default">
+  			  <div class="panel-body"> 
+		 	    
+		 	     <div class="row">   
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
+			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulSecretario as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			   <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
+			  	 <select name="id_impulsor_reemplazo" id="id_impulsor_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo1']; ?>"  ><?php echo $datosGet['reemplazo1']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulImpulsor as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			  </div>
+			  <br>
+			
+			  
+			  <hr>
+			   <div class="col-xs-6 col-md-4" >
+			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
+			  		<?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resultDatos as $res) {?>
+					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
+					<?php }} ?>
+				</select> 
+			 </div>
+			 	        
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario:</p>
+			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
+			  	 
+				 <?php if (!empty($datosGet)){ ?>
+				 
+			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
+			  	 
+			  	 <?php }?>
+				</select> 
+				   
+			  </div>
+			  
+			  <div class="col-xs-6 col-md-3">
+			  	<p  class="formulario-subtitulo" >Impulsor:</p>
+			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
+			   	 <?php if (!empty($datosGet)){ ?>
+			  	 
+			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
+			  	
+			  	<?php } ?>
+			     </select>
+  		
+		    </div>
+		   
+		</div>
+		</div>
+		</div>
+		
+		 <div class="col-lg-12"  id="div_impulsor" style="display: none;">   
+		 	  <div class="panel panel-default">
+  			  <div class="panel-body"> 
+		 	    
+		 	     <div class="row">   
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
+			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulSecretario as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			   <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
+			  	 <select name="id_impulsor_reemplazo" id="id_impulsor_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo1']; ?>"  ><?php echo $datosGet['reemplazo1']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulImpulsor as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			  </div>
+			  <br>
+			
+			  
+			  <hr>
+			   <div class="col-xs-6 col-md-4" >
+			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
+			  		<?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resultDatos as $res) {?>
+					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
+					<?php }} ?>
+				</select> 
+			 </div>
+			 	        
+		       <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Secretario:</p>
+			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
+			  	 
+				 <?php if (!empty($datosGet)){ ?>
+				 
+			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
+			  	 
+			  	 <?php }?>
+				</select> 
+				   
+			  </div>
+			  
+			  <div class="col-xs-6 col-md-3">
+			  	<p  class="formulario-subtitulo" >Impulsor:</p>
+			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
+			   	 <?php if (!empty($datosGet)){ ?>
+			  	 
+			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
+			  	
+			  	<?php } ?>
+			     </select>
+  		
+		    </div>
+		   
+		</div>
+		</div>
+		</div>
+		
 		<div class="col-xs-12 col-md-12" style="margin-top:10px">
 		 <div class="form-group">
 		     
@@ -591,13 +889,11 @@
 			 
 		</div>
 		</div>
+		<br>
+		<br>
+		<br>
 		
-		</div>
-		</div>
-		</div>
-		<br>
-		<br>
-		<br>
+		
 	   </form>
        
       </div>
