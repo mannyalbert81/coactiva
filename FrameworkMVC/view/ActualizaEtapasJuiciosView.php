@@ -149,7 +149,7 @@
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
          
-       	 <h4 style="color:#ec971f;">Actualiza Etapas Juicios</h4>
+       	 <h4 style="color:#ec971f;">Actualiza Juicios</h4>
        	 
        	 
        	 <div class="panel panel-default">
