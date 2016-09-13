@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-13T09:46:38 -->
+<!-- 2016-09-13T10:25:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -42,7 +42,9 @@
 					<font fontName="SansSerif" size="12" isBold="false"/>
 					<paragraph lineSpacing="Proportional" tabStopWidth="41"/>
 				</textElement>
-				<textFieldExpression><![CDATA["VARIABLE.setBackground(Color.blue)"+$F{cuerpo_avoco}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["MASOFTINI"+
+$F{cuerpo_avoco}+
+"MASOFTFIN"]]></textFieldExpression>
 				<patternExpression><![CDATA[$F{juicio_referido_titulo_credito}]]></patternExpression>
 			</textField>
 		</band>
