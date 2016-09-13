@@ -21,7 +21,7 @@ public function index(){
 			$resulSecretario=array();
 			$resultDatos=array();
 			$resulSet=array();
-			$arrayOpciones=array("con_garante"=>'--Con Garante--',"sin_garante"=>'--Sin Garante--');
+			$arrayOpciones=array("con_garante"=>'--Con Garante--',"sin_garante"=>'--Sin Garante--',"secretario"=>'--Secretario--',"impulsor"=>'--Impulsor--');
 			
 			
 			$_id_usuarios= $_SESSION["id_usuarios"];
@@ -173,7 +173,9 @@ public function index(){
 				
 				print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
 			   
-			   }else
+			   }
+			   
+			   elseif($_tipo_avoco == "sin_garante")
 				{
 					
 					$host  = $_SERVER['HTTP_HOST'];
@@ -187,7 +189,36 @@ public function index(){
 					
 		
 				}
-		
+		        
+				elseif($_tipo_avoco == "secretario")
+				{
+						
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+						
+					print "<script language='JavaScript'>
+					setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+					</script>";
+						
+					print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+						
+				
+				}
+				
+				elseif($_tipo_avoco == "impulsor")
+				{
+				
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				
+					print "<script language='JavaScript'>
+					setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+					</script>";
+				
+					print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+				
+				
+				}
 			}else
 				{
 					
@@ -299,6 +330,7 @@ public function index(){
           
           	$resultArray=urlencode(serialize($arrayGet));
           
+          	
           	if($_tipo_avoco == "sin_garante"){
           
           		$host  = $_SERVER['HTTP_HOST'];
@@ -327,6 +359,36 @@ public function index(){
           		
           		
           
+          	}
+          	
+          	elseif ($_tipo_avoco == "secretario"){
+          	
+          		$host  = $_SERVER['HTTP_HOST'];
+          		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+          	
+          		print "<script language='JavaScript'>
+          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+          		</script>";
+          	
+          		print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
+          	
+          	
+          	
+          	}
+          	
+          	elseif ($_tipo_avoco == "impulsor"){
+          	
+          		$host  = $_SERVER['HTTP_HOST'];
+          		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+          	
+          		print "<script language='JavaScript'>
+          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+          		</script>";
+          	
+          		print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
+          	
+          	
+          	
           	}
           
           
