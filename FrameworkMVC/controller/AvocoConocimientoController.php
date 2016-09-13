@@ -19,10 +19,9 @@ public function index(){
 			$avoco = new AvocoConocimientoModel();
 			
 			$resulSecretario=array();
+			$resulImpulsor=array();
 			$resultDatos=array();
 			$resulSet=array();
-			$arrayOpciones=array("con_garante"=>'--Con Garante--',"sin_garante"=>'--Sin Garante--');
-			
 			
 			$_id_usuarios= $_SESSION["id_usuarios"];
 			
@@ -48,6 +47,11 @@ public function index(){
 																"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO'",
 																"usuarios.nombre_usuarios");
 					
+					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR'",
+							"usuarios.nombre_usuarios");
+					
 					//$this->view("Error", array("resultado"=>print_r($resulSecretario))); exit();
 					
 					$juicio = new  JuiciosModel();
@@ -67,7 +71,7 @@ public function index(){
 			}
 			
 			$this->view("AvocoConocimiento",array(
-					 "resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos, "arrayOpciones"=>$arrayOpciones
+					 "resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
 			
 			));
 		}
@@ -113,6 +117,7 @@ public function index(){
 				$_id_ciudad     			= $_POST["id_ciudad"];
 				$_id_juicio      			= $_POST["id_juicios"];
 				$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
+				$_id_impulsor_reemplazar  = $_POST["id_impulsor_reemplazo"];
 				$_id_secretario     		= $_POST["id_secretario"];
 				$_id_impulsor     			= $_POST["id_impulsor"];
 				$_tipo_avoco     			= $_POST["tipo_avoco"];
@@ -135,7 +140,7 @@ public function index(){
 						
 						$funcion = "ins_avoco_conocimiento";
 							
-						$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar'";
+						$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
 						$avoco->setFuncion($funcion);
 														
 						$avoco->setParametros($parametros);
@@ -173,7 +178,9 @@ public function index(){
 				
 				print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
 			   
-			   }else
+			   }
+			   
+			   elseif($_tipo_avoco == "sin_garante")
 				{
 					
 					$host  = $_SERVER['HTTP_HOST'];
@@ -187,7 +194,36 @@ public function index(){
 					
 		
 				}
-		
+		        
+				elseif($_tipo_avoco == "secretario")
+				{
+						
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+						
+					print "<script language='JavaScript'>
+					setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+					</script>";
+						
+					print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+						
+				
+				}
+				
+				elseif($_tipo_avoco == "impulsor")
+				{
+				
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				
+					print "<script language='JavaScript'>
+					setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+					</script>";
+				
+					print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+				
+				
+				}
 			}else
 				{
 					
@@ -223,6 +259,7 @@ public function index(){
           		$_id_ciudad     			= $_POST["id_ciudad"];
           		$_id_juicio      			= $_POST["id_juicios"];
           		$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
+          		$_id_impulsor_reemplazar  = $_POST["id_impulsor_reemplazo"];
           		$_id_secretario     		= $_POST["id_secretario"];
           		$_id_abogado      			= $_POST["id_impulsor"];
           		$_tipo_avoco     			= $_POST["tipo_avoco"];
@@ -244,6 +281,8 @@ public function index(){
           			
           		//datos secretario q se reemplaza
           		$resultSecretario=$usuarios->getBy("id_usuarios='$_id_secretario_reemplazar'");
+          		
+          		$resultImpulsor=$usuarios->getBy("id_usuarios='$_id_impulsor_reemplazar'");
           			
           		//datos Secretario e impulsor
           		$resultAbogados=$usuarios->getCondiciones("asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.id_secretario,
@@ -262,6 +301,7 @@ public function index(){
           		$dato['cliente']=$resultJuicio[0]->nombres_clientes;
           		$dato['identificacion']=$resultJuicio[0]->identificacion_clientes;
           		$dato['secretario_reemplazar']=$resultSecretario[0]->nombre_usuarios;
+          		$dato['impulsor_reemplazar']=$resultImpulsor[0]->nombre_usuarios;
           		$dato['secretario']=$resultAbogados[0]->secretarios;
           		$dato['abogado']=$resultAbogados[0]->impulsores;
           		$dato['garante']=$resultJuicio[0]->nombre_garantes;
@@ -284,6 +324,8 @@ public function index(){
           		$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
           		$arrayGet['id_reemplazo']=$_id_secretario_reemplazar;
           		$arrayGet['reemplazo']=$resultSecretario[0]->nombre_usuarios;
+          		$arrayGet['id_reemplazo1']=$_id_impulsor_reemplazar;
+          		$arrayGet['reemplazo1']=$resultImpulsor[0]->nombre_usuarios;
           		$arrayGet['id_ciudad']=$resultCiudad[0]->id_ciudad;
           		$arrayGet['ciudad']=$resultCiudad[0]->nombre_ciudad;
           		$arrayGet['id_secretario']=$_id_secretario;
@@ -299,6 +341,7 @@ public function index(){
           
           	$resultArray=urlencode(serialize($arrayGet));
           
+          	
           	if($_tipo_avoco == "sin_garante"){
           
           		$host  = $_SERVER['HTTP_HOST'];
@@ -327,6 +370,36 @@ public function index(){
           		
           		
           
+          	}
+          	
+          	elseif ($_tipo_avoco == "secretario"){
+          	
+          		$host  = $_SERVER['HTTP_HOST'];
+          		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+          	
+          		print "<script language='JavaScript'>
+          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+          		</script>";
+          	
+          		print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
+          	
+          	
+          	
+          	}
+          	
+          	elseif ($_tipo_avoco == "impulsor"){
+          	
+          		$host  = $_SERVER['HTTP_HOST'];
+          		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+          	
+          		print "<script language='JavaScript'>
+          		setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+          		</script>";
+          	
+          		print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
+          	
+          	
+          	
           	}
           
           

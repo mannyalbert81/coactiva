@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-13T11:37:55 -->
+<!-- 2016-09-13T11:30:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -20,6 +20,8 @@
 	<parameter name="secretario_reemplazar" class="java.lang.String"/>
 	<parameter name="secretario" class="java.lang.String"/>
 	<parameter name="abogado" class="java.lang.String"/>
+	<parameter name="garante" class="java.lang.String"/>
+	<parameter name="identificacion_garante" class="java.lang.String"/>
 	<parameter name="fecha" class="java.lang.String"/>
 	<parameter name="hora" class="java.lang.String"/>
 	<parameter name="impulsor_reemplazar" class="java.lang.String"/>
@@ -34,7 +36,7 @@
 		<band height="64" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<image>
-				<reportElement x="264" y="0" width="190" height="64" uuid="2db3091f-dea2-4a4f-a4ff-1086f51e282c"/>
+				<reportElement x="263" y="0" width="191" height="64" uuid="76ebb690-c338-4b2a-9b86-53d832e6c5ed"/>
 				<imageExpression><![CDATA["C:/xampp/htdocs/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
 			</image>
 		</band>
@@ -43,7 +45,7 @@
 		<band height="23" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="264" y="0" width="190" height="23" uuid="a35fdd5a-356d-40fe-9f9d-5f2307440fbf"/>
+				<reportElement x="264" y="0" width="190" height="23" uuid="dbb0d1ea-6318-4608-88fa-0e3bc81ee75d"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
@@ -61,7 +63,7 @@
 					<font fontName="Arial" size="11" isBold="true"/>
 					<paragraph lineSpacing="Proportional"/>
 				</textElement>
-				<textFieldExpression><![CDATA["JUZGADO DE COACTIVA DEL BANCO NACIONAL DEL FOMENTO EN LIQUIDACIÓN.-  "+$P{ciudad}+",  "+$P{fecha}+" a las "+$P{hora}+". VISTOS.- Avoco conocimiento del presente proceso asignado con el número "+$P{juicio_referido}+" seguido en contra de "+$P{cliente} +" con cedula de ciudadanía N° "+$P{identificacion}+" en calidad de deudor (a) principal, en mi calidad de Liquidadora del Banco Nacional de Fomento en Liquidación conforme a la designación a mi extendida y fundada en la orden de cobro, contenidos ambos actos en la Resolución No. SB-2016-324, emitida por el Ec. Christian Cruz Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, inscrita en el Registro Mercantil del cantón Quito, el 12 de mayo de 2016, cuyo desglose ordeno dejando copias certificadas en autos.- Déjese sin efecto el nombramiento del Abogado (a) "+$P{secretario_reemplazar}+", en su calidad de Secretario (a) de Coactiva y al Abogado (a) "+$P{impulsor_reemplazar}+", en su calidad de Impulsor (a), en su reemplazo se designa como Secretario de Coactiva al Abogado (a) "+$P{secretario}+" y, como Abogado (a) Impulsor (a) se designa al Abogado (a) "+$P{abogado}+" quienes hallándose presentes aceptan los cargos y juran desempeñarlos fiel y legalmente, firmando para constancia con la suscrita Jueza de Coactiva.- CUMPLASE Y NOTIFÍQUESE.-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["JUZGADO DE COACTIVA DEL BANCO NACIONAL DEL FOMENTO EN LIQUIDACIÓN.-  "+$P{ciudad}+",  "+$P{fecha}+" a las "+$P{hora}+". VISTOS.- Avoco conocimiento del presente proceso asignado con el número "+$P{juicio_referido}+" seguido en contra de "+$P{cliente} +" con cedula de ciudadanía N° "+$P{identificacion}+" en calidad de deudor (a) principal, en mi calidad de Liquidadora del Banco Nacional de Fomento en Liquidación conforme a la designación a mi extendida y fundada en la orden de cobro, contenidos ambos actos en la Resolución No. SB-2016-324, emitida por el Ec. Christian Cruz Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, inscrita en el Registro Mercantil del cantón Quito, el 12 de mayo de 2016, cuyo desglose ordeno dejando copias certificadas en autos.- Déjese sin efecto el nombramiento del Abogado "+$P{impulsor_reemplazar}+", en su calidad de Impulsor de Coactiva y en su reemplazo se designa como Impulsor de Coactiva al Abogado (a) "+$P{abogado}+" quien hallándose presente acepta el cargo y jura desempeñarlo fiel y legalmente, firmando para constancia con la suscrita Jueza de Coactiva.- CUMPLASE Y NOTIFÍQUESE.-"]]></textFieldExpression>
 				<patternExpression><![CDATA[$F{juicio_referido}]]></patternExpression>
 			</textField>
 		</band>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-05T13:00:11 -->
+<!-- 2016-09-13T09:53:25 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AdministradorGastos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a144fcb-1efa-4266-bcc8-d3103919b782">
 	<property name="com.jaspersoft.studio.data.sql.tables" value="YWRtaW5pc3RyYWRvcl9nYXN0b3MgQVMgLDI3NCwxMzUsMzJkOTVhN2QtNjU5Ni00ZDE0LTk5ODct&#xA;ODk1ODY0ZTc0Y2M5O3RpcG9fZ2FzdG9zIEFTICw2NzMsMTUwLDM3YzQ1OTQ4LWEyYTUtNDJlZC04&#xA;NjQ2LTI2MjgyMWQzZmE3Yjs="/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -49,7 +49,7 @@ FROM administrador_gastos
 			</textField>
 			<image>
 				<reportElement x="4" y="10" width="115" height="50" uuid="afab669c-6e1e-48a7-b427-f0feb0254766"/>
-				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/coactivas_fondonegro.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:/xampp/htdocs/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

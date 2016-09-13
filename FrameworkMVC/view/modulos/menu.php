@@ -91,6 +91,7 @@ $controladores=$_SESSION['controladores'];
             <li style="<?php echo getcontrolador("ReasignarTitulo",$controladores) ?>">
             <a href="index.php?controller=ReasignarTitulo&action=index"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Reasignar Titulo Credito</span> </a>
             </li>
+            
 </ul>
 </li>
         
@@ -199,10 +200,7 @@ $controladores=$_SESSION['controladores'];
           <a href="index.php?controller=Documentos&action=index"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Emisón de Providencias</span> </a>
           </li>   
           <li style="<?php echo getcontrolador("Avoco",$controladores) ?>">
-          <a href="index.php?controller=AvocoConocimiento&action=index"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento Automático</span> </a>           
-          </li>
-          <li style="<?php echo getcontrolador("AvocoConocimientoGeneral",$controladores) ?>">
-          <a href="index.php?controller=AvocoConocimientoGeneral&action=index"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento General</span> </a>           
+          <a href="index.php?controller=AvocoConocimiento&action=index"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>           
           </li>
           
          

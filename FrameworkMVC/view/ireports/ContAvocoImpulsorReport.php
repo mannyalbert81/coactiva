@@ -22,25 +22,24 @@ $estado=$_GET['estado'];
 			
 			
 			$a=stripslashes($_GET['dato']);
-			
+				
 			$_dato=urldecode($a);
-			
+				
 			$_dato=unserialize($a);
-			
+				
 			$PHPJasperXML = new PHPJasperXML ( "en", "TCPDF" );
-			
+				
 			$PHPJasperXML->debugsql = false;
-		
-		    $PHPJasperXML->arrayParameter=$_dato;
-		    
-			$PHPJasperXML->load_xml_file( "AvocoSinGaranteVisualizarReport.jrxml" );
 			
+			$PHPJasperXML->arrayParameter=$_dato;
+			
+			$PHPJasperXML->load_xml_file( "AvocoImpulsorVisualizarReport.jrxml" );
+				
 			$PHPJasperXML->transferDBtoArray ( $server, $user, $pass, $db, $driver );
-			
+				
 			$PHPJasperXML->outpage ( "I" );
-			
-			
-	
+				
+
 		} else 
 		{
 			
@@ -61,8 +60,9 @@ $estado=$_GET['estado'];
 					  asignacion_secretarios_view.secretarios, 
 					  asignacion_secretarios_view.impulsores, 
 					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
 					  usuarios.nombre_usuarios as impulsor_reemplazo
-					
 					  
 					FROM 
 					  public.avoco_conocimiento, 
@@ -86,7 +86,7 @@ $estado=$_GET['estado'];
 			
 			 $PHPJasperXML->arrayParameter=array("_sql" => $sql,"fecha"=>$fecha, $sql,"hora"=>$hora);
 			
-			 $PHPJasperXML->load_xml_file("AvocoSinGaranteGuardarReport.jrxml");
+			 $PHPJasperXML->load_xml_file("AvocoImpulsorGuardarReport.jrxml");
 			
 			
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
@@ -96,12 +96,10 @@ $estado=$_GET['estado'];
 	
            }
            
-           echo "<script type='text/javascript'>";
+           echo "<script type='text/javascript'>";	
            echo "window.close()";
            echo "</script>";
            exit();
-           
-       
 
 ?>
 

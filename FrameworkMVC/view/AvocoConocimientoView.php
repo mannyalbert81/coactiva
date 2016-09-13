@@ -221,9 +221,140 @@
 	
 	</script>
 	
-	<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+	<script>
+       $(document).ready(function(){
+
+    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
+    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
+    	   $("#id_ciudad").prop("disabled","disabled");
+    	   $("#id_secretario").prop("disabled","disabled");
+    	   $("#id_impulsor").prop("disabled","disabled");
+    	   $("#Guardar").prop("disabled","disabled");
+    	   $("#Visualizar").prop("disabled","disabled");
+           
+
+            $("#con_garante").click(function(){
+
+            	var cant = $("input:checked").length;
+            	
+                if(cant!=0)
+                {
+            	 $("#id_secretario_reemplazo").prop("disabled","");
+            	 $("#id_impulsor_reemplazo").prop("disabled","");
+          	     $("#id_ciudad").prop("disabled","");
+          	     $("#id_secretario").prop("disabled","");
+          	     $("#id_impulsor").prop("disabled","");
+          	     $("#Guardar").prop("disabled","");
+          	     $("#Visualizar").prop("disabled","");
+                }else
+                    {
+                	 
+                    }
+                
+                });
+ 	    });
+       </script>
 	
-	  
+	   <script>
+       $(document).ready(function(){
+
+    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
+    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
+    	   $("#id_ciudad").prop("disabled","disabled");
+    	   $("#id_secretario").prop("disabled","disabled");
+    	   $("#id_impulsor").prop("disabled","disabled");
+    	   $("#Guardar").prop("disabled","disabled");
+    	   $("#Visualizar").prop("disabled","disabled");
+           
+
+            $("#sin_garante").click(function(){
+
+            	var cant = $("input:checked").length;
+            	
+                if(cant!=0)
+                {
+            	 $("#id_secretario_reemplazo").prop("disabled","");
+            	 $("#id_impulsor_reemplazo").prop("disabled","");
+          	     $("#id_ciudad").prop("disabled","");
+          	     $("#id_secretario").prop("disabled","");
+          	     $("#id_impulsor").prop("disabled","");
+          	     $("#Guardar").prop("disabled","");
+          	     $("#Visualizar").prop("disabled","");
+                }else
+                    {
+                	
+                    }
+                });
+ 	    });
+       </script>
+	
+	  <script>
+       $(document).ready(function(){
+
+    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
+    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
+    	   $("#id_ciudad").prop("disabled","disabled");
+    	   $("#id_secretario").prop("disabled","disabled");
+    	   $("#id_impulsor").prop("disabled","disabled");
+    	   $("#Guardar").prop("disabled","disabled");
+    	   $("#Visualizar").prop("disabled","disabled");
+           
+
+            $("#secretario").click(function(){
+
+            	var cant = $("input:checked").length;
+            	
+                if(cant!=0)
+                {
+            	 $("#id_secretario_reemplazo").prop("disabled","");
+            	 $("#id_impulsor_reemplazo").prop("disabled","");
+          	     $("#id_ciudad").prop("disabled","");
+          	     $("#id_secretario").prop("disabled","");
+          	     $("#id_impulsor").prop("disabled","");
+          	     $("#Guardar").prop("disabled","");
+          	     $("#Visualizar").prop("disabled","");
+                }else
+                    {
+                	
+                    }
+                
+                });
+ 	    });
+       </script>
+
+       <script>
+       $(document).ready(function(){
+
+    	   $("#id_secretario_reemplazo").prop("disabled","disabled");
+    	   $("#id_impulsor_reemplazo").prop("disabled","disabled");
+    	   $("#id_ciudad").prop("disabled","disabled");
+    	   $("#id_secretario").prop("disabled","disabled");
+    	   $("#id_impulsor").prop("disabled","disabled");
+    	   $("#Guardar").prop("disabled","disabled");
+    	   $("#Visualizar").prop("disabled","disabled");
+           
+
+            $("#impulsor").click(function(){
+
+            	var cant = $("input:checked").length;
+            	
+                if(cant!=0)
+                {
+            	 $("#id_secretario_reemplazo").prop("disabled","");
+            	 $("#id_impulsor_reemplazo").prop("disabled","");
+          	     $("#id_ciudad").prop("disabled","");
+          	     $("#id_secretario").prop("disabled","");
+          	     $("#id_impulsor").prop("disabled","");
+          	     $("#Guardar").prop("disabled","");
+          	     $("#Visualizar").prop("disabled","");
+                }else
+                    {
+                	  
+                    }
+                
+                });
+ 	    });
+       </script>
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -251,6 +382,7 @@
        {
         if(!empty($resulSet))
        	{
+       
         $sel_juicios = $_POST['juicios'];
         }
        	 
@@ -290,13 +422,12 @@
 				<BR>
             	
 		    <h4 style="color:#ec971f;" ALIGN="center" >EMISIÓN AVOCO DE CONOCIMIENTO</h4>
-		    
+		   
             	<br>
             	 
             	<div class="col-lg-11" style=" text-aling: justify;">
-            	 	<p align = "justify"><center><b><font face="univers" size=2>***Esta Leyenda será incluída automaticamente por el sistema a las Providencias para los casos de Juicios anteriores a la gestión del nuevo Liquidador***</font></b></center></p>
-					 
-			  </div>
+            	 <p align="justify"><center><b><font face="univers" size=2>***Esta Leyenda será incluída automaticamente por el sistema a las Providencias para los casos de Juicios anteriores a la gestión del nuevo Liquidador***</font></b></center></p>
+				</div>
 			     <br>
 			</div>
     
@@ -306,14 +437,16 @@
        
       <form action="<?php echo $helper->url("AvocoConocimiento","index"); ?>" method="post" enctype="multipart/form-data">
             
-        <div class="col-lg-12" style="margin-top: 10px">
+        <div class="col-lg-12" style="margin-top: 10px" >
          
        	 <div class="panel panel-default">
   			<div class="panel-body">
-			  
-		    <div class="col-xs-6 col-md-4" >
-			  <p  class="formulario-subtitulo" >Juicios:</p>
-	          <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}else { echo $sel_juicios;} ?>">
+			 <div class="col-xs-3 col-md-3" >
+			   
+		    </div>
+		     
+		    <div class="col-xs-4 col-md-4" style="text-align: center;" >
+			  <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}else { echo $sel_juicios;} ?>">
 	        
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
 	         echo 	$res->id_juicios;
@@ -323,25 +456,56 @@
 		   	<div id="mensaje_juicio" class="errores"></div>	   
 		    </div>
 			  
-			  <div class="col-xs-12 col-md-3">
-		     <p  class="formulario-subtitulo" >Validar:</p>
-			  <input type="submit" id="Validar" name="Validar" value="Validar"  class="btn btn-warning"/>
+			 
+			  <div class="col-xs-5 col-md-5">
+		    <input type="submit" id="Validar" name="Validar" value="Validar"  class="btn btn-warning"/>
 			 </div>
+			 </div>
+		    </div>
+		    </div>
 			 <br>
-			 <hr>
-		 	        
-		 	  <div class="col-xs-6 col-md-3">
-			   <p  class="formulario-subtitulo" >Tipo Avoco</p>
-			  <select name="tipo_avoco" id="tipo_avoco"  class="form-control" <?php echo $habilitar;?>>
-			  <?php foreach($arrayOpciones as $res=>$val) {?>
-						<option value="<?php echo $res; ?>" <?php if($sel_tipo_avoco==$res){echo 'selected="selected"';}?>><?php echo $val;  ?> </option>
-					<?php } ?>
-		     </select>
-			  </div>    
-		 	        
+			 
+			 
+			<div class="col-lg-12" style="margin-top: 10px" >
+            <div class="panel panel-default">
+  			<div class="panel-body">
+  			
+  			 <div class="row">
+  			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Tipo Avoco</h4>
+  			 
+  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?>/>
+  			</div>
+  			 
+  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?>/>
+  			</div>
+  			 
+  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
+  			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
+  			</div>
+  			 
+  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
+  			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
+  			</div>
+  			 </div>
+  			
+  			</div>
+		    </div>
+		    </div>
+			 
+		 	   <div class="col-lg-12">   
+		 	  <div class="panel panel-default">
+  			  <div class="panel-body"> 
+		 	    
+		 	     <div class="row">   
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
-			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control" <?php echo $habilitar;?>>
+			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
 				     <?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
 			  		<?php }else{ ?>
@@ -353,6 +517,23 @@
 				<div id="mensaje_re_secretario" class="errores"></div>
 				   
 			  </div>
+			  
+			   <div class="col-xs-6 col-md-3" >
+			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
+			  	 <select name="id_impulsor_reemplazo" id="id_impulsor_reemplazo"  class="form-control">
+				     <?php if (!empty($datosGet)){ ?>
+			  		<option value="<?php echo $datosGet['id_reemplazo1']; ?>"  ><?php echo $datosGet['reemplazo1']; ?> </option>
+			  		<?php }else{ ?>
+			  		<option value="0">--Seleccione--</option>
+					<?php foreach($resulImpulsor as $res) {?>
+					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php }} ?>
+				</select> 
+				<div id="mensaje_re_secretario" class="errores"></div>
+				   
+			  </div>
+			  
+			  </div>
 			  <br>
 			
 			  
@@ -360,7 +541,7 @@
 			   <div class="col-xs-6 col-md-4" >
 			  	<p  class="formulario-subtitulo" >Ciudad:</p>
 			  	
-			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" <?php echo $habilitar;?>>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 			  		<?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
 			  		<?php }else{ ?>
@@ -374,7 +555,7 @@
 			 	        
 		       <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Secretario:</p>
-			  	 <select name="id_secretario" id="id_secretario"  class="form-control" <?php echo $habilitar;?> >
+			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
 			  	 
 				 <?php if (!empty($datosGet)){ ?>
 				 
@@ -387,7 +568,7 @@
 			  
 			  <div class="col-xs-6 col-md-3">
 			  	<p  class="formulario-subtitulo" >Impulsor:</p>
-			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control" <?php echo $habilitar;?>>
+			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
 			   	 <?php if (!empty($datosGet)){ ?>
 			  	 
 			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
@@ -396,28 +577,27 @@
 			     </select>
   		
 		    </div>
-		    </div>
-		    </div>
+		   
 		    		
 		<div class="col-xs-12 col-md-12" style="margin-top:10px">
 		 <div class="form-group">
-		     <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
-		      </div>
-		       <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" <?php echo $habilitar;?>/>
+		     
+		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >
+			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
-			   <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvoco"); ?>'" value="Visualizar" class="btn btn-info" <?php echo $habilitar;?>/>
+			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvoco"); ?>'" value="Visualizar" class="btn btn-info"/>
 			 </div>
 			 
-			 <div class="col-xs-6 col-md-12" style="margin-top:50px">
-			 </div>
-		    
-  			 
-		</div>
 		</div>
 		</div>
 		
+		</div>
+		</div>
+		</div>
+		<br>
+		<br>
+		<br>
 	   </form>
        
       </div>
