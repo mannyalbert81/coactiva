@@ -192,7 +192,7 @@ public function index(){
 	}
 	
 	public function VisualizarRazonAvoco(){
-		
+		   
 		session_start();
 		
 		$cuerpo='';
