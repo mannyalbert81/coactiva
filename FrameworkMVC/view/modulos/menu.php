@@ -131,6 +131,9 @@ $controladores=$_SESSION['controladores'];
             <li style="<?php echo getcontrolador("ReasignarTitulo",$controladores) ?>">
             <a href="index.php?controller=ReasignarTitulo&action=index"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Reasignar Titulo Credito</span> </a>
             </li>
+            <li style="<?php echo getcontrolador("SeguimientoGastos",$controladores) ?>">
+            <a href="index.php?controller=SeguimientoGastos&action=index"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Seguimiento Gastos</span> </a>
+            </li>
 </ul>
 </li>
         
