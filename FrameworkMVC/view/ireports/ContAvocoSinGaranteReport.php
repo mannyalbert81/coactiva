@@ -60,7 +60,8 @@ $estado=$_GET['estado'];
 					  ciudad.nombre_ciudad, 
 					  asignacion_secretarios_view.secretarios, 
 					  asignacion_secretarios_view.impulsores, 
-					  usuarios.nombre_usuarios as secretario_reemplazo
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  usuarios.nombre_usuarios as impulsor_reemplazo
 					
 					  
 					FROM 
