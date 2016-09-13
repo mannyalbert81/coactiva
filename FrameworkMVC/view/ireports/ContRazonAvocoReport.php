@@ -95,20 +95,6 @@ $estado=$_GET['estado'];
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 		}			
 				
-
-				
-
-		
-		class Pdf_concat extends FPDI {
-			var $files = array();	
-			 
-			function setFiles($files) {
-				$this->files = $files;
-			}
-
-		}
-		
-		
 		$file2merge=array($directorio1.'Avoco1073.pdf', $directorio.'RazonAvoco1090.pdf');
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
