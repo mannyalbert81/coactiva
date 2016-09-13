@@ -314,7 +314,7 @@
 		    </div>
             	
 		   	<div class="col-xs-5">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 					<?php foreach($resultCiu as $resCiu) {?>
 						<option value="<?php echo $resCiu->id_ciudad; ?>" <?php if($sel_id_ciudad==$resCiu->id_ciudad){echo "selected";}?> ><?php echo $resCiu->nombre_ciudad; ?> </option>
@@ -412,7 +412,7 @@
 	    		<th style="color:#456789;font-size:80%;">Celular Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th style="color:#456789;font-size:80%;">Fecha Corte</th>
-	    		<th style="color:#456789;font-size:80%;">Nombre Ciudad</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    		
 	    		<th></th>
 	    		<th></th>

@@ -158,7 +158,7 @@
   			
 		   			
           <div class="col-xs-2">
-			  	<p  class="formulario-subtitulo" style="" >Ciudad:</p>
+			  	<p  class="formulario-subtitulo" style="" >Juzgado:</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
 			  		<?php foreach($resultDatos as $res) {?>
 						 <option value="<?php echo $res->id_ciudad; ?>" <?php if($sel_id_ciudad==$res->id_ciudad){echo "selected";}?>   ><?php echo $res->nombre_ciudad; ?> </option>
@@ -232,7 +232,7 @@
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Coactivad@</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    	<th style="color:#456789;font-size:80%;">Nº Juicio</th>
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
@@ -328,7 +328,7 @@
 			  </div>
 			  
 			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
 					<?php foreach($resultCiu as $res) {?>
 						<option value="<?php echo $res->id_ciudad; ?>" <?php if ($res->id_ciudad == $resEdit->id_ciudad ) echo ' selected="selected" '  ; ?>  ><?php echo $res->nombre_ciudad; ?> </option>
@@ -514,7 +514,7 @@
 			  </div>
 			  
 			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Ciudad</p>
+			  	<p  class="formulario-subtitulo" >Juzgado</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" <?php echo $habilitar;?>>
 					<?php foreach($resultCiu as $res) {?>
 						<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
