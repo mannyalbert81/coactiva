@@ -250,7 +250,7 @@ class TipoNotificacionController extends ControladorBase{
 	
 	}
 	
-	public function pruebaFirmar()
+	public function pruebaFirmarOld()
 	{
 		$documentos = new DocumentosModel();
 		
@@ -268,7 +268,7 @@ class TipoNotificacionController extends ControladorBase{
 		//para metodos dentro del framework
 		//$id_usuario=$_SESSION['id_usuarios'];
 		 
-		$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
+		/*$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
 		$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';
 		 
 		$moveTo = $tmp.$nombrePdf;
@@ -286,7 +286,7 @@ class TipoNotificacionController extends ControladorBase{
 		
 		//$this->view("Error", array("resultado"=>$total_espacio.' pagina agregada-->'.$add_page.' consulta-->'.$nombre_pdf_bd));
 		 
-		$conAddPage=$documentos->getCondiciones("nombre_pdf,tipo_pdf", "pdf", "nombre_pdf='C:/Users/Masoft/git/coactiva/documentos/tmp_documentos/Avoco1078.pdf'", "id_pdf");
+		/*$conAddPage=$documentos->getCondiciones("nombre_pdf,tipo_pdf", "pdf", "nombre_pdf='C:/Users/Masoft/git/coactiva/documentos/tmp_documentos/Avoco1078.pdf'", "id_pdf");
 		 
 		if(!empty($conAddPage)){
 			$add_page="true";
@@ -294,9 +294,9 @@ class TipoNotificacionController extends ControladorBase{
 		}else {
 			$total_espacio=$this->extraerEspacio($origen, $add_page);
 				
-		}
+		}*/
 		
-		$this->view("Error", array("resultado"=>$total_espacio.' pagina agregada-->'.$add_page.' consulta-->'.print_r($conAddPage)));
+		//$this->view("Error", array("resultado"=>$total_espacio.' pagina agregada-->'.$add_page.' consulta-->'.print_r($conAddPage)));
 		/*
 		$comando = 'start "" /b "' . $ruta_ejecutable . '" ' . $id_firma . ' ' . $origen . ' ' . $destino . ' '.$id_rol.
 		' '.$id_usuario.' '.$total_espacio.' '.$add_page.' ';
@@ -309,6 +309,23 @@ class TipoNotificacionController extends ControladorBase{
 		//return $resultadoSalida;
 		
 	}
+	
+	public function pruebaFirmar()
+	{
+		$documentos = new DocumentosModel();
+		
+		$destino="C:/Users/Masoft/Desktop/pdf_pruebas/";
+		$nombrePdf="Avoco1091.pdf";
+		$id_firma="33";
+		$id_rol="6";
+		$id_usuario="42";
+		
+		$resultado = $documentos->FirmarPDFs($destino, $nombrePdf, $id_firma, $id_rol,$id_usuario);
+		
+		$this->view("Error", array("resultado"=>print_r($resultado)));
+		
+	}
+	
 	
 	public function extraerEspacio($filePath,$addpage)
 	{
@@ -329,7 +346,7 @@ class TipoNotificacionController extends ControladorBase{
 	{
 		$documentos = new DocumentosModel();
 		
-		$str_origen="C:/Users/Masoft/Desktop/Avoco1078.pdf";
+		$str_origen="C:/Users/Masoft/Desktop/Avoco1091.pdf";
 		
 		$addpage="false";
 		
