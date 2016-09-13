@@ -69,10 +69,10 @@ $estado=$_GET['estado'];
 		} else 
 		{
 		
-				//$id= $_GET['identificador'];
-				//$nombre=$_GET['nombre'];
-				//$nombre_avoco_conocimiento=$_GET['nombre_avoco_conocimiento'];
-				//$identificador_avoco_unido=$_GET['identificador_avoco_unido'];
+				$id= $_GET['identificador'];
+				$nombre=$_GET['nombre'];
+				$nombre_avoco_conocimiento=$_GET['nombre_avoco_conocimiento'];
+				$identificador_avoco_unido=$_GET['identificador_avoco_unido'];
 				//aqui va la consulta
 				$sql="SELECT
 				razon_avoco_conocimiento.cuerpo_razon_avoco_conocimiento
