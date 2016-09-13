@@ -221,141 +221,55 @@
 	
 	</script>
 	
-	<script>
-       $(document).ready(function(){
-
-    	   $("#Guardar").prop("disabled","disabled");
-    	   $("#Visualizar").prop("disabled","disabled");
-    	   
- 
-
-            $("#con_garante").click(function(){
-
-            	var cant = $("input:checked").length;
-            	
-                if(cant!=0)
-                {
-            	 $("#Guardar").prop("disabled","");
-          	     $("#Visualizar").prop("disabled","");
-          	    
-                }else
-                    {
-                	  $("#Guardar").prop("disabled","disabled");
-               	      $("#Visualizar").prop("disabled","disabled");
-               	    
-                    }
-                
-                });
- 	    });
-       </script>
-       <script>
-       $(document).ready(function(){
-
-    	   $("#Guardar").prop("disabled","disabled");
-    	   $("#Visualizar").prop("disabled","disabled");
-    	   
- 
-
-            $("#sin_garante").click(function(){
-
-            	var cant = $("input:checked").length;
-            	
-                if(cant!=0)
-                {
-            	 $("#Guardar").prop("disabled","");
-          	     $("#Visualizar").prop("disabled","");
-          	    
-                }else
-                    {
-                	  $("#Guardar").prop("disabled","disabled");
-               	      $("#Visualizar").prop("disabled","disabled");
-               	    
-                    }
-                
-                });
- 	    });
-       </script>
-       <script>
-       $(document).ready(function(){
-
-    	   $("#Guardar").prop("disabled","disabled");
-    	   $("#Visualizar").prop("disabled","disabled");
-    	   
- 
-
-            $("#secretario").click(function(){
-
-            	var cant = $("input:checked").length;
-            	
-                if(cant!=0)
-                {
-            	 $("#Guardar").prop("disabled","");
-          	     $("#Visualizar").prop("disabled","");
-          	    
-                }else
-                    {
-                	  $("#Guardar").prop("disabled","disabled");
-               	      $("#Visualizar").prop("disabled","disabled");
-               	    
-                    }
-                
-                });
- 	    });
-       </script>
-  
-   <script>
-       $(document).ready(function(){
-
-    	   $("#Guardar").prop("disabled","disabled");
-    	   $("#Visualizar").prop("disabled","disabled");
-    	   
- 
-
-            $("#impulsor").click(function(){
-
-            	var cant = $("input:checked").length;
-            	
-                if(cant!=0)
-                {
-            	 $("#Guardar").prop("disabled","");
-          	     $("#Visualizar").prop("disabled","");
-          	    
-                }else
-                    {
-                	  $("#Guardar").prop("disabled","disabled");
-               	      $("#Visualizar").prop("disabled","disabled");
-               	    
-                    }
-                
-                });
- 	    });
-       </script>
+	
+   
       <script >
 	$(document).ready(function(){
-		$("#div_con_garante").fadeOut("slow");
+
+		habilitarCb(true);		
+		
+		$("#div_con_garante").fadeIn();
+
+		$("#con_garante").click(function(){
+
+			habilitarCb(false);
+			
+			});
+		$("#sin_garante").click(function(){
+
+			habilitarCb(false);			
+			
+			});
+		$("#secretario").click(function(){
+			
+			$('#id_impulsor_reemplazo').prop('disabled', true);
+			$('#id_impulsor').prop('disabled', true);
+			$('#id_secretario_reemplazo').prop('disabled', false);
+			$('#id_secretario').prop('disabled', false);
+			$('#id_ciudad').prop('disabled', true);
+						
+			});
+		$("#impulsor").click(function(){
+
+			$('#id_secretario_reemplazo').prop('disabled', true);
+			$('#id_secretario').prop('disabled', true);
+			$('#id_impulsor_reemplazo').prop('disabled', false);
+			$('#id_impulsor').prop('disabled', false);
+			$('#id_ciudad').prop('disabled', true);
+
+			});
 
 		
-		$("#con_garante").click(function(){
-			var cant = $("input:checked").length;
-
-			$("#sin_garante").click(function(){
-				var cant1 = $("input:checked").length;
-
-				$("#secretario").click(function(){
-					var cant2 = $("input:checked").length;	
-
-					$("#impulsor").click(function(){
-						var cant3 = $("input:checked").length;
-					
-            if(cant!=0 || cant!=1 || cant!=2 || cant!=3 )
-            {		
-			$('#div_con_garante').toggle("slow");
-            }else
-            {
-            	$("#div_con_garante").fadeOut("slow");
-       	    }
-		});
 	});
+
+	function habilitarCb(bool ){
+		$('#id_secretario_reemplazo').prop('disabled', bool);
+		$('#id_secretario').prop('disabled', bool);
+		$('#id_impulsor_reemplazo').prop('disabled', bool);
+		$('#id_impulsor').prop('disabled', bool);
+		$('#id_ciudad').prop('disabled', bool);
+	}
+	
 	</script>
      
      
@@ -448,15 +362,15 @@
   			<div class="panel-body">
 			 <div class="col-xs-3 col-md-3" >
 			   
-		    </div>
+		     </div>
 		     
-		    <div class="col-xs-4 col-md-4" style="text-align: center;" >
+		     <div class="col-xs-4 col-md-4" style="text-align: center;" >
 			  <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}else { echo $sel_juicios;} ?>">
 	        
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
 	         echo 	$res->id_juicios;
 
-	         }}elseif (   !empty($datosGet)){echo $datosGet['id_juicio'];}?>">
+	         }}elseif (!empty($datosGet)){echo $datosGet['id_juicio'];}?>">
 
 		   	<div id="mensaje_juicio" class="errores"></div>	   
 		    </div>
@@ -478,16 +392,16 @@
   			 <div class="row">
   			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Tipo Avoco</h4>
   			 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
   			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?>/>
   			</div>
   			 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
+  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
   			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
   			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?>/>
   			</div>
-  			 
+  			 <!-- 
   			 <div class="col-xs-3 col-md-3" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
   			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
@@ -497,6 +411,7 @@
   			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
   			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
   			</div>
+  			 -->
   			 </div>
   			
   			</div>
@@ -544,7 +459,7 @@
 			  
 			  <hr>
 			   <div class="col-xs-6 col-md-4" >
-			  	<p  class="formulario-subtitulo" >Ciudad:</p>
+			  	<p  class="formulario-subtitulo" >Juzgado:</p>
 			  	
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 			  		<?php if (!empty($datosGet)){ ?>

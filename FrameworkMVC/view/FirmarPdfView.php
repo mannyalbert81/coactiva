@@ -142,7 +142,10 @@
 				-->
 				
 				<?php 
-					$codebase="http://186.4.241.148:4000/FrameworkMVC/view/";
+				$host  = $_SERVER['HTTP_HOST'];
+				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				
+					$codebase="http://$host$uri/view/";
 					$code="firmarDocumentos.SignDocuments.class";
 					$archive="firmarDocumentos.jar";
 					
@@ -158,7 +161,8 @@
 				'</applet>';
 				?>
 				
-				<?php echo  $aplet;?>
+				<?php echo $aplet;
+				//$aplet;?>
 				
 				<?php //para pruebas
 				/*
