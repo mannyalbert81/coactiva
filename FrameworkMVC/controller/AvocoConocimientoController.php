@@ -44,12 +44,12 @@ public function index(){
 					
 					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 																"public.rol,public.usuarios", 
-																"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO'",
+																"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
 																"usuarios.nombre_usuarios");
 					
 					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR'",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2",
 							"usuarios.nombre_usuarios");
 					
 					//$this->view("Error", array("resultado"=>print_r($resulSecretario))); exit();
@@ -156,6 +156,8 @@ public function index(){
 														
 				$avoco->setParametros($parametros);
 				$resultado=$avoco->Insert();
+				
+				$updateJuicio = $avoco->UpdateBy("id_usuarios='$_id_impulsor'", "juicios", "id_juicios='$_id_juicio'");
 				
 				/*$this->view("Error", array("resultado"=>print_r($resultado)));
 				exit();*/
@@ -505,7 +507,7 @@ public function index(){
 		$id="rol.id_rol";
 	
 		$where="rol.id_rol=usuarios.id_rol AND usuarios.id_ciudad=ciudad.id_ciudad
-		AND rol.nombre_rol='SECRETARIO' AND ciudad.id_ciudad='$idciudad'";
+		AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=1 AND ciudad.id_ciudad='$idciudad'";
 	
 		$resultado=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
 	
@@ -523,7 +525,7 @@ public function index(){
 		$tablas="public.asignacion_secretarios_view";
 		$id="asignacion_secretarios_view.impulsores";
 	
-		$where="asignacion_secretarios_view.id_secretario='$idSecretario'";
+		$where=" asignacion_secretarios_view.id_secretario='$idSecretario'";
 	
 		$resultado=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
 	

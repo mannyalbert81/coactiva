@@ -181,7 +181,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 			else
 			{
 				$this->view("Error",array(
-						"resultado"=>"No tiene Permisos de Acceso a Asignacion Secretarios"
+						"resultado"=>"No tiene Permisos de Aprobacion Auto Pagos"
 			
 				));
 			
@@ -233,8 +233,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 				$nombre_documento=$repositorio_documento.$identificador;
 				
 				$estado=new EstadoModel();
-				$resultEstado=$estado->getBy("nombre_estado='APROBADO'");
-				
+				$resultEstado=$estado->getBy("nombre_estado='APROBADO'");				
 				$id_estado=$resultEstado[0]->id_estado;
 				
 				//para obtener el id auto de pago
@@ -248,8 +247,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 					
 					$resultado=$aprobacion_auto_pago->UpdateBy("id_estado='$id_estado',nombre_auto_pagos='$nombre_documento',identificador='$identificador',ruta_auto_pagos='$repositorio_documento'", "auto_pagos", "id_auto_pagos='$id_auto_pago'");
 					
-					
-					//pra obtener id_ciudad
+					//pra obtener id_juzgado
 					
 					$col_ciudad="titulo_credito.id_ciudad";
 					$tbl_ciudad="public.titulo_credito,public.ciudad";
@@ -257,13 +255,13 @@ class AprobacionAutoPagoController extends ControladorBase{
 					titulo_credito.id_titulo_credito='$id_titulo_credito'";
 					$resultCiudad=$aprobacion_auto_pago->getCondiciones($col_ciudad, $tbl_ciudad, $whre_ciudad, "titulo_credito.id_ciudad");
 					
-					$id_ciudad=$resultCiudad[0]->id_ciudad;
+					$id_juzgado=$resultCiudad[0]->id_ciudad;
 					
 					//para obtener juicio referido
 					$anio=date("Y");
 					$col_prefijo=" prefijos.nombre_prefijos,prefijos.consecutivo";
 					$tbl_prefijo="public.prefijos";
-					$whre_prefijo="prefijos.id_ciudad='$id_ciudad'";
+					$whre_prefijo="prefijos.id_ciudad='$id_juzgado'";
 					$resultprefijo=$aprobacion_auto_pago->getCondiciones($col_prefijo, $tbl_prefijo, $whre_prefijo, "prefijos.id_prefijos");
 					
 					$juicio_referido_titulo_credito=$resultprefijo[0]->nombre_prefijos."-".$resultprefijo[0]->consecutivo."-".$anio;
@@ -284,7 +282,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 					$tbl_etapa_juicio="etapas_juicios";
 					$whre_etapa_juicio="etapas_juicios.nombre_etapas LIKE '%PRIMERA%'";
 					$result_etapas_juicios=$aprobacion_auto_pago->getCondiciones($col_etapa_juicio, $tbl_etapa_juicio, $whre_etapa_juicio, "id_etapas_juicios");
-					
+										
 					$id_etapas_juicios=$result_etapas_juicios[0]->id_etapas_juicios;
 					
 					//para obtener tipo_juicios
@@ -301,7 +299,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 					//para estados procesales juicios "Auto de Pago"
 					$col_est_procesales="*";
 					$tbl_est_procesales="estados_procesales_juicios";
-					$whre_est_procesales="nombre_estado_procesal_juicios LIKE 'Auto de Pago'";
+					$whre_est_procesales="nombre_estados_procesales_juicios LIKE 'Auto de Pago'";
 					$result_est_procesales=$aprobacion_auto_pago->getCondiciones($col_est_procesales, $tbl_est_procesales, $whre_est_procesales, "id_estados_procesales_juicios");
 					
 					$id_estados_procesales_juicios=$result_est_procesales[0]->id_estados_procesales_juicios;
@@ -327,7 +325,18 @@ class AprobacionAutoPagoController extends ControladorBase{
 					
 					$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AUTOPAGOS'");
 					
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 					
+					//$this->view("Error", array("resultado"=>$host.$uri));
+					
+					
+					print "<script language='JavaScript'>
+					setTimeout(window.open('http://$host$uri/view/ireports/ContAutoPagoJuridicoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+					</script>";
+					
+					print("<script>window.location.replace('index.php?controller=AprobacionAutoPago&action=index');</script>");
+						
 					
 				} catch (Exception $e) {
 					
@@ -337,18 +346,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 					
 				}
 				
-				$host  = $_SERVER['HTTP_HOST'];
-				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 				
-				//$this->view("Error", array("resultado"=>$host.$uri));
-				
-				
-				 print "<script language='JavaScript'>
-				 setTimeout(window.open('http://$host$uri/view/ireports/ContAutoPagoJuridicoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
-				 </script>";
-				 	
-				 print("<script>window.location.replace('index.php?controller=AprobacionAutoPago&action=index');</script>");
-				 
 				
 			}
 			

@@ -340,7 +340,7 @@
 		    </div>
 		    
 			
-			<div class="col-xs-5">
+			<div class="col-xs-5" >
 			  <p  class="formulario-subtitulo" >Estado </p>
 	            	 <select name="id_estado" id="id_estado"  class="form-control">
 						<?php foreach($resultEstado as $resEst) {?>

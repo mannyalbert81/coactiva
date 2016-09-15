@@ -216,7 +216,9 @@ class AutoPagosController extends ControladorBase{
 					
 					$this->view("AutoPagos",array(
 							
-							"resultCon"=>$resultCon, "resultEdit"=>$resultEdit, "resultRol"=>$resultRol,"resultUsuarioSecretario"=>$resultUsuarioSecretario,"resultUsuarioImpulsor"=>$resultUsuarioImpulsor,"resultAsignacion"=>$resultAsignacion, "resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu, "resultDatos"=>$resultDatos,"resultEstado"=>$resultEstado
+							"resultCon"=>$resultCon, "resultEdit"=>$resultEdit, "resultRol"=>$resultRol,"resultUsuarioSecretario"=>$resultUsuarioSecretario,
+							"resultUsuarioImpulsor"=>$resultUsuarioImpulsor,"resultAsignacion"=>$resultAsignacion, "resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu,
+							"resultDatos"=>$resultDatos,"resultEstado"=>$resultEstado
 					));
 			
 			
@@ -242,7 +244,6 @@ class AutoPagosController extends ControladorBase{
 		}
 	
 	}
-	 
 	
 	public function InsertaAutoPagos(){
 
@@ -274,6 +275,7 @@ class AutoPagosController extends ControladorBase{
 				$_fecha_asignado=$_POST["fecha_asignacion"];
 				$_estado =$_POST["id_estado"];
 				
+				
 				foreach($_array_titulo_credito  as $id  )
 				{
 					
@@ -286,6 +288,7 @@ class AutoPagosController extends ControladorBase{
 							$_id_titulo_credito = $id;
 							$resultImpulsor=$titulo_credito->getCondiciones("id_titulo_credito,id_usuarios", "asignacion_titulo_credito", "id_titulo_credito='$_id_titulo_credito'", "id_titulo_credito");
 							$idImpulsor=$resultImpulsor[0]->id_usuarios;
+								
 
 							//$_id_usuario_impulsor = $_POST["id_usuarioImpulsor"];
 							
@@ -296,33 +299,8 @@ class AutoPagosController extends ControladorBase{
 							$auto_pagos->setParametros($parametros);
 							$resultado=$auto_pagos->Insert();
 							
+							//para generar el reporte 
 							
-							
-							//inserta las notificacion
-							
-							$_nombre_tipo_notificacion="auto_pago";							
-							$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
-							
-							$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
-							$descripcion="AutoPago pendiente por";
-							$numero_movimiento=0;
-							$cantidad_cartones=$_id_titulo_credito;
-							
-							//dirigir notificacion
-							$id_impulsor=$_SESSION['id_usuarios'];
-							$asignacion_secreatario= new AsignacionSecretariosModel();
-							$result_asg_secretario=$asignacion_secreatario->getBy("id_abogado_asignacion_secretarios='$id_impulsor'");
-							
-							if(!empty($result_asg_secretario))
-							{
-								$usuarioDestino=$result_asg_secretario[0]->id_secretario_asignacion_secretarios;
-									
-								$result_notificaciones=$notificaciones->CrearNotificacion($id_tipo_notificacion, $usuarioDestino, $descripcion, $numero_movimiento, $cantidad_cartones);
-							
-							}else 
-							{
-								
-							}
 							
 										
 						} catch (Exception $e) 
@@ -335,6 +313,7 @@ class AutoPagosController extends ControladorBase{
 					}
 					 
 				}
+				
 				$traza=new TrazasModel();
 				$_nombre_controlador = "AutoPagos";
 				$_accion_trazas  = "Guardar";
@@ -343,10 +322,16 @@ class AutoPagosController extends ControladorBase{
 		
 				
 			   }
+			   
+			   $host  = $_SERVER['HTTP_HOST'];
+			   $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			   
+			   
+			   
+			   print("<script>window.location.replace('index.php?controller=AprobacionAutoPago&action=index');</script>");
+			   	
 			
-
-			$this->redirect("AutoPagos", "index");
-				
+			//$this->redirect("AutoPagos", "index");
 			
 		}
 		else
@@ -516,6 +501,35 @@ class AutoPagosController extends ControladorBase{
 		print("<script>window.location.replace('index.php?controller=Documentos&action=index&dato=$resultArray');</script>");
 	
 	
+	}
+	
+	public function codFail()
+	{
+		//inserta las notificacion no implementado todos van aprobados
+			
+		//$_nombre_tipo_notificacion="auto_pago";
+		//$resul_tipo_notificacion=$tipo_notificacion->getBy("descripcion_notificacion='$_nombre_tipo_notificacion'");
+			
+		//$id_tipo_notificacion=$resul_tipo_notificacion[0]->id_tipo_notificacion;
+		//$descripcion="AutoPago pendiente por";
+		//$numero_movimiento=0;
+		//$cantidad_cartones=$_id_titulo_credito;
+			
+		//dirigir notificacion
+		//$id_impulsor=$_SESSION['id_usuarios'];
+		//$asignacion_secreatario= new AsignacionSecretariosModel();
+		//$result_asg_secretario=$asignacion_secreatario->getBy("id_abogado_asignacion_secretarios='$id_impulsor'");
+			
+		/*if(!empty($result_asg_secretario))
+		 {
+		 $usuarioDestino=$result_asg_secretario[0]->id_secretario_asignacion_secretarios;
+		 	
+		 $result_notificaciones=$notificaciones->CrearNotificacion($id_tipo_notificacion, $usuarioDestino, $descripcion, $numero_movimiento, $cantidad_cartones);
+		 	
+		 }else
+		 {
+		
+		 }*/
 	}
 	
 	

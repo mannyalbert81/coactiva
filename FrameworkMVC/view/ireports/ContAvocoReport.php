@@ -78,11 +78,13 @@ $estado=$_GET['estado'];
 					  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 					  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 					  juicios.id_clientes = clientes.id_clientes AND
-					  avoco_conocimiento.identificador= '$id' ";
+					  avoco_conocimiento.identificador = '$id'";
 			
 			 $directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
 			
 			 $PHPJasperXML = new PHPJasperXML();
+			 
+			 $PHPJasperXML->setErrorReport(69);
 			
 			 $PHPJasperXML->arrayParameter=array("_sql" => $sql,"fecha"=>$fecha, $sql,"hora"=>$hora);
 			
@@ -92,7 +94,8 @@ $estado=$_GET['estado'];
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 			
 			 $PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
-		
+			 
+			 
 	
            }
            
