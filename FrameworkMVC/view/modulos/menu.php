@@ -91,7 +91,10 @@ $controladores=$_SESSION['controladores'];
             <li style="<?php echo getcontrolador("ReasignarTitulo",$controladores) ?>">
             <a href="index.php?controller=ReasignarTitulo&action=index"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Reasignar Titulo Credito</span> </a>
             </li>
-            
+            <li style="<?php echo getcontrolador("UsuariosAnteriores",$controladores) ?>">
+        	<a href="index.php?controller=UsuariosAnteriores&action=index"><span class="glyphicon glyphicon-user" aria-hidden="true"> Usuarios Antiguos</span> </a>
+		    </li>
+			
 </ul>
 </li>
         
