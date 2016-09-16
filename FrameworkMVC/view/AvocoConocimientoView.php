@@ -258,6 +258,18 @@
 			$('#id_ciudad').prop('disabled', true);
 
 			});
+		
+		$("#Guardar").click(function(){
+
+			habilitarCb(false);
+
+			$("#con_garante").prop('disabled', false);
+
+			$("#sin_garante").prop('disabled', false);
+
+			
+		});
+		
 
 		
 	});
@@ -292,6 +304,7 @@
        $sel_observacion="";
        $sel_avoco="";
        $sel_tipo_avoco="";
+       $checked='checked="checked"';
        
        
        $datosGet=array();
@@ -303,8 +316,9 @@
        	{
        
         $sel_juicios = $_POST['juicios'];
+        
         }
-       	 
+        
        }
        
        if($_SERVER['REQUEST_METHOD']=='GET')
@@ -327,6 +341,9 @@
        if(!empty($resulSet) || $sel_juicios!="" || !empty($datosGet)){
        	$habilitar="";
        }
+       
+       
+       
        
        
 		?>
@@ -394,12 +411,12 @@
   			 
   			 <div class="col-xs-6 col-md-6" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?>/>
+  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
   			</div>
   			 
   			 <div class="col-xs-6 col-md-6" style="text-align: center;">
   			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?>/>
+  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
   			</div>
   			 <!-- 
   			 <div class="col-xs-3 col-md-3" style="text-align: center;">

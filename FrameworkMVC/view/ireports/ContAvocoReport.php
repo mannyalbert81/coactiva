@@ -5,7 +5,7 @@
 include_once('PhpJasperLibrary/class/tcpdf/tcpdf.php');
 include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
 include_once ('conexion.php');
-
+include('');
 #Conectas a la base de datos
 $server  = server;
 $user    = user;
@@ -19,8 +19,6 @@ $estado=$_GET['estado'];
 
 		if ($estado == 'Visualizar') 
 		{
-			
-			
 			$a=stripslashes($_GET['dato']);
 				
 			$_dato=urldecode($a);
@@ -40,7 +38,7 @@ $estado=$_GET['estado'];
 			$PHPJasperXML->outpage ( "I" );
 				
 
-		} else 
+		} elseif($estado=='Guardar')
 		{
 			
 			$dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
@@ -81,6 +79,8 @@ $estado=$_GET['estado'];
 					  avoco_conocimiento.identificador = '$id'";
 			
 			 $directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
+			 
+			
 			
 			 $PHPJasperXML = new PHPJasperXML();
 			 
@@ -90,13 +90,14 @@ $estado=$_GET['estado'];
 			
 			 $PHPJasperXML->load_xml_file("AvocoGuardarReport.jrxml");
 			
-			
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 			
 			 $PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 			 
 			 
 	
+           }else {
+           	echo 'no hay datos';
            }
            
            echo "<script type='text/javascript'>";	

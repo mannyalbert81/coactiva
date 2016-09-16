@@ -333,7 +333,8 @@ public function index(){
           		$arrayGet['id_secretario']=$_id_secretario;
           		$arrayGet['secretario']=$resultAbogados[0]->secretarios;
           		$arrayGet['id_impulsor']=$_id_abogado;
-          		$arrayGet['impulsor']=$resultAbogados[0]->impulsores;;
+          		$arrayGet['impulsor']=$resultAbogados[0]->impulsores;
+          		$arrayGet['tipoAvoco']=$_tipo_avoco;
           			
           			
           	}
