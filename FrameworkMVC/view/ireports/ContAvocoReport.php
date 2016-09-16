@@ -79,14 +79,12 @@ $estado=$_GET['estado'];
 					  avoco_conocimiento.identificador = '$id'";
 			
 			 $directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
-			 
-			
 			
 			 $PHPJasperXML = new PHPJasperXML();
 			 
 			 $PHPJasperXML->debugsql = false;
 			 
-			 $PHPJasperXML->arrayParameter=array("_sql" => $sql,"fecha"=>$fecha, $sql,"hora"=>$hora);
+			 $PHPJasperXML->arrayParameter=array('_sql' => $sql,'fecha'=>$fecha,'hora'=>$hora);
 			
 			 $PHPJasperXML->load_xml_file("AvocoGuardarReport.jrxml");
 			

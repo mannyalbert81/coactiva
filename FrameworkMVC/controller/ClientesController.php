@@ -606,7 +606,7 @@ public function index(){
 			else
 			{
 				$this->view("Error",array(
-						"resultado"=>"No tiene Permisos de Acceso a Consutar Clientes"
+						"resultado"=>"No tiene Permisos de Acceso a Consultar Clientes"
 	
 				));
 	
