@@ -133,7 +133,7 @@
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
          
-       	 <h4 style="color:#ec971f;">Consulta Clientes</h4>
+       	 <h4 style="color:#ec971f;">Fichas Juicios</h4>
        	 
        	 
        	 <div class="panel panel-default">
@@ -194,11 +194,8 @@
 		
 		<?php if(!empty($resultSet))  {?>
 		
-		 <input type="submit" id="reporte" name="reporte" onclick="this.form.action='<?php echo $helper->url("FichaJuicio","verFichaGeneral"); ?>'" value="Ver Fichas" class="btn btn-info" style="margin-top: 10px;"/>
-		  
-		  <!--  <a  href="/FrameworkMVC/view/ireports/ContClientesReport.php?id_ciudad=<?php  echo $sel_id_ciudad ?>&identificacion=<?php  echo $sel_identificacion?>&numero_juicio=<?php  echo $sel_numero_juicio?>&numero_titulo=<?php  echo $sel_numero_titulo?>&fecha_desde=<?php  echo $sel_fecha_desde?>&fecha_hasta=<?php  echo $sel_fecha_hasta?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
-		  -->
-		         
+		  <a href="<?php echo  $helper->url("FichaJuicio","verFichaGeneral");?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-info" style="margin-top: 10px;" onClick="Ok()" >Ver Fichas General</a>
+		        
 		  <?php } else {?>
 		  
 		  <?php } ?>
@@ -252,7 +249,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;">
 		               
-		               <a href="<?php echo  $helper->url("FichaJuicio","verFichaby")."&id_juicios=".$res->id_juicios;?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:80%;">Ver</a>
+		               <a href="<?php echo  $helper->url("FichaJuicio","verFichaby")."&id_juicios=".$res->id_juicios;?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" >Ver</a>
 		               </td> 
 		    		</tr>
 		        <?php } } 
