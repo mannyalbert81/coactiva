@@ -5,7 +5,6 @@
 include_once('PhpJasperLibrary/class/tcpdf/tcpdf.php');
 include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
 include_once ('conexion.php');
-include('');
 #Conectas a la base de datos
 $server  = server;
 $user    = user;

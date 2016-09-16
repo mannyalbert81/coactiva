@@ -84,7 +84,7 @@ $estado=$_GET['estado'];
 			
 			 $PHPJasperXML = new PHPJasperXML();
 			
-			 $PHPJasperXML->arrayParameter=array("_sql" => $sql,"fecha"=>$fecha, $sql,"hora"=>$hora);
+			 $PHPJasperXML->arrayParameter=array("_sql" => $sql,"fecha"=>$fecha, "hora"=>$hora);
 			
 			 $PHPJasperXML->load_xml_file("AvocoSinGaranteGuardarReport.jrxml");
 			
