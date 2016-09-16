@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-13T12:42:07 -->
+<!-- 2016-09-16T10:30:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosRepositorioReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="6663ca52-3942-4815-8316-904ff4a4a50e">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -62,7 +62,6 @@
 					<paragraph lineSpacing="Proportional"/>
 				</textElement>
 				<textFieldExpression><![CDATA["JUZGADO DE COACTIVA DEL BANCO NACIONAL DEL FOMENTO EN LIQUIDACIÓN.- "+$F{nombre_ciudad}+",  "+$P{fecha}+" a las "+$P{hora}+". VISTOS: Avoco conocimiento del presente proceso signado con el número "+$F{juicio_referido_titulo_credito}+" seguido en contra de "+$F{nombres_clientes}+" con cedula de ciudadanía N° "+$F{identificacion_clientes}+" , en mi calidad de Liquidadora del Banco Nacional de Fomento en Liquidación conforme a la designación a mi extendida y fundada en la orden de cobro, contenidos ambos actos en la Resolución No. SB-2016-324, emitida por el Ec. Christian Cruz Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, inscrita en el Registro Mercantil del cantón Quito, el 12 de mayo de 2016, cuyo desglose ordeno dejando copias certificadas en autos.- Déjese sin efecto el nombramiento del Abogado (a) "+$F{secretario_reemplazo}+" , en su calidad de Secretario (a) de Coactiva y al Abogado (a) "+$F{impulsor_reemplazo}+", en su calidad de Impulsor (a), en su reemplazo se designa como Secretario (a) de Coactiva al Abogado (a) "+$F{secretarios}+"  y, como Abogado (a) Impulsor (a) se designa al Abogado (a) "+$F{impulsores}+" quienes hallándose presentes aceptan los cargos y juran desempeñarlos fiel y legalmente, firmando para constancia con la suscrita Jueza de Coactiva.- CUMPLASE Y NOTIFÍQUESE. "]]></textFieldExpression>
-				<patternExpression><![CDATA[$F{juicio_referido_titulo_credito}]]></patternExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="dd62e078-0fe8-475f-b1c8-e3d36daefaaf"/>
