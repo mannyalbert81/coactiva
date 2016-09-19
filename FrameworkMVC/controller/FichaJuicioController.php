@@ -202,6 +202,7 @@ class FichaJuicioController extends ControladorBase{
 	public function verFichaGeneral()
 	{
 		$juicio= new JuiciosModel();
+		$id_usuario = $_SESSION['id_usuarios'];
 		
 		if(isset($_POST["reporte"]))
 		{
@@ -246,7 +247,8 @@ class FichaJuicioController extends ControladorBase{
 			$where_1 = "";
 			$where_2 = "";
 			$where_3 = "";
-			$where_4 = "";
+			$where_4 = "";			
+			$Where_5 = " AND asignacion_secretarios_view.id_secretario = '$id_usuario'";
 		
 		
 			if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
@@ -261,7 +263,7 @@ class FichaJuicioController extends ControladorBase{
 		
 		
 				
-			$where_to  = $where .$where_0. $where_1 . $where_2.$where_3.$where_4;
+			$where_to  = $where .$where_0. $where_1 . $where_2.$where_3.$where_4.$Where_5;
 		
 		
 				
