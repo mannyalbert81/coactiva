@@ -201,7 +201,9 @@ class FichaJuicioController extends ControladorBase{
 	
 	public function verFichaGeneral()
 	{
-		$juicio= new JuiciosModel();
+		session_start();
+		
+		$dato = array();
 		$id_usuario = $_SESSION['id_usuarios'];
 		
 		if(isset($_POST["reporte"]))
@@ -213,62 +215,29 @@ class FichaJuicioController extends ControladorBase{
 			$numero_juicio=$_POST['numero_juicio'];
 			$fechadesde=$_POST['fecha_desde'];
 			$fechahasta=$_POST['fecha_hasta'];
-		
-				
-			$columnas = " ciudad.nombre_ciudad,
-							clientes.nombres_clientes,
-							clientes.identificacion_clientes,
-							juicios.observaciones_juicios,
-							juicios.estrategia_juicios,
-							juicios.juicio_referido_titulo_credito,
-							juicios.creado,
-							estados_procesales_juicios.nombre_estados_procesales_juicios,
-							juicios.id_juicios,
-							juicios.fecha_emision_juicios,
-							juicios.numero_juicios,
-							asignacion_secretarios_view.secretarios,
-							asignacion_secretarios_view.liquidador,
-							asignacion_secretarios_view.impulsores";
-				
-			$tablas   = "public.ciudad,
-							public.juicios,
-							public.clientes,
-							public.estados_procesales_juicios,
-							public.asignacion_secretarios_view";
-				
-			$where    = "ciudad.id_ciudad = juicios.id_ciudad AND
-							clientes.id_clientes = juicios.id_clientes AND
-							estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
-							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = FALSE";
-		
-			$id       = "juicios.id_juicios";
-				
-			$where_0 = "";
-			$where_1 = "";
-			$where_2 = "";
-			$where_3 = "";
-			$where_4 = "";			
-			$Where_5 = " AND asignacion_secretarios_view.id_secretario = '$id_usuario'";
-		
-		
-			if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-		
-			if($id_impulsor!=0){$where_1=" AND asignacion_secretarios_view.id_abogado='$id_impulsor'";}
-		
-			if($identificacion_cliente!=""){$where_2=" AND clientes.identificacion_clientes='$identificacion_cliente'";}
-		
-			if($numero_juicio!=""){$where_3=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-		
-			if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
-		
-		
-				
-			$where_to  = $where .$where_0. $where_1 . $where_2.$where_3.$where_4.$Where_5;
-		
-		
-				
-			$resultSet=$juicio->getCondiciones($columnas ,$tablas ,$where_to, $id);
-				
+			
+			$dato['id_ciudad']=$id_ciudad;
+			$dato['id_usuario']=$id_usuario;
+			$dato['id_impulsor']=$id_impulsor;
+			$dato['identificacion']=$identificacion_cliente;
+			$dato['numero_juicio']=$numero_juicio;
+			$dato['fecha_desde']=$fechadesde;
+			$dato['fecha_hasta']=$fechahasta;
+			
+			$sendDato=urlencode(serialize($dato));
+			
+			
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContFichaGeneralReport.php?dato=$sendDato','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+			
+			print("<script language='JavaScript' >window.location.replace('http://$host$uri/index.php?controller=FichaJuicio&action=index');</script>");
+			
+			
+			//print("<script>window.location.replace('http://$host$uri/view/ireports/ContFichaGeneralReport.php?dato=$sendDato');</script>");
 				
 		}
 		
