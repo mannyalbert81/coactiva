@@ -252,6 +252,43 @@ class EtapasJuiciosController extends ControladorBase{
 				$resultado=$juicios->UpdateBy($colval, $tabla, $where);
 			
 			}
+			
+			if(isset($_POST["id_clientes"]))
+			{
+				
+				$clientes = new ClientesModel();
+			
+				$_id_clientes = $_POST["id_clientes"];
+				$_nombres_clientes     = $_POST["nombres_clientes"];
+				$_telefono_clientes   = $_POST["telefono_clientes"];
+				$_celular_clientes   = $_POST["celular_clientes"];
+				$_direccion_clientes   = $_POST["direccion_clientes"];
+				
+			
+				$_nombre_garantes   = $_POST["nombre_garantes"];
+				$_identificacion_garantes   = $_POST["identificacion_garantes"];
+				$_telefono_garantes  = $_POST["telefono_garantes"];
+				$_celular_garantes  = $_POST["celular_garantes"];
+				
+				
+				$_nombre_garantes_1   = $_POST["nombre_garantes_1"];
+				$_identificacion_garantes_1   = $_POST["identificacion_garantes_1"];
+				$_telefono_garantes_1  = $_POST["telefono_garantes_1"];
+				$_celular_garantes_1  = $_POST["celular_garantes_1"];
+				
+				$colval = " nombres_clientes = '$_nombres_clientes', telefono_clientes = '$_telefono_clientes',
+				            celular_clientes = '$_celular_clientes', direccion_clientes = '$_direccion_clientes',
+				            nombre_garantes = '$_nombre_garantes', identificacion_garantes = '$_identificacion_garantes',
+				            telefono_garantes = '$_telefono_garantes', celular_garantes = '$_celular_garantes',
+				            nombre_garantes_1 = '$_nombre_garantes_1', identificacion_garantes_1 = '$_identificacion_garantes_1',
+				            telefono_garantes_1 = '$_telefono_garantes_1', celular_garantes_1 = '$_celular_garantes_1'";
+				$tabla = "clientes";
+				$where = "id_clientes = '$_id_clientes'";
+					
+				$resultado=$clientes->UpdateBy($colval, $tabla, $where);
+			
+			}
+			
 			else{
 					
 			
@@ -351,6 +388,10 @@ class EtapasJuiciosController extends ControladorBase{
 							  clientes.identificacion_garantes,
 							  clientes.telefono_garantes,
 							  clientes.celular_garantes,
+							  clientes.nombre_garantes_1,
+							  clientes.identificacion_garantes_1,
+							  clientes.telefono_garantes_1,
+							  clientes.celular_garantes_1,
 							  titulo_credito.id_titulo_credito,
 							  titulo_credito.numero_titulo_credito,
 							  titulo_credito.total_total_titulo_credito,
@@ -431,6 +472,10 @@ class EtapasJuiciosController extends ControladorBase{
 							  clientes.identificacion_garantes, 
 							  clientes.telefono_garantes, 
 							  clientes.celular_garantes, 
+							  clientes.nombre_garantes_1,
+							  clientes.identificacion_garantes_1,
+							  clientes.telefono_garantes_1,
+							  clientes.celular_garantes_1,
 							  titulo_credito.id_titulo_credito, 
 							  titulo_credito.numero_titulo_credito, 
 							  titulo_credito.total_total_titulo_credito, 
