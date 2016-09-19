@@ -388,9 +388,7 @@ $(document).ready(function() {
 			 </div>
 			  
 			  <hr>
-		    
-		   
-               	
+		    	
 		     <?php } ?>
 		     
 		       <div class="row">
