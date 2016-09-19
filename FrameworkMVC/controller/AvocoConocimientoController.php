@@ -186,7 +186,7 @@ public function index(){
 					case "con_garante":
 						
 						print "<script language='JavaScript'>
-						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorGaranteReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 						</script>";
 						
 						print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
@@ -195,7 +195,7 @@ public function index(){
 					case "sin_garante":
 						
 						print "<script language='JavaScript'>
-						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSinGaranteReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 						</script>";
 						
 						print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
@@ -205,7 +205,7 @@ public function index(){
 					case "con_dos_garante":
 						
 						print "<script language='JavaScript'>
-						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsor2GaranteReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 						</script>";
 						
 						print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
@@ -307,7 +307,9 @@ public function index(){
           		$dato['secretario']=$resultAbogados[0]->secretarios;
           		$dato['abogado']=$resultAbogados[0]->impulsores;
           		$dato['garante']=$resultJuicio[0]->nombre_garantes;
+          		$dato['garante_1']=$resultJuicio[0]->nombre_garantes_1;
           		$dato['identificacion_garante']=$resultJuicio[0]->identificacion_garantes;
+          		$dato['identificacion_garante_1']=$resultJuicio[0]->identificacion_garantes_1;
           		$dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
           		$dato['hora']= date ("h:i:s");
           		//$this->view("Error", array("resultado"=>print_r($dato))); exit();
