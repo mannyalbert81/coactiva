@@ -202,7 +202,7 @@ public function index(){
 						
 						break;
 						
-					case "secretario":
+					case "con_dos_garante":
 						
 						print "<script language='JavaScript'>
 						setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
@@ -613,8 +613,246 @@ public function index(){
 	
 	public function AvocoSecretarioImpulsor()
 	{
+		session_start();
+		
+		if (isset(  $_SESSION['usuario_usuarios']) )
+		{
+			$ciudad = new CiudadModel();
+			$usarios= new UsuariosModel();
+			$avoco = new AvocoConocimientoModel();
+				
+			$resulSecretario=array();
+			$resulImpulsor=array();
+			$resultDatos=array();
+			$resulSet=array();
+				
+			$_id_usuarios= $_SESSION["id_usuarios"];
+				
+			//notificaciones
+			$usarios->MostrarNotificaciones($_id_usuarios);
+				
+			$documentos = new DocumentosModel();
+				
+				
+			$nombre_controladores = "Avoco";
+			$id_rol= $_SESSION['id_rol'];
+			$resultPer = $documentos->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+		
+			if (!empty($resultPer))
+			{
+		
+				if(isset($_POST['Validar']))
+				{
+					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
+						
+					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
+							"usuarios.nombre_usuarios");
+						
+					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2",
+							"usuarios.nombre_usuarios");
+						
+					//$this->view("Error", array("resultado"=>print_r($resulSecretario))); exit();
+						
+					$juicio = new  JuiciosModel();
+					$juicio_referido=$_POST['juicios'];
+		
+					$resulSet=$juicio->getCondiciones("id_juicios,juicio_referido_titulo_credito", "juicios", "juicio_referido_titulo_credito='$juicio_referido'", "id_juicios");
+						
+				}
+		
+			}
+			else
+			{
+				$this->view("Error",array(
+						"resultado"=>"No tiene Permisos de Acceso a Avoco Conocimiento"
+				));
+				exit();
+			}
+				
+			$this->view("AvocoSecretarioImpulsor",array(
+					"resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
+						
+			));
+		}
+		else
+		{
+			$this->view("Error",array(
+					"resultado"=>"Debe Iniciar Sesion"
+		
+			));
+		}
 		
 	}
 	
+	public function InsertarAvocoSecretarioImpulsor()
+	{
+		
+			session_start();
+		
+			$avoco = new AvocoConocimientoModel();
+		
+			$juicio = new  JuiciosModel();
+			$nombre_controladores = "Avoco";
+			$id_rol= $_SESSION['id_rol'];
+			$resultPer = $avoco->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$id_usuario=$_SESSION['id_usuarios'];
+		
+			if (!empty($resultPer))
+			{
+		
+				$resultado = null;
+		
+				if (isset ($_POST["Guardar"]))
+				{
+					//estado de documento pdf
+					$_estado = "";
+		
+					$dato=array();
+		
+					//identificador de pdf
+					$identificador="";
+		
+					//inicializar Parametros
+					$_id_ciudad = "";
+					$_id_juicio = "";
+					$_id_secretario_reemplazar  = null;
+					$_id_impulsor_reemplazar  = null;
+					$_id_secretario = null;
+					$_id_impulsor = null;
+					$_tipo_avoco = "";
+		
+					if(isset($_POST["id_secretario_reemplazo"])){$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];}
+		
+					if(isset($_POST["id_impulsor_reemplazo"])){$_id_impulsor_reemplazar  = $_POST["id_impulsor_reemplazo"];}
+		
+					if(isset($_POST["id_secretario"])){$_id_secretario  = $_POST["id_secretario"];}
+		
+					if(isset($_POST["id_impulsor"])){$_id_impulsor  = $_POST["id_impulsor"];}
+		
+					//parametros
+					$_id_ciudad  = $_POST["id_ciudad"];
+					$_id_juicio  = $_POST["id_juicios"];
+					$_tipo_avoco  = $_POST["tipo_avoco"];
+		
+		
+					/*$this->view("Error", array("resultado"=>'ciudad '.$_id_ciudad.' juicio '.$_id_juicio.' secretario '.$_id_secretario_reemplazar.
+					 ' impulsor '.$_id_impulsor_reemplazar.' secretario '.$_id_secretario.' impulsor '.$_id_impulsor.' tipoavoco '.$_tipo_avoco
+						));
+					exit();*/
+		
+					$consecutivo= new ConsecutivosModel();
+					$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='AVOCO'");
+		
+					$identificador=$resultConsecutivo[0]->real_consecutivos;
+		
+					$repositorio_documento="Avoco";
+		
+					$nombre_documento=$repositorio_documento.$identificador;
+		
+					$funcion = "ins_avoco_conocimiento";
+						
+					$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
+					$avoco->setFuncion($funcion);
+		
+					$avoco->setParametros($parametros);
+					$resultado=$avoco->Insert();
+		
+					$updateJuicio = $avoco->UpdateBy("id_usuarios='$_id_impulsor'", "juicios", "id_juicios='$_id_juicio'");
+		
+					/*$this->view("Error", array("resultado"=>print_r($resultado)));
+						exit();*/
+		
+					//auditoria
+					$traza=new TrazasModel();
+					$_nombre_controlador = "Avoco";
+					$_accion_trazas  = "Guardar";
+					$_parametros_trazas = "Archivo ".$nombre_documento." en ".$repositorio_documento;
+					$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+		
+					$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCO'");
+		
+					$_estado = "Guardar";
+		
+					//inserta las notificaciones
+					//$this->notificacionSecretario($_id_secretario,$nombre_documento);
+					//$this->notificacionimpulsor($_id_impulsor,$nombre_documento);
+					//$this->notificacionSecretarioReemplazo($_id_secretario_reemplazar,$nombre_documento);
+		
+					$host  = $_SERVER['HTTP_HOST'];
+					$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		
+					switch ($_tipo_avoco){
+							
+						case "con_garante":
+		
+							print "<script language='JavaScript'>
+							setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+							</script>";
+		
+							print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+							break;
+								
+						case "sin_garante":
+		
+							print "<script language='JavaScript'>
+							setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSinGaranteReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+							</script>";
+		
+							print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+		
+							break;
+		
+						case "con_dos_garante":
+		
+							print "<script language='JavaScript'>
+							setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+							</script>";
+		
+							print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+		
+							break;
+		
+						case "impulsor":
+		
+							print "<script language='JavaScript'>
+							setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_documento','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+							</script>";
+		
+							print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index');</script>");
+		
+							break;
+					}
+		
+				}
+		
+		
+			}else
+			{
+					
+				$this->view("Error",array(
+		
+						"resultado"=>"No tiene Permisos de Insertar Documentos"
+		
+				));
+		
+			}
+		
+		
+		
+	}
+	
+	public function AvocoSecretario()
+	{
+		
+	}
+	
+	public function AvocoImpulsor()
+	{
+	
+	}
 }
 ?>

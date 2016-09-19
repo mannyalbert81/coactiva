@@ -4,7 +4,7 @@
       <head>
       
         <meta charset="utf-8"/>
-        <title>Consulta Clientes - coactiva 2016</title>
+        <title>Ficha Juicio - coactiva 2016</title>
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		  			   
@@ -195,11 +195,7 @@
 		<?php if(!empty($resultSet))  {?>
 		
 		 <input type="submit" id="reporte" name="reporte"  value="Ver Fichas General"  onclick="this.form.action='<?php echo $helper->url("FichaJuicio","verFichaGeneral"); ?>'" class="btn btn-info" style="margin-top: 10px;"/>
-		 
-		 <!-- onclick="this.form.action='<?php //echo $helper->url("FichaJuicio","verFichaGeneral"); ?>'" -->
-			
-		  <!--  <a href="<?php echo  $helper->url("","");?>" onclick="window.open('', this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-info" style="margin-top: 10px;" onClick="Ok()" >Ver Fichas General</a>
-		  -->      
+		      
 		  <?php } else {?>
 		  
 		  <?php } ?>

@@ -371,7 +371,7 @@
      
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("AvocoConocimiento","index"); ?>" method="post" enctype="multipart/form-data">
+      <form action="<?php echo $helper->url("AvocoConocimiento","AvocoSecretarioImpulsor"); ?>" method="post" enctype="multipart/form-data">
             
         <div class="col-lg-12" style="margin-top: 10px" >
          
@@ -409,21 +409,21 @@
   			 <div class="row">
   			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Tipo Avoco</h4>
   			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
+  			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
+  			</div>
+  			
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
   			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
   			</div>
   			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
-  			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
+  			 <p  class="formulario-subtitulo" >-- Con 2 Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?>/>
   			</div>
   			 <!-- 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
-  			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
-  			</div>
-  			 
   			 <div class="col-xs-3 col-md-3" style="text-align: center;">
   			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
   			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
@@ -519,7 +519,7 @@
 		</div>
 		
 		 
-		<div class="col-xs-12 col-md-12" style="margin-top:10px">
+		<div class="col-xs-12 col-md-12" style="margin-top:10px; margin-bottom: 20px;">
 		 <div class="form-group">
 		     
 		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >

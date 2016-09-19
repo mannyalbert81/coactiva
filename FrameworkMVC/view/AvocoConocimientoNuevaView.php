@@ -172,117 +172,10 @@
 	
 	</script>
 	
-	<script>
-	$(document).ready(function(){
-		
-		$("#id_secretario").change(function(){
 
-            // identificamos al ddl de impulsor
-           var $ddl_impulsor = $("#id_impulsor");
-       	
-
-            // tomamos parametros -> idSecretario
-           var ddl_secretario = $(this).val();
-
-          //vaciamos el ddl para secretario
-            $ddl_impulsor.empty();
-
-          
-            if(ddl_secretario != 0)
-            {
-            	
-            	 var datos = {  
-                    	 		idSecretario:$(this).val()  
-                    	 	 };
-             
-            	
-         	   	$.post("<?php echo $helper->url("AvocoConocimiento","returnImpulsoresxSecretario"); ?>", datos, function(resultado) {
-
-         		 		$.each(resultado, function(index, value) {
-            		 	    $ddl_impulsor.append("<option value= " +value.id_abogado +" >" + value.impulsores  + "</option>");	
-                    		 });
-
-         		 		 	 		   
-         		  }, 'json');
-
-
-            }
-            else
-            {
-                
-         	   $ddl_impulsor.empty();
-
-            }
-		//alert("hola;");
-		});
-
-		
-		});
-	
-	</script>
 	
 	
    
-      <script >
-	$(document).ready(function(){
-
-		habilitarCb(true);		
-		
-		$("#div_con_garante").fadeIn();
-
-		$("#con_garante").click(function(){
-
-			habilitarCb(false);
-			
-			});
-		$("#sin_garante").click(function(){
-
-			habilitarCb(false);			
-			
-			});
-		$("#secretario").click(function(){
-			
-			$('#id_impulsor_reemplazo').prop('disabled', true);
-			$('#id_impulsor').prop('disabled', true);
-			$('#id_secretario_reemplazo').prop('disabled', false);
-			$('#id_secretario').prop('disabled', false);
-			$('#id_ciudad').prop('disabled', true);
-						
-			});
-		$("#impulsor").click(function(){
-
-			$('#id_secretario_reemplazo').prop('disabled', true);
-			$('#id_secretario').prop('disabled', true);
-			$('#id_impulsor_reemplazo').prop('disabled', false);
-			$('#id_impulsor').prop('disabled', false);
-			$('#id_ciudad').prop('disabled', true);
-
-			});
-		
-		$("#Guardar").click(function(){
-
-			habilitarCb(false);
-
-			$("#con_garante").prop('disabled', false);
-
-			$("#sin_garante").prop('disabled', false);
-
-			
-		});
-		
-
-		
-	});
-
-	function habilitarCb(bool ){
-		$('#id_secretario_reemplazo').prop('disabled', bool);
-		$('#id_secretario').prop('disabled', bool);
-		$('#id_impulsor_reemplazo').prop('disabled', bool);
-		$('#id_impulsor').prop('disabled', bool);
-		$('#id_ciudad').prop('disabled', bool);
-	}
-	
-	</script>
      
      
 
@@ -370,115 +263,50 @@
             
         <div class="col-lg-12" style="margin-top: 10px" >
          
-       	 <div class="panel panel-default">
-  			<div class="panel-body">
-			 <div class="col-xs-3 col-md-3" >
-			   
-		     </div>
-		     
-		     <div class="col-xs-4 col-md-4" style="text-align: center;" >
-			  <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}else { echo $sel_juicios;} ?>">
-	        
-	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
-	         echo 	$res->id_juicios;
-
-	         }}elseif (!empty($datosGet)){echo $datosGet['id_juicio'];}?>">
-
-		   	<div id="mensaje_juicio" class="errores"></div>	   
-		    </div>
-			  
-			 
-			  <div class="col-xs-5 col-md-5">
-		    <input type="submit" id="Validar" name="Validar" value="Validar"  class="btn btn-warning"/>
-			 </div>
-			 </div>
-		    </div>
+       
 		    </div>
 			 <br>
 			 
 			 
-			<div class="col-lg-12" style="margin-top: 10px" >
+			<div class="col-lg-12" style="margin-top: 10px; height:400px;"  >
 			
-			<div class="panel panel-default">
-  			<div class="panel-body">
+			<div class="panel panel-default" >
+  			<div class="panel-body" style="margin-bottom: 50px; margin-top: 40px;">
   			
   			 <div class="row">
   			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Persona a Reemplazar</h4>
   			 
   			 <div class="col-xs-6 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Secretario e Impulsor --</p>
-  			 <input type="radio" name="tipo_rol" id="con_garante" value="secretarioimpulsor" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
-  			</div>
+  			 <input type="submit" id="r_secretario_impulsor" name="r_secretario_impulsor"  value="Reemplazar"  onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","AvocoSecretarioImpulsor"); ?>'" class="btn btn-info" style="margin-top: 10px;"/>
+		  </div>
   			 
   			 <div class="col-xs-6 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo">-- Secretario --</p>
-  			 <input type="radio" name="tipo_rol" id="sin_garante" value="secretario" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
-  			</div>
+  			 <input type="submit" id="r_secretario" name="r_secretario"  value="Reemplazar"  onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","AvocoSecretario"); ?>'" class="btn btn-info" style="margin-top: 10px;"/>
+		  </div>
   			 
   			 <div class="col-xs-6 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Impulsor --</p>
-  			 <input type="radio" name="tipo_rol" id="secretario" value="impulsor" <?php echo $habilitar;?>/>
-  			</div>
+  			 <input type="submit" id="r_impulsor" name="r_impulsor"  value="Reemplazar"  onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","AvocoImpulsor"); ?>'" class="btn btn-info" style="margin-top: 10px;"/>
+		  </div>
   			 
   			 </div>
   			
   			</div>
 		    </div>
-		    </div>
-			
-            <div class="panel panel-default">
-  			<div class="panel-body">
-  			
-  			 <div class="row">
-  			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Tipo Avoco</h4>
-  			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
-  			</div>
-  			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
-  			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
-  			</div>
-  			 <!-- 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
-  			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
-  			</div>
-  			 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
-  			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
-  			</div>
-  			 -->
-  			 </div>
-  			
-  			</div>
-		    </div>
-		    </div>
-			 
-		 	   
 		
-		 
-		<div class="col-xs-12 col-md-12" style="margin-top:10px; margin-bottom: 20px;">
-		 <div class="form-group">
-		     
-		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" />
-			  </div>
-			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvoco"); ?>'" value="Visualizar" class="btn btn-info"/>
-			 </div>
-			 
-		</div>
-		</div>
+		
+		    </div>
+		   
+	
 		<br>
 		<br>
 		<br>
 		
+		</form>
 		
-	   </form>
+	   
        
       </div>
       </div>
