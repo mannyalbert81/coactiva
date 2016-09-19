@@ -533,5 +533,11 @@ public function index(){
 		echo json_encode($resultado);
 	}
 	
+	//Avocos nuevas vistas
+	public function AvocoSecretarioImpulsor()
+	{
+		
+	}
+	
 }
 ?>

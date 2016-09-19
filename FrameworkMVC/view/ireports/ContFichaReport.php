@@ -5,9 +5,9 @@
 ob_end_clean(); //add this line here
 			
 	include_once('PhpJasperLibrary/class/tcpdf/tcpdf.php');
-			include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
+	include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
 			
-			include_once ('conexion.php');
+	include_once ('conexion.php');
 
 
 #Conectas a la base de datos 
