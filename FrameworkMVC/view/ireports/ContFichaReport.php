@@ -22,7 +22,7 @@ $PHPJasperXML->debugsql=false;
 
 #aqu� va el reporte
 
-
+//parametros para enviar reporte.
 $id=$_GET['id_juicios'];
 
 

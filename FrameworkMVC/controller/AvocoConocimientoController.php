@@ -534,6 +534,83 @@ public function index(){
 	}
 	
 	//Avocos nuevas vistas
+	
+	public function nueva(){
+	
+		session_start();
+	
+		if (isset(  $_SESSION['usuario_usuarios']) )
+		{
+			$ciudad = new CiudadModel();
+			$usarios= new UsuariosModel();
+			$avoco = new AvocoConocimientoModel();
+				
+			$resulSecretario=array();
+			$resulImpulsor=array();
+			$resultDatos=array();
+			$resulSet=array();
+				
+			$_id_usuarios= $_SESSION["id_usuarios"];
+				
+			//notificaciones
+			$usarios->MostrarNotificaciones($_id_usuarios);
+				
+			$documentos = new DocumentosModel();
+				
+				
+			$nombre_controladores = "Avoco";
+			$id_rol= $_SESSION['id_rol'];
+			$resultPer = $documentos->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+	
+			if (!empty($resultPer))
+			{
+	
+				if(isset($_POST['Validar']))
+				{
+					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
+						
+					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
+							"usuarios.nombre_usuarios");
+						
+					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2",
+							"usuarios.nombre_usuarios");
+						
+					//$this->view("Error", array("resultado"=>print_r($resulSecretario))); exit();
+						
+					$juicio = new  JuiciosModel();
+					$juicio_referido=$_POST['juicios'];
+	
+					$resulSet=$juicio->getCondiciones("id_juicios,juicio_referido_titulo_credito", "juicios", "juicio_referido_titulo_credito='$juicio_referido'", "id_juicios");
+						
+				}
+	
+			}
+			else
+			{
+				$this->view("Error",array(
+						"resultado"=>"No tiene Permisos de Acceso a Avoco Conocimiento"
+				));
+				exit();
+			}
+				
+			$this->view("AvocoConocimientoNueva",array(
+					"resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
+						
+			));
+		}
+		else
+		{
+			$this->view("Error",array(
+					"resultado"=>"Debe Iniciar Sesion"
+	
+			));
+		}
+	}
+	
 	public function AvocoSecretarioImpulsor()
 	{
 		
