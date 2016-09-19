@@ -28,12 +28,13 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 		$_dato=unserialize($a);
 		
 
-		$id_ciudad=$_POST['id_ciudad'];
-		$id_impulsor=$_POST['id_usuarios'];
-		$identificacion_cliente=$_POST['identificacion'];
-		$numero_juicio=$_POST['numero_juicio'];
-		$fechadesde=$_POST['fecha_desde'];
-		$fechahasta=$_POST['fecha_hasta'];
+		$id_ciudad=$_dato['id_ciudad'];
+		$id_impulsor=$_dato['id_impulsor'];
+		$identificacion_cliente=$_dato['identificacion'];
+		$numero_juicio=$_dato['numero_juicio'];
+		$fechadesde=$_dato['fecha_desde'];
+		$fechahasta=$_dato['fecha_hasta'];
+		$id_usuario=$_dato['id_usuario'];
 		
 		
 		$columnas = " ciudad.nombre_ciudad,
@@ -61,8 +62,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 							clientes.id_clientes = juicios.id_clientes AND
 							estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
 							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = FALSE";
-		
-		$id       = "juicios.id_juicios";
+	
 		
 		$where_0 = "";
 		$where_1 = "";
@@ -87,10 +87,8 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 		$where_to  = $where .$where_0. $where_1 . $where_2.$where_3.$where_4.$Where_5;
 		
 		
+		$sql='SELECT '.$columnas.' FROM '.$tablas.' WHERE '.$where_to;
 		
-		$resultSet=$juicio->getCondiciones($columnas ,$tablas ,$where_to, $id);
-
-
 			
 
 			$PHPJasperXML = new PHPJasperXML("en","TCPDF");

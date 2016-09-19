@@ -190,12 +190,16 @@
 		 
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
+		 <input type="submit" id="buscar" name="buscar" value="Buscar"  class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
 		
 		<?php if(!empty($resultSet))  {?>
 		
-		  <a href="<?php echo  $helper->url("FichaJuicio","verFichaGeneral");?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-info" style="margin-top: 10px;" onClick="Ok()" >Ver Fichas General</a>
-		        
+		 <input type="submit" id="reporte" name="reporte"  value="Ver Fichas General"  onclick="this.form.action='<?php echo $helper->url("FichaJuicio","verFichaGeneral"); ?>'" class="btn btn-info" style="margin-top: 10px;"/>
+		 
+		 <!-- onclick="this.form.action='<?php //echo $helper->url("FichaJuicio","verFichaGeneral"); ?>'" -->
+			
+		  <!--  <a href="<?php echo  $helper->url("","");?>" onclick="window.open('', this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-info" style="margin-top: 10px;" onClick="Ok()" >Ver Fichas General</a>
+		  -->      
 		  <?php } else {?>
 		  
 		  <?php } ?>
