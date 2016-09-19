@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-19T14:19:03 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FichaVisualizarReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="df3edc5b-b0c2-4f48-9ef5-641f9685e4d4">
+<!-- 2016-09-19T16:51:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FichaVisualizarReport" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="56" rightMargin="28" topMargin="56" bottomMargin="56" uuid="df3edc5b-b0c2-4f48-9ef5-641f9685e4d4">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<parameter name="_sql" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[$P{_sql}]]>
@@ -30,8 +39,8 @@
 		</band>
 	</title>
 	<detail>
-		<band height="542" splitType="Prevent">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+		<band height="633" splitType="Prevent">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<textField>
 				<reportElement x="0" y="23" width="454" height="23" uuid="67d5eb6d-571c-4179-af31-8005d73b2fab"/>
 				<textFieldExpression><![CDATA["PARA: "+$F{liquidador}]]></textFieldExpression>
@@ -41,102 +50,102 @@
 				<textFieldExpression><![CDATA[$F{nombre_ciudad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="174" width="454" height="23" uuid="cb9cd044-976b-4db3-8d56-a1feb9dd0f7d"/>
+				<reportElement x="0" y="214" width="454" height="23" uuid="cb9cd044-976b-4db3-8d56-a1feb9dd0f7d"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Numero de Cuenta"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="197" width="454" height="23" uuid="a805a8da-82fd-40fc-8ac9-01b6c9b9ef75"/>
+				<reportElement x="0" y="237" width="454" height="23" uuid="a805a8da-82fd-40fc-8ac9-01b6c9b9ef75"/>
 				<textFieldExpression><![CDATA["1726570698-2"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="220" width="454" height="23" uuid="3ac87393-10d2-4ae3-8e3e-ee170861f63e"/>
+				<reportElement x="0" y="260" width="454" height="23" uuid="3ac87393-10d2-4ae3-8e3e-ee170861f63e"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Numero de Operacion"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="243" width="454" height="23" uuid="9a7d5c82-dd98-4512-a3a7-ff1a73715e66"/>
+				<reportElement x="0" y="283" width="454" height="23" uuid="9a7d5c82-dd98-4512-a3a7-ff1a73715e66"/>
 				<textFieldExpression><![CDATA[$F{numero_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="266" width="454" height="23" uuid="e0f58d80-a9c4-422a-b5ee-d5e1e45b0f06"/>
+				<reportElement x="0" y="306" width="454" height="23" uuid="e0f58d80-a9c4-422a-b5ee-d5e1e45b0f06"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Numero y año de Juicio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="289" width="454" height="23" uuid="98a38529-12f8-41b3-accc-058b2a4f5144"/>
+				<reportElement x="0" y="329" width="454" height="23" uuid="98a38529-12f8-41b3-accc-058b2a4f5144"/>
 				<textFieldExpression><![CDATA[$F{numero_juicios}+$F{fecha_emision_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="312" width="454" height="23" uuid="bc51a4f4-5094-4a61-b740-b82c96146bf5"/>
+				<reportElement x="0" y="352" width="454" height="23" uuid="bc51a4f4-5094-4a61-b740-b82c96146bf5"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Estado Procesal"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="335" width="454" height="23" uuid="1c716999-4793-4938-aa1b-cd9ce6f9beeb"/>
+				<reportElement x="0" y="375" width="454" height="23" uuid="1c716999-4793-4938-aa1b-cd9ce6f9beeb"/>
 				<textFieldExpression><![CDATA[$F{nombre_estados_procesales_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="358" width="454" height="23" uuid="eedfa7ba-3ff8-4ae8-a394-a3d5176f0636"/>
+				<reportElement x="0" y="398" width="454" height="23" uuid="eedfa7ba-3ff8-4ae8-a394-a3d5176f0636"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Estrategia a Seguir"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="381" width="454" height="23" uuid="38435944-40e9-49f0-8211-3f72196e909a"/>
+				<reportElement x="0" y="421" width="454" height="23" uuid="38435944-40e9-49f0-8211-3f72196e909a"/>
 				<textFieldExpression><![CDATA[$F{estrategia_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="404" width="454" height="23" uuid="c1e84a0f-cee0-47f5-a940-83a657160cc8"/>
+				<reportElement x="0" y="444" width="454" height="23" uuid="c1e84a0f-cee0-47f5-a940-83a657160cc8"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Observaciones"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="427" width="454" height="23" uuid="901a2fc2-9dc2-4657-97a6-2be077a5f165"/>
+				<reportElement x="0" y="467" width="454" height="23" uuid="901a2fc2-9dc2-4657-97a6-2be077a5f165"/>
 				<textFieldExpression><![CDATA[$F{observaciones_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="450" width="454" height="23" uuid="cd0ad82a-f15b-4336-8ba7-3ba3b5144c65"/>
+				<reportElement x="0" y="490" width="454" height="23" uuid="cd0ad82a-f15b-4336-8ba7-3ba3b5144c65"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Atentamente"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="473" width="454" height="23" uuid="3bcc3c63-eeca-4717-add9-e85140d1c5a1"/>
+				<reportElement x="0" y="513" width="454" height="23" uuid="3bcc3c63-eeca-4717-add9-e85140d1c5a1"/>
 				<textFieldExpression><![CDATA["__________________"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="496" width="454" height="23" uuid="3779e7bb-71f7-4683-ae4d-444c9d07f5a5"/>
+				<reportElement x="0" y="536" width="454" height="23" uuid="3779e7bb-71f7-4683-ae4d-444c9d07f5a5"/>
 				<textFieldExpression><![CDATA[$F{secretarios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="519" width="454" height="23" uuid="16ad05ce-ccc8-4e39-a7c4-f0b0c292e6eb"/>
+				<reportElement x="0" y="559" width="454" height="23" uuid="16ad05ce-ccc8-4e39-a7c4-f0b0c292e6eb"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Secretario Abogado"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="150" width="454" height="23" uuid="fe73d3f6-25b4-4118-b1ba-f0a9bd4865ad"/>
+				<reportElement x="0" y="190" width="454" height="23" uuid="fe73d3f6-25b4-4118-b1ba-f0a9bd4865ad"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombres_clientes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="127" width="454" height="23" uuid="21d7addd-107f-48e7-9ff1-4d39aa7e58d1"/>
+				<reportElement x="0" y="167" width="454" height="23" uuid="21d7addd-107f-48e7-9ff1-4d39aa7e58d1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -157,7 +166,7 @@
 				<textFieldExpression><![CDATA["ASUNTO: "+"FICHA DE JUICIO"]]></textFieldExpression>
 			</textField>
 			<rectangle radius="4">
-				<reportElement mode="Transparent" x="-11" y="-80" width="481" height="621" uuid="e0a85b63-1d01-463e-984c-fc46964047ff"/>
+				<reportElement mode="Transparent" x="-29" y="-80" width="540" height="713" uuid="e0a85b63-1d01-463e-984c-fc46964047ff"/>
 				<graphicElement>
 					<pen lineWidth="4.0" lineStyle="Solid"/>
 				</graphicElement>
@@ -165,9 +174,9 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
+		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="454" height="25" forecolor="#000000" uuid="392743cd-3ab9-40cb-88cc-e70d44cb476f"/>
+				<reportElement x="0" y="1" width="454" height="25" forecolor="#000000" uuid="392743cd-3ab9-40cb-88cc-e70d44cb476f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tw Cen MT Condensed Extra Bold" size="10" isBold="true" isItalic="true"/>
 				</textElement>
