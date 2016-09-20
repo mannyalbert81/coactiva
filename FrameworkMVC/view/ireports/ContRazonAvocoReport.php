@@ -89,14 +89,17 @@ if ($estado == 'Visualizar')
 		
 		
 		$dir=($directorio.$nombre.'.pdf');
+		$dir1=($directorio1.$nombre_avoco_conocimiento.'.pdf');
+		
 		if(file_exists($dir))
 		{
-			if(unlink($dir))
-				print "El archivo fue borrado";
+			if(unlink($dir)&& unlink($dir1))
+			{
+				
+			}
 		}
-		else
-			print "Este archivo no existe";
 		
+		rename ($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf',$directorio1.$nombre_avoco_conocimiento.'.pdf');
 		
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
