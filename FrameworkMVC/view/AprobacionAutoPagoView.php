@@ -121,10 +121,27 @@
        
        
        <?php
-       $resultMenu=array(0=>"Identificacion",1=>"Titulo Credito");
-     	 		 
-     			
-     	
+       $sel_id_ciudad = "";
+       $sel_id_usuarios = "";
+       $sel_identificacion="";
+       $sel_numero_juicio="";
+       
+       $sel_fecha_desde="";
+       $sel_fecha_hasta="";
+        
+       if($_SERVER['REQUEST_METHOD']=='POST' )
+       {
+       	 
+       	 
+       	$sel_id_ciudad = $_POST['id_ciudad'];
+       	$sel_id_usuarios = $_POST['id_usuarios'];
+       	$sel_identificacion=$_POST['identificacion'];
+       	$sel_numero_juicio=$_POST['numero_titulo_credito'];
+       
+       	$sel_fecha_desde=$_POST['fecha_desde'];
+       	$sel_fecha_hasta=$_POST['fecha_hasta'];
+       	 
+       }
 		   
 		?>
  
@@ -134,117 +151,151 @@
   <div class="row" style="background-color: #ffffff;">
   
      
-      <form action="<?php echo $helper->url("AprobacionAutoPago","index"); ?>" method="post"  class="col-lg-12">
-    
-    <div class="col-lg-12" style="margin-top: 10px">
+     <form action="<?php echo $helper->url("AprobacionAutoPago","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
-       	 <h4 style="color:#ec971f;">Aprobacion Auto Pagos</h4>
+         <!-- comienxza busqueda  -->
+         <div class="col-lg-12" style="margin-top: 10px">
+         
+       	 <h4 style="color:#ec971f;">Aprobacion Autos de Pago</h4>
        	 
        	 
        	 <div class="panel panel-default">
   			<div class="panel-body">
   			
-  			<?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
-           <?php //no hay datos para editar?>
-        
-            <?php } } else {?>
+  			
+		   			
+          <div class="col-xs-2">
+			  	<p  class="formulario-subtitulo" style="" >Juzgado:</p>
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
+			  		<?php foreach($resultDatos as $res) {?>
+						 <option value="<?php echo $res->id_ciudad; ?>" <?php if($sel_id_ciudad==$res->id_ciudad){echo "selected";}?>  ><?php echo $res->nombre_ciudad; ?> </option>
+			            <?php } ?>
+				</select>
+		 </div>
+		 
+		 <div class="col-xs-2">
+			  	<p  class="formulario-subtitulo" style="" >Impulsores:</p>
+			  	<select name="id_usuarios" id="id_usuarios"  class="form-control" >
+			  	<option value="0">--Todos--</option>
+			  		<?php foreach($resultImpul as $res) {?>
+						 <option value="<?php echo $res->id_abogado; ?>"<?php if($sel_id_usuarios==$res->id_abogado){echo "selected";}?>  ><?php echo $res->impulsores; ?> </option>
+			           
+			            <?php } ?>  
+			            
+				</select>
+		 </div>
+		 
+		 <div class="col-xs-2 ">
+			  	<p  class="formulario-subtitulo" >Identificacion:</p>
+			  	<input type="text"  name="identificacion" id="identificacion" value="<?php echo $sel_identificacion;?>" class="form-control"/> 
+			    <div id="mensaje_identificacion" class="errores"></div>
+
+         </div>
+		 
+		  <div class="col-xs-2 ">
+			  	<p  class="formulario-subtitulo" >Nº Titulo Credito:</p>
+			  	<input type="text"  name="numero_titulo_credito" id="numero_titulo_credito" value="<?php echo $sel_numero_juicio;?>" class="form-control"/> 
+			    <div id="mensaje_juicio" class="errores"></div>
+
+         </div>
           
-           <div class="col-md-2">
-		   </div>
-  			<div class="col-xs-12 col-md-3">
-			  	<p  class="formulario-subtitulo" >Selecione filtro</p>
-			  	<select name="criterio_busqueda" id="criterio_busqueda"  class="form-control" >
-					<?php foreach($resultMenu as $val=>$desc) {?>
-						<option value="<?php echo $val; ?>"  ><?php echo $desc ?> </option>
-			        <?php } ?>
-				</select> 			  
-			  </div>
-			  
-		    <div class="col-xs-12 col-md-3">
-		    	<p  class="formulario-subtitulo" style="color: #ffffff;" >--</p>
-			  <input type="text" name="contenido_busqueda" id="contenido_busqueda" value="" class="form-control"/>
-			  <div id="mensaje_nombres" class="errores"></div>
-			  </div>
-			  
-			  <div class="col-xs-12 col-md-3">
-			  <p  class="formulario-subtitulo" style="color: #ffffff;" >--</p>
-  		    <input type="submit" id="buscar" name="buscar"  value="Buscar" class="btn btn-warning"/>
-  		    </div>
-  		    
-  		     <?php } ?>
+         
+         <div class="col-xs-2 ">
+         		<p class="formulario-subtitulo" >Desde:</p>
+			  	<input type="date"  name="fecha_desde" id="fecha_desde" value="<?php echo $sel_fecha_desde;?>" class="form-control "/> 
+			    <div id="mensaje_fecha_desde" class="errores"></div>
+		</div>
+         
+          <div class="col-xs-2 ">
+          		<p class="formulario-subtitulo" >Hasta:</p>
+			  	<input type="date"  name="fecha_hasta" id="fecha_hasta" value="<?php echo $sel_fecha_hasta;?>" class="form-control "/> 
+			    <div id="mensaje_fecha_hasta" class="errores"></div>
+		</div>
 		 
   			</div>
-  			 
+  		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
+		 <input type="submit" id="buscar" name="buscar" value="Buscar" class="btn btn-warning " onClick="notificacion()" style="margin-top: 10px;"/> 	
+		
+		<?php if(!empty($resultSet))  {?>
+		  
+		  <?php } else {?>
+		  <?php } ?>
+		 </div>
 		</div>
-	</div>
-    
-   
-    
-    <div  class="col-lg-12">
-     
-     
-		     <div class="col-xs-12">
-		     
-				 <div class="col-xs-9"></div>
-				 <div class="col-xs-3">
-				 <span class="form-control" style="margin-bottom:0px;"><strong>Registros:</strong><?php if(!empty($resultDatos)) echo "  ".count($resultDatos);?></span>
-				 </div>
-				 
-			</div>
-		 <div class="col-xs-12">
-            
-    		
-			
-	
-	<div class="col-xs-12">
-         
-       <section   style="height:400px;overflow-y:scroll;">
+        	
+		 </div>
+		 
+		 
+		 <div class="col-lg-12">
+		 
+		 <div class="col-lg-12">
+		 <div class="col-lg-10"></div>
+		 <div class="col-lg-2">
+		 <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultSet)) echo "  ".count($resultSet);?></span>
+		 </div>
+		 </div>
+		 <div class="col-lg-12">
+		 
+		 
+		 <section class="" style="height:300px;overflow-y:scroll;">
         <table class="table table-hover ">
 	         <tr >
-	    		
-	    		<th style="color:#456789;font-size:80%;">Id Auto Pagos</th>
-	    		<th style="color:#456789;font-size:80%;">Id Titulo Credito</th>
-	    		<th style="color:#456789;font-size:80%;">Numero de Identifiación</th>
-	    		<th style="color:#456789;font-size:80%;">Nombres Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Abogado Impulsor</th>
-	    		<th style="color:#456789;font-size:80%;">Fecha Asignada</th>
-	    		<th style="color:#456789;font-size:80%;">Estado</th>
-	    		<th style="color:#456789;font-size:80%;"></th>
-	    		
+	            
+	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
+	    		<th style="color:#456789;font-size:80%;">Coactivad@</th>
+	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
+	    	   <th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
+	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
+	    		<th style="color:#456789;font-size:80%;">Secretario</th>
+	    		<th style="color:#456789;font-size:80%;">Total</th>
 	    		<th></th>
 	    		<th></th>
 	  		</tr>
             
-	            <?php if (!empty($resultDatos)) {  foreach($resultDatos as $res) {?>
+	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
 	        		
+	        		  
 	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_auto_pagos; ?></td>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>  </td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>  </td>
-		                <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_asiganacion_auto_pagos; ?>  </td>
-		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado; ?>  </td>
-		              <td>
-			           		<div class="right">
-			                    <a href="<?php echo $helper->url("AprobacionAutoPago","ActualizarAutoPago"); ?>&id_auto_pagos=<?php echo $res->id_auto_pagos; ?>&id_titulo_credito=<?php echo  $res->id_titulo_credito ?>" class="btn btn-success" onClick="notificacion()" style="font-size:65%;">Aprobar</a>
-			                </div>
-			            
-			          </td>  
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?>     </td>
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
+		               <td>
+		               <div class="right">
+			                    <a href="<?php echo $helper->url("AprobacionAutoPago","ActualizarAutoPago"); ?>&id_auto_pagos=<?php echo $res->id_auto_pagos; ?>&id_titulo_credito=<?php echo  $res->id_titulo_credito ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">Aprobar</a>
+			          </div> 
+			           </td>
+			           
+			           <td>
+		               <div class="right">
+			                    <a href="<?php echo $helper->url("AprobacionAutoPago","borrarId"); ?>&id_auto_pagos=<?php echo $res->id_auto_pagos; ?>&id_titulo_credito=<?php echo  $res->id_titulo_credito ?>" class="btn btn-info" onClick="notificacion()" style="font-size:65%;">Rechazar</a>
+			          </div> 
+			           </td>
 		    		</tr>
-		        <?php } } ?>
-		        
-      
-        
-            
-            
+		        <?php } }  ?>
+           
        	</table>     
-		     
       </section>
-       </div>
-	  </div>
-     </div>
-      </form>
+      
+      </div>
+		 
+		 		 
+		 </div>
+		 
+		
+		
+      
+       </form>
+     
+     
+     
+     
+      
         
   
 		</div>

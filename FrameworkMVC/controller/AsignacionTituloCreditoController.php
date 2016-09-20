@@ -78,7 +78,8 @@ class AsignacionTituloCreditoController extends ControladorBase{
 							  clientes.identificacion_clientes,
 							  clientes.nombres_clientes,
 							  clientes.celular_clientes,
-							  titulo_credito.total,
+						      titulo_credito.numero_titulo_credito,
+							  titulo_credito.total_total_titulo_credito,
 							  titulo_credito.fecha_corte,
 							  titulo_credito.id_ciudad,
 							  ciudad.nombre_ciudad";

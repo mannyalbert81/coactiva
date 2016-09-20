@@ -19,9 +19,7 @@
 		<script type="text/javascript" src="jquery-1.2.3.min.js"></script>
 		<script type="text/javascript" src="view/css/modal.js"></script>
 		
-		
-		
-        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+		<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
         <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
  		
  		<script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>

@@ -276,13 +276,13 @@
     <div  class="col-lg-7">
      <h4 style="color:#ec971f;">Lista de titulo</h4>
             <hr/>
-    		<div class="col-xs-4">
+    		<div class="col-xs-3">
 			
            <input type="text"  name="contenido_busqueda" id="contenido_busqueda" value="" class="form-control"/>
           
             </div>
             
-           <div class="col-xs-4">
+           <div class="col-xs-3">
            <select name="criterio_busqueda" id="criterio_busqueda"  class="form-control">
                                     <?php foreach($resultMenu_busqueda as $val=>$desc) {?>
                                          <option value="<?php echo $val ?>" <?php //if ($resRol->id_rol == $resEdit->id_rol )  echo  ' selected="selected" '  ;  ?> ><?php echo $desc ?> </option>
@@ -292,14 +292,16 @@
            
            </div>
            
-           <div class="col-xs-4" >
+           <div class="col-xs-2" >
 
-		     	<input type="submit" id="buscar" name="buscar"    onclick="this.form.action='<?php echo $helper->url("AsignacionTituloCredito","index"); ?>'" value="buscar" class="btn btn-default"/>
+		     	<input type="submit" id="buscar" name="buscar"    onclick="this.form.action='<?php echo $helper->url("AsignacionTituloCredito","index"); ?>'" value="buscar" class="btn btn-info"/>
 
 			</div>
-		<div class="col-xs-12" style="margin: 10px;">	
-
-	</div>
+			
+			<div class="col-lg-4">
+		 <span class="form-control" style="margin-bottom:0px;"><strong>Registros:</strong><?php if(!empty($resultDatos)) echo "  ".count($resultDatos);?></span>
+		 </div>
+		
 	<div class="col-xs-12">
       
       
@@ -324,11 +326,11 @@
 	        		<tr>
 	        		<th style="color:#456789;font-size:80%;"><input type="checkbox" id="id_titulo_credito[]"   name="id_titulo_credito[]"  value="<?php echo $res->id_titulo_credito; ?>" class="marcados"></th>
 	                 
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->celular_clientes; ?>  </td>
-		                <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?>  </td>
+		                <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>  </td>
 		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_corte; ?>  </td>
 		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>  </td>
 		             

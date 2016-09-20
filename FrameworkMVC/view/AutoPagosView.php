@@ -252,7 +252,32 @@
         });
     </script>
 
-    
+    <script >
+	        $(document).ready(function() {
+			$('#Guardar').click(function(){
+		        var selected = '';  
+		          
+		        $('.marcados').each(function(){
+		            if (this.checked) {
+		                selected +=$(this)+' esta '+$(this).val()+', ';
+		            }
+		        }); 
+	
+		        if (selected != '') {
+		            return true;
+		        }
+		        else{
+		            alert('Debes seleccionar un Titulo Credito.');
+		            return false;
+		        }
+	
+	
+		      
+		    }); 
+	
+		});
+		</script>
+		
     </head>
     <body style="background-color: #d9e3e4;">
     
@@ -267,16 +292,16 @@
      	$resultMenu_busqueda=array(0=>"Todos",1=>"Identificacion",2=>"Titulo Credito");
      	
      	
-     	$sel_id_usuarioAgente = "";
      
+     	$sel_nombre_usuarios= "";
      	$sel_id_ciudad="";
      	$sel_fecha_asignacion="";
    
      		
      	if($_SERVER['REQUEST_METHOD']=='POST' )
      		{
-     			$sel_id_usuarioAgente = $_POST['id_usuarioAgente'];
      			
+     			$sel_nombre_usuarios= $_POST['id_usuarioAgente'];
      			$sel_id_ciudad=$_POST['id_ciudad'];
      			$sel_fecha_asignacion=$_POST['fecha_asignacion'];
      	
@@ -315,7 +340,7 @@
             	
 		   	<div class="col-xs-5">
 			  	<p  class="formulario-subtitulo" >Juzgado</p>
-			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
+			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" readonly>
 					<?php foreach($resultCiu as $resCiu) {?>
 						<option value="<?php echo $resCiu->id_ciudad; ?>" <?php if($sel_id_ciudad==$resCiu->id_ciudad){echo "selected";}?> ><?php echo $resCiu->nombre_ciudad; ?> </option>
 			        <?php } ?>
@@ -333,16 +358,18 @@
 			   <div class="col-xs-5">
 			  <p  class="formulario-subtitulo" >Agente Judicial </p>
 	            	 <select name="id_usuarioAgente" id="id_usuarioAgente"  class="form-control">
-						<option value="0" > -- SIN ESPECIFICAR -- </option>			
+						<?php foreach($resultUsu as $res) {?>
+						<option value="<?php echo $res->id_usuarios; ?>" <?php if($sel_nombre_usuarios==$res->id_usuarios){echo "selected";}?> ><?php echo $res->nombre_usuarios; ?> </option>
+			        <?php } ?>		
 								    	
-									</select>
+			</select>
 		   		   
 		    </div>
 		    
 			
 			<div class="col-xs-5" >
 			  <p  class="formulario-subtitulo" >Estado </p>
-	            	 <select name="id_estado" id="id_estado"  class="form-control">
+	            	 <select name="id_estado" id="id_estado"  class="form-control" readonly>
 						<?php foreach($resultEstado as $resEst) {?>
 						<option value="<?php echo $resEst->id_estado; ?>"  ><?php echo $resEst->nombre_estado; ?> </option>
 			        <?php } ?>		</select>
@@ -355,9 +382,7 @@
 		    
 		    
 			  <div class="col-xs-10" style="text-align: center;" >
-			  <p style="color:#ffffff;" >-----</p>
-			
-			  	<input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
+			 <input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
 			  </div>
 			 
 			<div class="col-xs-1"  style="width: 400px;">
@@ -409,10 +434,9 @@
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Numero de Identifiación</th>
 	    		<th style="color:#456789;font-size:80%;">Nombres Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Celular Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Total</th>
-	    		<th style="color:#456789;font-size:80%;">Fecha Corte</th>
-	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
+	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
+	    	<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    		
 	    		<th></th>
 	    		<th></th>
@@ -425,10 +449,9 @@
 	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>  </td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->telefono_clientes; ?>  </td>
-		                <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>  </td>
-		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_corte; ?>  </td>
-		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>  </td>
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>  </td>
+		              <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>  </td>
+		             <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>  </td>
 		             
 		              
 		           	   <td>

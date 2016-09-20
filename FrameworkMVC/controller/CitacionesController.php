@@ -8,16 +8,29 @@ class CitacionesController extends ControladorBase{
 //comit
 
 	public function index(){
-
+		session_start();
 		//Creamos el objeto usuario
 		$citaciones= new CitacionesModel();
 
 		//Conseguimos todos los usuarios
 		$resultSet=$citaciones->getAll("id_citaciones");
 
+		
 		$ciudad = new CiudadModel();
-		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");                                                                                                                                                                                                                                                                                  
-
+		$_id_usuarios= $_SESSION["id_usuarios"];
+		$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+		$tablas   = "public.usuarios,
+                     public.ciudad";
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+		$id       = "usuarios.id_ciudad";
+		
+		$resultCiu=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
+		
+		
+		
+		
 		$tipo_citaciones = new TipoCitacionesModel();
 		$resultTipoCit =$tipo_citaciones->getAll("nombre_tipo_citaciones");
 
@@ -41,7 +54,7 @@ class CitacionesController extends ControladorBase{
 
 		$resultDatos="";
 
-		session_start();
+		
 
 
 		if (isset(  $_SESSION['usuario_usuarios']) )
@@ -97,6 +110,7 @@ class CitacionesController extends ControladorBase{
 
 				if(isset($_POST["buscar"])){
 
+					$_id_usuarios= $_SESSION["id_usuarios"];
 					$criterio_busqueda=$_POST["criterio_busqueda"];
 					$contenido_busqueda=$_POST["contenido_busqueda"];
 
@@ -104,19 +118,26 @@ class CitacionesController extends ControladorBase{
 					
 					$_id_usuarios= $_SESSION["id_usuarios"];
 
-					$columnas = " clientes.id_clientes,
-							juicios.id_juicios,
-								  clientes.identificacion_clientes,
-								  clientes.nombres_clientes,
-								  juicios.juicio_referido_titulo_credito,
+					$columnas = " juicios.id_juicios, 
+								  juicios.juicio_referido_titulo_credito, 
+								  clientes.nombres_clientes, 
+								  clientes.identificacion_clientes, 
+								  titulo_credito.numero_titulo_credito, 
+								  ciudad.nombre_ciudad, 
+								  titulo_credito.total_total_titulo_credito, 
+								  juicios.id_usuarios,
 							      usuarios.nombre_usuarios";
-
-					$tablas   = " public.clientes,
-                                  public.juicios,
+						
+					$tablas   = " public.clientes, 
+								  public.juicios, 
+								  public.titulo_credito, 
+								  public.ciudad,
 							      public.usuarios";
-
-					$where    = "juicios.id_usuarios= usuarios.id_usuarios AND juicios.id_clientes = clientes.id_clientes AND juicios.id_usuarios = '$_id_usuarios'";
-
+						
+					$where    = "clientes.id_clientes = titulo_credito.id_clientes AND
+								  titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+								  ciudad.id_ciudad = juicios.id_ciudad AND juicios.id_usuarios = usuarios.id_usuarios AND titulo_credito.asignado_titulo_credito='TRUE' AND juicio_titulo_credito='TRUE' AND juicios.id_usuarios='$_id_usuarios'";
+						
 					$id       = "juicios.juicio_referido_titulo_credito";
 
 
@@ -140,31 +161,18 @@ class CitacionesController extends ControladorBase{
 							$where_2 = " AND  juicios.juicio_referido_titulo_credito = '$contenido_busqueda'  ";
 							break;
 
-
-
-					}
-
-
-
-					$where_to  = $where . $where_0 . $where_1 . $where_2 ;
-
-
-					$resultDatos=$citaciones->getCondiciones($columnas ,$tablas ,$where_to, $id);
-
-
-				}
-
-
-
-
-				$this->view("Citaciones",array(
+                     }
+                    
+                     $where_to  = $where . $where_0 . $where_1 . $where_2 ;
+                    $resultDatos=$citaciones->getCondiciones($columnas ,$tablas ,$where_to, $id);
+                     
+				    }
+                        $this->view("Citaciones",array(
 						"resultSet"=>$resultSet, "resultEdit" =>$resultEdit, "resultDatos" =>$resultDatos, "resultTipoCit"=> $resultTipoCit, "resultCiu"=>$resultCiu, "resultUsuarios"=>$resultUsuarios
 							
-				));
+		           		));
 
-
-
-			}
+              }
 			else
 			{
 				$this->view("Error",array(
@@ -465,7 +473,7 @@ class CitacionesController extends ControladorBase{
   					ciudad.id_ciudad = citaciones.id_ciudad AND
   					tipo_citaciones.id_tipo_citaciones = citaciones.id_tipo_citaciones AND
   					usuarios.id_usuarios = citaciones.id_usuarios AND
-  					clientes.id_clientes = juicios.id_clientes AND citaciones.id_usuarios ='$_id_usuarios' AND citaciones.firma_citador='TRUE'";
+  					clientes.id_clientes = juicios.id_clientes AND citaciones.id_usuario_registra_citaciones ='$_id_usuarios' AND citaciones.firma_citador='TRUE'";
 
 					$id="citaciones.id_citaciones";
 						
@@ -608,7 +616,7 @@ class CitacionesController extends ControladorBase{
 					ciudad.id_ciudad = citaciones.id_ciudad AND
 					tipo_citaciones.id_tipo_citaciones = citaciones.id_tipo_citaciones AND
 					usuarios.id_usuarios = citaciones.id_usuarios AND
-					clientes.id_clientes = juicios.id_clientes AND citaciones.id_usuarios ='$_id_usuarios' AND citaciones.firma_citador='FALSE'";
+					clientes.id_clientes = juicios.id_clientes AND citaciones.id_usuario_registra_citaciones ='$_id_usuarios' AND citaciones.firma_citador='FALSE'";
 	
 					$id="citaciones.id_citaciones";
 	

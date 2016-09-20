@@ -265,7 +265,12 @@
 		     <?php } } else {?>
 		     	 <div class="panel panel-default">
   			<div class="panel-body">
-		    
+		    <br>
+		    <br>
+		    <br>
+		    <br>
+		    <br>
+		     <br>
 			  <div class="row">
 			  <div class="col-xs-12 col-md-12" style="text-align: center; ">
 			  	<p  class="formulario-subtitulo" >Entidad:</p>
@@ -276,6 +281,10 @@
 				</select> 			  
 			  </div>
 			  </div>
+			  <br>
+			  <br>
+			  <br>
+			  <br>
 			  </div>
 			  </div>
 			   
@@ -288,7 +297,7 @@
 		     
 		       <div class="row">
 			  <div class="col-xs-12 col-md-12" style="text-align: center;" >
-			  	<input type="submit" id="Guardar" name="Guardar" value="Generar Oficio Automatico" onClick="Ok()" class="btn btn-success"/>
+			  	<input type="submit" id="Guardar" name="Guardar" value="Generar" onClick="Ok()" class="btn btn-success"/>
 			  </div>
 			  
 			</div>     
@@ -301,13 +310,13 @@
         <div class="col-lg-7">
             <h4 style="color:#ec971f;">Lista de Clientes - Jucios</h4>
             <hr/>
-            <div class="col-xs-4">
+            <div class="col-xs-3">
 			
            <input type="text"  name="contenido_busqueda" id="contenido_busqueda" value="" class="form-control"/>
            <div id="mensaje_contenido_busqueda" class="errores"></div>
             </div>
             
-           <div class="col-xs-4">
+           <div class="col-xs-3">
            <select name="criterio_busqueda" id="criterio_busqueda"  class="form-control">
                                     <?php foreach($resultMenu as $val=>$desc) {?>
                                          <option value="<?php echo $val ?>" <?php //if ($resRol->id_rol == $resEdit->id_rol )  echo  ' selected="selected" '  ;  ?> ><?php echo $desc ?> </option>
@@ -317,13 +326,16 @@
            <div id="mensaje_criterio" class="errores"></div>
            </div>
            
-           <div class="col-xs-4" >
+           <div class="col-xs-2" >
 		
-			  	<input type="submit" id="buscar" name="buscar"  onclick="this.form.action='<?php echo $helper->url("Oficios","index"); ?>'" value="buscar" onClick="notificacion()" class="btn btn-default"/>
+			  	<input type="submit" id="buscar" name="buscar"  onclick="this.form.action='<?php echo $helper->url("Oficios","index"); ?>'" value="buscar" class="btn btn-info"/>
 			</div>
-		<div class="col-xs-12" style="margin: 10px;">	
-
-	</div>
+			
+			
+			<div class="col-lg-4">
+		 <span class="form-control" style="margin-bottom:0px;"><strong>Registros:</strong><?php if(!empty($resultDatos)) echo "  ".count($resultDatos);?></span>
+		 </div>
+		
 	
 	<div class="col-xs-12">
         
@@ -331,10 +343,13 @@
         <table class="table table-hover ">
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"></th>
-	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Nombre Clientes</th>
-	    		<th style="color:#456789;font-size:80%;">Juicio</th>
+	    		<th style="color:#456789;font-size:80%;"><b>N° Titulo Credito</b></th>
+	    		<th style="color:#456789;font-size:80%;">N° Juicio</th>
+	    		<th style="color:#456789;font-size:80%;">CI</th>
+	    		<th style="color:#456789;font-size:80%;">Nombre Cliente</th>
+	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
+	    		
+	    		
 	    		
 	    		<th></th>
 	    		<th></th>
@@ -343,14 +358,17 @@
 	            <?php if (!empty($resultDatos)) {  foreach($resultDatos as $res) {?>
 	        		<tr>
 	        		<th style="color:#456789;font-size:80%;"><input type="checkbox" id="id_juicios[]"   name="id_juicios[]"  value="<?php echo $res->id_juicios; ?>" class="marcados"></th>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		              <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		              <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		            
-		           	   <td style="color:#000000;font-size:80%;">
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
+		              <!-- 
+		               <td style="color:#000000;font-size:80%;">
 		               <a href="<?php echo $helper->url("InsertaOficiosManual","index"); ?>&id_juicios=<?php echo $res->id_juicios; ?>&juicio_referido_titulo_credito=<?php echo $res->juicio_referido_titulo_credito; ?>&nombres_clientes=<?php echo $res->nombres_clientes; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:85%;">Generar Oficio Manual</a>
 			           </td>
+		               -->
+		           	   
 			            
 		    		</tr>
 		        <?php } } ?>
@@ -365,6 +383,11 @@
       </section>
       </div>
       </div>
+      <br>
+      <br>
+       <br>
+      
+      
        </form>
        <!-- termina el form --> 
       </div>

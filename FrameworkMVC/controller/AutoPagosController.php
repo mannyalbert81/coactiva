@@ -19,18 +19,41 @@ class AutoPagosController extends ControladorBase{
 			
 			
 			//creacion ddl de secretarios o abogadpos
-			$resultAsignacion=array(0=>'--Seleccione--',1=>'Secretario',2=>'Abg Impulsor');
+			
 	
 			$permisos_rol = new PermisosRolesModel();
 			
 			$nombre_controladores = "AutoPagos";
 			$id_rol= $_SESSION['id_rol'];
 			
-			$ciudad = new CiudadModel();
-			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
 			
-			$usuarios=new UsuariosModel();
-			$resultUsu = $usuarios->getAll("nombre_usuarios");
+			$ciudad = new CiudadModel();
+			$_id_usuarios= $_SESSION["id_usuarios"];
+			
+			$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+				
+			$tablas   = "public.usuarios,
+                     public.ciudad";
+				
+			$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+				
+			$id       = "usuarios.id_ciudad";
+			
+				
+			$resultCiu=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
+			
+			$columnas = "usuarios.id_usuarios,usuarios.nombre_usuarios";
+			$tablas="usuarios inner join rol on(usuarios.id_rol=rol.id_rol)";
+			$id="rol.id_rol";
+			
+			$usuarios = new UsuariosModel();
+			
+			$where="rol.nombre_rol='AGENTE JUDICIAL'";
+			$resultUsu=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
+			
+		
 			
 			$estado=new EstadoModel();
 			$resultEstado=$estado->getBy("nombre_estado='PENDIENTE'");
@@ -123,14 +146,16 @@ class AutoPagosController extends ControladorBase{
 							  titulo_credito.total,
 							  titulo_credito.fecha_corte,
 							  titulo_credito.id_ciudad,
-							  ciudad.nombre_ciudad";
+							  ciudad.nombre_ciudad,
+								usuarios.nombre_usuarios";
 					
 						$tablas   = "public.titulo_credito,
 							  public.clientes,
-							  public.ciudad";
+							  public.ciudad,
+								public.usuarios";
 					
 						$where    = "clientes.id_clientes = titulo_credito.id_clientes AND
-	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.asignado_titulo_credito='TRUE' AND juicio_titulo_credito='FALSE' AND titulo_credito.id_usuarios='$_id_usuarios'";
+	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.id_usuarios = usuarios.id_usuarios AND titulo_credito.asignado_titulo_credito='TRUE' AND juicio_titulo_credito='FALSE' AND titulo_credito.id_usuarios='$_id_usuarios'";
 					
 						$id       = "titulo_credito.id_titulo_credito";
 							
@@ -160,61 +185,15 @@ class AutoPagosController extends ControladorBase{
 						
 							
 						$resultDatos=$asignacion_titulo_credito->getCondiciones($columnas ,$tablas ,$where_to, $id);
-						
-						/*$this->view("Error",array(
-								"resultado"=>$columnas.$tablas .$where_to. $id
-					
-						));
-						
-						exit();*/
-					
 							
 					}
-					
-					
-			
-					if (isset ($_POST["ddl_resultado"]) && isset($_POST["ddl_busqueda"]))
-					{
-					/*
-						//busqueda  WHERE  B.id_secretario_asignacion_secretarios=28
-							
-					$columnas = "B.id_asignacion_secretarios AS id_asignacion_secretarios ,
-								(SELECT A.nombre_usuarios FROM usuarios A WHERE A.id_usuarios=B.id_secretario_asignacion_secretarios) AS secretarios,
-								(SELECT A.nombre_usuarios FROM usuarios A WHERE A.id_usuarios=B.id_abogado_asignacion_secretarios) AS impulsadores";
-					$tablas   = "asignacion_secretarios B";
-					//$where    = "B.id_asignacion_secretarios>0";
-					$where="";
-					$id       = "B.id_asignacion_secretarios";
-							
-					
-						$criterio = $_POST["ddl_resultado"];
-						$contenido = $_POST["ddl_busqueda"];
-					
-							
-						//$resultSet=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
-					
-						if ($contenido ==1)
-						{
-							$where="B.id_secretario_asignacion_secretarios=".$criterio;					
-							
-						}elseif ($contenido ==2)
-						{
-							$where="B.id_abogado_asignacion_secretarios=".$criterio;
-						}
-					
-							//Conseguimos todos los usuarios con filtros
-					$resultSet=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
-					*/
-					
-						}
-					
 					
 					
 					
 					$this->view("AutoPagos",array(
 							
 							"resultCon"=>$resultCon, "resultEdit"=>$resultEdit, "resultRol"=>$resultRol,"resultUsuarioSecretario"=>$resultUsuarioSecretario,
-							"resultUsuarioImpulsor"=>$resultUsuarioImpulsor,"resultAsignacion"=>$resultAsignacion, "resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu,
+							"resultUsuarioImpulsor"=>$resultUsuarioImpulsor, "resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu,
 							"resultDatos"=>$resultDatos,"resultEstado"=>$resultEstado
 					));
 			
@@ -320,15 +299,8 @@ class AutoPagosController extends ControladorBase{
 				
 			   }
 			   
-			   $host  = $_SERVER['HTTP_HOST'];
-			   $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			   
-			   
-			   
-			   print("<script>window.location.replace('index.php?controller=AprobacionAutoPago&action=index');</script>");
-			   	
-			
-			//$this->redirect("AutoPagos", "index");
+			$this->redirect("AutoPagos", "index");
 			
 		}
 		else
@@ -342,49 +314,7 @@ class AutoPagosController extends ControladorBase{
 		
 	}
 	
-	public function borrarId()
-	{
-		$permisos_rol = new PermisosRolesModel();
-
-		session_start();
-		
-		$nombre_controladores = "AsignacionTituloCredito";
-		$id_rol= $_SESSION['id_rol'];
-		$resultPer = $permisos_rol->getPermisosBorrar("   nombre_controladores = '$nombre_controladores' AND id_rol = '$id_rol' " );
-		
-		if (!empty($resultPer))
-		{
-			if(isset($_GET["id_asignacion_secretarios"]))
-			{
-				$id_asigancionSecretarios=(int)$_GET["id_asignacion_secretarios"];
-		
-				$asignacionSecretario=new AsignacionSecretariosModel();
-			
-				$asignacionSecretario->deleteBy(" id_asignacion_secretarios",$id_asigancionSecretarios);
-			
-				$traza=new TrazasModel();
-				$_nombre_controlador = "AsignacionTituloCredito";
-				$_accion_trazas  = "Borrar";
-				$_parametros_trazas = $id_asigancionSecretarios;
-				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-			}
-			
-			
-			$this->redirect("AsignacionTituloCredito", "index");
-			
-		}
-		else
-		{
-			$this->view("Error",array(
-					"resultado"=>"No tiene Permisos de Borrar Asignacion Titulo Credito"
-		
-			));
-		
-		
-		}
-		
-	}
-		
+	
 		
 		public function returnAgentesbyciudad()
 	{
