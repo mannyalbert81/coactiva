@@ -61,7 +61,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 		$where    = "ciudad.id_ciudad = juicios.id_ciudad AND
 							clientes.id_clientes = juicios.id_clientes AND
 							estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
-							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = FALSE";
+							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = TRUE";
 	
 		
 		$where_0 = "";

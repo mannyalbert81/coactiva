@@ -92,7 +92,7 @@ class FichaJuicioController extends ControladorBase{
 						$where    = "ciudad.id_ciudad = juicios.id_ciudad AND
 							clientes.id_clientes = juicios.id_clientes AND
 							estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
-							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = FALSE";
+							asignacion_secretarios_view.id_abogado = juicios.id_usuarios AND juicios.revisado_juicios = TRUE";
 						
 						$id       = "juicios.id_juicios";
 							
