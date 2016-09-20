@@ -1,4 +1,4 @@
-AvocoSecretarioImpulsorVisualizarReport.jrxml<?php
+<?php
 
 #<?php
 #Importas la librer�a PhpJasperLibrary
@@ -30,7 +30,7 @@ $estado=$_GET['estado'];
 			
 			$PHPJasperXML->arrayParameter=$_dato;
 			
-			$PHPJasperXML->load_xml_file( "AvocoSecretarioImpulsor2GaranteVisualizarReport.jrxml" );
+			$PHPJasperXML->load_xml_file( "AvocoSecretarioImpulsorVisualizarReport.jrxml" );
 				
 			$PHPJasperXML->transferDBtoArray ( $server, $user, $pass, $db, $driver );
 				
@@ -58,9 +58,7 @@ $estado=$_GET['estado'];
 					  asignacion_secretarios_view.impulsores, 
 					  usuarios.nombre_usuarios as secretario_reemplazo,
 					  clientes.nombre_garantes,
-					  clientes.nombre_garantes_1,
 					  clientes.identificacion_garantes,
-					  clientes.identificacion_garantes_1,
 					  usuarios.nombre_usuarios as impulsor_reemplazo
 					  
 					FROM 
@@ -87,7 +85,7 @@ $estado=$_GET['estado'];
 			 
 			 $PHPJasperXML->arrayParameter=array('_sql' => $sql,'fecha'=>$fecha,'hora'=>$hora);
 			
-			 $PHPJasperXML->load_xml_file("AvocoSecretarioImpulsor2GaranteGuardarReport.jrxml");
+			 $PHPJasperXML->load_xml_file("AvocoSecretarioImpulsorGuardarReport.jrxml");
 			
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 			
