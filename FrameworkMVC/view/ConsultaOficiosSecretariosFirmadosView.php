@@ -246,7 +246,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
 		               
 		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("Oficios","abrirPdf"); ?>&id=<?php echo $res->id_documentos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
+		               <a href="<?php echo $helper->url("Oficios","abrirPdf"); ?>&id=<?php echo $res->id_oficios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
 		               </td>
 		                
 

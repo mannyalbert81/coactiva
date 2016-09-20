@@ -268,7 +268,7 @@
       
       <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("UsuariosAnteriores","InsertaUsuarios"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-6">
+      <form action="<?php echo $helper->url("UsuariosAnteriores","InsertaUsuarios"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-5">
             
          
         	    <h4 style="color:#ec971f;">Insertar Usuarios Anteriores</h4>
@@ -383,7 +383,7 @@
        
          <!-- termina el form -->
        
-        <div class="col-lg-6">
+        <div class="col-lg-7">
             <h4 style="color:#ec971f;">Lista de Usuarios</h4>
            
      <!-- empieza formulario de busqueda -->
@@ -422,7 +422,7 @@
        <section class="col-lg-12  usuario" style="height:450px;overflow-y:scroll;">
         <table class="table table-hover ">
 	         <tr >
-	            <th style="color:#456789;font-size:80%;"></th>
+	         
 	    		<th style="color:#456789;font-size:80%;">Id</th>
 	    		<th style="color:#456789;font-size:80%;">Nombre</th>
 	    		<th style="color:#456789;font-size:80%;">Rol</th>
@@ -433,8 +433,7 @@
             
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
-	        		   <td> <input type="image" name="image" src="view/DevuelveImagen.php?id_valor=<?php echo $res->id_usuarios; ?>&id_nombre=id_usuarios&tabla=usuarios&campo=imagen_usuarios"  alt="<?php echo $res->id_usuarios; ?>" width="80" height="60" >      </td>
-		              <td style="color:#000000;font-size:80%;"> <?php echo $res->id_usuarios; ?></td>
+	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_usuarios; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_rol; ?>  </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado; ?>  </td>
@@ -449,12 +448,7 @@
 			                    <a href="<?php echo $helper->url("UsuariosAnteriores","borrarId"); ?>&id_usuarios=<?php echo $res->id_usuarios; ?>" class="btn btn-danger" onClick="Borrar()" style="font-size:65%;">Borrar</a>
 			                </div>
 			           </td>
-		               <td>   
-			                	<div class="right">
-			                	<a href="/FrameworkMVC/view/ireports/ContUsuariosSubReport.php?id_usuarios=<?php echo $res->id_usuarios; ?>"onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false"; class="btn btn-success" style="font-size:65%;">Reporte</a>
-			                 </div>
-			               <hr/>
-		               </td>
+		               
 		    		</tr>
 		        <?php } }else{ ?>
             <tr>

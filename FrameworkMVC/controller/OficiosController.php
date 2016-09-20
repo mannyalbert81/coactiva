@@ -84,27 +84,38 @@ class OficiosController extends ControladorBase{
 				}
 		
 				if(isset($_POST["buscar"])){
-						
+					
+					$_id_usuarios= $_SESSION["id_usuarios"];
 					$criterio_busqueda=$_POST["criterio_busqueda"];
 					$contenido_busqueda=$_POST["contenido_busqueda"];
 						
 					$oficios= new OficiosModel(); 
-						
-						
-					$columnas = " clientes.id_clientes,
-							juicios.id_juicios,
-								  clientes.identificacion_clientes, 
+					
+					$columnas = " juicios.id_juicios, 
+								  juicios.juicio_referido_titulo_credito, 
 								  clientes.nombres_clientes, 
-								  juicios.juicio_referido_titulo_credito";
+								  clientes.identificacion_clientes, 
+								  titulo_credito.numero_titulo_credito, 
+								  ciudad.nombre_ciudad, 
+								  titulo_credito.total_total_titulo_credito, 
+								  juicios.id_usuarios,
+							      usuarios.nombre_usuarios";
 						
 					$tablas   = " public.clientes, 
-                                  public.juicios";
+								  public.juicios, 
+								  public.titulo_credito, 
+								  public.ciudad,
+							      public.usuarios";
 						
-					$where    = "juicios.id_clientes = clientes.id_clientes";
+					$where    = "clientes.id_clientes = titulo_credito.id_clientes AND
+								  titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+								  ciudad.id_ciudad = juicios.id_ciudad AND juicios.id_usuarios = usuarios.id_usuarios AND titulo_credito.asignado_titulo_credito='TRUE' AND juicio_titulo_credito='TRUE' AND juicios.id_usuarios='$_id_usuarios'";
 						
 					$id       = "juicios.juicio_referido_titulo_credito";
 						
 						
+					
+					
 					$where_0 = "";
 					$where_1 = "";
 					$where_2 = "";
@@ -125,22 +136,13 @@ class OficiosController extends ControladorBase{
 							$where_2 = " AND  juicios.juicio_referido_titulo_credito = '$contenido_busqueda'  ";
 							break;
 				
-						
-								
 					}
-						
-						
-						
+					
 					$where_to  = $where . $where_0 . $where_1 . $where_2 ;
-				
-						
-					$resultDatos=$oficios->getCondiciones($columnas ,$tablas ,$where_to, $id);
+				    $resultDatos=$oficios->getCondiciones($columnas ,$tablas ,$where_to, $id);
 						
 						
 				}
-				
-				
-				
 				
 				$this->view("Oficios",array(
 						"resultSet"=>$resultSet, "resultEdit" =>$resultEdit, "resultDatos" =>$resultDatos, "resultEnt" =>$resultEnt

@@ -213,7 +213,7 @@
 	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Coactivad@</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
 	    		<th style="color:#456789;font-size:80%;">Tipo Persona</th>
 	    		<th style="color:#456789;font-size:80%;">Nº Juicio</th>
 	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>

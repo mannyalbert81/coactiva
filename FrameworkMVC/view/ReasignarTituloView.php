@@ -147,7 +147,7 @@ $(document).ready(function() {
   <div class="row" style="background-color: #ffffff;">
   
        <!-- empieza el form --> 
-  <form  action="<?php echo $helper->url("ReasignarTitulo","Index"); ?>" method="post"   class="col-lg-12">   
+  <form  action="<?php echo $helper->url("ReasignarTitulo","index"); ?>" method="post"   class="col-lg-12">   
             	
 		   		
             
@@ -191,20 +191,11 @@ $(document).ready(function() {
 			  <div class="col-xs-12 col-md-12" style="text-align: center; margin-top: 20px;" >
 			  	<input type="submit" id="reasignar" name="reasignar" value="Reasignar" onClick="notificacion()" class="btn btn-default"/>
 			  </div>   
-			 
-			  
-			  <div class=" col-lg-12" style="margin-top: 30px;">
-			  	<p  >Cantidad de registros: <?php  echo count($resultSet); ?></p>
-			  	
-						  
-			  </div>
-			   </div>
+			 </div>
 		    
 		         	
 		     <?php } ?>
 		     
-		     
-
 
        <!-- termina el form --> 
        <div class="row">
@@ -212,30 +203,32 @@ $(document).ready(function() {
             <h4 style="color:#ec971f;">Lista de titulo</h4>
             <hr/>
         </div>
+        
+        <div class=" col-lg-2" >
+		 <span class="form-control" style="margin-bottom:0px;"><strong>Registros:</strong><?php if(!empty($resultSet)) echo "  ".count($resultSet);?></span>
+		</div>
+		
         <section class="col-lg-6 usuario" style="height:400px;overflow-y:scroll;">
 
         <table class="table table-hover ">
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><input type="checkbox" id="marcar_todo" name="marcar_todo" class="checkbox"></th>
 	    		<th style="color:#456789;font-size:80%;"><b>Nº Titulo</b></th>
-	    		<th style="color:#456789;font-size:80%;"><b>Nº Juicio</b></th>
 	    		<th style="color:#456789;font-size:80%;"><b>Identificacion</b></th>
 	    		<th style="color:#456789;font-size:80%;"><b>Nombres Cliente</b></th>
 	    		<th style="color:#456789;font-size:80%;"><b>Total</b></th>
 	    		<th style="color:#456789;font-size:80%;"><b>Fecha Corte</b></th>
-	    	
-	    		<th></th>
+	    	    <th></th>
 	    		<th></th>
 	  		</tr>
             
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
 	        		   <th style="color:#    ;font-size:80%;"><input type="checkbox" id="id_titulo_credito[]" name="id_titulo_credito[]" value="<?php echo $res->id_titulo_credito; ?>" class="marcados"></th>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo "0"; ?>     </td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total; ?></td>
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_corte; ?>     </td>
 		              
 		    		</tr>
@@ -252,6 +245,10 @@ $(document).ready(function() {
       </section>
       </div>
        </form>
+       <br>
+       <br>
+       <br>
+       
       </div>
       </div>
    
