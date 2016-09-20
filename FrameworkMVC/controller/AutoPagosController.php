@@ -112,6 +112,7 @@ class AutoPagosController extends ControladorBase{
 					
 					if(isset($_POST["buscar"])){
 					
+						$_id_usuarios= $_SESSION["id_usuarios"];
 						$criterio_busqueda=$_POST["criterio_busqueda"];
 						$contenido_busqueda=$_POST["contenido_busqueda"];
 					
@@ -120,8 +121,11 @@ class AutoPagosController extends ControladorBase{
 							
 						$columnas = " clientes.id_clientes,
 							  titulo_credito.id_titulo_credito,
+							  titulo_credito.numero_titulo_credito,
+								titulo_credito.total_total_titulo_credito,
 							  clientes.identificacion_clientes,
 							  clientes.nombres_clientes,
+								clientes.telefono_clientes,
 							  clientes.celular_clientes,
 							  titulo_credito.total,
 							  titulo_credito.fecha_corte,
@@ -133,7 +137,7 @@ class AutoPagosController extends ControladorBase{
 							  public.ciudad";
 					
 						$where    = "clientes.id_clientes = titulo_credito.id_clientes AND
-	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.asignado_titulo_credito='TRUE'";
+	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.asignado_titulo_credito='TRUE' AND titulo_credito.id_usuarios='$_id_usuarios'";
 					
 						$id       = "titulo_credito.id_titulo_credito";
 							
@@ -153,7 +157,7 @@ class AutoPagosController extends ControladorBase{
 								break;
 							case 2:
 								//id_titulo de credito
-								$where_2 = " AND  titulo_credito.id_titulo_credito = '$contenido_busqueda'  ";
+								$where_2 = " AND  titulo_credito.numero_titulo_credito = '$contenido_busqueda'  ";
 								break;
 						}
 					

@@ -693,6 +693,7 @@ public function index(){
 	public function InsertarAvocoSecretarioImpulsor()
 	{
 		
+		
 			session_start();
 		
 			$avoco = new AvocoConocimientoModel();
