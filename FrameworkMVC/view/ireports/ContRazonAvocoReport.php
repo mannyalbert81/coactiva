@@ -16,7 +16,10 @@ ini_set('display_errors', 0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 $estado=$_GET['estado'];
 
-		if ($estado == 'Visualizar') 
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonAvoco/';
+$directorio1 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
+$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonAvocoUnida/';
+if ($estado == 'Visualizar') 
 		{
 			ob_clean();
 			$a=stripslashes($_GET['dato']);
@@ -45,22 +48,25 @@ $estado=$_GET['estado'];
 				WHERE
 				avoco_conocimiento.id_avoco_conocimiento = razon_avoco_conocimiento.id_avoco_conocimiento AND
 				razon_avoco_conocimiento.identificador= '$id'";
-				
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonAvoco/';
 			
 				$PHPJasperXML = new PHPJasperXML();
 				$PHPJasperXML->arrayParameter=array("_sql" => $sql);
 				$PHPJasperXML->load_xml_file("RazonAvocoGuardarReport.jrxml");
 				$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
-		}			
-		/*class Pdf_concat extends FPDI {
+			
+						
+		}	
+		
+	
+		
+		class Pdf_concat extends FPDI {
 			var $files = array();
 		
 			function setFiles($files) {
 				$this->files = $files;
-		
-			function concat() {
+			}
+				function concat() {
 					foreach($this->files AS $file) {
 						$pagecount = $this->setSourceFile($file);
 						for ($i = 1; $i <= $pagecount; $i++) {
@@ -68,22 +74,38 @@ $estado=$_GET['estado'];
 							$s = $this->getTemplatesize($tplidx);
 							$this->AddPage('P', array($s['w'], $s['h']));
 							$this->useTemplate($tplidx);
-						}
+						
 					}
 				}
 			}
 		}
+		
+		
 		$file2merge=array($directorio1.$nombre_avoco_conocimiento.'.pdf', $directorio.$nombre.'.pdf');
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
 		$pdf->Output($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf', "F");
-
+		
+		
+		$dir=($directorio.$nombre.'.pdf');
+		$dir1=($directorio1.$nombre_avoco_conocimiento.'.pdf');
+		
+		if(file_exists($dir))
+		{
+			if(unlink($dir)&& unlink($dir1))
+			{
+				
+			}
+		}
+		
+		rename ($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf',$directorio1.$nombre_avoco_conocimiento.'.pdf');
+		
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
 		echo "</script>";
-		exit();*/
-			
+		exit();
+		
 ?>
 
 

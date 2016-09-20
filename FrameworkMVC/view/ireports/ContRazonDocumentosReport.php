@@ -14,35 +14,26 @@ $db      = db;
 $driver  = driver;
 ini_set('display_errors', 0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-
 $estado=$_GET['estado'];
+
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonDocumentos/';
+$directorio1 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Providencias/';
+$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonProvidenciasUnida/';
 
 		if ($estado == 'Visualizar') 
 		{
-			ob_clean();
-			
+			ob_clean();			
 			$a=stripslashes($_GET['dato']);
-			
 			$_dato=urldecode($a);
-			
 			$_dato=unserialize($a);
 			
-			
 			$PHPJasperXML = new PHPJasperXML ( "en", "TCPDF" );
-			
 			$PHPJasperXML->debugsql = false;
-		
-		    $PHPJasperXML->arrayParameter=$_dato;
-		    
-			$PHPJasperXML->load_xml_file( "RazonDocumentosVisualizarReport.jrxml" );
-			
+			$PHPJasperXML->arrayParameter=$_dato;
+		    $PHPJasperXML->load_xml_file( "RazonDocumentosVisualizarReport.jrxml" );
 			$PHPJasperXML->transferDBtoArray ( $server, $user, $pass, $db, $driver );
-			
 			$PHPJasperXML->outpage ( "I" );
-			
-		
 
-	
 		} else 
 		{
 	
@@ -60,27 +51,17 @@ $estado=$_GET['estado'];
 				documentos.id_documentos = razon_documentos.id_documentos AND
 				razon_documentos.identificador= '$id'";
 				
-				
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonDocumentos/';
-	
 				$PHPJasperXML = new PHPJasperXML();
-				
 				$PHPJasperXML->arrayParameter=array("_sql" => $sql);
-				
 				$PHPJasperXML->load_xml_file("RazonDocumentosGuardarReport.jrxml");
-				
 				$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
-				
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
-	
-		}	
+	}
 			class Pdf_concat extends FPDI {
 			var $files = array();	
-			 
 			function setFiles($files) {
 				$this->files = $files;
 			}
-		
 			function concat() {
 				foreach($this->files AS $file) {
 					$pagecount = $this->setSourceFile($file);
@@ -93,31 +74,16 @@ $estado=$_GET['estado'];
 				}
 			}
 		}
-		$directorio1 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Providencias/';
-		$directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonProvidenciasUnida/';
-		
 		$file2merge=array($directorio1.$nombre_documentos.'.pdf', $directorio.$nombre.'.pdf');
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
 		$pdf->Output($directorio3.'RazonDocumentoUnido'.$identificador_documento_unido.'.pdf', "F");
 		
-		$dir=($directorio.$nombre.'.pdf'); 
-		if(file_exists($dir))
-		{
-			if(unlink($dir))
-				print "El archivo fue borrado";
-		}
-		else
-			print "Este archivo no existe";
-		
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
 		echo "</script>";
 		exit();
-				
-				
-           
 
 ?>
 
