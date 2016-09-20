@@ -221,8 +221,8 @@ class AsignacionTituloCreditoController extends ControladorBase{
 		}
 	}
 	
-	public function borrarId()
-	{
+		public function borrarId()
+		{
 		$permisos_rol = new PermisosRolesModel();
 
 		session_start();
