@@ -30,7 +30,7 @@ $estado=$_GET['estado'];
 			
 			$PHPJasperXML->arrayParameter=$_dato;
 			
-			$PHPJasperXML->load_xml_file( "AvocoSecretarioImpulsorVisualizarReport.jrxml" );
+			$PHPJasperXML->load_xml_file( "AvocoSecretarioVisualizarReport.jrxml" );
 				
 			$PHPJasperXML->transferDBtoArray ( $server, $user, $pass, $db, $driver );
 				
@@ -85,7 +85,7 @@ $estado=$_GET['estado'];
 			 
 			 $PHPJasperXML->arrayParameter=array('_sql' => $sql,'fecha'=>$fecha,'hora'=>$hora);
 			
-			 $PHPJasperXML->load_xml_file("AvocoSecretarioImpulsorGuardarReport.jrxml");
+			 $PHPJasperXML->load_xml_file("AvocoSecretarioGuardarReport.jrxml");
 			
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 			
