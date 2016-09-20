@@ -405,7 +405,7 @@
 		     </div>
           
           
-           <div class="col-lg-8">	
+           <div class="col-lg-5">	
 		     <div class="panel panel-default">
   			 <div class="panel-body">
   			 <h4 style="color:#ec971f; text-align: center;" >Datos del Juicio</h4>
@@ -413,28 +413,15 @@
   			 
   			 <div class="row">
 		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Juicio</p>
+			  <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >N° Juicio</p>
 			  	<input type="text" name="juicio_referido_titulo_credito" id="juicio_referido_titulo_credito" value="<?php echo $resEdit->juicio_referido_titulo_credito; ?>" class="form-control" <?php echo $habilitar;?>/>
 			   <input type="hidden"  name="id_juicios" id="id_juicios" value="<?php echo $resEdit->id_juicios; ?>" class="form-control"/> 
-			 
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Impulsor</p>
-			  	<input type="text" name="impulsores" id="impulsores" value="<?php echo $resEdit->impulsores; ?>" class="form-control" readonly/>
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Secretario</p>
-			  	<input type="text" name="secretarios" id="secretarios" value="<?php echo $resEdit->secretarios; ?>" class="form-control" readonly/>
-			  </div>
-			  
-		    </div>
+			 </div>
+			 </div>
 		    
-		    <div class="row">
-		    
-			    <div class="col-xs-4 col-md-4">
+		     <div class="row">
+		      <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
 			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
 					<?php foreach($resultEstPro as $res) {?>
@@ -442,21 +429,58 @@
 			        <?php } ?>
 				</select> 
 			  </div>
-			  
+			    
 		    </div>
-		     <div class="row">
-		 		<div class="col-xs-12 col-md-12" style="text-align: center;">
-		        <input type="submit" id="actualizar" name="actualizar"  onclick="this.form.action='<?php echo $helper->url("EtapasJuicios","ActualizarEtapasJuicios"); ?>'" class="btn btn-success" value="Actualizar" style="margin-top: 30px;" <?php echo $habilitar;?>/>
-			    </div>
-		     </div>
-  			 <br>
+		    
+		    <div class="row" style="margin-top:10px">
+		    <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >Impulsor</p>
+			  	<input type="text" name="impulsores" id="impulsores" value="<?php echo $resEdit->impulsores; ?>" class="form-control" readonly/>
+			  </div>
+			  
+			  <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >Secretario</p>
+			  	<input type="text" name="secretarios" id="secretarios" value="<?php echo $resEdit->secretarios; ?>" class="form-control" readonly/>
+			  </div>
+			 </div>
+		    
   			 
   			 
   			 
   			  </div>	 
 		     </div>	
 		     </div>	
-  			 	 
+  			 	
+  			 	
+  			 <div class="col-lg-3">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Titulo Credito</h4>
+		     <hr>
+  			 
+  			 <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >N° Titulo Credito</p>
+			  	<input type="text" name="numero_titulo_credito" id="numero_titulo_credito" value="<?php echo $resEdit->numero_titulo_credito; ?>" class="form-control" disabled="disabled"/>
+			    </div>
+			 
+			 <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Saldo Capital</p>
+			  	<input type="text" name="total_saldo_capital_titulo_credito" id="total_saldo_capital_titulo_credito" value="<?php echo $resEdit->total_saldo_capital_titulo_credito; ?>" class="form-control" disabled="disabled"/>
+			    </div>
+			  
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Total</p>
+			  	<input type="text" name="total_total_titulo_credito" id="total_total_titulo_credito" value="<?php echo $resEdit->total_total_titulo_credito; ?>" class="form-control" disabled="disabled"/>
+			    </div>
+			  
+			    
+		    </div>
+		    
+  			  </div>	 
+		     </div>	
+		     </div>		 
 		     	 
 		      <div class="col-lg-4">	
 		     <div class="panel panel-default">
@@ -582,7 +606,7 @@
 		    
 			  <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Nombre</p>
-			  	<input type="text" name="nombre_garantes" id="nombre_garantes" value="" class="form-control" readonly/>
+			  	<input type="text" name="nombre_garantes" id="nombre_garantes" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 		     </div>
@@ -591,7 +615,7 @@
 		    
 			  <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Identificación</p>
-			  	<input type="text" name="identificacion_garantes" id="identificacion_garantes" value="" class="form-control" readonly/>
+			  	<input type="text" name="identificacion_garantes" id="identificacion_garantes" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 		     </div>
@@ -600,12 +624,12 @@
 		    
 			  <div class="col-xs-6 col-md-6">
 			  	<p  class="formulario-subtitulo" >Teléfono</p>
-			  	<input type="text" name="telefono_garantes" id="telefono_garantes" value="" class="form-control" readonly/>
+			  	<input type="text" name="telefono_garantes" id="telefono_garantes" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 			 <div class="col-xs-6 col-md-6">
 			  	<p  class="formulario-subtitulo" >Celular</p>
-			  	<input type="text" name="celular_garantes" id="celular_garantes" value="" class="form-control" readonly/>
+			  	<input type="text" name="celular_garantes" id="celular_garantes" value="" class="form-control" disabled="disabled"/>
 			  </div>
 		     </div>
 		     
@@ -614,7 +638,7 @@
 		     </div>
 		     
 		     
-		      <div class="col-lg-8">	
+		      <div class="col-lg-5">	
 		     <div class="panel panel-default">
   			 <div class="panel-body">
   			 <h4 style="color:#ec971f; text-align: center;" >Datos del Juicio</h4>
@@ -622,26 +646,16 @@
   			 
   			 <div class="row">
 		    
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Juicio</p>
+			  <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >N° Juicio</p>
 			  	<input type="text" name="juicio_referido_titulo_credito" id="juicio_referido_titulo_credito" value="" class="form-control" <?php echo $habilitar;?>/>
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Impulsor</p>
-			  	<input type="text" name="impulsores" id="impulsores" value="" class="form-control" readonly/>
-			  </div>
-			  
-			  <div class="col-xs-4 col-md-4">
-			  	<p  class="formulario-subtitulo" >Secretario</p>
-			  	<input type="text" name="secretarios" id="secretarios" value="" class="form-control" readonly/>
 			  </div>
 			  
 		    </div>
 		    
 		    <div class="row">
 		    
-			    <div class="col-xs-4 col-md-4">
+			   <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Estados Procesales</p>
 			  	<select name="id_estados_procesales_juicios" id="id_estados_procesales_juicios"  class="form-control" <?php echo $habilitar;?>>
 					<?php foreach($resultEstPro as $res) {?>
@@ -651,18 +665,55 @@
 			  </div>
 			  
 		    </div>
+		    
+		    <div class="row" style="margin-top:10px">
+		     <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >Impulsor</p>
+			  	<input type="text" name="impulsores" id="impulsores" value="" class="form-control" disabled="disabled"/>
+			  </div>
+			  
+			  <div class="col-xs-6 col-md-6">
+			  	<p  class="formulario-subtitulo" >Secretario</p>
+			  	<input type="text" name="secretarios" id="secretarios" value="" class="form-control" disabled="disabled"/>
+			  </div>
+			   
+		    </div>
   			 
-  			 <div class="row">
-		 		<div class="col-xs-12 col-md-12" style="text-align: center;">
-		        <input type="submit" id="actualizar" name="actualizar"  onclick="this.form.action='<?php echo $helper->url("EtapasJuicios","ActualizarEtapasJuicios"); ?>'" class="btn btn-success" value="Actualizar" style="margin-top: 30px;" <?php echo $habilitar;?>/>
-			    </div>
-		     </div>
-  			 <br>
+  			 
 		
   			  </div>	 
 		     </div>	
 		     </div>	
-  			 	 
+  			 	
+  			 <div class="col-lg-3">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Datos del Titulo Credito</h4>
+		     <hr>
+  			 
+  			 <div class="row">
+		    
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >N° Titulo Credito</p>
+			  	<input type="text" name="numero_titulo_credito" id="numero_titulo_credito" value="" class="form-control" disabled="disabled"/>
+			    </div>
+			 
+			 <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Saldo Capital</p>
+			  	<input type="text" name="total_saldo_capital_titulo_credito" id="total_saldo_capital_titulo_credito" value="" class="form-control" disabled="disabled"/>
+			    </div>
+			  
+			  <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Total</p>
+			  	<input type="text" name="total_total_titulo_credito" id="total_total_titulo_credito" value="" class="form-control" disabled="disabled"/>
+			    </div>
+			  
+			    
+		    </div>
+		    
+  			  </div>	 
+		     </div>	
+		     </div>		 
 		     	 
 		      <div class="col-lg-4">	
 		     <div class="panel panel-default">
@@ -673,7 +724,7 @@
 		    
 			  <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Nombre</p>
-			  	<input type="text" name="nombre_garantes_1" id="nombre_garantes_1" value="" class="form-control" readonly/>
+			  	<input type="text" name="nombre_garantes_1" id="nombre_garantes_1" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 		     </div>
@@ -682,7 +733,7 @@
 		    
 			  <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Identificación</p>
-			  	<input type="text" name="identificacion_garantes_1" id="identificacion_garantes_1" value="" class="form-control" readonly/>
+			  	<input type="text" name="identificacion_garantes_1" id="identificacion_garantes_1" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 		     </div>
@@ -691,12 +742,12 @@
 		    
 			  <div class="col-xs-6 col-md-6">
 			  	<p  class="formulario-subtitulo" >Teléfono</p>
-			  	<input type="text" name="telefono_garantes_1" id="telefono_garantes_1" value="" class="form-control" readonly/>
+			  	<input type="text" name="telefono_garantes_1" id="telefono_garantes_1" value="" class="form-control" disabled="disabled"/>
 			  </div>
 			
 			 <div class="col-xs-6 col-md-6">
 			  	<p  class="formulario-subtitulo" >Celular</p>
-			  	<input type="text" name="celular_garantes_1" id="celular_garantes_1" value="" class="form-control" readonly/>
+			  	<input type="text" name="celular_garantes_1" id="celular_garantes_1" value="" class="form-control" disabled="disabled"/>
 			  </div>
 		     </div>
 		     
@@ -707,6 +758,13 @@
   		
 		</div>
 		
+		
+		<div class="row">
+		 		<div class="col-xs-12 col-md-12" style="text-align: center;">
+		        <input type="submit" id="actualizar" name="actualizar"  onclick="this.form.action='<?php echo $helper->url("EtapasJuicios","ActualizarEtapasJuicios"); ?>'" class="btn btn-success" value="Actualizar" <?php echo $habilitar;?>/>
+			    </div>
+		     </div>
+  			 <br>
 		
 		
 		</form>

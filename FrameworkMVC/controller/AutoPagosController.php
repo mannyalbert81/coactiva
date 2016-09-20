@@ -35,9 +35,7 @@ class AutoPagosController extends ControladorBase{
 			$estado=new EstadoModel();
 			$resultEstado=$estado->getBy("nombre_estado='PENDIENTE'");
 			
-		
-			
-			$resultDatos="";
+		    $resultDatos="";
 			
 			
 			$resultPer = $permisos_rol->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
@@ -71,9 +69,7 @@ class AutoPagosController extends ControladorBase{
 					$controladores=new ControladoresModel();
 					$resultCon=$controladores->getAll("nombre_controladores");
 			
-			
-					
-					$resultEdit = "";
+			        $resultEdit = "";
 					$resul = "";
 			
 					if (isset ($_GET["id_asignacion_secretarios"])   )
@@ -105,9 +101,6 @@ class AutoPagosController extends ControladorBase{
 						
 							exit();
 						}
-						
-						
-						
 					}
 					
 					if(isset($_POST["buscar"])){
@@ -137,7 +130,7 @@ class AutoPagosController extends ControladorBase{
 							  public.ciudad";
 					
 						$where    = "clientes.id_clientes = titulo_credito.id_clientes AND
-	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.asignado_titulo_credito='TRUE' AND titulo_credito.id_usuarios='$_id_usuarios'";
+	                         ciudad.id_ciudad = titulo_credito.id_ciudad AND titulo_credito.asignado_titulo_credito='TRUE' AND juicio_titulo_credito='FALSE' AND titulo_credito.id_usuarios='$_id_usuarios'";
 					
 						$id       = "titulo_credito.id_titulo_credito";
 							

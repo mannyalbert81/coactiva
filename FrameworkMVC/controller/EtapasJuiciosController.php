@@ -394,6 +394,7 @@ class EtapasJuiciosController extends ControladorBase{
 							  clientes.celular_garantes_1,
 							  titulo_credito.id_titulo_credito,
 							  titulo_credito.numero_titulo_credito,
+							  titulo_credito.total_saldo_capital_titulo_credito,
 							  titulo_credito.total_total_titulo_credito,
 							  juicios.id_juicios,
 							  juicios.juicio_referido_titulo_credito,
