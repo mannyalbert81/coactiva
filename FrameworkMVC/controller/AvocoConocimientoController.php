@@ -1773,9 +1773,6 @@ public function index(){
 			));
 	
 		}
-	
-	
-	
 	}
 	
 	public function VisualizaAvocoImpulsor(){
