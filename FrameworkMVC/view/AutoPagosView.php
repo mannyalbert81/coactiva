@@ -417,7 +417,7 @@
            </div>
            
            <div class="col-xs-2" >
-		          <input type="submit" id="buscar" name="buscar"  onclick="this.form.action='<?php echo $helper->url("AutoPagos","index"); ?>'" value="buscar"  class="btn btn-default"/>
+		          <input type="submit" id="buscar" name="buscar"  onclick="this.form.action='<?php echo $helper->url("AutoPagos","index"); ?>'" value="buscar"  class="btn btn-info"/>
 			</div>
 			<div class="col-lg-4">
 		 <span class="form-control" style="margin-bottom:0px;"><strong>Registros:</strong><?php if(!empty($resultDatos)) echo "  ".count($resultDatos);?></span>
