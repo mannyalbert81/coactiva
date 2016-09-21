@@ -43,10 +43,8 @@
 				return false; 
 			}
 		</script>
-		
-		
-		
 		<!-- TERMINA NOTIFICAIONES -->
+        
         
        <style>
             input{
@@ -371,7 +369,7 @@
      
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("AvocoConocimiento","index"); ?>" method="post" enctype="multipart/form-data">
+      <form action="<?php echo $helper->url("AvocoConocimiento","AvocoImpulsor"); ?>" method="post" enctype="multipart/form-data">
             
         <div class="col-lg-12" style="margin-top: 10px" >
          
@@ -409,26 +407,21 @@
   			 <div class="row">
   			 <h4 class="formulario-subtitulo"  style="text-align: center;" >Tipo Avoco</h4>
   			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
-  			</div>
-  			 
-  			 <div class="col-xs-6 col-md-6" style="text-align: center;">
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
   			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
   			</div>
-  			 <!-- 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
-  			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
+  			
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
+  			 <p  class="formulario-subtitulo" >-- Con Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="con_garante" value="con_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_garante"){echo $checked; }}?>/>
   			</div>
-  			 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
-  			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
+  			
+  			 <div class="col-xs-12 col-md-4" style="text-align: center;">
+  			 <p  class="formulario-subtitulo" >-- Con 2 Garante --</p>
+  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?>/>
   			</div>
-  			 -->
+  			
   			 </div>
   			
   			</div>
@@ -440,20 +433,7 @@
   			  <div class="panel-body"> 
 		 	    
 		 	     <div class="row">   
-		       <div class="col-xs-6 col-md-3" >
-			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
-			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
-				     <?php if (!empty($datosGet)){ ?>
-			  		<option value="<?php echo $datosGet['id_reemplazo']; ?>"  ><?php echo $datosGet['reemplazo']; ?> </option>
-			  		<?php }else{ ?>
-			  		<option value="0">--Seleccione--</option>
-					<?php foreach($resulSecretario as $res) {?>
-					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
-			        <?php }} ?>
-				</select> 
-				<div id="mensaje_re_secretario" class="errores"></div>
-				   
-			  </div>
+		       
 			  
 			   <div class="col-xs-6 col-md-3" >
 			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
@@ -519,14 +499,14 @@
 		</div>
 		
 		 
-		<div class="col-xs-12 col-md-12" style="margin-top:10px">
+		<div class="col-xs-12 col-md-12" style="margin-top:10px; margin-bottom: 20px;">
 		 <div class="form-group">
 		     
 		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvoco"); ?>'" value="Guardar" class="btn btn-success" />
+			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvocoImpulsor"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
 			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvoco"); ?>'" value="Visualizar" class="btn btn-info"/>
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizaAvocoImpulsor"); ?>'" value="Visualizar" class="btn btn-info"/>
 			 </div>
 			 
 		</div>
