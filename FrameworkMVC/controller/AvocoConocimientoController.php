@@ -1342,6 +1342,7 @@ public function index(){
 	
 				$_estado = "Guardar";
 	
+				
 				//inserta las notificaciones
 				//$this->notificacionSecretario($_id_secretario,$nombre_documento);
 				//$this->notificacionimpulsor($_id_impulsor,$nombre_documento);
@@ -1405,8 +1406,7 @@ public function index(){
 	
 		session_start();
 	
-	
-		$usuarios = new UsuariosModel();
+	    $usuarios = new UsuariosModel();
 		$juicios = new JuiciosModel();
 		$ciudad = new CiudadModel();
 	
@@ -1497,9 +1497,7 @@ public function index(){
 			$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
 	
 	
-			//cargar array q va por get
-	
-			$arrayGet['id_juicio']=$_id_juicio;
+	        $arrayGet['id_juicio']=$_id_juicio;
 			$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
 			$arrayGet['id_reemplazo']=$_id_secretario_reemplazar;
 			$arrayGet['reemplazo']=$resultSecretario[0]->nombre_usuarios;
@@ -1512,14 +1510,11 @@ public function index(){
 			$arrayGet['id_impulsor']=$_id_abogado;
 			$arrayGet['impulsor']=$resultAbogados[0]->impulsores;
 			$arrayGet['tipoAvoco']=$_tipo_avoco;
-	
-	
-		}
+	     }
 	
 	
 		$result=urlencode(serialize($dato));
-	
-		$resultArray=urlencode(serialize($arrayGet));
+	    $resultArray=urlencode(serialize($arrayGet));
 	
 			
 		if($_tipo_avoco == "sin_garante"){
@@ -1527,17 +1522,14 @@ public function index(){
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
-	
-	
-			print "<script language='JavaScript'>
+	        print "<script language='JavaScript'>
 			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
-	
-	
-		}
-		elseif ($_tipo_avoco == "con_garante"){
+	     
+		   }
+		    elseif ($_tipo_avoco == "con_garante"){
 	
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -1547,12 +1539,9 @@ public function index(){
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
-	
-	
-	
-		}
+	        }
 			
-		elseif ($_tipo_avoco == "con_dos_garante"){
+		    elseif ($_tipo_avoco == "con_dos_garante"){
 	
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -1563,14 +1552,14 @@ public function index(){
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
 	
-	
-	
-		}
-	
-	}
+	        }
+	      }
 		
-	public function AvocoImpulsor()
-	{
+	      
+	      
+	      
+       public function AvocoImpulsor()
+	      {
 
 		session_start();
 		
@@ -1644,8 +1633,7 @@ public function index(){
 	public function InsertaAvocoImpulsor()
 	{
 	
-	
-		session_start();
+	    session_start();
 	
 		$avoco = new AvocoConocimientoModel();
 	
@@ -1730,12 +1718,7 @@ public function index(){
 				$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCO'");
 	
 				$_estado = "Guardar";
-	
-				//inserta las notificaciones
-				//$this->notificacionSecretario($_id_secretario,$nombre_documento);
-				//$this->notificacionimpulsor($_id_impulsor,$nombre_documento);
-				//$this->notificacionSecretarioReemplazo($_id_secretario_reemplazar,$nombre_documento);
-	
+		
 				$host  = $_SERVER['HTTP_HOST'];
 				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
@@ -1800,8 +1783,7 @@ public function index(){
 	
 		session_start();
 	
-	
-		$usuarios = new UsuariosModel();
+	    $usuarios = new UsuariosModel();
 		$juicios = new JuiciosModel();
 		$ciudad = new CiudadModel();
 	
@@ -1930,9 +1912,7 @@ public function index(){
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
 	
-	
-	
-		}
+	     }
 			
 		elseif ($_tipo_avoco == "con_dos_garante"){
 	
@@ -1944,14 +1924,9 @@ public function index(){
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
-	
-	
-	
-		}
+	     }
 	
 	}
-	
-	
 	
 }
 ?>
