@@ -57,19 +57,22 @@ $directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonProvidenciasUnida/
 				$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
 	}
+	
 			class Pdf_concat extends FPDI {
-			var $files = array();	
+			var $files = array();
+		
 			function setFiles($files) {
 				$this->files = $files;
 			}
-			function concat() {
-				foreach($this->files AS $file) {
-					$pagecount = $this->setSourceFile($file);
-					for ($i = 1; $i <= $pagecount; $i++) {
-						$tplidx = $this->ImportPage($i);
-						$s = $this->getTemplatesize($tplidx);
-						$this->AddPage('P', array($s['w'], $s['h']));
-						$this->useTemplate($tplidx);
+				function concat() {
+					foreach($this->files AS $file) {
+						$pagecount = $this->setSourceFile($file);
+						for ($i = 1; $i <= $pagecount; $i++) {
+							$tplidx = $this->ImportPage($i);
+							$s = $this->getTemplatesize($tplidx);
+							$this->AddPage('P', array($s['w'], $s['h']));
+							$this->useTemplate($tplidx);
+						
 					}
 				}
 			}
@@ -79,7 +82,7 @@ $directorio3 = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/RazonProvidenciasUnida/
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
 		$pdf->Output($directorio3.'RazonDocumentoUnido'.$identificador_documento_unido.'.pdf', "F");
-		
+	
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
 		echo "</script>";
