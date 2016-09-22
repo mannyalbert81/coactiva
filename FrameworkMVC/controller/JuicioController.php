@@ -80,7 +80,6 @@ class JuicioController extends ControladorBase{
 								  estados_auto_pago_juicios.id_estados_auto_pago_juicios = juicios.id_estados_auto_pago_juicios";
 					
 						$id       = "juicios.id_juicios";
-							
 					
 						$where_1 = "";
 						$where_2 = "";
@@ -105,13 +104,6 @@ class JuicioController extends ControladorBase{
 					
 					
 						$where_to  = $where . $where_1 . $where_2;
-						
-						//$this->view("Error",array(
-									
-							//	"resultado"=>"select \n".$columnas."\n From\n".$tablas."\n where\n".$where_to."\n order by\n".$id
-					//	));
-						//exit();
-						
 							
 						$resultSet=$juicio->getCondiciones($columnas ,$tablas ,$where_to, $id);
 					
@@ -163,7 +155,6 @@ class JuicioController extends ControladorBase{
 			if(isset($_GET["id_auto_pagos"])){
 				
 			
-				
 				$estado=new EstadoModel();
 				$resultEstado=$estado->getBy("nombre_estado='APROBADO'");
 				
@@ -180,9 +171,6 @@ class JuicioController extends ControladorBase{
 				
 				try {
 					
-					//$resultado=$aprobacion_auto_pago->UpdateBy($colval, $tabla, $where);
-					
-					//pra obtener id_ciudad
 					
 					$col_ciudad="titulo_credito.id_ciudad";
 					$tbl_ciudad="public.titulo_credito,public.ciudad";
@@ -253,15 +241,7 @@ class JuicioController extends ControladorBase{
 					//para entidad
 					$id_entidades=10;
 					
-					//$this->view("Error",array(
-					//		"resultado"=>"entidad ".$id_entidades." ciud ".$id_ciudad." referido ".$juicio_referido_titulo_credito."usuario".$id_usuarios." tiulo credito ".$id_titulo_credito." id_cliente ".$id_clientes." Etapa juicio ".$id_etapas_juicios." tIpo JUicio ".$id_tipo_juicios." descripcion".$descipcion_auto_pago_juicios." estado procesal ".$id_estados_procesales_juicios."estado pago juicio".$id_estados_auto_pago_juicios."nombre archivado".$nombre_archivado_juicios
-					//));
-					
-					//exit();
-					
-					//aqui va insertado de juicio
-
-					$resultadojuicio=$aprobacion_auto_pago->InsertaJuicio($id_entidades, $id_ciudad, $juicio_referido_titulo_credito, $id_usuarios, $id_titulo_credito, $id_clientes, $id_etapas_juicios, $id_tipo_juicios, $descipcion_auto_pago_juicios, $id_estados_procesales_juicios, $id_estados_auto_pago_juicios, $nombre_archivado_juicios);
+                     $resultadojuicio=$aprobacion_auto_pago->InsertaJuicio($id_entidades, $id_ciudad, $juicio_referido_titulo_credito, $id_usuarios, $id_titulo_credito, $id_clientes, $id_etapas_juicios, $id_tipo_juicios, $descipcion_auto_pago_juicios, $id_estados_procesales_juicios, $id_estados_auto_pago_juicios, $nombre_archivado_juicios);
 					
 					
 					
@@ -272,13 +252,6 @@ class JuicioController extends ControladorBase{
 					));
 					
 				}
-				
-				
-				
-				
-				
-				
-				
 			}
 			
 			$this->redirect("Juicio", "index");
@@ -337,25 +310,16 @@ class JuicioController extends ControladorBase{
 	}
 	
 	
-	
-	
-	
-	
 	public function devuelveAcciones()
 	{
 		$resultAcc = array();
 	
 		if(isset($_POST["id_controladores"]))
 		{
-	
-			$id_controladores=(int)$_POST["id_controladores"];
-	
-			$acciones=new AccionesModel();
-	
-			$resultAcc = $acciones->getBy(" id_controladores = '$id_controladores'  ");
-	
-	
-		}
+	        $id_controladores=(int)$_POST["id_controladores"];
+	        $acciones=new AccionesModel();
+	        $resultAcc = $acciones->getBy(" id_controladores = '$id_controladores'  ");
+	     }
 	
 		echo json_encode($resultAcc);
 	
@@ -368,15 +332,10 @@ class JuicioController extends ControladorBase{
 	
 		if(isset($_POST["id_acciones"]))
 		{
-	
-			$id_acciones=(int)$_POST["id_acciones"];
-	
-			$acciones=new AccionesModel();
-	
-			$resultAcc = $acciones->getBy(" id_acciones = '$id_acciones'  ");
-	
-	
-		}
+	        $id_acciones=(int)$_POST["id_acciones"];
+	        $acciones=new AccionesModel();
+	        $resultAcc = $acciones->getBy(" id_acciones = '$id_acciones'  ");
+	     }
 	
 		echo json_encode($resultAcc);
 	
@@ -385,12 +344,9 @@ class JuicioController extends ControladorBase{
  public function devuelveAllAcciones()
 	{
 		$resultAcc = array();
-	
-		$acciones=new AccionesModel();
-	
-		$resultAcc = $acciones->getAll(" id_controladores, nombre_acciones");
-	
-		echo json_encode($resultAcc);
+	    $acciones=new AccionesModel();
+	    $resultAcc = $acciones->getAll(" id_controladores, nombre_acciones");
+	    echo json_encode($resultAcc);
 	
 	}
 	
@@ -519,18 +475,14 @@ class JuicioController extends ControladorBase{
 		$columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
 					  usuarios.nombre_usuarios";
-			
 		$tablas   = "public.usuarios,
                      public.ciudad";
-			
 		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
-			
 		$id       = "usuarios.id_ciudad";
 		
 			
 		$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
-	
-		$juicios = new JuiciosModel();
+	    $juicios = new JuiciosModel();
 	
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
@@ -564,11 +516,11 @@ class JuicioController extends ControladorBase{
   					juicios.juicio_referido_titulo_credito, 
   					asignacion_secretarios_view.impulsores,
   					asignacion_secretarios_view.secretarios,
-					titulo_credito.id_titulo_credito, 
+					titulo_credito.numero_titulo_credito, 
   					etapas_juicios.nombre_etapas, 
   					tipo_juicios.nombre_tipo_juicios, 
   					juicios.creado, 
-  					titulo_credito.total,
+  					titulo_credito.total_total_titulo_credito,
 							estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes, 
@@ -657,33 +609,24 @@ class JuicioController extends ControladorBase{
 	
 	
 		$_id_usuario= $_SESSION["id_usuarios"];
-	
-		$columnas = " usuarios.id_ciudad,
+	    $columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
 					  usuarios.nombre_usuarios";
-			
 		$tablas   = "public.usuarios,
                      public.ciudad";
-			
 		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuario'";
-			
 		$id       = "usuarios.id_ciudad";
 	
 			
 		$resultDatos=$usuarios->getCondiciones($columnas ,$tablas ,$where, $id);
 	
-		
-		
 		// saber los impulsores del secretario
 		$_id_usuarios= $_SESSION["id_usuarios"];
 		
 		$columnas = " asignacion_secretarios_view.id_abogado,
 					  asignacion_secretarios_view.impulsores";
-			
 		$tablas   = "public.asignacion_secretarios_view";
-			
 		$where    = "public.asignacion_secretarios_view.id_secretario = '$_id_usuarios'";
-			
 		$id       = "asignacion_secretarios_view.id_abogado";
 		$resultImpul=$juicios->getCondiciones($columnas ,$tablas ,$where, $id);
 		
@@ -723,11 +666,11 @@ class JuicioController extends ControladorBase{
   					juicios.juicio_referido_titulo_credito,
   					asignacion_secretarios_view.impulsores,
   					asignacion_secretarios_view.secretarios,
-					titulo_credito.id_titulo_credito,
+					titulo_credito.numero_titulo_credito,
   					etapas_juicios.nombre_etapas,
   					tipo_juicios.nombre_tipo_juicios,
   					juicios.creado,
-  					titulo_credito.total,
+  					titulo_credito.total_total_titulo_credito,
 							estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes,
@@ -780,9 +723,7 @@ class JuicioController extends ControladorBase{
 						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultImpul"=>$resultImpul
 							
 				));
-	
-	
-			}
+	          }
 			else
 			{
 				$this->view("Error",array(
@@ -1008,10 +949,6 @@ class JuicioController extends ControladorBase{
 		}
 	
 	}
-	
-
-	
-	
 	
 }
 ?>      

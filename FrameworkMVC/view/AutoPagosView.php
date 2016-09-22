@@ -411,7 +411,7 @@
                                     <?php foreach($resultMenu_busqueda as $val=>$desc) {?>
                                          <option value="<?php echo $val ?>" <?php //if ($resRol->id_rol == $resEdit->id_rol )  echo  ' selected="selected" '  ;  ?> ><?php echo $desc ?> </option>
                                     <?php } ?>
-                                        
+                                         
            </select>
            <div id="mensaje_criterio" class="errores"></div>
            </div>

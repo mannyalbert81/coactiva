@@ -266,11 +266,67 @@
 		$('#id_impulsor_reemplazo').prop('disabled', bool);
 		$('#id_impulsor').prop('disabled', bool);
 		$('#id_ciudad').prop('disabled', bool);
+		//$('#Guardar').prop('disabled', bool);
+		//$('#Visualizar').prop('disabled', bool);
 	}
 	
 	</script>
      
-     
+     <script>
+
+	$(document).ready(function(){
+
+	    // cada vez que se cambia el valor del combo
+	    $("#Visualizar").click(function() 
+		{
+	    	var id_secretario_reemplazo = $("#id_secretario_reemplazo").val();
+			
+	    	if (id_secretario_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_secretario").text("Seleccione un Secretario");
+	    		$("#mensaje_re_secretario").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_secretario").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}
+
+	    	
+		}); 
+
+	    $("#Guardar").click(function() 
+	    {
+	    	var id_secretario_reemplazo = $("#id_secretario_reemplazo").val();
+			
+	    	if (id_secretario_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_secretario").text("Seleccione un Secretario");
+	    		$("#mensaje_re_secretario").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_secretario").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}
+
+	    	
+	    });
+
+		$( "#id_secretario_reemplazo" ).focus(function() {
+			$("#mensaje_re_secretario").fadeOut("slow");
+		});
+
+		
+	}); 
+
+	
+
+	</script>
 
      
     </head>
@@ -369,7 +425,7 @@
 		     </div>
 		     
 		     <div class="col-xs-4 col-md-4" style="text-align: center;" >
-			  <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}elseif (!empty($resultJuicio)){ echo $resultJuicio[0]->identificacion_clientes; }else { echo $sel_identificacion;}  ?>">
+			  <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Identificacion Clientes" value="<?php if (!empty($datosGet)){echo $datosGet['identificacion'];}elseif (!empty($resultJuicio)){ echo $resultJuicio[0]->identificacion_clientes; }else { echo $sel_identificacion;}  ?>">
 	        
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resultJuicio)){ foreach ($resultJuicio as $res){
 	         echo 	$res->id_juicios;
@@ -489,13 +545,17 @@
   			</div>
 		    </div>
 		    </div>
+		    
+		     <!-- empieza panel a la izq con abogados anteriores -->
 			 
-		 	   <div class="col-lg-12"  id="div_con_garante" style="display: none;">   
-		 	  <div class="panel panel-default">
-  			  <div class="panel-body"> 
-		 	    
-		 	     <div class="row">   
-		       <div class="col-xs-6 col-md-3" >
+			 <div class="col-xs-12 col-lg-6">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Abogados Anteriores</h4>
+		     <hr>
+		    
+		    <div class="row">   
+		       <div class="col-xs-6 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
 			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
 				     <?php if (!empty($datosGet)){ ?>
@@ -510,26 +570,42 @@
 				   
 			  </div>
 			  
-			  </div>
-			  <br>
-			
 			  
-			  <hr>
-			   <div class="col-xs-6 col-md-4" >
+			  </div>
+  			  <br>
+  			  <br>
+  			  <br>
+  			 
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>	
+			 <!-- termina panel a la izq -->
+			 <!-- empieza panel a la derecha con abogados nuevos -->
+			 
+			 <div class="col-xs-12 col-lg-6">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Abogados Nuevos</h4>
+		     <hr>
+		    
+		    <div class="row"> 
+		    
+		    <div class="col-xs-12 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Juzgado:</p>
 			  	
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 			  		<?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
 			  		<?php }else{ ?>
-			  		<option value="0">--Seleccione--</option>
 					<?php foreach($resultDatos as $res) {?>
 					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
 					<?php }} ?>
 				</select> 
 			 </div>
+			  <br>
 			 	        
-		       <div class="col-xs-6 col-md-3" >
+		       <div class="col-xs-12 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Secretario:</p>
 			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
 			  	 
@@ -537,28 +613,40 @@
 				 
 			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
 			  	 
-			  	 <?php }?>
+			  	 <?php }else{?>
+			  	 <?php foreach($resultDatos as $res) {?>
+					<option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+					<?php }} ?>
+			  	 
 				</select> 
 				   
 			  </div>
 			  
-			  <div class="col-xs-6 col-md-3">
+			  <div class="col-xs-12 col-md-6">
 			  	<p  class="formulario-subtitulo" >Impulsor:</p>
 			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
+			  	 
 			   	 <?php if (!empty($datosGet)){ ?>
 			  	 
 			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
 			  	
-			  	<?php } ?>
+			  	<?php }else{?>
+			  	<?php foreach($resultAb as $res) {?>
+					<option value="<?php echo $res->id_abogado; ?>"  ><?php echo $res->impulsores; ?> </option>
+					<?php }} ?>
 			     </select>
   		
 		    </div>
-			  
-			  
-		   
-		</div>
-		</div>
-		</div>
+		    
+		    </div>
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>
+			 
+			 <!-- termina panel a la der -->
+			 
+		 	   
 		
 		 
 		<div class="col-xs-12 col-md-12" style="margin-top:10px; margin-bottom: 20px;">

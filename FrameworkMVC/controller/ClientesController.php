@@ -480,9 +480,7 @@ public function index(){
 		    //echo "<a href='tuArchivo.php?variablePorURL=".$variablePorURL."' target='tuArchivo' onclick=\"window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false;\"> Contrato </a>";
 		
 		//$this->ireport("ContClientes");
-		
-	
-	}
+	    }
 	
 	public function consulta(){
 	
@@ -543,11 +541,11 @@ public function index(){
   					juicios.juicio_referido_titulo_credito, 
   					asignacion_secretarios_view.impulsores,
   					asignacion_secretarios_view.secretarios,
-					titulo_credito.id_titulo_credito, 
+					titulo_credito.numero_titulo_credito, 
   					etapas_juicios.nombre_etapas, 
   					tipo_juicios.nombre_tipo_juicios, 
   					juicios.creado, 
-  					titulo_credito.total,
+  					titulo_credito.total_total_titulo_credito,
 							estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes, 
@@ -558,7 +556,7 @@ public function index(){
 					  public.etapas_juicios, 
 					  public.tipo_juicios,
 					  public.asignacion_secretarios_view,
-							 public.estados_procesales_juicios";
+					  public.estados_procesales_juicios";
 	
 					$where="ciudad.id_ciudad = clientes.id_ciudad AND
 					  tipo_persona.id_tipo_persona = clientes.id_tipo_persona AND
@@ -704,11 +702,11 @@ public function index(){
   					juicios.juicio_referido_titulo_credito,
   					asignacion_secretarios_view.impulsores,
   					asignacion_secretarios_view.secretarios,
-					titulo_credito.id_titulo_credito,
+					titulo_credito.numero_titulo_credito,
   					etapas_juicios.nombre_etapas,
   					tipo_juicios.nombre_tipo_juicios,
   					juicios.creado,
-  					titulo_credito.total,
+  					titulo_credito.total_total_titulo_credito,
 					estados_procesales_juicios.nombre_estados_procesales_juicios";
 	
 					$tablas="public.clientes,
