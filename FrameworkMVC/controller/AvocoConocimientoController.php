@@ -680,6 +680,7 @@ public function index(){
 			$documentos = new DocumentosModel();
 			$juicio = new  JuiciosModel();
 			
+			$resultAb=array();
 			$resultJuicio=array();	
 			$resulSecretario=array();
 			$resulImpulsor=array();
@@ -743,16 +744,28 @@ public function index(){
 				{
 					$id_juicios=$_GET['id_juicios'];
 					
-					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
+					$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios,
+					  usuarios.id_usuarios";
+						
+					$tablas   = "public.usuarios,
+                     public.ciudad";
+					
+					$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+						
+					$id       = "usuarios.id_ciudad";				
+					
+					$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
 					
 					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'" ,
 							"usuarios.nombre_usuarios");
 					
 					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'",
 							"usuarios.nombre_usuarios");
 					
 					$colJuicio="juicios.id_juicios, 
@@ -766,6 +779,14 @@ public function index(){
 							juicios.id_juicios='$id_juicios'"; 
 					
  					$resultJuicio=$juicio->getCondiciones($colJuicio, $tblJuicio, $whereJuicio, "juicios.id_juicios");
+ 					
+ 					$colAb = "asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.impulsores";
+ 					$tblAb="public.asignacion_secretarios_view";
+ 					$idAb="asignacion_secretarios_view.impulsores";
+ 					
+ 					$whereAb=" asignacion_secretarios_view.id_secretario='$_id_usuarios'";
+ 					
+ 					$resultAb=$usarios->getCondiciones($colAb ,$tblAb , $whereAb, $idAb);
 					
 				}
 		
@@ -780,7 +801,7 @@ public function index(){
 				
 			$this->view("AvocoSecretarioImpulsor",array(
 					"resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos,
-					"resultJuicio"=>$resultJuicio
+					"resultJuicio"=>$resultJuicio,"resultAb"=>$resultAb
 						
 			));
 		}
