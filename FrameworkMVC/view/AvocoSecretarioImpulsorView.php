@@ -218,6 +218,8 @@
 		$('#id_impulsor_reemplazo').prop('disabled', bool);
 		$('#id_impulsor').prop('disabled', bool);
 		$('#id_ciudad').prop('disabled', bool);
+		//$('#Guardar').prop('disabled', bool);
+		//$('#Visualizar').prop('disabled', bool);
 	}
 	
 	</script>
