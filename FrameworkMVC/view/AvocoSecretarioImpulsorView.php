@@ -121,57 +121,6 @@
 	</script>
 
 	
-	 <script>
-	$(document).ready(function(){
-		
-		$("#id_ciudad").change(function(){
-
-            // identificamos al ddl de secretario
-           var $ddl_secretario = $("#id_secretario");
-       	
-
-            // tomamos parametros -> idCiudad
-           var ddl_ciudad = $(this).val();
-
-          //vaciamos el ddl para secretario y de impulsor
-            $ddl_secretario.empty();
-            var $ddl_impulsor = $("#id_impulsor");
-            $ddl_impulsor.empty();
-
-          
-            if(ddl_ciudad != 0)
-            {
-            	
-            	 var datos = {  
-                    	 		ciudad:$(this).val()  
-                    	 	 };
-             
-            	
-         	   	$.post("<?php echo $helper->url("AvocoConocimiento","returnSecretariosbyciudad"); ?>", datos, function(resultado) {
-
-         		 		$.each(resultado, function(index, value) {
-            		 	    $ddl_secretario.append("<option value= " +value.id_usuarios +" >" + value.nombre_usuarios  + "</option>");	
-                    		 });
-
-         		 		 	 		   
-         		  }, 'json');
-
-
-            }
-            else
-            {
-                
-         	   $ddl_resultado.empty();
-
-            }
-		//alert("hola;");
-		});
-
-		
-		});
-	
-	</script>
-	
 	<script>
 	$(document).ready(function(){
 		
@@ -269,11 +218,98 @@
 		$('#id_impulsor_reemplazo').prop('disabled', bool);
 		$('#id_impulsor').prop('disabled', bool);
 		$('#id_ciudad').prop('disabled', bool);
+		//$('#Guardar').prop('disabled', bool);
+		//$('#Visualizar').prop('disabled', bool);
 	}
 	
 	</script>
+	
+	<script>
+
+	$(document).ready(function(){
+
+	    // cada vez que se cambia el valor del combo
+	    $("#Visualizar").click(function() 
+		{
+	    	var id_secretario_reemplazo = $("#id_secretario_reemplazo").val();
+			
+	    	if (id_secretario_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_secretario").text("Seleccione un Secretario");
+	    		$("#mensaje_re_secretario").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_secretario").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}
+
+	    	var id_impulsor_reemplazo = $("#id_impulsor_reemplazo").val();
+
+	    	if (id_impulsor_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_impulsor").text("Seleccione un Impulsor");
+	    		$("#mensaje_re_impulsor").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_impulsor").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}
+		}); 
+
+	    $("#Guardar").click(function() 
+	    {
+	    	var id_secretario_reemplazo = $("#id_secretario_reemplazo").val();
+			
+	    	if (id_secretario_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_secretario").text("Seleccione un Secretario");
+	    		$("#mensaje_re_secretario").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_secretario").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}
+
+	    	var id_impulsor_reemplazo = $("#id_impulsor_reemplazo").val();
+
+	    	if (id_impulsor_reemplazo == 0)
+	    	{
+		    	
+	    		$("#mensaje_re_impulsor").text("Seleccione un Impulsor");
+	    		$("#mensaje_re_impulsor").fadeIn("slow"); //Muestra mensaje de error
+	            return false;
+		    }
+	    	else 
+	    	{
+	    		$("#mensaje_re_impulsor").fadeOut("slow"); //Muestra mensaje de error
+	            
+			}	
+	    });
+
+		$( "#id_secretario_reemplazo" ).focus(function() {
+			$("#mensaje_re_secretario").fadeOut("slow");
+		});
+
+		$( "#id_impulsor_reemplazo" ).focus(function() {
+			$("#mensaje_re_impulsor").fadeOut("slow");
+		});
+
+	}); 
+
+	
+
+	</script>
      
-     
+      
 
      
     </head>
@@ -499,12 +535,16 @@
 		    </div>
 		    </div>
 			 
-		 	   <div class="col-lg-12"  id="div_con_garante" style="display: none;">   
-		 	  <div class="panel panel-default">
-  			  <div class="panel-body"> 
-		 	    
-		 	     <div class="row">   
-		       <div class="col-xs-6 col-md-3" >
+			 <!-- empieza panel a la izq con abogados anteriores -->
+			 
+			 <div class="col-xs-12 col-lg-6">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Abogados Anteriores</h4>
+		     <hr>
+		    
+		    <div class="row">   
+		       <div class="col-xs-6 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Secretario A Reemplazar:</p>
 			  	 <select name="id_secretario_reemplazo" id="id_secretario_reemplazo"  class="form-control">
 				     <?php if (!empty($datosGet)){ ?>
@@ -519,7 +559,7 @@
 				   
 			  </div>
 			  
-			   <div class="col-xs-6 col-md-3" >
+			   <div class="col-xs-6 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Impulsor A Reemplazar:</p>
 			  	 <select name="id_impulsor_reemplazo" id="id_impulsor_reemplazo"  class="form-control">
 				     <?php if (!empty($datosGet)){ ?>
@@ -530,30 +570,46 @@
 					 <option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
 			        <?php }} ?>
 				</select> 
-				<div id="mensaje_re_secretario" class="errores"></div>
+				<div id="mensaje_re_impulsor" class="errores"></div>
 				   
 			  </div>
 			  
-			  </div>
-			  <br>
-			
 			  
-			  <hr>
-			   <div class="col-xs-6 col-md-4" >
+			  </div>
+  			  <br>
+  			  <br>
+  			  <br>
+  			 
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>	
+			 <!-- termina panel a la izq -->
+			 <!-- empieza panel a la derecha con abogados nuevos -->
+			 
+			 <div class="col-xs-12 col-lg-6">	
+		     <div class="panel panel-default">
+  			 <div class="panel-body">
+  			 <h4 style="color:#ec971f; text-align: center;" >Abogados Nuevos</h4>
+		     <hr>
+		    
+		    <div class="row"> 
+		    
+		    <div class="col-xs-12 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Juzgado:</p>
 			  	
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control" >
 			  		<?php if (!empty($datosGet)){ ?>
 			  		<option value="<?php echo $datosGet['id_ciudad']; ?>"  ><?php echo $datosGet['ciudad']; ?> </option>
 			  		<?php }else{ ?>
-			  		<option value="0">--Seleccione--</option>
 					<?php foreach($resultDatos as $res) {?>
 					<option value="<?php echo $res->id_ciudad; ?>"  ><?php echo $res->nombre_ciudad; ?> </option>
 					<?php }} ?>
 				</select> 
 			 </div>
+			  <br>
 			 	        
-		       <div class="col-xs-6 col-md-3" >
+		       <div class="col-xs-12 col-md-6" >
 			  	<p  class="formulario-subtitulo" >Secretario:</p>
 			  	 <select name="id_secretario" id="id_secretario"  class="form-control">
 			  	 
@@ -561,27 +617,40 @@
 				 
 			  		<option value="<?php echo $datosGet['id_secretario']; ?>"  ><?php echo $datosGet['secretario']; ?> </option>
 			  	 
-			  	 <?php }?>
+			  	 <?php }else{?>
+			  	 <?php foreach($resultDatos as $res) {?>
+					<option value="<?php echo $res->id_usuarios; ?>"  ><?php echo $res->nombre_usuarios; ?> </option>
+					<?php }} ?>
+			  	 
 				</select> 
 				   
 			  </div>
 			  
-			  <div class="col-xs-6 col-md-3">
+			  <div class="col-xs-12 col-md-6">
 			  	<p  class="formulario-subtitulo" >Impulsor:</p>
 			  	 <select name="id_impulsor" id="id_impulsor"  class="form-control">
+			  	 
 			   	 <?php if (!empty($datosGet)){ ?>
 			  	 
 			  		<option value="<?php echo $datosGet['id_impulsor']; ?>"  ><?php echo $datosGet['impulsor']; ?> </option>
 			  	
-			  	<?php } ?>
+			  	<?php }else{?>
+			  	<?php foreach($resultAb as $res) {?>
+					<option value="<?php echo $res->id_abogado; ?>"  ><?php echo $res->impulsores; ?> </option>
+					<?php }} ?>
 			     </select>
   		
 		    </div>
-		   
-		</div>
-		</div>
-		</div>
-		
+		    
+		    </div>
+  			 
+  			  </div>	 
+		     </div>	
+		     </div>
+			 
+			 <!-- termina panel a la der -->
+			 
+		 	   
 		 
 		<div class="col-xs-12 col-md-12" style="margin-top:10px; margin-bottom: 20px;">
 		 <div class="form-group">
@@ -590,7 +659,7 @@
 			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertarAvocoSecretarioImpulsor"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
 			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvocoSecretarioImpulsor"); ?>'" value="Visualizar" class="btn btn-info"/>
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvocoSecretarioImpulsor"); ?>'" value="Visualizar" class="btn btn-info" />
 			 </div>
 			 
 		</div>

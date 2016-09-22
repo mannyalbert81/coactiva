@@ -680,6 +680,7 @@ public function index(){
 			$documentos = new DocumentosModel();
 			$juicio = new  JuiciosModel();
 			
+			$resultAb=array();
 			$resultJuicio=array();	
 			$resulSecretario=array();
 			$resulImpulsor=array();
@@ -743,16 +744,28 @@ public function index(){
 				{
 					$id_juicios=$_GET['id_juicios'];
 					
-					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
+					$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios,
+					  usuarios.id_usuarios";
+						
+					$tablas   = "public.usuarios,
+                     public.ciudad";
+					
+					$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+						
+					$id       = "usuarios.id_ciudad";				
+					
+					$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
 					
 					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'" ,
 							"usuarios.nombre_usuarios");
 					
 					$resulImpulsor=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ABOGADO IMPULSOR' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'",
 							"usuarios.nombre_usuarios");
 					
 					$colJuicio="juicios.id_juicios, 
@@ -766,6 +779,14 @@ public function index(){
 							juicios.id_juicios='$id_juicios'"; 
 					
  					$resultJuicio=$juicio->getCondiciones($colJuicio, $tblJuicio, $whereJuicio, "juicios.id_juicios");
+ 					
+ 					$colAb = "asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.impulsores";
+ 					$tblAb="public.asignacion_secretarios_view";
+ 					$idAb="asignacion_secretarios_view.impulsores";
+ 					
+ 					$whereAb=" asignacion_secretarios_view.id_secretario='$_id_usuarios'";
+ 					
+ 					$resultAb=$usarios->getCondiciones($colAb ,$tblAb , $whereAb, $idAb);
 					
 				}
 		
@@ -780,7 +801,7 @@ public function index(){
 				
 			$this->view("AvocoSecretarioImpulsor",array(
 					"resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos,
-					"resultJuicio"=>$resultJuicio
+					"resultJuicio"=>$resultJuicio,"resultAb"=>$resultAb
 						
 			));
 		}
@@ -973,7 +994,7 @@ public function index(){
 			//consulta datos de juicio
 			$columnas="juicios.juicio_referido_titulo_credito,
 			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
-					  clientes.identificacion_garantes";
+			nombre_garantes_1,identificacion_garantes_1,clientes.identificacion_garantes";
 			 
 			$tablas="public.juicios,public.clientes";
 			 
@@ -1130,6 +1151,7 @@ public function index(){
 			$resultDatos=array();
 			$resulSet=array();
 			$resultJuicio=array();
+			$resultAb=array();
 		
 			$_id_usuarios= $_SESSION["id_usuarios"];
 		
@@ -1188,12 +1210,24 @@ public function index(){
 				if(isset($_GET['id_juicios']))
 				{
 					$id_juicios=$_GET['id_juicios'];
+					
+					$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios,
+					  usuarios.id_usuarios";
+					
+					$tablas   = "public.usuarios,
+                     public.ciudad";
 						
-					$resultDatos=$ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL'");
+					$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+					
+					$id       = "usuarios.id_ciudad";
+						
+					$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
 						
 					$resulSecretario=$usarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
 							"public.rol,public.usuarios",
-							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'" ,
 							"usuarios.nombre_usuarios");
 						
 					
@@ -1208,6 +1242,14 @@ public function index(){
 					juicios.id_juicios='$id_juicios'";
 						
 					$resultJuicio=$juicio->getCondiciones($colJuicio, $tblJuicio, $whereJuicio, "juicios.id_juicios");
+					
+					$colAb = "asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.impulsores";
+					$tblAb="public.asignacion_secretarios_view";
+					$idAb="asignacion_secretarios_view.impulsores";
+					
+					$whereAb=" asignacion_secretarios_view.id_secretario='$_id_usuarios'";
+					
+					$resultAb=$usarios->getCondiciones($colAb ,$tblAb , $whereAb, $idAb);
 						
 				}
 		
@@ -1222,7 +1264,7 @@ public function index(){
 		
 			$this->view("AvocoSecretario",array(
 					"resulImpulsor"=>$resulImpulsor,"resulSecretario"=>$resulSecretario,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos,
-					"resultJuicio"=>$resultJuicio
+					"resultJuicio"=>$resultJuicio,"resultAb"=>$resultAb
 			));
 		}
 		else
@@ -1321,6 +1363,7 @@ public function index(){
 	
 				$_estado = "Guardar";
 	
+				
 				//inserta las notificaciones
 				//$this->notificacionSecretario($_id_secretario,$nombre_documento);
 				//$this->notificacionimpulsor($_id_impulsor,$nombre_documento);
@@ -1384,8 +1427,7 @@ public function index(){
 	
 		session_start();
 	
-	
-		$usuarios = new UsuariosModel();
+	    $usuarios = new UsuariosModel();
 		$juicios = new JuiciosModel();
 		$ciudad = new CiudadModel();
 	
@@ -1411,7 +1453,7 @@ public function index(){
 			//consulta datos de juicio
 			$columnas="juicios.juicio_referido_titulo_credito,
 			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
-					  clientes.identificacion_garantes";
+			nombre_garantes_1,identificacion_garantes_1,clientes.identificacion_garantes";
 	
 			$tablas="public.juicios,public.clientes";
 	
@@ -1476,9 +1518,7 @@ public function index(){
 			$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
 	
 	
-			//cargar array q va por get
-	
-			$arrayGet['id_juicio']=$_id_juicio;
+	        $arrayGet['id_juicio']=$_id_juicio;
 			$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
 			$arrayGet['id_reemplazo']=$_id_secretario_reemplazar;
 			$arrayGet['reemplazo']=$resultSecretario[0]->nombre_usuarios;
@@ -1491,14 +1531,11 @@ public function index(){
 			$arrayGet['id_impulsor']=$_id_abogado;
 			$arrayGet['impulsor']=$resultAbogados[0]->impulsores;
 			$arrayGet['tipoAvoco']=$_tipo_avoco;
-	
-	
-		}
+	     }
 	
 	
 		$result=urlencode(serialize($dato));
-	
-		$resultArray=urlencode(serialize($arrayGet));
+	    $resultArray=urlencode(serialize($arrayGet));
 	
 			
 		if($_tipo_avoco == "sin_garante"){
@@ -1506,17 +1543,14 @@ public function index(){
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
-	
-	
-			print "<script language='JavaScript'>
+	        print "<script language='JavaScript'>
 			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
-	
-	
-		}
-		elseif ($_tipo_avoco == "con_garante"){
+	     
+		   }
+		    elseif ($_tipo_avoco == "con_garante"){
 	
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -1526,12 +1560,9 @@ public function index(){
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
-	
-	
-	
-		}
+	        }
 			
-		elseif ($_tipo_avoco == "con_dos_garante"){
+		    elseif ($_tipo_avoco == "con_dos_garante"){
 	
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -1542,14 +1573,14 @@ public function index(){
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
 	
-	
-	
-		}
-	
-	}
+	        }
+	      }
 		
-	public function AvocoImpulsor()
-	{
+	      
+	      
+	      
+       public function AvocoImpulsor()
+	      {
 
 		session_start();
 		
@@ -1623,8 +1654,7 @@ public function index(){
 	public function InsertaAvocoImpulsor()
 	{
 	
-	
-		session_start();
+	    session_start();
 	
 		$avoco = new AvocoConocimientoModel();
 	
@@ -1709,12 +1739,7 @@ public function index(){
 				$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCO'");
 	
 				$_estado = "Guardar";
-	
-				//inserta las notificaciones
-				//$this->notificacionSecretario($_id_secretario,$nombre_documento);
-				//$this->notificacionimpulsor($_id_impulsor,$nombre_documento);
-				//$this->notificacionSecretarioReemplazo($_id_secretario_reemplazar,$nombre_documento);
-	
+		
 				$host  = $_SERVER['HTTP_HOST'];
 				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
@@ -1773,17 +1798,13 @@ public function index(){
 			));
 	
 		}
-	
-	
-	
 	}
 	
 	public function VisualizaAvocoImpulsor(){
 	
 		session_start();
 	
-	
-		$usuarios = new UsuariosModel();
+	    $usuarios = new UsuariosModel();
 		$juicios = new JuiciosModel();
 		$ciudad = new CiudadModel();
 	
@@ -1912,9 +1933,7 @@ public function index(){
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
 	
-	
-	
-		}
+	     }
 			
 		elseif ($_tipo_avoco == "con_dos_garante"){
 	
@@ -1926,14 +1945,9 @@ public function index(){
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=index&dato=$resultArray');</script>");
-	
-	
-	
-		}
+	     }
 	
 	}
-	
-	
 	
 }
 ?>

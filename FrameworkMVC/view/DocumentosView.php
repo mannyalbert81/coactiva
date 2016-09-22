@@ -297,8 +297,8 @@
 			 </div>
 			  
 		    <div class="col-xs-6 col-md-4" >
-			  <p  class="formulario-subtitulo" >Juicios:</p>
-	          <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Nº Juicio" value="<?php echo $sel_juicios;?>">
+			  <p  class="formulario-subtitulo" >Identificacion Clientes:</p>
+	          <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Identificacion Clientes" value="<?php echo $sel_juicios;?>">
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
 	         echo 	$res->id_juicios;
 	         }}elseif ($sel_id_juicio!=""){echo $sel_id_juicio;}?>">
