@@ -425,7 +425,7 @@
 		     </div>
 		     
 		     <div class="col-xs-4 col-md-4" style="text-align: center;" >
-			  <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Nº Juicio" value="<?php if (!empty($datosGet)){echo $datosGet['juicio'];}elseif (!empty($resultJuicio)){ echo $resultJuicio[0]->identificacion_clientes; }else { echo $sel_identificacion;}  ?>">
+			  <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Identificacion Clientes" value="<?php if (!empty($datosGet)){echo $datosGet['identificacion'];}elseif (!empty($resultJuicio)){ echo $resultJuicio[0]->identificacion_clientes; }else { echo $sel_identificacion;}  ?>">
 	        
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resultJuicio)){ foreach ($resultJuicio as $res){
 	         echo 	$res->id_juicios;
