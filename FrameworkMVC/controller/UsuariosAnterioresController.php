@@ -29,6 +29,7 @@ public function index(){
 			//Notificaciones
 			$usuarios->MostrarNotificaciones($_SESSION['id_usuarios']);
 			
+			$id_usuario=$_SESSION['id_usuarios'];
 			
 			//creacion menu busqueda
 			//$resultMenu=array("1"=>Nombre,"2"=>Usuario,"3"=>Correo,"4"=>Rol);
@@ -55,6 +56,7 @@ public function index(){
 			{
 			     	$columnas = " usuarios.id_usuarios,  usuarios.nombre_usuarios, rol.nombre_rol, estado.nombre_estado, rol.id_rol, estado.id_estado";
 					$tablas   = "public.rol,  public.usuarios, public.estado";
+					//$where    = "rol.id_rol = usuarios.id_rol AND estado.id_estado = usuarios.id_estado AND estado.nombre_estado='INACTIVO' AND usuarios.id_usuarios_registra='$id_usuario'";
 					$where    = "rol.id_rol = usuarios.id_rol AND estado.id_estado = usuarios.id_estado AND estado.nombre_estado='INACTIVO'";
 					$id       = "usuarios.nombre_usuarios"; 
 			
@@ -200,6 +202,8 @@ public function index(){
 		session_start();
 		$resultado = null;
 		$usuarios=new UsuariosModel();
+		
+		$id_usuario=$_SESSION['id_usuarios'];
 	
 		$nombre_controladores = "UsuariosAnteriores";
 		$id_rol= $_SESSION['id_rol'];
@@ -221,7 +225,7 @@ public function index(){
 	
 			$funcion = "ins_usuarios_antiguos";
 			
-			$parametros = " '$_nombre_usuario' , '$_id_rol', '$_id_estado'";
+			$parametros = " '$_nombre_usuario' , '$_id_rol', '$_id_estado','$id_usuario'";
 			$usuarios->setFuncion($funcion);
 	
 			$usuarios->setParametros($parametros);
