@@ -10,6 +10,7 @@ public function index(){
 		session_start();
 		
 		//$dato=array();
+		$juicio= new JuiciosModel();
 		
 		
 		if (isset(  $_SESSION['usuario_usuarios']) )
@@ -64,17 +65,43 @@ public function index(){
 			if (!empty($resultPer))
 			{
 				
-				if(isset($_POST['Validar']))
+				if(isset($_POST['buscar']))
 				{
+					$identificacion=$_POST['identificacion'];
+					//$this->view("Error", array("resultado"=>print_r($resulSecretario))); exit();
 					
-					$juicio = new  JuiciosModel();
-					$juicio_referido=$_POST['juicios'];
+						
+					$columnas="juicios.id_juicios,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  juicios.juicio_referido_titulo_credito,
+					  titulo_credito.numero_titulo_credito,
+					  asignacion_secretarios_usuarios_view.impulsores,
+					  asignacion_secretarios_usuarios_view.secretarios,
+					  estados_procesales_juicios.nombre_estados_procesales_juicios,
+					  titulo_credito.total_total_titulo_credito";
+						
+					$tablas="public.asignacion_secretarios_usuarios_view,
+					  public.estados_procesales_juicios,
+					  public.clientes,
+					  public.juicios,
+					  public.ciudad,
+					  public.titulo_credito";
+						
+					$where="clientes.id_clientes = juicios.id_clientes AND
+					juicios.id_estados_procesales_juicios = estados_procesales_juicios.id_estados_procesales_juicios AND
+					juicios.id_usuarios = asignacion_secretarios_usuarios_view.id_abogado AND
+					juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+					ciudad.id_ciudad = juicios.id_ciudad AND
+					asignacion_secretarios_usuarios_view.id_secretario='$_id_usuarios' AND
+					clientes.identificacion_clientes='$identificacion'";
+						
+					$id="clientes.id_clientes";
+					
+					$resulSet=$juicio->getCondiciones($columnas,$tablas,$where,$id);
 				
-					$resulSet=$juicio->getCondiciones("id_juicios,juicio_referido_titulo_credito", "juicios", "juicio_referido_titulo_credito='$juicio_referido'", "id_juicios");
 				}
-				
-				
-			
 					
 			
 				$resultEdit = "";
@@ -90,7 +117,8 @@ public function index(){
 			}
 			
 			$this->view("Documentos",array(
-					"resultCiu"=>$resultCiu, "resultEdit"=>$resultEdit, "resultJui"=>$resultJui, "resultEstPro"=>$resultEstPro,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
+					"resultCiu"=>$resultCiu, "resultEdit"=>$resultEdit, "resultJui"=>$resultJui, 
+					"resultEstPro"=>$resultEstPro,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
 			
 			));
 			

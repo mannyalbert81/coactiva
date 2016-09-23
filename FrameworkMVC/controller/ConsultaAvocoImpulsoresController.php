@@ -615,7 +615,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 				
 			if(empty($conCertificado)){$msg="Usted no tiene registrado un Certfificado electronico";}
 				
-			if(empty($conFirma)){$msg="Usted no cuenta con una firma digital registrado en el sistema";}
+			if(empty($conFirma)){$msg="Usted no cuenta con una rubrica digital registrado en el sistema";}
 				
 			$nombreUsuario=$_SESSION['nombre_usuarios'];
 				

@@ -294,6 +294,14 @@
 	            
 			}
 
+	    	var id_juicio = $("#id_juicios").val();
+
+	    	if (id_juicio != '')
+	    	{
+		    	habilitarCb(false);
+	    		
+		    }
+
 	    	
 		}); 
 
