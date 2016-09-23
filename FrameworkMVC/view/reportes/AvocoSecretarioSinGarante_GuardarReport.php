@@ -80,6 +80,12 @@ $html =
 </font>'.
 '</p>'.
 
+'<p style="text-align: right;">'.
+		'<font face="arial, verdana" size="3">
+<b>JUICIO COACTIVO N°
+</font>'.
+'</p>'.
+
 
 '<p style="text-align: justify;">'.
 '<font face="arial, verdana" size="3">
