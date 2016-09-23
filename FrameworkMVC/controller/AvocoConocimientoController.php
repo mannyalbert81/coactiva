@@ -2068,7 +2068,8 @@ public function index(){
 					  clientes.nombre_garantes,
 					  clientes.identificacion_garantes,
 					  usuarios.nombre_usuarios as impulsor_reemplazo,
-					  avoco_conocimiento.creado";
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
 					
 					
 					$tablas   = "public.avoco_conocimiento, 
@@ -2090,13 +2091,96 @@ public function index(){
 					
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
 					
-					
+					$this->report("AvocoSecretarioConGarante_Guardar",array( "resultSet"=>$resultSet));
 					
 				}
 				
-				$this->report("Avoco",array( "resultSet"=>$resultSet));
-			
+				elseif($_tipo_avoco=="sin_garante"){
+						
+						
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+						
+						
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+						
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+						
+						
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$this->report("AvocoSecretarioSinGarante_Guardar",array( "resultSet"=>$resultSet));
+						
+				}
+				
+				elseif($_tipo_avoco=="con_dos_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoSecretarioConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				
 			}
+			$this->redirect("AvocoConocimiento", "index");
+			
 	     }else
 		{
 	
@@ -2111,16 +2195,6 @@ public function index(){
 	
 	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
