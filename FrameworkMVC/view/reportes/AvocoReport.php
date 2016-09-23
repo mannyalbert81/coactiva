@@ -115,22 +115,13 @@ $html =
 $dompdf = new DOMPDF();
 $dompdf->load_html($html);
 $dompdf->set_paper("letter", "portrait");
-		
-
-$dompdf = new DOMPDF();
-$dompdf->load_html(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
 
 $directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
-$filename = "".'.pdf';
-file_put_contents($filename, $pdf);
-$dompdf->stream($filename);
+$filename = "otro".'.pdf';
+file_put_contents($directorio.$filename,$pdf);
 
-
-
-//$dompdf->stream($identificacion_clientes .'.pdf',array('download'=>0));
-//$dompdf->stream($identificacion_clientes .'.pdf',array('Attachment'=>0));
 
 
 
