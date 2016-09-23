@@ -1,6 +1,6 @@
 <?php 
 
-$comando='start "" /b "C:\Users\Masoft\git\coactiva\documentos\extraer\VerEspacioPdf.exe" C:\Users\Masoft\Desktop\1.pdf true';
+$comando='start "" /b "C:\Users\Masoft\git\coactiva\documentos\extraer\VerEspacioPdf.exe" C:\Users\Masoft\Desktop\Avoco1320.pdf false';
  
  
 $comando_esc = escapeshellcmd($comando);
