@@ -424,3 +424,14 @@ area, base, basefont, head, meta, script, style, title,
 noembed, noscript, param {
   display: none;
 }
+
+
+body{
+ height:100%;
+}
+#contenido{
+  min-height:90%;
+}
+#footer{
+ height:10%;
+}

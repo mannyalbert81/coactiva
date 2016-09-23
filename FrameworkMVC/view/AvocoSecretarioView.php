@@ -653,7 +653,7 @@
 		 <div class="form-group">
 		     
 		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvocoSecretario"); ?>'" value="Guardar" class="btn btn-success" />
+			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvocoSecretarioDontPdf"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
 			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
 			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizaAvocoSecretario"); ?>'" value="Visualizar" class="btn btn-info"/>
