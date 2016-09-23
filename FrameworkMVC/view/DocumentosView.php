@@ -172,7 +172,7 @@
 		    	if (juicios == "")
 		    	{
 			    	
-		    		$("#mensaje_juicio").text("Introduzca un Juicio");
+		    		$("#mensaje_juicio").text("Introduzca identifi");
 		    		$("#mensaje_juicio").fadeIn("slow"); //Muestra mensaje de error
 		            return false;
 			    }
@@ -213,7 +213,7 @@
        {
        
        	if(!empty($resulSet)){
-       	$sel_juicios = $_POST['juicios'];
+       	$sel_juicios = $_POST['identificacion'];
        	 }
        	 
        }
@@ -298,7 +298,7 @@
 			  
 		    <div class="col-xs-6 col-md-4" >
 			  <p  class="formulario-subtitulo" >Identificacion Clientes:</p>
-	          <input type="text" id="juicios" name="juicios" class="form-control" placeholder="Identificacion Clientes" value="<?php echo $sel_juicios;?>">
+	          <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Identificacion Clientes" value="<?php echo $sel_juicios;?>">
 	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
 	         echo 	$res->id_juicios;
 	         }}elseif ($sel_id_juicio!=""){echo $sel_id_juicio;}?>">
@@ -307,10 +307,86 @@
 			  
 			  <div class="col-xs-12 col-md-3">
 		     <p  class="formulario-subtitulo" >Validar:</p>
-			  <input type="submit" id="Validar" name="Validar" value="Validar" onClick="Ok()" class="btn btn-warning"/>
+			  <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="Ok()" class="btn btn-warning"/>
 			 </div>
 			 <br>
+			 
+			 <!-- aqui va la tabla para seleccionar el juicio de acuerdo a la consulta por cedula -->
+			
+			<?php if(!empty($resulSet))  {?>	 
+		 <div class="col-lg-12">
+		 
+		 <div class="col-lg-12">
+		 <div class="col-lg-10"></div>
+		 <div class="col-lg-2">
+		 <span class="form-control"><strong>Registros:</strong><?php  echo "  ".count($resulSet);?></span>
+		 </div>
+		 </div>
+		 <div class="col-lg-12">
+		 
+		 <section class="" style="height:200px;overflow-y:scroll;">
+        <table class="table table-hover ">
+	         <tr >
+	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
+	    		<th style="color:#456789;font-size:80%;">Coactivad@</th>
+	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
+	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
+	    	    <th style="color:#456789;font-size:80%;">Nº Juicio</th>
+	    		<th style="color:#456789;font-size:80%;">Nº Titulo Credito</th>
+	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
+	    		<th style="color:#456789;font-size:80%;">Secretario</th>
+	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
+	    		<th style="color:#456789;font-size:80%;">Total</th>
+	    		<th></th>
+	    		<th></th>
+	  		</tr>
+            
+	            <?php if (!empty($resulSet)) {  foreach($resulSet as $res) {?>
+	        		<tr>
+	        	       <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?>     </td>
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
+		               <td>
+			           		<div class="right">
+			           			<a href="/FrameworkMVC/view/ireports/ContJuiciosSubReport.php?id_juicios=<?php echo $res->id_juicios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:70%;">Ver</a>
+		             		</div>
+			            
+			          </td>  
+			          <td>
+			           		<div class="right">
+			                    <a href="<?php echo $helper->url("AvocoConocimiento","AvocoSecretario"); ?>&id_juicios=<?php echo $res->id_juicios; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:75%;">--Seleccionar--</a>
+			                </div>
+			            
+			             </td>
+		    		</tr>
+		        <?php } }  ?>
+              
+       	</table>     
+        </section>
+      
+       
+	     </div>
+		</div>
+		 <?php } else {?>
+		  
+		  <?php } ?> 
+		
+		
+		<br>
+		<br>
+			
+			<!-- termina tabla para selecionar juicio -->
+		
+			 
 			 <hr>
+			 
 			 		        
 		       <div class="col-xs-6 col-md-2" style="margin-top:10px">
 			  	<p  class="formulario-subtitulo" >Estado Procesal:</p>
@@ -321,7 +397,6 @@
 				</select> 
 				   
 			  </div>
-			  
 			  <div class="col-xs-6 col-md-2" style="margin-top:10px">
 			  <p  class="formulario-subtitulo" >Fecha de Providencia:</p>
 			 <input type="text" id="fecha_emision_documentos" name="fecha_emision_documentos" value="<?php $sdate=date("d")."/".date("m")."/".date("Y"); $stime=date("h").":".date("i"); echo "$sdate";?>" class="form-control" <?php echo $habilitar;?>>

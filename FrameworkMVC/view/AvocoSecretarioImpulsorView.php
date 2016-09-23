@@ -260,6 +260,14 @@
 	    		$("#mensaje_re_impulsor").fadeOut("slow"); //Muestra mensaje de error
 	            
 			}
+
+	    	var id_juicio = $("#id_juicios").val();
+
+	    	if (id_juicio != '')
+	    	{
+		    	habilitarCb(false);
+	    		
+		    }
 		}); 
 
 	    $("#Guardar").click(function() 
