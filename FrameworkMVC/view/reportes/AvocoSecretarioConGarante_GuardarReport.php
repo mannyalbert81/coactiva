@@ -62,7 +62,7 @@ $html =
   '<html>'.
   '<head>'.
   	'<meta charset="utf-8"/>'.
-  	'<title> '.'' .' BANCO DEL FOMENTO</title>'.
+  	'<title> '.'' .' Avoco Secretario Con Garante</title>'.
   	
   '</head>'.
   '<body>'.
@@ -76,7 +76,7 @@ $html =
 
 '<p style="text-align: right;">'.
 '<font face="arial, verdana" size="3">
-<b>JUICIO COACTIVO N°. </b>'.$juicio_referido_titulo_credito.'
+<b>JUICIO COACTIVO N°</b><b>JUICIO COACTIVO N°</b> '.$juicio_referido_titulo_credito.'
 </font>'.
 '</p>'.
 
