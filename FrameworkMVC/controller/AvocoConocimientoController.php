@@ -66,6 +66,8 @@ public function index(){
 		
 	}
 	
+	
+	
 	public function InsertaAvoco(){
 		
 		
@@ -221,6 +223,7 @@ public function index(){
 				
           }
 	
+          
           public function VisualizarAvoco(){
           
           	session_start();
@@ -1966,7 +1969,7 @@ public function index(){
 	
 	
 	
-	public function InsertaAvocoSecretarioDontPdf()
+	public function InsertaAvocoSecretarioDomPdf()
 	{
 	
 	
@@ -2197,6 +2200,473 @@ public function index(){
 	}
 	
 	
+	
+	
+	
+	public function InsertarAvocoSecretarioImpulsorDomPdf()
+	{
+	
+	
+		session_start();
+	
+		$avoco = new AvocoConocimientoModel();
+	
+		$juicio = new  JuiciosModel();
+		$nombre_controladores = "Avoco";
+		$id_rol= $_SESSION['id_rol'];
+		$resultPer = $avoco->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+		$id_usuario=$_SESSION['id_usuarios'];
+	
+		if (!empty($resultPer))
+		{
+	
+			$resultado = null;
+	
+			if (isset ($_POST["Guardar"]))
+			{
+				//estado de documento pdf
+				$_estado = "";
+	
+				$dato=array();
+	
+				//identificador de pdf
+				$identificador="";
+	
+				//inicializar Parametros
+				$_id_ciudad = "";
+				$_id_juicio = "";
+				$_id_secretario_reemplazar  = null;
+				$_id_impulsor_reemplazar  = null;
+				$_id_secretario = null;
+				$_id_impulsor = null;
+				$_tipo_avoco = "";
+	
+				if(isset($_POST["id_secretario_reemplazo"])){$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];}
+	
+				if(isset($_POST["id_impulsor_reemplazo"])){$_id_impulsor_reemplazar  = $_POST["id_impulsor_reemplazo"];}
+	
+				if(isset($_POST["id_secretario"])){$_id_secretario  = $_POST["id_secretario"];}
+	
+				if(isset($_POST["id_impulsor"])){$_id_impulsor  = $_POST["id_impulsor"];}
+	
+				//parametros
+				$_id_ciudad  = $_POST["id_ciudad"];
+				$_id_juicio  = $_POST["id_juicios"];
+				$_tipo_avoco  = $_POST["tipo_avoco"];
+	
+	
+				/*$this->view("Error", array("resultado"=>'ciudad '.$_id_ciudad.' juicio '.$_id_juicio.' secretario '.$_id_secretario_reemplazar.
+				 ' impulsor '.$_id_impulsor_reemplazar.' secretario '.$_id_secretario.' impulsor '.$_id_impulsor.' tipoavoco '.$_tipo_avoco
+				 ));
+				exit();*/
+	
+				$consecutivo= new ConsecutivosModel();
+				$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='AVOCO'");
+	
+				$identificador=$resultConsecutivo[0]->real_consecutivos;
+	
+				$repositorio_documento="Avoco";
+	
+				$nombre_documento=$repositorio_documento.$identificador;
+	
+				$funcion = "ins_avoco_conocimiento";
+	
+				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
+				$avoco->setFuncion($funcion);
+	
+				$avoco->setParametros($parametros);
+				$resultado=$avoco->Insert();
+	
+				$updateJuicio = $avoco->UpdateBy("id_usuarios='$_id_impulsor'", "juicios", "id_juicios='$_id_juicio'");
+	
+				/*$this->view("Error", array("resultado"=>print_r($resultado)));
+				 exit();*/
+	
+				//auditoria
+				$traza=new TrazasModel();
+				$_nombre_controlador = "Avoco";
+				$_accion_trazas  = "Guardar";
+				$_parametros_trazas = "Archivo ".$nombre_documento." en ".$repositorio_documento;
+				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+	
+				$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCO'");
+	
+				$_estado = "Guardar";
+	
+				if($_tipo_avoco=="con_garante"){
+						
+						
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+						
+						
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+						
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+						
+						
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$this->report("AvocoSecretarioImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet));
+						
+				}
+				
+				elseif($_tipo_avoco=="sin_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoSecretarioImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				elseif($_tipo_avoco=="con_dos_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoSecretarioImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				
+			}
+	
+			$this->redirect("AvocoConocimiento", "index");
+			
+		}else
+		{
+				
+			$this->view("Error",array(
+	
+					"resultado"=>"No tiene Permisos de Insertar Documentos"
+	
+			));
+	
+		}
+	
+	
+	
+	}
+	
+	
+	
+	public function InsertaAvocoImpulsorDomPdf()
+	{
+	
+		session_start();
+	
+		$avoco = new AvocoConocimientoModel();
+	
+		$juicio = new  JuiciosModel();
+		$nombre_controladores = "Avoco";
+		$id_rol= $_SESSION['id_rol'];
+		$resultPer = $avoco->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+		$id_usuario=$_SESSION['id_usuarios'];
+	
+		if (!empty($resultPer))
+		{
+	
+			$resultado = null;
+	
+			if (isset ($_POST["Guardar"]))
+			{
+				//estado de documento pdf
+				$_estado = "";
+	
+				$dato=array();
+	
+				//identificador de pdf
+				$identificador="";
+	
+				//inicializar Parametros
+				$_id_ciudad = "";
+				$_id_juicio = "";
+				$_id_secretario_reemplazar  = null;
+				$_id_impulsor_reemplazar  = null;
+				$_id_secretario = null;
+				$_id_impulsor = null;
+				$_tipo_avoco = "";
+	
+				if(isset($_POST["id_secretario_reemplazo"])){$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];}
+	
+				if(isset($_POST["id_impulsor_reemplazo"])){$_id_impulsor_reemplazar  = $_POST["id_impulsor_reemplazo"];}
+	
+				if(isset($_POST["id_secretario"])){$_id_secretario  = $_POST["id_secretario"];}
+	
+				if(isset($_POST["id_impulsor"])){$_id_impulsor  = $_POST["id_impulsor"];}
+	
+				//parametros
+				$_id_ciudad  = $_POST["id_ciudad"];
+				$_id_juicio  = $_POST["id_juicios"];
+				$_tipo_avoco  = $_POST["tipo_avoco"];
+	
+	
+				/*$this->view("Error", array("resultado"=>'ciudad '.$_id_ciudad.' juicio '.$_id_juicio.' secretario '.$_id_secretario_reemplazar.
+				 ' impulsor '.$_id_impulsor_reemplazar.' secretario '.$_id_secretario.' impulsor '.$_id_impulsor.' tipoavoco '.$_tipo_avoco
+				 ));
+				exit();*/
+	
+				$consecutivo= new ConsecutivosModel();
+				$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='AVOCO'");
+	
+				$identificador=$resultConsecutivo[0]->real_consecutivos;
+	
+				$repositorio_documento="Avoco";
+	
+				$nombre_documento=$repositorio_documento.$identificador;
+	
+				$funcion = "ins_avoco_conocimiento";
+	
+				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
+				$avoco->setFuncion($funcion);
+	
+				$avoco->setParametros($parametros);
+				$resultado=$avoco->Insert();
+	
+				$updateJuicio = $avoco->UpdateBy("id_usuarios='$_id_impulsor'", "juicios", "id_juicios='$_id_juicio'");
+	
+				/*$this->view("Error", array("resultado"=>print_r($resultado)));
+				 exit();*/
+	
+				//auditoria
+				$traza=new TrazasModel();
+				$_nombre_controlador = "Avoco";
+				$_accion_trazas  = "Guardar";
+				$_parametros_trazas = "Archivo ".$nombre_documento." en ".$repositorio_documento;
+				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+	
+				$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='AVOCO'");
+	
+				$_estado = "Guardar";
+	
+				
+				if($_tipo_avoco=="con_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				elseif($_tipo_avoco=="sin_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				elseif($_tipo_avoco=="con_dos_garante"){
+				
+				
+					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
+					  juicios.juicio_referido_titulo_credito,
+					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,
+					  ciudad.nombre_ciudad,
+					  asignacion_secretarios_view.secretarios,
+					  asignacion_secretarios_view.impulsores,
+					  usuarios.nombre_usuarios as secretario_reemplazo,
+					  clientes.nombre_garantes,
+					  clientes.identificacion_garantes,
+					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  avoco_conocimiento.creado,
+					  avoco_conocimiento.identificador";
+				
+				
+					$tablas   = "public.avoco_conocimiento,
+					  public.juicios,
+					  public.ciudad,
+					  public.asignacion_secretarios_view,
+					  public.usuarios,
+					  public.clientes";
+				
+					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
+					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
+					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					juicios.id_clientes = clientes.id_clientes AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
+				
+				
+					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				
+					$this->report("AvocoImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+				
+				}
+				
+				
+				}
+				
+				$this->redirect("AvocoConocimiento", "index");
+	
+		}else
+		{
+	
+			$this->view("Error",array(
+	
+					"resultado"=>"No tiene Permisos de Insertar Documentos"
+	
+			));
+	
+		}
+	}
 	
 	
 }

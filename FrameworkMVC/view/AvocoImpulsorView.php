@@ -650,10 +650,10 @@
 		 <div class="form-group">
 		     
 		       <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertarAvocoSecretarioImpulsor"); ?>'" value="Guardar" class="btn btn-success" />
+			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvocoImpulsorDomPdf"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
 			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvocoSecretarioImpulsor"); ?>'" value="Visualizar" class="btn btn-info" />
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvocoImpulsor"); ?>'" value="Visualizar" class="btn btn-info" />
 			 </div>
 			 
 		</div>
