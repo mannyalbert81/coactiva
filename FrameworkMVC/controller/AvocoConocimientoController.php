@@ -2093,8 +2093,17 @@ public function index(){
 					
 					
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+						
 					
-					$this->report("AvocoSecretarioConGarante_Guardar",array( "resultSet"=>$resultSet));
+					$this->report("AvocoSecretarioConGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 					
 				}
 				
@@ -2135,7 +2144,16 @@ public function index(){
 						
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
 						
-					$this->report("AvocoSecretarioSinGarante_Guardar",array( "resultSet"=>$resultSet));
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+						
+						
+					$this->report("AvocoSecretarioSinGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 						
 				}
 				
@@ -2173,10 +2191,20 @@ public function index(){
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
+					
 				
-					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+				$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+						
 				
-					$this->report("AvocoSecretarioConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+					$this->report("AvocoSecretarioConDosGarantes_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				
@@ -2306,7 +2334,6 @@ public function index(){
 					  usuarios.nombre_usuarios as secretario_reemplazo,
 					  clientes.nombre_garantes,
 					  clientes.identificacion_garantes,
-					  usuarios.nombre_usuarios as impulsor_reemplazo,
 					  avoco_conocimiento.creado,
 					  avoco_conocimiento.identificador";
 						
@@ -2329,8 +2356,17 @@ public function index(){
 						
 						
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+					
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento, 
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
 						
-					$this->report("AvocoSecretarioImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet));
+					
+					$this->report("AvocoSecretarioImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet,  "resultSet1"=>$resultSet1));
 						
 				}
 				
@@ -2368,10 +2404,21 @@ public function index(){
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
-				
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+						
+						
 				
-					$this->report("AvocoSecretarioImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet));
+					
+				
+					$this->report("AvocoSecretarioImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				
@@ -2408,11 +2455,22 @@ public function index(){
 					juicios.id_clientes = clientes.id_clientes AND
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
-				
-				
+					
+					
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+						
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+						
 				
-					$this->report("AvocoSecretarioImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+					
+				
+					$this->report("AvocoSecretarioImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				
@@ -2562,10 +2620,20 @@ public function index(){
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
-				
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+					
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+					
 				
-					$this->report("AvocoImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet));
+					
+				
+					$this->report("AvocoImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet"=>$resultSet1));
 				
 				}
 				
@@ -2602,11 +2670,20 @@ public function index(){
 					juicios.id_clientes = clientes.id_clientes AND
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
-				
-				
+					
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+					
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+					
+					
 				
-					$this->report("AvocoImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet));
+					$this->report("AvocoImpulsorSinGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				
@@ -2644,10 +2721,19 @@ public function index(){
 					avoco_conocimiento.identificador='$identificador'";
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
-				
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
-				
-					$this->report("AvocoImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet));
+					
+					
+					$columnas1 = "usuarios.nombre_usuarios";
+					$tablas1 ="public.avoco_conocimiento,
+  								public.usuarios";
+					$where1 = " avoco_conocimiento.impulsor_reemplazo = usuarios.id_usuarios AND
+					avoco_conocimiento.identificador='$identificador'";
+					$id1=" usuarios.nombre_usuarios";
+					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
+					
+					
+					$this->report("AvocoImpulsorConDosGarantes_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				

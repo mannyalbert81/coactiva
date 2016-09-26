@@ -46,14 +46,18 @@ foreach($resultSet as $res)
 	$secretario_reemplazo			                 =$res->secretario_reemplazo;
 	$nombre_garantes                                 =$res->nombre_garantes;
 	$identificacion_garantes                         =$res->identificacion_garantes;
-	$impulsor_reemplazo                              =$res->impulsor_reemplazo;
 	$identificador                                   =$res->identificador;
 	//$creado                                          =fechaATexto($res->creado);
 	$creado                                          =$dias[date('w',strtotime($res->creado))]." ".date('d',strtotime($res->creado))." de ".$meses[date('n',strtotime($res->creado))-1]. " del ".date('Y',strtotime($res->creado)). " a las ".date("h:i:s",strtotime($res->creado)) ;
 	//date('Y-m-d ',strtotime($res->creado));	
     
 }
+foreach($resultSet1 as $res)
+{
 
+	$impulsor_reemplazo                              =$res->nombre_usuarios;
+
+}
  $logo                                                 = '<img src="view/images/logo_fomento1.jpg" alt="Responsive image" width="200" height="80">';
  
 
