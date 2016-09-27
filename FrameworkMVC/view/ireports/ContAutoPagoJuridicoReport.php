@@ -80,8 +80,8 @@ $estado=$_GET['estado'];
 					
 				$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 					
-				//$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
-				$PHPJasperXML->outpage("I");
+				$PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
+				//$PHPJasperXML->outpage("I");
 				
 				
 				echo "<script type='text/javascript'>";
