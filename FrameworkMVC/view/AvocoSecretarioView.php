@@ -545,7 +545,7 @@
   			
   			 <div class="col-xs-12 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Con 2 Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?>/>
+  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_dos_garante"){echo $checked; }}?>/>
   			</div>
   			 
   			 </div>

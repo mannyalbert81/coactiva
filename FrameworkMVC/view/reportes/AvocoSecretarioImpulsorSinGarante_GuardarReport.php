@@ -46,14 +46,18 @@ foreach($resultSet as $res)
 	$secretario_reemplazo			                 =$res->secretario_reemplazo;
 	$nombre_garantes                                 =$res->nombre_garantes;
 	$identificacion_garantes                         =$res->identificacion_garantes;
-	$impulsor_reemplazo                              =$res->impulsor_reemplazo;
 	$identificador                                   =$res->identificador;
 	//$creado                                          =fechaATexto($res->creado);
 	$creado                                          =$dias[date('w',strtotime($res->creado))]." ".date('d',strtotime($res->creado))." de ".$meses[date('n',strtotime($res->creado))-1]. " del ".date('Y',strtotime($res->creado)). " a las ".date("h:i:s",strtotime($res->creado)) ;
 	//date('Y-m-d ',strtotime($res->creado));	
     
 }
+foreach($resultSet1 as $res)
+{
 
+	$impulsor_reemplazo                              =$res->nombre_usuarios;
+
+}
  $logo                                                 = '<img src="view/images/logo_fomento1.jpg" alt="Responsive image" width="200" height="80">';
  
 
@@ -91,10 +95,10 @@ $html =
  Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, 
  inscrita en el Registro Mercantil del cantón Quito, el 12 de mayo de 2016, cuyo desglose ordeno dejando copias 
  certificadas en autos.- Déjese sin efecto el nombramiento del Abogado (a)<font color="#FFFFFF">a</font><strong>'.$secretario_reemplazo.'</strong>, en su calidad de
- Secretario (a) de Coactiva, en su reemplazo se designa como Secretario de Coactiva al Abogado (a)<font color="#FFFFFF">a</font><strong>'.$secretarios.'</strong>  
+ Secretario (a) de Coactiva,y al Abogado (a) <font color="#FFFFFF">a</font><strong>'.$impulsor_reemplazo.'</strong>, en su calidad de Impulsor (a) en su reemplazo se designa como Secretario de Coactiva al Abogado (a)<font color="#FFFFFF">a</font><strong>'.$secretarios.'</strong>  
  y, como Abogado (a) Impulsor (a) se designa al Abogado (a)<font color="#FFFFFF">a</font><strong>'.$impulsores.'</strong> quienes hallándose presentes aceptan los cargos
- y juran desempeñarlos fiel y legalmente, firmando para constancia con la suscrita Jueza de Coactiva.-<font color="#FFFFFF">a</font><b>CUMPLASE Y NOTIFÍQUESE</b>.
-
+ y juran desempeñarlos fiel y legalmente, firmando para constancia con la suscrita Jueza de Coactiva.-<font color="#FFFFFF">a</font><b>CUMPLASE Y NOTIFÍQUESE</b>.<br>
+ <font color="#FFFFFF">MASOFTFIN</font> 		
 </font>'.
 '</p>'
 

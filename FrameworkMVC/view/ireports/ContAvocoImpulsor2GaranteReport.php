@@ -1,4 +1,4 @@
-AvocoSecretarioImpulsorVisualizarReport.jrxml<?php
+<?php
 
 #<?php
 #Importas la librer�a PhpJasperLibrary

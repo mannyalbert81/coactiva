@@ -205,7 +205,7 @@ class AprobacionAutoPagoController extends ControladorBase{
 				$nombre_documento=$repositorio_documento.$identificador;
 				
 				$estado=new EstadoModel();
-				$resultEstado=$estado->getBy("nombre_estado='APROBADO'");				
+				$resultEstado=$estado->getBy("nombre_estado='PENDIENTE'");		//para pruebas-->  'APROBADO'		
 				$id_estado=$resultEstado[0]->id_estado;
 				
 				//para obtener el id auto de pago
@@ -266,12 +266,12 @@ class AprobacionAutoPagoController extends ControladorBase{
 					$id_tipo_juicios=$result_tipo_juicios[0]->id_tipo_juicios;
 					
 					//pra descripcion auto pago juicio
-					$descipcion_auto_pago_juicios="Prueba de insercion";
+					$descipcion_auto_pago_juicios="";
 					
 					//para estados procesales juicios "Auto de Pago"
 					$col_est_procesales="*";
 					$tbl_est_procesales="estados_procesales_juicios";
-					$whre_est_procesales="nombre_estados_procesales_juicios LIKE 'Auto de Pago'";
+					$whre_est_procesales="nombre_estados_procesales_juicios LIKE 'AUTO DE PAGO'";
 					$result_est_procesales=$aprobacion_auto_pago->getCondiciones($col_est_procesales, $tbl_est_procesales, $whre_est_procesales, "id_estados_procesales_juicios");
 					
 					$id_estados_procesales_juicios=$result_est_procesales[0]->id_estados_procesales_juicios;
@@ -285,15 +285,13 @@ class AprobacionAutoPagoController extends ControladorBase{
 					$id_estados_auto_pago_juicios=$result_auto_pago_juicios[0]->id_estados_auto_pago_juicios;
 					
 					//para archivos
-					$prefijo=CLIENTE;
-					$nombre_archivado_juicios=$prefijo."-".$juicio_referido_titulo_credito;
+					//$prefijo=CLIENTE;
+					$nombre_archivado_juicios='';
 					
 					//para entidad
 					$id_entidades=10;
 					
 					//aqui va insertado de juicio
-
-					
 					
 					$resultadojuicio=$aprobacion_auto_pago->InsertaJuicio($id_entidades, $id_juzgado , $juicio_referido_titulo_credito, $id_usuarios, $id_titulo_credito, $id_clientes, $id_etapas_juicios, $id_tipo_juicios, $descipcion_auto_pago_juicios, $id_estados_procesales_juicios, $id_estados_auto_pago_juicios, $nombre_archivado_juicios);
 					
