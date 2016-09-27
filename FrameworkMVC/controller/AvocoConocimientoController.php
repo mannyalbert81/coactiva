@@ -209,6 +209,7 @@ public function index(){
 						
 			   }
 				
+			   
 			}else
 				{
 					
@@ -253,8 +254,8 @@ public function index(){
           
           		//consulta datos de juicio
           		$columnas="juicios.juicio_referido_titulo_credito,
-			               clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
-					       clientes.identificacion_garantes";
+			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
+					  clientes.identificacion_garantes";
           			
           		$tablas="public.juicios,public.clientes";
           			
@@ -1790,9 +1791,9 @@ public function index(){
 	
 				$nombre_documento=$repositorio_documento.$identificador;
 	
-				$funcion = "ins_avoco_conocimiento";
+				$funcion = "ins_avoco_conocimiento_impulsor";
 	
-				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
+				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_impulsor_reemplazar'";
 				$avoco->setFuncion($funcion);
 	
 				$avoco->setParametros($parametros);
@@ -2641,9 +2642,9 @@ public function index(){
 	
 				$nombre_documento=$repositorio_documento.$identificador;
 	
-				$funcion = "ins_avoco_conocimiento";
+				$funcion = "ins_avoco_conocimiento_impulsor";
 	
-				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_secretario_reemplazar','$_id_impulsor_reemplazar'";
+				$parametros = " '$_id_juicio' ,'$_id_ciudad' , '$_id_secretario' , '$_id_impulsor' , '$id_usuario' , '$nombre_documento' , '$repositorio_documento' , '$identificador','$_id_impulsor_reemplazar'";
 				$avoco->setFuncion($funcion);
 	
 				$avoco->setParametros($parametros);
@@ -2670,34 +2671,30 @@ public function index(){
 				
 				
 					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
-					  juicios.juicio_referido_titulo_credito,
-					  clientes.nombres_clientes,
-					  clientes.identificacion_clientes,
-					  ciudad.nombre_ciudad,
-					  asignacion_secretarios_view.secretarios,
-					  asignacion_secretarios_view.impulsores,
-					  usuarios.nombre_usuarios as secretario_reemplazo,
-					  clientes.nombre_garantes,
-					  clientes.identificacion_garantes,
-					  usuarios.nombre_usuarios as impulsor_reemplazo,
-					  avoco_conocimiento.creado,
-					  avoco_conocimiento.identificador";
+					  avoco_conocimiento.creado, 
+					  avoco_conocimiento.identificador, 
+					  juicios.juicio_referido_titulo_credito, 
+					  clientes.nombres_clientes, 
+					  clientes.identificacion_garantes, 
+					  clientes.identificacion_clientes, 
+					  clientes.nombre_garantes, 
+					  ciudad.nombre_ciudad, 
+					  asignacion_secretarios_view.secretarios, 
+					  asignacion_secretarios_view.impulsores";
 				
 				
-					$tablas   = "public.avoco_conocimiento,
-					  public.juicios,
-					  public.ciudad,
-					  public.asignacion_secretarios_view,
-					  public.usuarios,
-					  public.clientes";
+					$tablas   = "public.asignacion_secretarios_view, 
+					  public.juicios, 
+					  public.clientes, 
+					  public.ciudad, 
+					  public.avoco_conocimiento";
 				
-					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
-					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
-					juicios.id_juicios = avoco_conocimiento.id_juicios AND
-					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
-					juicios.id_clientes = clientes.id_clientes AND
-					avoco_conocimiento.identificador='$identificador'";
+					$where    = "asignacion_secretarios_view.id_abogado = avoco_conocimiento.id_impulsor AND
+					  juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					  clientes.id_clientes = juicios.id_clientes AND
+					  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					  avoco_conocimiento.identificador='$identificador'";
+					
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
@@ -2711,9 +2708,10 @@ public function index(){
 					$resultSet1= $avoco->getCondiciones($columnas1, $tablas1, $where1, $id1);
 					
 				
-					
+					//print_r($resultSet);
+					//die();
 				
-					$this->report("AvocoImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet"=>$resultSet1));
+					$this->report("AvocoImpulsorConGarante_Guardar",array( "resultSet"=>$resultSet, "resultSet1"=>$resultSet1));
 				
 				}
 				
@@ -2721,34 +2719,28 @@ public function index(){
 				
 				
 					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
-					  juicios.juicio_referido_titulo_credito,
+					  avoco_conocimiento.creado, 
+					  avoco_conocimiento.identificador, 
+					  juicios.juicio_referido_titulo_credito, 
 					  clientes.nombres_clientes,
-					  clientes.identificacion_clientes,
-					  ciudad.nombre_ciudad,
-					  asignacion_secretarios_view.secretarios,
-					  asignacion_secretarios_view.impulsores,
-					  usuarios.nombre_usuarios as secretario_reemplazo,
-					  clientes.nombre_garantes,
-					  clientes.identificacion_garantes,
-					  usuarios.nombre_usuarios as impulsor_reemplazo,
-					  avoco_conocimiento.creado,
-					  avoco_conocimiento.identificador";
+					  clientes.nombre_garantes, 
+					  ciudad.nombre_ciudad, 
+					  asignacion_secretarios_view.secretarios, 
+					  asignacion_secretarios_view.impulsores";
 				
 				
-					$tablas   = "public.avoco_conocimiento,
-					  public.juicios,
-					  public.ciudad,
-					  public.asignacion_secretarios_view,
-					  public.usuarios,
-					  public.clientes";
+					$tablas   = "public.asignacion_secretarios_view, 
+					  public.juicios, 
+					  public.clientes, 
+					  public.ciudad, 
+					  public.avoco_conocimiento";
 				
-					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
-					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
-					juicios.id_juicios = avoco_conocimiento.id_juicios AND
-					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
-					juicios.id_clientes = clientes.id_clientes AND
-					avoco_conocimiento.identificador='$identificador'";
+					$where    = "asignacion_secretarios_view.id_abogado = avoco_conocimiento.id_impulsor AND
+					  juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					  clientes.id_clientes = juicios.id_clientes AND
+					  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					  avoco_conocimiento.identificador='$identificador'";
+					
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 					
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
@@ -2771,18 +2763,18 @@ public function index(){
 				
 				
 					$columnas = "avoco_conocimiento.id_avoco_conocimiento,
-					  juicios.juicio_referido_titulo_credito,
-					  clientes.nombres_clientes,
-					  clientes.identificacion_clientes,
-					  ciudad.nombre_ciudad,
-					  asignacion_secretarios_view.secretarios,
-					  asignacion_secretarios_view.impulsores,
-					  usuarios.nombre_usuarios as secretario_reemplazo,
-					  clientes.nombre_garantes,
-					  clientes.identificacion_garantes,
-					  usuarios.nombre_usuarios as impulsor_reemplazo,
-					  avoco_conocimiento.creado,
-					  avoco_conocimiento.identificador";
+					  avoco_conocimiento.creado, 
+					  avoco_conocimiento.identificador, 
+					  juicios.juicio_referido_titulo_credito, 
+					  clientes.nombres_clientes, 
+					  clientes.identificacion_garantes, 
+					  clientes.identificacion_clientes, 
+					  clientes.nombre_garantes, 
+					  clientes.identificacion_garantes_1,
+					  clientes.nombre_garantes_1, 
+					  ciudad.nombre_ciudad, 
+					  asignacion_secretarios_view.secretarios, 
+					  asignacion_secretarios_view.impulsores";
 				
 				
 					$tablas   = "public.avoco_conocimiento,
@@ -2792,16 +2784,18 @@ public function index(){
 					  public.usuarios,
 					  public.clientes";
 				
-					$where    = "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
-					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
-					juicios.id_juicios = avoco_conocimiento.id_juicios AND
-					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
-					juicios.id_clientes = clientes.id_clientes AND
-					avoco_conocimiento.identificador='$identificador'";
+					$where    = " asignacion_secretarios_view.id_abogado = avoco_conocimiento.id_impulsor AND
+					  clientes.id_clientes = juicios.id_clientes AND
+					  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+					  juicios.id_juicios = avoco_conocimiento.id_juicios AND
+					  avoco_conocimiento.identificador='$identificador'";
+					
 					$id		  = "avoco_conocimiento.id_avoco_conocimiento";
 				
 					$resultSet= $avoco->getCondiciones($columnas, $tablas, $where, $id);
+					
+					//print_r($resultSet);
+					//die();
 					
 					
 					$columnas1 = "usuarios.nombre_usuarios";

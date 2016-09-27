@@ -30,6 +30,8 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 $dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
 $dato['hora']= date ("h:i:s");
 	
+//print_r($resultSet);
+//die();
 
 foreach($resultSet as $res) 
 {
@@ -40,7 +42,6 @@ foreach($resultSet as $res)
 	$nombres_clientes			                     =$res->nombres_clientes;
 	$identificacion_clientes                         =$res->identificacion_clientes;
 	$nombre_ciudad                                   =$res->nombre_ciudad;
-	
 	$secretarios						             =$res->secretarios;
 	$impulsores                                      =$res->impulsores;
 	$secretario_reemplazo			                 =$res->secretario_reemplazo;

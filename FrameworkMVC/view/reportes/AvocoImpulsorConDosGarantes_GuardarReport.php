@@ -31,6 +31,8 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 $dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
 $dato['hora']= date ("h:i:s");
 	
+//print_r($resultSet);
+//die();
 
 foreach($resultSet as $res) 
 {
@@ -41,12 +43,12 @@ foreach($resultSet as $res)
 	$nombres_clientes			                     =$res->nombres_clientes;
 	$identificacion_clientes                         =$res->identificacion_clientes;
 	$nombre_ciudad                                   =$res->nombre_ciudad;
-	
 	$secretarios						             =$res->secretarios;
 	$impulsores                                      =$res->impulsores;
-	$secretario_reemplazo			                 =$res->secretario_reemplazo;
 	$nombre_garantes                                 =$res->nombre_garantes;
 	$identificacion_garantes                         =$res->identificacion_garantes;
+	$nombre_garantes_1                               =$res->nombre_garantes_1;
+	$identificacion_garantes_1                       =$res->identificacion_garantes_1;
 	$identificador                                   =$res->identificador;
 	//$creado                                          =fechaATexto($res->creado);
 	$creado                                          =$dias[date('w',strtotime($res->creado))]." ".date('d',strtotime($res->creado))." de ".$meses[date('n',strtotime($res->creado))-1]. " del ".date('Y',strtotime($res->creado)). " a las ".date("h:i:s",strtotime($res->creado)) ;
@@ -93,7 +95,7 @@ $html =
  VISTOS: Avoco conocimiento del presente proceso signado con el número<font color="#FFFFFF">a</font><strong>'.$juicio_referido_titulo_credito.'</strong>
  seguido en contra de <font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong> 
  en calidad de deudor (a) principal y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'</strong> en calidad de
- garante  solidario (a) y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'</strong>
+ garante  solidario (a) y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes_1.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes_1.'</strong>
  como segundo garante  solidario(a), en mi calidad de Liquidadora del Banco Nacional de Fomento en Liquidación conforme a la designación a mi extendida
  y fundada en la orden de cobro, contenidos ambos actos en la Resolución No. SB-2016-324, emitida por el Ec. Christian Cruz
  Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, 
