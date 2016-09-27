@@ -209,7 +209,6 @@ public function index(){
 						
 			   }
 				
-			   
 			}else
 				{
 					
@@ -254,8 +253,8 @@ public function index(){
           
           		//consulta datos de juicio
           		$columnas="juicios.juicio_referido_titulo_credito,
-			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
-					  clientes.identificacion_garantes";
+			               clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
+					       clientes.identificacion_garantes";
           			
           		$tablas="public.juicios,public.clientes";
           			
