@@ -529,7 +529,7 @@
   			 
   			 <div class="col-xs-12 col-md-4" style="text-align: center;">
   			 <p  class="formulario-subtitulo" >-- Con 2 Garante --</p>
-  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?>/>
+  			 <input type="radio" name="tipo_avoco" id="con_dos_garante" value="con_dos_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="con_dos_garante"){echo $checked; }}?>/>
   			</div>
   			 <!-- 
   			 <div class="col-xs-3 col-md-3" style="text-align: center;">
@@ -653,7 +653,7 @@
 			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("AvocoConocimiento","InsertaAvocoImpulsorDomPdf"); ?>'" value="Guardar" class="btn btn-success" />
 			  </div>
 			   <div class="col-xs-6 col-md-6" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizarAvocoImpulsor"); ?>'" value="Visualizar" class="btn btn-info" />
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("AvocoConocimiento","VisualizaAvocoImpulsor"); ?>'" value="Visualizar" class="btn btn-info" />
 			 </div>
 			 
 		</div>
