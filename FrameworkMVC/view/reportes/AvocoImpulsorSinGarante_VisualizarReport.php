@@ -20,8 +20,14 @@ $creado                                          ="";
 $identificador                                   ="";
 
 
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-require_once('../view/dompdf/dompdf_config.inc.php' );
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
+echo $directorio;
+die();
+
+require_once('http://'.$host.$uri.'/view/dompdf/dompdf_config.inc.php' );
 
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
