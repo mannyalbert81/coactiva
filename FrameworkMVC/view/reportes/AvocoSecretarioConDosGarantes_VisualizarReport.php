@@ -30,8 +30,6 @@ $dom=$directorio.'/view/dompdf/dompdf_config.inc.php';
 
 require_once( $dom);
 
-
-
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
 $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
