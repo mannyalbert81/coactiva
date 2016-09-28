@@ -2828,6 +2828,336 @@ public function index(){
 		}
 	}
 	
+	public function VisualizarAvocoSecretarioImpulsor_DomPdf(){
+	
+		session_start();
+	
+	
+		$usuarios = new UsuariosModel();
+		$juicios = new JuiciosModel();
+		$ciudad = new CiudadModel();
+	
+		$identificador="";
+		$_estado="Visualizar";
+		$dato=array();
+		$arrayGet=array();
+		$resultCiudad=array();
+	
+		if (isset($_POST["Visualizar"]))
+		{
+	
+			//parametros
+			$_id_ciudad     			= $_POST["id_ciudad"];
+			$_id_juicio      			= $_POST["id_juicios"];
+			$_id_secretario_reemplazar  = $_POST["id_secretario_reemplazo"];
+			$_id_impulsor_reemplazar    = $_POST["id_impulsor_reemplazo"];
+			$_id_secretario     		= $_POST["id_secretario"];
+			$_id_abogado      			= $_POST["id_impulsor"];
+			$_tipo_avoco     			= $_POST["tipo_avoco"];
+	
+	
+			//consulta datos de juicio
+			$columnas="juicios.juicio_referido_titulo_credito,
+			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
+			nombre_garantes_1,identificacion_garantes_1,clientes.identificacion_garantes";
+	
+			$tablas="public.juicios,public.clientes";
+	
+			$where="clientes.id_clientes = juicios.id_clientes AND  juicios.id_juicios='$_id_juicio'";
+	
+			$resultJuicio = $juicios->getCondiciones($columnas, $tablas, $where, "clientes.id_clientes");
+	
+			//datos ciudad
+			$resultCiudad=$ciudad->getBy("id_ciudad='$_id_ciudad'");
+	
+			//datos secretario q se reemplaza
+			$resultSecretario=$usuarios->getBy("id_usuarios='$_id_secretario_reemplazar'");
+	
+			$resultImpulsor=$usuarios->getBy("id_usuarios='$_id_impulsor_reemplazar'");
+	
+			//datos Secretario e impulsor
+			$resultAbogados=$usuarios->getCondiciones("asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.id_secretario,
+                                                      asignacion_secretarios_view.secretarios,asignacion_secretarios_view.impulsores",
+					"public.asignacion_secretarios_view",
+					"asignacion_secretarios_view.id_abogado = '$_id_abogado' AND asignacion_secretarios_view.id_secretario='$_id_secretario'",
+					"asignacion_secretarios_view.secretarios");
+	
+	
+			//cargar datos para el reporte
+	
+			$dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+			$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+			$dato['ciudad']=$resultCiudad[0]->nombre_ciudad;
+			$dato['juicio_referido']=$resultJuicio[0]->juicio_referido_titulo_credito;
+			$dato['cliente']=$resultJuicio[0]->nombres_clientes;
+			$dato['identificacion']=$resultJuicio[0]->identificacion_clientes;
+			$dato['secretario_reemplazar']=$resultSecretario[0]->nombre_usuarios;
+			$dato['impulsor_reemplazar']=$resultImpulsor[0]->nombre_usuarios;
+			$dato['secretario']=$resultAbogados[0]->secretarios;
+			$dato['abogado']=$resultAbogados[0]->impulsores;
+			$dato['garante']="";
+			$dato['garante_1']="";
+			$dato['identificacion_garante']="";
+			$dato['identificacion_garante_1']="";
+			$dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
+			$dato['hora']= date ("h:i:s");
+				
+			if($_tipo_avoco == "con_garante")
+			{
+				$dato['garante']=$resultJuicio[0]->nombre_garantes;
+				$dato['identificacion_garante']=$resultJuicio[0]->identificacion_garantes;
+	
+			}elseif ($_tipo_avoco == "con_dos_garante")
+			{
+				$dato['garante']=$resultJuicio[0]->nombre_garantes;
+				$dato['garante_1']=$resultJuicio[0]->nombre_garantes_1;
+				$dato['identificacion_garante']=$resultJuicio[0]->identificacion_garantes;
+				$dato['identificacion_garante_1']=$resultJuicio[0]->identificacion_garantes_1;
+			}
+	
+			//$this->view("Error", array("resultado"=>print_r($dato))); exit();
+	
+	
+			$traza=new TrazasModel();
+			$_nombre_controlador = "Avoco";
+			$_accion_trazas  = "Visualizar";
+			$_parametros_trazas = "Cambiar".($resultSecretario[0]->nombre_usuarios)."Por".$resultAbogados[0]->secretarios;
+			$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+	
+	
+			//cargar array q va por get
+	
+			$arrayGet['id_juicio']=$_id_juicio;
+			$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
+			$arrayGet['id_reemplazo']=$_id_secretario_reemplazar;
+			$arrayGet['reemplazo']=$resultSecretario[0]->nombre_usuarios;
+			$arrayGet['id_reemplazo1']=$_id_impulsor_reemplazar;
+			$arrayGet['reemplazo1']=$resultImpulsor[0]->nombre_usuarios;
+			$arrayGet['id_ciudad']=$resultCiudad[0]->id_ciudad;
+			$arrayGet['ciudad']=$resultCiudad[0]->nombre_ciudad;
+			$arrayGet['id_secretario']=$_id_secretario;
+			$arrayGet['secretario']=$resultAbogados[0]->secretarios;
+			$arrayGet['id_impulsor']=$_id_abogado;
+			$arrayGet['impulsor']=$resultAbogados[0]->impulsores;
+			$arrayGet['tipoAvoco']=$_tipo_avoco;
+			$arrayGet['identificacion']=$resultJuicio[0]->identificacion_clientes;
+	
+	
+		}
+		
+		$this->report($vista, $datos);
+	
+	
+		$result=urlencode(serialize($dato));
+	
+		$resultArray=urlencode(serialize($arrayGet));
+	
+			
+		if($_tipo_avoco == "sin_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+	
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
+	
+	
+		}
+		elseif ($_tipo_avoco == "con_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
+	
+	
+	
+		}
+			
+		elseif ($_tipo_avoco == "con_dos_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorGarante2Report.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
+	
+	
+	
+		}
+	
+	}
+	
+	public function VisualizaAvocoImpulsor_DomPdf(){
+	
+		session_start();
+	
+		$usuarios = new UsuariosModel();
+		$juicios = new JuiciosModel();
+		$ciudad = new CiudadModel();
+	
+		$identificador="";
+		$_estado="Visualizar";
+		$dato=array();
+		$arrayGet=array();
+		$resultCiudad=array();
+	
+		if (isset($_POST["Visualizar"]))
+		{
+	
+			//parametros
+			$_id_ciudad     			= $_POST["id_ciudad"];
+			$_id_juicio      			= $_POST["id_juicios"];
+			$_id_impulsor_reemplazar    = $_POST["id_impulsor_reemplazo"];
+			$_id_secretario     		= $_POST["id_secretario"];
+			$_id_abogado      			= $_POST["id_impulsor"];
+			$_tipo_avoco     			= $_POST["tipo_avoco"];
+	
+	
+			//consulta datos de juicio
+			$columnas="juicios.juicio_referido_titulo_credito,
+			clientes.nombres_clientes,clientes.identificacion_clientes,clientes.nombre_garantes,
+					  clientes.identificacion_garantes,nombre_garantes_1,identificacion_garantes_1";
+	
+			$tablas="public.juicios,public.clientes";
+	
+			$where="clientes.id_clientes = juicios.id_clientes AND  juicios.id_juicios='$_id_juicio'";
+	
+			$resultJuicio = $juicios->getCondiciones($columnas, $tablas, $where, "clientes.id_clientes");
+	
+			//datos ciudad
+			$resultCiudad=$ciudad->getBy("id_ciudad='$_id_ciudad'");
+	
+			$resultImpulsor=$usuarios->getBy("id_usuarios='$_id_impulsor_reemplazar'");
+	
+			//datos Secretario e impulsor
+			$resultAbogados=$usuarios->getCondiciones("asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.id_secretario,
+                                                      asignacion_secretarios_view.secretarios,asignacion_secretarios_view.impulsores",
+					"public.asignacion_secretarios_view",
+					"asignacion_secretarios_view.id_abogado = '$_id_abogado' AND asignacion_secretarios_view.id_secretario='$_id_secretario'",
+					"asignacion_secretarios_view.secretarios");
+	
+	
+			//cargar datos para el reporte
+	
+			$dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+			$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+			$dato['ciudad']=$resultCiudad[0]->nombre_ciudad;
+			$dato['juicio_referido']=$resultJuicio[0]->juicio_referido_titulo_credito;
+			$dato['cliente']=$resultJuicio[0]->nombres_clientes;
+			$dato['identificacion']=$resultJuicio[0]->identificacion_clientes;
+			$dato['secretario_reemplazar']="";
+			$dato['impulsor_reemplazar']=$resultImpulsor[0]->nombre_usuarios;
+			$dato['secretario']=$resultAbogados[0]->secretarios;
+			$dato['abogado']=$resultAbogados[0]->impulsores;
+			$dato['garante']="";
+			$dato['garante_1']="";
+			$dato['identificacion_garante']="";
+			$dato['identificacion_garante_1']="";
+			$dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
+			$dato['hora']= date ("h:i:s");
+			//$this->view("Error", array("resultado"=>print_r($dato))); exit();
+	
+			if($_tipo_avoco == "con_garante")
+			{
+				$dato['garante']=$resultJuicio[0]->nombre_garantes;
+				$dato['identificacion_garante']=$resultJuicio[0]->identificacion_garantes;
+					
+			}elseif ($_tipo_avoco == "con_dos_garante")
+			{
+				$dato['garante']=$resultJuicio[0]->nombre_garantes;
+				$dato['garante_1']=$resultJuicio[0]->nombre_garantes_1;
+				$dato['identificacion_garante']=$resultJuicio[0]->identificacion_garantes;
+				$dato['identificacion_garante_1']=$resultJuicio[0]->identificacion_garantes_1;
+			}
+	
+			$traza=new TrazasModel();
+			$_nombre_controlador = "Avoco";
+			$_accion_trazas  = "Visualizar";
+			$_parametros_trazas = "Cambiar".($resultImpulsor[0]->nombre_usuarios)."Por".$resultAbogados[0]->impulsores;
+			$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+	
+	
+			//cargar array q va por get
+	
+			$arrayGet['id_juicio']=$_id_juicio;
+			$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
+			$arrayGet['id_reemplazo']="";
+			$arrayGet['reemplazo']="";
+			$arrayGet['id_reemplazo1']=$_id_impulsor_reemplazar;
+			$arrayGet['reemplazo1']=$resultImpulsor[0]->nombre_usuarios;
+			$arrayGet['id_ciudad']=$resultCiudad[0]->id_ciudad;
+			$arrayGet['ciudad']=$resultCiudad[0]->nombre_ciudad;
+			$arrayGet['id_secretario']=$_id_secretario;
+			$arrayGet['secretario']=$resultAbogados[0]->secretarios;
+			$arrayGet['id_impulsor']=$_id_abogado;
+			$arrayGet['impulsor']=$resultAbogados[0]->impulsores;
+			$arrayGet['tipoAvoco']=$_tipo_avoco;
+			$arrayGet['identificacion']=$resultJuicio[0]->identificacion_clientes;
+				
+	
+		}
+	
+	
+		$result=urlencode(serialize($dato));
+	
+		$resultArray=urlencode(serialize($arrayGet));
+	
+			
+		if($_tipo_avoco == "sin_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+	
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/reportes/ContAvocoImpulsorSinGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");
+	
+	
+		}
+		elseif ($_tipo_avoco == "con_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");
+	
+		}
+			
+		elseif ($_tipo_avoco == "con_dos_garante"){
+	
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	
+			print "<script language='JavaScript'>
+			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsor2GaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			</script>";
+	
+			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");
+		}
+	
+	}
+	
 	
 }
 ?>
