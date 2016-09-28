@@ -44,7 +44,6 @@ foreach($resultSet as $res)
 	
 	$secretarios						             =$res->secretarios;
 	$impulsores                                      =$res->impulsores;
-	$secretario_reemplazo			                 =$res->secretario_reemplazo;
 	$nombre_garantes                                 =$res->nombre_garantes;
 	$identificacion_garantes                         =$res->identificacion_garantes;
 	$identificador                                   =$res->identificador;

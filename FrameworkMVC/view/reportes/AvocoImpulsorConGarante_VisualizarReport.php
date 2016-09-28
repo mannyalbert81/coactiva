@@ -31,35 +31,50 @@ $dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del 
 $dato['hora']= date ("h:i:s");
 	
 
-foreach($resultSet as $res) 
-{
-	
-	
-	$id_avoco_conocimiento						     =$res->id_avoco_conocimiento;
-	$juicio_referido_titulo_credito                  =$res->juicio_referido_titulo_credito;
-	$nombres_clientes			                     =$res->nombres_clientes;
-	$identificacion_clientes                         =$res->identificacion_clientes;
-	$nombre_ciudad                                   =$res->nombre_ciudad;
-	
-	$secretarios						             =$res->secretarios;
-	$impulsores                                      =$res->impulsores;
-	$secretario_reemplazo			                 =$res->secretario_reemplazo;
-	$nombre_garantes                                 =$res->nombre_garantes;
-	$identificacion_garantes                         =$res->identificacion_garantes;
-	$identificador                                   =$res->identificador;
-	//$creado                                          =fechaATexto($res->creado);
-	$creado                                          =$dias[date('w',strtotime($res->creado))]." ".date('d',strtotime($res->creado))." de ".$meses[date('n',strtotime($res->creado))-1]. " del ".date('Y',strtotime($res->creado)). " a las ".date("h:i:s",strtotime($res->creado)) ;
-	//date('Y-m-d ',strtotime($res->creado));	
-    
-}
-foreach($resultSet1 as $res)
-{
+$a=stripslashes($_GET['dato']);
 
-	$impulsor_reemplazo                              =$res->nombre_usuarios;
+$_dato=urldecode($a);
 
-}
- $logo                                                 = '<img src="view/images/logo_fomento1.jpg" alt="Responsive image" width="200" height="80">';
- 
+$_dato=unserialize($a);
+
+//print_r($_dato);
+//die();
+/*
+ * Array (
+ * [ciudad] => QUITO
+ * [juicio_referido] => UIO-1-2016-19
+ * [cliente] => REYES CARRERA PATRICIA ELIZABETH
+ * [identificacion] => 1753859913001
+ * [secretario_reemplazar] =>
+ * [impulsor_reemplazar] => OSCAR ALFREDO CORO
+ * [secretario] => SECRETARIO
+ * [abogado] => ABOGADO
+ * [garante] =>
+ * [garante_1] =>
+ * [identificacion_garante] =>
+ * [identificacion_garante_1] =>
+ * [fecha] => Miercoles 28 de Septiembre del 2016 [hora] => 06:32:36
+ * 		)
+ */
+
+$juicio_referido_titulo_credito		=$_dato['juicio_referido'];
+$nombres_clientes			        =$_dato['cliente'];
+$identificacion_clientes            =$_dato['identificacion'];
+$nombre_ciudad                      =$_dato['ciudad'];
+$secretarios						=$_dato['secretario'];
+$impulsores                         =$_dato['abogado'];
+$impulsor_reemplazo			        =$_dato['impulsor_reemplazar'];
+$nombre_garantes                    =$_dato['garante'];
+$identificacion_garantes            =$_dato['identificacion_garante'];
+$nombre_garantes_1                    =$_dato['garante_1'];
+$identificacion_garantes_1            =$_dato['identificacion_garante_1'];
+
+$creado                             =$_dato['fecha'];
+
+$domLogo=$directorio.'/view/images/logo_fomento1.jpg';
+
+$logo                                                 = '<img src="'.$domLogo.'" alt="Responsive image" width="200" height="80">';
+
 
 
 $html =
