@@ -2946,7 +2946,7 @@ public function index(){
 	
 		}
 		
-		$this->report($vista, $datos);
+		
 	
 	
 		$result=urlencode(serialize($dato));
