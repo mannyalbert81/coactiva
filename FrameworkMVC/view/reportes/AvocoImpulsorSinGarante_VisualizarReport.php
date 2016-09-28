@@ -36,9 +36,16 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 
 $dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
 $dato['hora']= date ("h:i:s");
+
+$a=stripslashes($_GET['dato']);
+
+$_dato=urldecode($a);
+
+$_dato=unserialize($a);
 	
-//print_r($resultSet);
-//die();
+print_r($_dato);
+die();
+
 /*foreach($resultSet as $res) 
 {
 	
