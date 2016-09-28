@@ -23,11 +23,12 @@ $identificador                                   ="";
 $host  = $_SERVER['HTTP_HOST'];
 $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
-echo $directorio;
-die();
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/FrameworkMVC';
+//echo $directorio;
+//die();
+$dom=$directorio.'/view/dompdf/dompdf_config.inc.php';
 
-require_once('http://'.$host.$uri.'/view/dompdf/dompdf_config.inc.php' );
+require_once( $dom);
 
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
@@ -38,7 +39,7 @@ $dato['hora']= date ("h:i:s");
 	
 //print_r($resultSet);
 //die();
-foreach($resultSet as $res) 
+/*foreach($resultSet as $res) 
 {
 	
 	
@@ -64,7 +65,7 @@ foreach($resultSet1 as $res)
 
 	$impulsor_reemplazo                              =$res->nombre_usuarios;
 
-}
+}*/
  $logo                                                 = '<img src="view/images/logo_fomento1.jpg" alt="Responsive image" width="200" height="80">';
  
 
