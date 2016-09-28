@@ -1097,7 +1097,7 @@ public function index(){
 	
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoSecretarioImpulsorSinGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
@@ -1110,7 +1110,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoSecretarioImpulsorConGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
@@ -1125,7 +1125,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			 
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioImpulsorGarante2Report.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoSecretarioImpulsorConDosGarantes_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 			 
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretarioImpulsor&dato=$resultArray');</script>");
@@ -1549,7 +1549,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 	        print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoSecretarioSinGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
@@ -1561,7 +1561,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretarioGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoSecretarioConGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
@@ -1573,7 +1573,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoSecretario2GaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/ireports/reportes/AvocoSecretarioConDosGarantes_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoSecretario&dato=$resultArray');</script>");
@@ -1999,7 +1999,7 @@ public function index(){
 	
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoImpulsorSinGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");
@@ -2012,7 +2012,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsorGaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoImpulsorConGarante_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");
@@ -2025,7 +2025,7 @@ public function index(){
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	
 			print "<script language='JavaScript'>
-			setTimeout(window.open('http://$host$uri/view/ireports/ContAvocoImpulsor2GaranteReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
+			setTimeout(window.open('http://$host$uri/view/reportes/AvocoImpulsorConDosGarantes_VisualizarReport.php?estado=$_estado&dato=$result','Popup','height=700,width=800,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
 			</script>";
 	
 			print("<script>window.location.replace('index.php?controller=AvocoConocimiento&action=AvocoImpulsor&dato=$resultArray');</script>");

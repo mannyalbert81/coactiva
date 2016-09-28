@@ -21,7 +21,14 @@ $identificador                                   ="";
 
 
 
-require_once('view/dompdf/dompdf_config.inc.php' );
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/FrameworkMVC';
+
+$dom=$directorio.'/view/dompdf/dompdf_config.inc.php';
+
+require_once( $dom);
 
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
@@ -31,33 +38,7 @@ $dato['fecha']=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del 
 $dato['hora']= date ("h:i:s");
 	
 
-foreach($resultSet as $res) 
-{
-	
-	
-	$id_avoco_conocimiento						     =$res->id_avoco_conocimiento;
-	$juicio_referido_titulo_credito                  =$res->juicio_referido_titulo_credito;
-	$nombres_clientes			                     =$res->nombres_clientes;
-	$identificacion_clientes                         =$res->identificacion_clientes;
-	$nombre_ciudad                                   =$res->nombre_ciudad;
-	
-	$secretarios						             =$res->secretarios;
-	$impulsores                                      =$res->impulsores;
-	$secretario_reemplazo			                 =$res->secretario_reemplazo;
-	$nombre_garantes                                 =$res->nombre_garantes;
-	$identificacion_garantes                         =$res->identificacion_garantes;
-	$identificador                                   =$res->identificador;
-	//$creado                                          =fechaATexto($res->creado);
-	$creado                                          =$dias[date('w',strtotime($res->creado))]." ".date('d',strtotime($res->creado))." de ".$meses[date('n',strtotime($res->creado))-1]. " del ".date('Y',strtotime($res->creado)). " a las ".date("h:i:s",strtotime($res->creado)) ;
-	//date('Y-m-d ',strtotime($res->creado));	
-    
-}
-foreach($resultSet1 as $res)
-{
 
-	$impulsor_reemplazo                              =$res->nombre_usuarios;
-
-}
  $logo                                                 = '<img src="view/images/logo_fomento1.jpg" alt="Responsive image" width="200" height="80">';
  
 
