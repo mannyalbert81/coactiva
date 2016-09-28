@@ -22,8 +22,9 @@ $identificador                                   ="";
 
 
 
-require_once('view/dompdf/dompdf_config.inc.php' );
-
+//require_once('view/dompdf/dompdf_config.inc.php' );
+require_once ($_SERVER['DOCUMENT_ROOT']."/FrameworkMVC/view/dompdf/dompdf_config.inc.php");
+//include $_SERVER['DOCUMENT_ROOT']."/FrameworkMVC/view/dompdf/dompdf_config.inc.php";
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
 $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -123,10 +124,8 @@ $dompdf->load_html(utf8_decode($html));
 $dompdf->set_paper("A4", "portrait");
 
 $dompdf->render();
-$pdf = $dompdf->output();
-$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
-$filename = "Avoco".$identificador.'.pdf';
-file_put_contents($directorio.$filename,$pdf);
+$dompdf->stream("mipdf.pdf", array("Attachment" => 0));
+?>
 
 
 ?>
