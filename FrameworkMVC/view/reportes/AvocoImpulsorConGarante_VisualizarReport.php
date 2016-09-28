@@ -21,7 +21,16 @@ $identificador                                   ="";
 
 
 
-require_once('view/dompdf/dompdf_config.inc.php' );
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/FrameworkMVC';
+//echo $directorio;
+//die();
+$dom=$directorio.'/view/dompdf/dompdf_config.inc.php';
+
+require_once( $dom);
+
 
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");

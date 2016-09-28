@@ -21,7 +21,15 @@ $identificador                                   ="";
 
 
 
-require_once('view/dompdf/dompdf_config.inc.php' );
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/FrameworkMVC';
+//echo $directorio;
+//die();
+$dom=$directorio.'/view/dompdf/dompdf_config.inc.php';
+
+require_once( $dom);
 
 
 $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
@@ -107,7 +115,7 @@ $html =
  VISTOS: Avoco conocimiento del presente proceso signado con el número<font color="#FFFFFF">a</font><strong>'.$juicio_referido_titulo_credito.'</strong>
  seguido en contra de<font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong> 
  en calidad de deudor (a) principal y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'</strong> en calidad de
- garante  solidario (a) y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'</strong>
+ garante  solidario (a) y <font color="#FFFFFF">a</font><strong>'.$nombre_garantes_1.'</strong> con cedula de ciudadanía N°<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes_1.'</strong>
  como segundo garante  solidario(a), en mi calidad de Liquidadora del Banco Nacional de Fomento en Liquidación conforme a la designación a mi extendida
  y fundada en la orden de cobro, contenidos ambos actos en la Resolución No. SB-2016-324, emitida por el Ec. Christian Cruz
  Rodríguez, en su calidad de Superintendente de Bancos del Ecuador, dada en Quito con fecha 08 de mayo del 2016, 
