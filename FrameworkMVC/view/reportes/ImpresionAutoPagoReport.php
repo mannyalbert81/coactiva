@@ -271,24 +271,16 @@ en la ciudad de Quito, José Luis Tamayo 935 y Foch, teléfono 026015479 ext. 52
 .		
  '</div>'.
 
-
-
 '</body></html>';
 
-
 $dompdf = new DOMPDF();
-$dompdf->load_html($html);
-$dompdf->set_paper("letter", "portrait");
-		
-	
-  
-  '</body></html>';
- 
-$dompdf = new DOMPDF();
-$dompdf->load_html($html);
+$dompdf->load_html(utf8_decode($html));
+$dompdf->set_paper("A4", "portrait");
 
 $dompdf->render();
-
-$dompdf->stream($identificacion_clientes .'.pdf',array('Attachment'=>0));
+$pdf = $dompdf->output();
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/AutoPagos/';
+$filename = "Avoco".$identificador.'.pdf';
+file_put_contents($directorio.$filename,$pdf);
 
 ?>

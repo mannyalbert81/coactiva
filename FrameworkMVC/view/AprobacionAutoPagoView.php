@@ -267,7 +267,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
 		               <td>
 		               <div class="right">
-			                    <a href="<?php echo $helper->url("AprobacionAutoPago","ActualizarAutoPago"); ?>&id_auto_pagos=<?php echo $res->id_auto_pagos; ?>&id_titulo_credito=<?php echo  $res->id_titulo_credito ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">Aprobar</a>
+			                    <a href="<?php echo $helper->url("AprobacionAutoPago","ActualizarAutoPago_DomPdf"); ?>&id_auto_pagos=<?php echo $res->id_auto_pagos; ?>&id_titulo_credito=<?php echo  $res->id_titulo_credito ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">Aprobar</a>
 			          </div> 
 			           </td>
 			           
