@@ -2252,6 +2252,8 @@ public function index(){
 					  clientes.nombre_garantes,
 					  clientes.identificacion_garantes,
 					  usuarios.nombre_usuarios as impulsor_reemplazo,
+					  clientes.nombre_garantes_1,
+					  clientes.identificacion_garantes_1,
 					  avoco_conocimiento.creado,
 					  avoco_conocimiento.identificador";
 				
@@ -2415,6 +2417,8 @@ public function index(){
 					  usuarios.nombre_usuarios as secretario_reemplazo,
 					  clientes.nombre_garantes,
 					  clientes.identificacion_garantes,
+					  clientes.nombre_garantes_1,
+					  clientes.identificacion_garantes_1,
 					  avoco_conocimiento.creado,
 					  avoco_conocimiento.identificador";
 						
@@ -2518,6 +2522,8 @@ public function index(){
 					  clientes.identificacion_garantes,
 					  usuarios.nombre_usuarios as impulsor_reemplazo,
 					  avoco_conocimiento.creado,
+					  clientes.nombre_garantes_1,
+					  clientes.identificacion_garantes_1,
 					  avoco_conocimiento.identificador";
 				
 				
@@ -2724,6 +2730,7 @@ public function index(){
 					  avoco_conocimiento.identificador, 
 					  juicios.juicio_referido_titulo_credito, 
 					  clientes.nombres_clientes,
+					  clientes.identificacion_clientes,		
 					  clientes.nombre_garantes, 
 					  ciudad.nombre_ciudad, 
 					  asignacion_secretarios_view.secretarios, 
@@ -2946,7 +2953,7 @@ public function index(){
 	
 		}
 		
-		$this->report($vista, $datos);
+		
 	
 	
 		$result=urlencode(serialize($dato));
