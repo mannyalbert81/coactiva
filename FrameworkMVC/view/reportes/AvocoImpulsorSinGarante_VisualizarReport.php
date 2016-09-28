@@ -71,7 +71,6 @@ $_dato=unserialize($a);
 	$secretarios						=$_dato['secretario'];
 	$impulsores                         =$_dato['abogado'];
 	$impulsor_reemplazo			        =$_dato['impulsor_reemplazar'];
-	//$creado                                          =fechaATexto($res->creado);
 	$creado                             =$_dato['fecha'];	
 
 $domLogo=$directorio.'/view/images/logo_fomento1.jpg';
