@@ -76,7 +76,7 @@ $estado=$_GET['estado'];
 				
 				$PHPJasperXML->arrayParameter=array('sql' => $sql);
 				
-				$PHPJasperXML->load_xml_file("AutoPagoJURIDICOCREGARANTEReport.jrxml");
+				$PHPJasperXML->load_xml_file("AutoPago.jrxml");
 					
 				$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 					

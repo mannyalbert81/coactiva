@@ -1,19 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-28T16:19:24 -->
+<!-- 2016-09-28T16:28:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AutoPago" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76606422-0ee0-4f08-9f68-95b7e5483945">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
 	<parameter name="$P{sql}" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[$P{sql}]]>
+		<![CDATA[$P{sql}
+]]>
 	</queryString>
 	<field name="juicio_referido_titulo_credito" class="java.lang.String"/>
+	<field name="creado" class="java.lang.String"/>
+	<field name="nombres_clientes" class="java.lang.String"/>
+	<field name="identificacion_clientes" class="java.lang.String"/>
+	<field name="nombre_garantes" class="java.lang.String"/>
+	<field name="identificacion_garantes" class="java.lang.String"/>
+	<field name="liquidador" class="java.lang.String"/>
+	<field name="secretarios" class="java.lang.String"/>
+	<field name="impulsores" class="java.lang.String"/>
+	<field name="id_titulo_credito" class="java.lang.String"/>
+	<field name="total_total_titulo_credito" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="607" splitType="Stretch">
+			<rectangle>
+				<reportElement x="10" y="2" width="535" height="50" uuid="cd18a97b-4b20-454c-9222-501c1d7a8c6e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="20" y="10" width="515" height="35" uuid="2cbcfce3-a1e6-4687-8d3e-f36e875ce61b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="25" y="16" width="512" height="30" backcolor="#000000" uuid="592cb8e8-4e19-4f9d-9dfa-4ac9112a4420"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BANCO DEL FOMENTO S.A. EN LIQUIDACIÓN]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="31" y="52" width="480" height="555" uuid="9b5a66b5-171c-4a81-b053-e7f9d71f2b0c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="30" y="70" width="480" height="20" uuid="2587bd86-6a0a-446a-a9e7-f79d20add658"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JUZGADO DE COACTIVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="90" width="480" height="20" uuid="675e1b62-bbd5-452f-a55d-f7502a4727f2"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GUAYAQUIL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="120" width="480" height="30" uuid="2fa38736-d8bd-40c7-9b45-803819a4719c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["JUICIO COACTIVO No."+$F{juicio_referido_titulo_credito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="150" width="480" height="30" uuid="6cc0bd8f-9b50-4273-b35b-9c7b021ee811"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUERPO: 1ER CUERPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="180" width="478" height="30" uuid="0623bd6b-3a3e-4fba-aad2-a168322d2462"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTOR:       BANCO FOMENTO S.A. EN LIQUIDACION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="31" y="210" width="480" height="30" uuid="5f0ff479-67de-42a9-8900-2191b7a1c705"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA DE INICIO: "+$F{creado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="240" width="480" height="30" uuid="1e659074-40bb-452b-85fe-36cea042b56d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA DE CITACION: "+$F{creado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="270" width="480" height="30" uuid="fbd6a845-822a-4754-adbe-aac6f6466fd3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMA DE CITACION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="300" width="480" height="30" uuid="fe8c5334-558a-4c13-b687-635c10bd383b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[_______  PERSONAL      _____  POR TRES BOLETAS  ____ POR LA PRENSA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="340" width="480" height="20" uuid="d60f2047-368f-462a-909a-7f4129307b80"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEMANDADO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="360" width="480" height="20" uuid="afc3f416-a0bf-45f0-a853-02dfb76b3069"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DEUDOR: "+$F{nombres_clientes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="380" width="480" height="20" uuid="82e3cf03-d5c2-4765-acac-9e576d626947"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I.-R.U.C.: "+$F{identificacion_garantes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="425" width="480" height="20" uuid="3a51b28c-dd49-4e51-b661-cc768d273be2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GARANTE: "+$F{nombre_garantes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="445" width="480" height="20" uuid="554d8b7e-b8a2-4e46-aecf-1f059906a1b8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I.-R.U.C.: "+$F{identificacion_clientes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="475" width="480" height="20" uuid="a9803fe8-6bc5-4bac-b885-90771a3258b8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CASILLA JUDICIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="495" width="480" height="20" uuid="580efa02-2dab-4063-86b2-cf438530772f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEFENSOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="515" width="480" height="20" uuid="72064171-88e9-4b7f-951e-8294d0121599"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="550" width="480" height="20" uuid="1ce5d59f-5ebe-483a-98ea-e026672f12cc"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CUANTIA INICIAL: "+$F{total_total_titulo_credito}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="585" width="480" height="20" uuid="b3858587-ddfc-45bf-a374-6ce6323415bc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{liquidador}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
