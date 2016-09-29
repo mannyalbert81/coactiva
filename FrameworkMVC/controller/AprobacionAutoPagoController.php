@@ -557,7 +557,10 @@ class AprobacionAutoPagoController extends ControladorBase{
 					
 						
 					//para crear com domPdf}
-					$this->report("ImpresionAutoPago", array());
+					$this->report("ImpresionAutoPago", array("resultCliente"=>$resultCliente,
+							"resultLiquidador"=>$resultLiquidador,"resultFirma_secretario"=>$resultFirma_secretario,
+							"resultFirma_abogado"=>$resultFirma_abogado,"resultSecretario"=>$resultSecretario
+					));
 					
 						
 				} catch (Exception $e) {

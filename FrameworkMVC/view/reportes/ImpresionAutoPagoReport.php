@@ -43,7 +43,7 @@ foreach($resultFirma_abogado as $res)
 	$id_firma_abogado			=$res->id_firmas_digitales;
 	$firma_abogado				=$res->imagen_firmas_digitales;
 	
-	$logo_impulsores 			= '<img src="'. $base_url.'view/DevuelveImagen.php?id_valor='.$id_firma_abogado.'&id_nombre=id_firmas_digitales&tabla=firmas_digitales&campo=imagen_firmas_digitales" width="120" height="80" />';
+	$logo_impulsores 			="";// '<img src="'. $base_url.'view/DevuelveImagen.php?id_valor='.$id_firma_abogado.'&id_nombre=id_firmas_digitales&tabla=firmas_digitales&campo=imagen_firmas_digitales" width="120" height="80" />';
 	
 }
 
@@ -68,7 +68,7 @@ foreach($resultLiquidador as $res)
 	
 }
     
-
+$nombre_liquidador="";
 
 
 $html =
@@ -173,7 +173,8 @@ $html =
 
 
 '<tr>'.
-'<td align="center">'.$logo_impulsores . '</td>'.
+'<td align="center">'.'logo impulsores
+		'. '</td>'.
 '<td align="center" style="color:#ffffff">'.'......'.'</td>'.
 '<td align="center">'.$logo_liquidador . '</td>'.
 '<td align="center" style="color:#ffffff">'.'......'.'</td>'.
@@ -280,7 +281,7 @@ $dompdf->set_paper("A4", "portrait");
 $dompdf->render();
 $pdf = $dompdf->output();
 $directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/AutoPagos/';
-$filename = "Avoco".$identificador.'.pdf';
+$filename = "Autopago".'.pdf';
 file_put_contents($directorio.$filename,$pdf);
 
 ?>
