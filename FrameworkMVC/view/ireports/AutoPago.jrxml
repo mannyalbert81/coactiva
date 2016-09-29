@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-28T16:28:23 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AutoPago" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76606422-0ee0-4f08-9f68-95b7e5483945">
+<!-- 2016-09-29T09:54:22 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AutoPago" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="28" bottomMargin="28" uuid="76606422-0ee0-4f08-9f68-95b7e5483945">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<parameter name="$P{sql}" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[$P{sql}
-]]>
+		<![CDATA[$P{sql}]]>
 	</queryString>
 	<field name="juicio_referido_titulo_credito" class="java.lang.String"/>
 	<field name="creado" class="java.lang.String"/>
@@ -24,174 +32,238 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="607" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<rectangle>
-				<reportElement x="10" y="2" width="535" height="50" uuid="cd18a97b-4b20-454c-9222-501c1d7a8c6e"/>
+				<reportElement x="-10" y="2" width="499" height="50" uuid="846903b3-96b1-4207-a21a-e42dea3e2d2f"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="20" y="10" width="515" height="35" uuid="2cbcfce3-a1e6-4687-8d3e-f36e875ce61b"/>
+				<reportElement x="-1" y="10" width="481" height="35" uuid="5657b8fc-2a11-4df0-a204-3725127b86c1"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="25" y="16" width="512" height="30" backcolor="#000000" uuid="592cb8e8-4e19-4f9d-9dfa-4ac9112a4420"/>
+				<reportElement x="-1" y="16" width="481" height="30" backcolor="#000000" uuid="16fa1741-5491-4a8f-9b57-6b4a1807235a"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BANCO DEL FOMENTO S.A. EN LIQUIDACIÓN]]></text>
 			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="684" splitType="Stretch">
 			<rectangle>
-				<reportElement x="31" y="52" width="480" height="555" uuid="9b5a66b5-171c-4a81-b053-e7f9d71f2b0c"/>
+				<reportElement x="1" y="9" width="480" height="671" uuid="9a2193fd-3a7f-4c37-91ee-7562f76917f2"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="30" y="70" width="480" height="20" uuid="2587bd86-6a0a-446a-a9e7-f79d20add658"/>
+				<reportElement x="0" y="9" width="480" height="20" uuid="49a5e5dd-c898-478b-8541-f974cb9a422d"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUZGADO DE COACTIVA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="31" y="90" width="480" height="20" uuid="675e1b62-bbd5-452f-a55d-f7502a4727f2"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[GUAYAQUIL]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="30" y="120" width="480" height="30" uuid="2fa38736-d8bd-40c7-9b45-803819a4719c"/>
+				<reportElement x="0" y="59" width="480" height="30" uuid="81fc53ef-65ac-4644-be22-ca2cab496eca"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["JUICIO COACTIVO No."+$F{juicio_referido_titulo_credito}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="30" y="150" width="480" height="30" uuid="6cc0bd8f-9b50-4273-b35b-9c7b021ee811"/>
+				<reportElement x="0" y="89" width="480" height="30" uuid="a5dd6700-7001-4abe-be13-8137dcfb2269"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[CUERPO: 1ER CUERPO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="31" y="180" width="478" height="30" uuid="0623bd6b-3a3e-4fba-aad2-a168322d2462"/>
+				<reportElement x="1" y="119" width="478" height="30" uuid="40505887-8d62-460a-b033-e3a6c7f3f72b"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[ACTOR:       BANCO FOMENTO S.A. EN LIQUIDACION]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="31" y="210" width="480" height="30" uuid="5f0ff479-67de-42a9-8900-2191b7a1c705"/>
+				<reportElement x="1" y="149" width="480" height="30" uuid="fc9316ae-5d40-4a4f-b026-ac3702aa8131"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["FECHA DE INICIO: "+$F{creado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="240" width="480" height="30" uuid="1e659074-40bb-452b-85fe-36cea042b56d"/>
+				<reportElement x="0" y="179" width="480" height="30" uuid="15fbeb11-a46c-47ae-b863-52c610fedb0e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["FECHA DE CITACION: "+$F{creado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="30" y="270" width="480" height="30" uuid="fbd6a845-822a-4754-adbe-aac6f6466fd3"/>
+				<reportElement x="0" y="209" width="480" height="30" uuid="aa892cbd-9a8b-40df-baa0-02c9be44c15d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[FORMA DE CITACION:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="300" width="480" height="30" uuid="fe8c5334-558a-4c13-b687-635c10bd383b"/>
+				<reportElement x="0" y="239" width="480" height="30" uuid="ead72138-2512-49f8-bb6f-e1e3315bcb62"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[_______  PERSONAL      _____  POR TRES BOLETAS  ____ POR LA PRENSA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="340" width="480" height="20" uuid="d60f2047-368f-462a-909a-7f4129307b80"/>
+				<reportElement x="0" y="279" width="480" height="20" uuid="6b7f430d-43b5-48cc-8dd6-24106481db86"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[DEMANDADO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="30" y="360" width="480" height="20" uuid="afc3f416-a0bf-45f0-a853-02dfb76b3069"/>
+				<reportElement x="0" y="299" width="480" height="20" uuid="7ecda3f6-5586-4dea-8a5b-cc4fce0b5023"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["DEUDOR: "+$F{nombres_clientes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="380" width="480" height="20" uuid="82e3cf03-d5c2-4765-acac-9e576d626947"/>
+				<reportElement x="0" y="319" width="480" height="20" uuid="96b40751-c12b-4b08-8b87-07f44899de07"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["C.I.-R.U.C.: "+$F{identificacion_garantes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="425" width="480" height="20" uuid="3a51b28c-dd49-4e51-b661-cc768d273be2"/>
+				<reportElement x="0" y="364" width="480" height="20" uuid="5d3f7eb7-25f2-479c-91c7-53cce8a642f4"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["GARANTE: "+$F{nombre_garantes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="445" width="480" height="20" uuid="554d8b7e-b8a2-4e46-aecf-1f059906a1b8"/>
+				<reportElement x="0" y="384" width="480" height="20" uuid="9f385285-4fb1-4b8a-a449-3dcb67696fbf"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["C.I.-R.U.C.: "+$F{identificacion_clientes}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="30" y="475" width="480" height="20" uuid="a9803fe8-6bc5-4bac-b885-90771a3258b8"/>
+				<reportElement x="0" y="414" width="480" height="20" uuid="48394afb-18d3-4da8-9b35-eba3eb6b9389"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[CASILLA JUDICIAL:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="495" width="480" height="20" uuid="580efa02-2dab-4063-86b2-cf438530772f"/>
+				<reportElement x="0" y="434" width="480" height="20" uuid="838c418a-c244-4c79-a6fc-445a5c7313c1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[DEFENSOR:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="515" width="480" height="20" uuid="72064171-88e9-4b7f-951e-8294d0121599"/>
+				<reportElement x="0" y="454" width="480" height="20" uuid="ddd28a6d-8083-4a48-bc28-a4699f8302b3"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[DE:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="30" y="550" width="480" height="20" uuid="1ce5d59f-5ebe-483a-98ea-e026672f12cc"/>
+				<reportElement x="0" y="489" width="480" height="20" uuid="b5bc597f-4e14-48e5-82f9-a261e90f35d5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CUANTIA INICIAL: "+$F{total_total_titulo_credito}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="585" width="480" height="20" uuid="b3858587-ddfc-45bf-a374-6ce6323415bc"/>
+				<reportElement x="0" y="524" width="480" height="20" uuid="0f2b04e6-fd67-4693-b1d5-62343835c375"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{liquidador}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="544" width="480" height="20" uuid="1826549b-8919-4bb0-b309-dc20699735a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LIQUIDADOR - JUEZ DE COACTIVA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="579" width="480" height="20" uuid="e1323a75-7bd7-4d6f-b8a2-4382998ab0f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{secretarios}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="599" width="480" height="20" uuid="bb543332-10ec-410f-9fc6-4160a379c4dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECRETARIO DE COACTIVA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="622" width="480" height="20" uuid="cba4e71f-d216-4bbd-aea1-fdb2544325ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{impulsores}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="29" width="480" height="20" uuid="e1000ea1-ce46-40c2-897c-6bc0ec82c150"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GUAYAQUIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="642" width="480" height="18" uuid="0454b90d-0eb0-4026-978a-320825d8c9be"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPULSOR DE COACTIVA ]]></text>
+			</staticText>
 		</band>
-	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="744">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Page" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="483" height="10" uuid="9bd6a9bf-3fc8-487c-9398-72ce7a0fba50"/>
+				<textFieldExpression><![CDATA["JUICIO COACTIVO No. "+$F{juicio_referido_titulo_credito}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Page" isBlankWhenNull="true">
+				<reportElement x="0" y="15" width="483" height="12" uuid="286d65b8-1d59-4483-a12f-75abdae22786"/>
+				<textFieldExpression><![CDATA["OFCNOB, "+$F{creado}+ ", a las "+$F{creado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Page" isBlankWhenNull="true">
+				<reportElement x="0" y="38" width="483" height="706" uuid="74e2d5ee-bd89-4fde-8cd9-cbcd0145dbdd"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{juicio_referido_titulo_credito}+"VISTOS: Del (los) título (s) de crédito No. (s) "+$F{id_titulo_credito}+" que ha (n) sido expedido (s) por el Banco Fomento S.A. en Liquidación, y emitido (s) en fecha "+$F{creado}+" , de conformidad con la (s) liquidación (es) que se manda (n) agregar a los autos aparece que "+$F{nombres_clientes}+" con "+$F{identificacion_clientes}+ " y "+$F{nombre_garantes}+" con "+$F{identificacion_garantes}+ ", adeuda (n) a esta Institución Bancaria en Liquidación la suma de USD$ "+$F{total_total_titulo_credito}+" ( LETRAS DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), más los intereses y costas y gastos judiciales que se generen hasta la fecha de pago total. Y siendo la obligación líquida, determinada y de plazo vencido, en mi calidad de Liquidador del Banco Territorial S.A. en Liquidación, conforme a la designación a mi extendida y fundado en la orden de cobro contenidos ambos actos en la Resolución No. JB-2013-2438, emitida por el Ab. Pedro Solines Chacón, en su calidad de Presidente de la Junta Bancaria, dada en la Superintendencia de Bancos y Seguros en Guayaquil con fecha 26 de marzo de 2013, inscrita en el Registro Mercantil del cantón Guayaquil el 27 de marzo de 2013, en la que se dispone la liquidación forzosa del Banco Territorial S.A., y de conformidad con lo dispuesto en los Arts. 941, 945, 946. 948 y 951 del Código de Procedimiento Civil, INICIO el presente juicio coactivo contra "+$F{nombres_clientes}+" , registrado con R.U.C. No. "+$F{identificacion_clientes}+" y "+$F{nombre_garantes}+" con "+$F{identificacion_garantes}+ " y en consecuencia ORDENO que el (los) deudor (es) pague (n) al Banco Territorial S.A. en Liquidación la cantidad adeudada, más los intereses generados hasta la fecha y los que se generen hasta la total cancelación de la deuda, intereses de mora, comisión, gastos judiciales, costas procesales, honorarios y otros accesorios legales, o dimita bienes en el término perentorio de tres días, contados desde que se cite con el auto de pago, apercibiéndole (s) que de no hacerlo se le embargará bienes que aseguren la recuperación de todo lo adeudado, de conformidad con lo dispuesto en el Art. 962 del Código de Procedimiento Civil, actúen en el presente juicio, como secretario e impulsor respectivamente, los abogados SECOAC y "+$F{impulsores}+", quienes estando presentes aceptan los cargos conferidos y juran desempeñarlos fiel y legalmente, firmando para constancia con el suscrito Juez de Coactiva. Desglósese el (los) título (s) de crédito aparejado (s) a la coactiva, así como el documento habilitante que acredita la calidad invocada, dejándose las copias certificadas en autos, remitiéndose el original al departamento correspondiente para su respectiva custodia. En lo principal, por disposición de lo prescrito en la parte final del inciso primero del Art. 942 del Código de Procedimiento Civil, en concordancia con los Arts. 421 y 426 del Código Adjetivo Civil, díctanse las siguientes medidas cautelares: UNO) Al tenor de lo dispuesto en los Arts. 6, 9 y 18 de la Ley del Sistema Nacional de Registro de Datos Públicos, Notifíquese a los señores Registradores de la Propiedad CANTONES para que remitan a este Juzgado un certificado actualizado de bienes inmuebles que consten inscritos a nombre del (los) coactivado (s) debiéndose señalar linderos, medidas, superficie, historia de dominio; y, se inscriba la Prohibición de gravar y/o enajenar sobre los bienes inmuebles que el (los) coactivado (s) tenga inscritos a su nombre en dichos Registros.  Hecho, remítase a la Secretaría de este Juzgado ubicado en la ciudad de OFICINA;  DOS)  Prohibición de gravar y/o enajenar los vehículos del (los) coactivado (s), para cuyo efecto notifíquese a la Comisión de Tránsito del Ecuador, a fin de que tome nota en sus registros de la medida cautelar dispuesta, hecho lo cual, emita un certificado donde consten las características de los vehículos sobre los cuales se ha registrado la medida cautelar ordenada; TRES) Se ordena la retención de valores de conformidad con lo dispuesto en el Art. 425 del Código de Procedimiento Civil, hasta por la cantidad de USD$ "+$F{total_total_titulo_credito}+" (MAS_LETRA DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), retención que se verificará en las inversiones que mantenga el (los) coactivado (s) en las instituciones bancarias y financieras que operan en el país, sean éstas cuentas corrientes, de ahorros, inversiones, depósitos a plazo, pólizas de acumulación y de cualquier otra operación en dicha institución, para lo cual deberá oficiarse a la Superintendencia de Bancos y Seguros. De conformidad con lo dispuesto en el Art. 428 del Código de Procedimiento Civil, las entidades bancarias sujetas al control de la Superintendencia de Bancos y Seguros, deberán informar a éste Juzgado en el término improrrogable de 72 horas el cumplimiento de la retención ordenada. Sin perjuicio de que el secretario de la causa notifique directamente a las instituciones que conforman el Sistema Financiero Nacional. CUATRO) Ofíciese a la Superintendencia de Compañías, a fin de que remita un certificado de la situación actual legal de la coactivada "+$F{nombres_clientes}+" , la nómina de socios y/o accionistas, y se inscriba la prohibición de transferir las acciones y/o participaciones de la referida compañía coactivada. CINCO) Ofíciese al Registro Mercantil del cantón "+" INGRESE CANTONES "+", a fin de que emita un certificado actualizado en el que conste el (los) nombre (s) de quien (es) ejerce (n) la representación legal, judicial y extrajudicial de la coactivada "+$F{nombres_clientes}+".-  De conformidad con lo dispuesto en el Art. 952 del Código de Procedimiento Civil, en el Art. 952 del Código de Procedimiento Civil, una vez cumplida la notificación de las medidas cautelares ordenadas en este auto de pago, cítese al (los) coactivado (s) en legal y debida forma en el domicilio señalado en el título de crédito o en el lugar donde se lo encuentre, previniéndole de la obligación que tiene de señalar casilla judicial para recibir futuras notificaciones de conformidad con lo dispuesto en el Art. 75 del Código de Procedimiento Civil. Se ofrece reconocer los abonos o cancelaciones que legalmente se comprobaren haberse realizado.- Cúmplase, cítese y ofíciese.-"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="161">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<staticText>
+				<reportElement x="0" y="80" width="483" height="60" uuid="5e0349c6-a682-4c0c-a737-fcc24996c1b7"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[RAZÓN:
+De conformidad a lo ordenado en el auto de pago, dejando copias certificadas en autos, procedí al desglose de la Resolución No. JB-2013-2438 que constituye la orden general de cobro, conferido por el Presidente de la Junta Bancaria al Juez de Coactiva de la causa.- 
+
+]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" evaluationTime="Page" isBlankWhenNull="true">
+				<reportElement x="-1" y="140" width="483" height="19" uuid="5ba66fca-29fd-487f-9ffa-7590734817f1"/>
+				<textFieldExpression><![CDATA["OFCNOB, "+$F{creado}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="14" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<staticText>
+				<reportElement x="0" y="0" width="483" height="14" forecolor="#000000" uuid="92d8b8de-56ba-4014-b9cd-af8a77242bf0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tw Cen MT Condensed Extra Bold" size="10" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ Coactivas  - AllCoercive 2016 -www.masoft.net - Copyright]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
