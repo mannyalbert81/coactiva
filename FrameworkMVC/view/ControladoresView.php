@@ -211,7 +211,7 @@
 			                	<div class="right">
 			                    <a href="<?php echo $helper->url("Controladores","borrarId"); ?>&id_controladores=<?php echo $res->id_controladores; ?>" class="btn btn-danger" onClick="Borrar()" style="font-size:65%;">Borrar</a>
 			                </div>
-			                <hr/>
+			             
 		               </td>
 		    		</tr>
 		        <?php } } ?>

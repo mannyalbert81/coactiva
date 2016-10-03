@@ -179,7 +179,7 @@
 			                	<div class="right">
 			                    <a href="<?php echo $helper->url("Roles","borrarId"); ?>&id_rol=<?php echo $res->id_rol; ?>" class="btn btn-danger" onClick="Borrar()" style="font-size:65%;">Borrar</a>
 			                </div>
-			                <hr/>
+			               
 		               </td>
 		    		</tr>
 		        <?php } ?>
