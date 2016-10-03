@@ -1,0 +1,109 @@
+<?php
+include_once('fpdf.php');
+class PDF extends FPDF
+{
+    function Footer(){
+        $this->SetY(-15);
+        $this->SetFont('Arial','I',8); 
+        $this->Cell(0,10,'Este es el pie de página creado con el método Footer() de la clase creada PDF que hereda de FPDF','T',0,'C');
+    }
+         
+    function Header(){  
+		$this->SetFont('Arial','B',9);
+		$this->Line(10,10,206,10);
+		$this->Line(10,35.5,206,35.5);
+		$this->Cell(30,25,'',0,0,'C',$this->Image('images/logo.png', 152,12, 19));
+		$this->Cell(111,25,'ALGÚN TÍTULO DE ALGÚN LUGAR',0,0,'C', $this->Image('images/logoIzquierda.png',20,12,20));
+		$this->Cell(40,25,'',0,0,'C',$this->Image('images/logoDerecha.png', 175, 12, 19));
+		//Se da un salto de línea de 25
+		$this->Ln(25);
+	}
+	
+	function ImprimirTexto($file){
+		//Se lee el archivo
+       	$txt = file_get_contents($file);
+    	$this->SetFont('Arial','',12);
+    	//Se imprime
+    	$this->MultiCell(0,5,$txt);
+	}
+}
+
+
+<?php
+include_once('PDF.php');
+	
+	$pdf = new PDF();
+	$pdf->AddPage('P', 'Letter'); //Vertical, Carta
+	$pdf->SetFont('Arial','B',12); //Arial, negrita, 12 puntos
+	
+	//Leemos la fecha y guardamos la cadena.
+	$fecha="México D.F. a ".$_POST['dia']." de ". $_POST['mes']. " de ".$_POST['anio'];
+	//Imprime la fecha
+	$pdf->Cell(0,10,$fecha,0,1,'R');
+	//Imprime un texto
+	$pdf->Cell(40,7,'P  R  E  S  E  N  T  E',0, 1 , ' L ');
+	$pdf->Ln();
+	
+	$pdf->ImprimirTexto('doc_aceptacion.txt'); //Texto fijo 
+	
+	$pdf->Output(); //Salida al navegador del pdf
+?>
+
+
+class myDBC {
+    public $mysqli = null;
+    public function __construct() {
+        include_once 'dbconfig.php';
+        $this->mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+        if ($this->mysqli->connect_errno) {
+            echo "Error MySQLi: ("&nbsp. $this->mysqli->connect_errno.") " . $this->mysqli->connect_error;
+            exit();
+        }
+        $this->mysqli->set_charset("utf8");
+    }
+    public function __destruct() {
+        $this->CloseDB();
+    }
+    public function runQuery($qry) {
+        $result = $this->mysqli->query($qry);
+        return $result;
+    }
+    public function CloseDB() {
+        $this->mysqli->close();
+    }
+    public function clearText($text) {
+        $text = trim($text);
+        return $this->mysqli->real_escape_string($text);
+    }
+    public function seleccionar_persona($matricula)
+    {
+        $q = "select Nombre, ApellidoPat,
+                     ApellidoMat, Matricula,
+                     Puesto from persona
+                     where
+                     Matricula = '$matricula'";
+                     
+        $result = $this->mysqli->query($q);
+        //Array asociativo que contendrá los datos
+        $valores = array();
+                //Si no hay resultados
+                //Se avisa al usuario y se redirige al index de la aplicación
+        if( $result->num_rows == 0)
+        {
+            echo'<script type="text/javascript">
+              alert("Ningun registro");
+              window.location="http://localhost/pdfenphp/index.php"
+            </script>';
+        }
+          //En otro caso, se recibe la información y se
+          //se regresa un array con los datos de la consulta
+      else{
+            while($row = mysqli_fetch_assoc($result))
+            {
+                //Se agrega cada valor en el array
+                array_push($valores, $row);
+            }
+          }
+        //Regresa array asociativo
+        return $valores;
+    }

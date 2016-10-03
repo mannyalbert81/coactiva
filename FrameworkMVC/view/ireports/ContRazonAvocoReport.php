@@ -85,9 +85,15 @@ if ($estado == 'Visualizar')
 		$pdf = new Pdf_concat();
 		$pdf->setFiles($file2merge);
 		$pdf->concat();
-		$pdf->Output($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf', "F");
+		
+		//$pdf->Output($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf', "F");
 		
 		
+		//para pruebas
+		$pdf->Output($directorio1.$nombre_avoco_conocimiento.'.pdf', "F");
+		
+		
+		/*
 		$dir=($directorio.$nombre.'.pdf');
 		$dir1=($directorio1.$nombre_avoco_conocimiento.'.pdf');
 		
@@ -100,7 +106,7 @@ if ($estado == 'Visualizar')
 		}
 		
 		rename ($directorio3.'RazonAvocoUnida'.$identificador_avoco_unido.'.pdf',$directorio1.$nombre_avoco_conocimiento.'.pdf');
-		
+		*/
 		echo "<script type='text/javascript'>";
 		echo "window.close()";
 		echo "</script>";

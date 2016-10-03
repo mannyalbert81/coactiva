@@ -97,6 +97,7 @@
 		    		$("#mensaje_recibe").text("Introduzca un Nombre");
 		    		$("#mensaje_recibe").fadeIn("slow"); //Muestra mensaje de error
 		            return false;
+		            
 			    }
 		    	else 
 		    	{
@@ -110,6 +111,7 @@
 		    		$("#mensaje_relacion").text("Introduzca una Relacion con el Cliente");
 		    		$("#mensaje_relacion").fadeIn("slow"); //Muestra mensaje de error
 		            return false;
+		            
 			    }
 		    	else 
 		    	{
@@ -139,6 +141,9 @@
 		<script >
 	        $(document).ready(function() {
 			$('#Guardar').click(function(){
+
+				
+				
 		        var selected = '';  
 		          
 		        $('.marcados').each(function(){
@@ -148,10 +153,21 @@
 		        }); 
 	
 		        if (selected != '') {
+
+		        	var checkboxValues = "";
+					
+					$('input[type=checkbox]:checked').each(function() {
+						checkboxValues += $(this).val() + ",";
+					});
+					
+					checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
+ 
+			        
 		            return true;
 		        }
 		        else{
 		            alert('Debes seleccionar un juicio.');
+		           
 		            return false;
 		        }
 	
@@ -184,43 +200,39 @@
     
     <script >
         $(document).ready(function() {
-        	
+        	 $("#div_alert").hide();
 		 	
 		$('#Guardar').click(function(){
 
 			
-			var result='';
 
-			var output;
+			var output=false;
 
-			var data;
 			
-			var checkboxValues = "";
 			
-			$('input[type=checkbox]:checked').each(function() {
-				checkboxValues += $(this).val() + ",";
+		    var juicio = $("#resultado_consulta").text();
+		    var citacion = $("#id_tipo_citaciones option:selected").text();
+
+		   // alert(texto);
+
+		   if(juicio=='')
+		   {
+			   return true;
+				  
+		   }else
+		   {
+			  
+			   $("#mostrar_resultado").text('El juicio '+juicio+' ya tiene la '+citacion+' ');
+
+			   var res= $("#mostrar_resultado").text();
+			   alert(res);
+			   $("#div_alert").show();
+			   return false;
+		   }
+		
 			});
-			
-			checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
 
-		 var datos = {
-                 	   
-					 id_juicio:checkboxValues,
-					 id_tipo_citacion:$("#id_tipo_citaciones").val()
-                };
-
-		 
-		       
-		 output =  $.post("<?php echo $helper->url("Citaciones","ValidarJuicioCitacion"); ?>", datos, function(resultado) {},"json");
-
-		 console.log(output);
-		 
-		var resultado = output.responseText
-
-	       	console.log(resultado);
-       	
-      		
-			});
+		
         });
 	</script>
 
@@ -228,6 +240,7 @@
 		
     </head>
     <body style="background-color: #d9e3e4;">
+    
     
        <?php include("view/modulos/modal.php"); ?>
        <?php include("view/modulos/head.php"); ?>

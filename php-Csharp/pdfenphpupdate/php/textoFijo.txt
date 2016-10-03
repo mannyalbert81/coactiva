@@ -1,0 +1,32 @@
+Este es un texto fijo que está guardado en un archivo de texto plano llamado textoFijo.txt en nuestro directorio de trabajo. Es impreso por el método ImprimirTexto(), tiene como parámetros que el texto no tenga ningún estilo (es decir, que sea Negrita (B), Italico (I) o Subrayado (U)), que el texto esté justificado. << Todo este párrafo es una línea continua en el archivo txt.
+
+Un párrafo del documento en cuestión, tiene que ser una sola línea en el archivo, cada que encuentra un salto de línea, el método lo genera automáticamente. << Todo este párrafo es una línea continua en el archivo txt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Se pueden dar espacios en blanco en el txt y automáticamente se calcula en dónde estará posicionado en el PDF.
+
+
+A T E N T A M E N T E
+ALGÚN CARGO DE UNA PERSONA
+ESPACIO PARA QUE FIRME EL DOCUMENTO:
+
+
+
+
+NOMBRE DE LA PERSONA RESPONSABLE 

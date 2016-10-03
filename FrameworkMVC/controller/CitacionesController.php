@@ -947,9 +947,14 @@ class CitacionesController extends ControladorBase{
 		$resultSet=array();
 		
 		$respuesta=null;
+		//para get
 		
-		$_id_juicios=(int)$_POST['id_juicio'];
-		$_id_tipo_citaciones=(int)$_POST['id_tipo_citacion'];
+		$_id_juicios=(int)$_GET['id_juicio'];
+		$_id_tipo_citaciones=(int)$_GET['id_tipo_citacion'];
+		
+		//para post
+		//$_id_juicios=(int)$_POST['id_juicio'];
+		//$_id_tipo_citaciones=(int)$_POST['id_tipo_citacion'];
 		
 		
 		$columnas = " juicios.juicio_referido_titulo_credito, juicios.id_juicios, tipo_citaciones.nombre_tipo_citaciones";
