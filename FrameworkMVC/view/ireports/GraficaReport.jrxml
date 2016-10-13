@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-13T16:35:47 -->
+<!-- 2016-10-13T17:14:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a455a1-55b5-45a2-b839-b4d01417d550">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -170,20 +170,20 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 		<band height="319">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="300" y="0" width="460" height="280" uuid="a735e30c-bcda-489d-84c1-2589f3256033"/>
+					<reportElement x="300" y="0" width="460" height="280" uuid="0ef75889-a263-4b13-a11b-9ee1150c25a2"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<pieDataset maxCount="20">
 					<dataset>
-						<datasetRun subDataset="GroupData" uuid="a07aa879-b113-43e8-8d66-ef4959f3ac1e">
+						<datasetRun subDataset="GroupData" uuid="11570c42-5045-40b1-bdb2-dd061f81c850">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
 					<keyExpression><![CDATA[$F{nombre_estados_procesales_juicios}]]></keyExpression>
 					<valueExpression><![CDATA[$F{juicios}]]></valueExpression>
-					<labelExpression><![CDATA[$F{nombre_estados_procesales_juicios}+":  "+$F{juicios}]]></labelExpression>
+					<labelExpression><![CDATA[$F{nombre_estados_procesales_juicios}+":  "+$F{juicios}*1/100]]></labelExpression>
 				</pieDataset>
 				<piePlot>
 					<plot/>
