@@ -13,12 +13,12 @@ $db      = db;
 $driver  = driver;
 ini_set('display_errors', 0);
 
-#aqu� va el reporte
+#aqu� va el reporte.
 
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->load_xml_file("UsuariosReport.jrxml");
-
+$PHPJasperXML->load_xml_file("GraficaReport.jrxml");
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
+
 $PHPJasperXML->outpage("I") 
 ?>
