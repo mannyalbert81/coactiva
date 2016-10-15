@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-13T17:14:58 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-10-14T21:42:40 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a455a1-55b5-45a2-b839-b4d01417d550">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -58,17 +58,21 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 	<queryString>
 		<![CDATA[SELECT 
   estados_procesales_juicios.nombre_estados_procesales_juicios, count(*) as
-  juicios
+  juicios, sum(titulo_credito.total_total_titulo_credito) as valor_juicios
 FROM 
   public.juicios, 
-  public.estados_procesales_juicios
+  public.estados_procesales_juicios,
+  public.titulo_credito
 WHERE 
-  estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios
+  estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND juicios.id_titulo_credito = titulo_credito.id_titulo_credito
  GROUP BY 
 estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 	</queryString>
 	<field name="nombre_estados_procesales_juicios" class="java.lang.String"/>
-	<field name="juicios" class="java.lang.String"/>
+	<field name="juicios" class="java.math.BigDecimal"/>
+	<field name="valor_juicios" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<title>
 		<band height="48" splitType="Stretch">
 			<rectangle radius="10">
@@ -99,17 +103,13 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="14" y="8" width="110" height="26" uuid="62fc99f0-cba7-4c49-9af3-46c0d6cf393b"/>
-				<imageExpression><![CDATA["C:/Users/Steven/git/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="20">
+		<band height="25">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<staticText>
-				<reportElement mode="Opaque" x="40" y="0" width="100" height="20" forecolor="#000000" backcolor="#33FFFF" uuid="029f28a2-b2cc-4c86-bb34-78758054f27d"/>
+				<reportElement mode="Opaque" x="0" y="0" width="191" height="20" forecolor="#000000" backcolor="#33FFFF" uuid="029f28a2-b2cc-4c86-bb34-78758054f27d"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -122,7 +122,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="140" y="0" width="100" height="20" backcolor="#33FFFF" uuid="5dce9aa1-ef0e-4488-8778-be28e3453469"/>
+				<reportElement mode="Opaque" x="191" y="0" width="108" height="20" backcolor="#33FFFF" uuid="5dce9aa1-ef0e-4488-8778-be28e3453469"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -134,12 +134,25 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				</textElement>
 				<text><![CDATA[N° Juicios]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="299" y="1" width="127" height="20" backcolor="#33FFFF" uuid="2d538d74-c87a-4009-97b1-c9999bce02f5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Valor Juicio]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="20">
+		<band height="21">
 			<textField>
-				<reportElement x="40" y="0" width="100" height="20" uuid="e1c645f0-f892-496f-95f1-47d07959bdf9"/>
+				<reportElement x="0" y="-4" width="191" height="20" uuid="e1c645f0-f892-496f-95f1-47d07959bdf9"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -152,7 +165,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				<textFieldExpression><![CDATA[$F{nombre_estados_procesales_juicios}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="0" width="100" height="20" uuid="0da29179-8003-4e38-bb28-c3b767f61b1c"/>
+				<reportElement x="191" y="-4" width="108" height="20" uuid="0da29179-8003-4e38-bb28-c3b767f61b1c"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -164,13 +177,26 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{juicios}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="299" y="-3" width="127" height="20" uuid="86d40a99-6817-4c5c-a528-4e94a67022f1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor_juicios}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="319">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="300" y="0" width="460" height="280" uuid="0ef75889-a263-4b13-a11b-9ee1150c25a2"/>
+					<reportElement x="160" y="10" width="600" height="270" uuid="0ef75889-a263-4b13-a11b-9ee1150c25a2"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
