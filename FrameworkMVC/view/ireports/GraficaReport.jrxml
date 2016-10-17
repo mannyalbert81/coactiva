@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-10-17T11:02:00 -->
+<!-- 2016-10-17T12:32:00 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a455a1-55b5-45a2-b839-b4d01417d550">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -80,7 +80,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 		<variableExpression><![CDATA[$F{juicios}]]></variableExpression>
 	</variable>
 	<title>
-		<band height="48" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<rectangle radius="10">
 				<reportElement x="0" y="0" width="800" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="85284393-72cd-48f6-8f8b-8c5ad8df415c"/>
 				<graphicElement>
@@ -115,7 +115,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 		<band height="22">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<staticText>
-				<reportElement mode="Opaque" x="164" y="0" width="249" height="20" forecolor="#000000" backcolor="#33FFFF" uuid="029f28a2-b2cc-4c86-bb34-78758054f27d"/>
+				<reportElement mode="Opaque" x="161" y="0" width="249" height="20" forecolor="#000000" backcolor="#33FFFF" uuid="029f28a2-b2cc-4c86-bb34-78758054f27d"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -128,7 +128,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="414" y="0" width="80" height="20" backcolor="#33FFFF" uuid="5dce9aa1-ef0e-4488-8778-be28e3453469"/>
+				<reportElement mode="Opaque" x="412" y="0" width="80" height="20" backcolor="#33FFFF" uuid="5dce9aa1-ef0e-4488-8778-be28e3453469"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -158,7 +158,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 	<detail>
 		<band height="14">
 			<textField>
-				<reportElement x="164" y="-3" width="249" height="13" uuid="e1c645f0-f892-496f-95f1-47d07959bdf9"/>
+				<reportElement x="161" y="-3" width="249" height="13" uuid="e1c645f0-f892-496f-95f1-47d07959bdf9"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -171,7 +171,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				<textFieldExpression><![CDATA[$F{nombre_estados_procesales_juicios}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="414" y="-4" width="80" height="14" uuid="0da29179-8003-4e38-bb28-c3b767f61b1c"/>
+				<reportElement x="412" y="-4" width="80" height="14" uuid="0da29179-8003-4e38-bb28-c3b767f61b1c"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -261,8 +261,8 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 				<textFieldExpression><![CDATA[$V{total_juicios}]]></textFieldExpression>
 			</textField>
 			<pie3DChart>
-				<chart evaluationTime="Report">
-					<reportElement x="0" y="20" width="780" height="300" uuid="c54fc6b7-a0d1-4441-873a-3863f2ac15d8"/>
+				<chart theme="generic">
+					<reportElement x="0" y="20" width="780" height="300" isPrintWhenDetailOverflows="true" uuid="c54fc6b7-a0d1-4441-873a-3863f2ac15d8"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -277,7 +277,7 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 					<valueExpression><![CDATA[$F{juicios}]]></valueExpression>
 					<labelExpression><![CDATA[$F{nombre_estados_procesales_juicios}+ " " +$F{juicios}]]></labelExpression>
 				</pieDataset>
-				<pie3DPlot>
+				<pie3DPlot isShowLabels="true" isCircular="false">
 					<plot/>
 					<itemLabel/>
 				</pie3DPlot>

@@ -2,9 +2,14 @@
 
 #<?php
 #Importas la librer�a PhpJasperLibrary
-include_once('PhpJasperLibrary/class/tcpdf/tcpdf.php');
-include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
-include_once ('conexion.php');
+include('PhpJasperLibrary/class/tcpdf/tcpdf.php');
+include("PhpJasperLibrary/class/PHPJasperXML.inc.php");
+include('conexion.php');
+include("PhpJasperLibrary/class/pChart2/class/pData.class.php");
+include("PhpJasperLibrary/class/pChart2/class/pDraw.class.php");
+include("PhpJasperLibrary/class/pChart2/class/pImage.class.php");
+
+
 #Conectas a la base de datos
 $server  = server;
 $user    = user;
