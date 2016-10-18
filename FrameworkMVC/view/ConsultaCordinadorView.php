@@ -48,9 +48,7 @@
 			}
 		</script>
 		
-		
-		
-		<!-- TERMINA NOTIFICAIONES -->
+	
         
        <style>
             input{
@@ -63,9 +61,7 @@
                 
             
         </style>
-         
-                  
-         
+        
 	<script>
 	$(document).ready(function(){
 			$("#fecha_hasta").change(function(){
@@ -112,15 +108,18 @@
                   };
              
             	
+         	   $.post("<?php echo $helper->url("ConsultaCordinador","Impulsor"); ?>", datos, function(resultado) {
 
-
-         	   $.post("<?php echo $helper->url("ConsultaCordinador","Impulsor"); ?>", datos, function(resultImpulsor) {
-
-         		 		$.each(resultImpulsor, function(index, value) {
-         		 			$ddl_impulsor.append("<option value= " +value.id_abogado +" >" + value.impulsores  + "</option>");	
-                    		 });
-
-         		 		 	 		   
+          		  if(resultado.length==0)
+          		   {
+          				$ddl_impulsor.append("<option value='0' >--Sin Especificar--</option>");	
+             	   }else{
+             		    $ddl_impulsor.append("<option value='0' >--Selecione--</option>");
+          		 		$.each(resultado, function(index, value) {
+          		 			$ddl_impulsor.append("<option value= " +value.id_abogado +" >" + value.impulsores  + "</option>");	
+                     		 });
+             	   }	
+            	      
          		  }, 'json');
 
 
@@ -138,22 +137,21 @@
        
 
 	</script>
-   
-	
-	
+   	
 	<script>
 	$(document).ready(function(){
 		$("#id_ciudad").change(function(){
 
             // obtenemos el combo de resultado combo 2
            var $ddl_secretario = $("#id_secretario");
-       	
+           var $ddl_impulsor = $("#id_impulsor");       	
 
             // lo vaciamos
            var ddl_ciudad = $(this).val();
 
           
            $ddl_secretario.empty();
+           $ddl_impulsor.empty();
 
           
             if(ddl_ciudad != 0)
@@ -169,19 +167,49 @@
 
          	   $.post("<?php echo $helper->url("ConsultaCordinador","Secrtetarios"); ?>", datos, function(resultSecretario) {
 
+         		  if(resultSecretario.length==0)
+          		   {
+          				$ddl_secretario.append("<option value='0' >--Sin Especificar--</option>");	
+             	   }else{
+             		  $ddl_secretario.append("<option value='0' >--Selecione--</option>");
          		 		$.each(resultSecretario, function(index, value) {
          		 			$ddl_secretario.append("<option value= " +value.id_usuarios +" >" + value.nombre_usuarios  + "</option>");	
                     		 });
+             	   }
 
          		 		 	 		   
          		  }, 'json');
+
+         	  
+              	 var datos = {
+                     	   
+             			   id_ciudad:$(this).val()
+                    };
+               
+              	
+           	   $.post("<?php echo $helper->url("ConsultaCordinador","Impulsor"); ?>", datos, function(resultado) {
+
+           		   if(resultado.length==0)
+           		   {
+           				$ddl_impulsor.append("<option value='0' >--Sin Especificar--</option>");	
+              	   }else{
+              		    $ddl_impulsor.append("<option value='0' >--Selecione--</option>");
+           		 		$.each(resultado, function(index, value) {
+           		 			$ddl_impulsor.append("<option value= " +value.id_usuarios +" >" + value.nombre_usuarios  + "</option>");	
+                      		 });
+              	   }
+
+           		 		 	 		   
+           		  }, 'json');
+
 
 
             }
             else
             {
                 
-         	   $ddl_resultado.empty();
+              $ddl_secretario.append("<option value='0' >--Sin Especificar--</option>");
+         	  $ddl_impulsor.append("<option value='0' >--Sin Especificar--</option>");
 
             }
 		//alert("hola;");
@@ -199,6 +227,8 @@
        <?php include("view/modulos/head.php"); ?>
        <?php include("view/modulos/menu.php"); ?>
        
+       <?php $array_documentos=array("auto_pago"=>'Auto de Pago',"avoco_conocimiento"=>'Avoco Conocimiento',"citaciones"=>'Citaciones',"oficios"=>'Oficios',"providencias"=>'Providencias');?>
+       <?php $array_estado_doc=array("true"=>'Firmado',"false"=>'No Firmado');?>
        <?php
        
        $sel_id_ciudad = "";
@@ -207,6 +237,7 @@
        $sel_id_impulsor = "";
        $sel_identificacion="";
        $sel_numero_juicio="";
+       $sel_estado_doc="";
       
        $sel_fecha_desde="";
        $sel_fecha_hasta="";
@@ -215,7 +246,8 @@
        {
        
        	$sel_id_ciudad = 			$_POST['id_ciudad'];
-       	$sel_tipo_documento = 		$_POST['tipo_documento'];
+       	$sel_tipo_documento = 		(isset($_POST['tipo_documento']))?$_POST['tipo_documento']:'';
+       	$sel_estado_doc     = 		(isset($_POST['estado_documento']))?$_POST['estado_documento']:'';
        	$sel_id_secretario = 		$_POST['id_secretario'];
        	$sel_id_impulsor = 			$_POST['id_impulsor'];
        	$sel_identificacion=		$_POST['identificacion'];
@@ -247,6 +279,16 @@
   			
   			
 		   <div class="row">
+		   <div class="col-xs-2 ">
+			   <p  class="formulario-subtitulo" >Tipo Documento:</p>
+			  
+			   <select name="tipo_documento" id="tipo_documento"  class="form-control">
+			    <?php foreach ($array_documentos as $val=>$doc){?>
+			    <option value="<?php echo $val; ?>"<?php echo ($val==$sel_tipo_documento)?'selected':'';?>><?php echo $doc;?></option>
+			    <?php }?>
+			   </select>
+	      </div> 
+	      
 	     <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Juzgado:</p>
 			  	<select name="id_ciudad" id="id_ciudad"  class="form-control">
@@ -257,18 +299,6 @@
 				</select>
 		 </div>
 		 
-		   <div class="col-xs-2 ">
-			   <p  class="formulario-subtitulo" >Tipo Documento:</p>
-			  
-			   <select name="tipo_documento" id="tipo_documento"  class="form-control">
-			    <option value="citaciones"  >Citaciones</option>
-			    <option value="providencias"  >Providencias</option>
-			    <option value="oficios"  >Oficios</option>
-			    <option value="avoco_conocimiento"  >Avoco Conocimiento</option>
-			    <option value="auto_pago"  >Auto de Pago</option>
-			   </select>
-	      </div> 
-	      
 	      <div class="col-xs-2">
 			  	<p  class="formulario-subtitulo" style="" >Secretarios:</p>
 			  <select name="id_secretario" id="id_secretario"  class="form-control">
@@ -304,8 +334,9 @@
 			  
 			 <select name="estado_documento" id="estado_documento"  class="form-control">
 			   <option value="0"  >--Seleccione--</option>
-			   <option value="firmado"  >Firmado</option>
-			   <option value="no_firmado"  >No Firmado</option>
+			   <?php foreach ($array_estado_doc as $val=>$estado){?>
+			   <option value="<?php echo $val; ?>" <?php echo ($val==$sel_estado_doc )?'selected':'';?>  ><?php echo $estado; ?></option>
+			   <?php }?>
 			 </select>
 	    </div> 
          
@@ -334,22 +365,17 @@
 		</div>
         	
 		 </div>
-		 <div class="col-lg-12">
-		 <div class="col-lg-12">
-		 <div class="col-lg-10"></div>
-		 <div class="col-lg-2">
-		 <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultSet)) echo "  ".count($resultSet);?></span>
-		 </div>
-		 </div>
-		 </div>
+		 
 		 
 		 <div class="col-lg-12">
 		
 		 <section class="" style="height:300px;overflow-y:scroll;">
         
-        
+        	<table class="table table-hover ">
+        	
                <?php if (!empty($resultCita)) {?>
-               	<table class="table table-hover ">
+               	
+		
                	<tr >
                	<th style="color:#456789;font-size:80%;"><b>Id</b></th>
                	<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
@@ -383,7 +409,7 @@
 		    		</tr>
 		    		
 		    	<?php } }elseif (!empty($resultProv)) {?>
-		    		<table class="table table-hover ">
+		    		
 		    		<tr >
 		    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
 		    		<th style="color:#456789;font-size:80%;"><b>Ciudad</b></th>
@@ -423,7 +449,6 @@
 		    	<?php } }elseif (!empty($resultOfi)) {?> 
 		    	
 		    	
-		    	<table class="table table-hover ">
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Numero</th>
@@ -458,7 +483,9 @@
 		    		
 		    		<?php } }elseif (!empty($resultAvoCono)) {?>  
 		    		
-		    	<table class="table table-hover ">
+		     <tr>
+		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultAvoCono)) echo "  ".count($resultAvoCono);?></span>
+		     </tr>	
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
@@ -474,6 +501,7 @@
 	    		<th></th>
 	  		</tr>
 		    		<?php foreach($resultAvoCono as $res) {   ?>
+		    		
 
 				     <tr>
 	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_avoco_conocimiento; ?></td>
@@ -492,8 +520,7 @@
 		    		
 		    		<?php } }elseif (!empty($resultAutoPago)) {?>  
 		    			
-		    			
-		    			<table class="table table-hover ">
+		    		
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Titulo</th>
@@ -525,7 +552,7 @@
 		    		
 		    		<?php }}else {?>
 		    		
-		    		<table class="table table-hover ">
+		    		
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
@@ -543,7 +570,7 @@
 	                  	<td></td>
             			<td></td>
             			<td></td>
-            			<td colspan="5" style="color:#ec971f;font-size:8;" style="text-aling:center";> <?php echo '<span id="snResult">NO EXISTE DATOS PARA ESOS FILTROS</span>' ?></td>
+            			<td colspan="5" style="color:#ec971f;font-size:8;" style="text-aling:center;"> <?php echo '<span id="snResult">NO EXISTE DATOS PARA ESOS FILTROS</span>' ?></td>
 	       				
 		   </tr>
 		    		
@@ -552,7 +579,8 @@
        	</table>
        </section>
 		</div>
-		 </div>
+		 </form>
+		
 <div class="text-center">	
   <ul class="pagination">
   <li><a href="#">&laquo;</a></li>
@@ -566,11 +594,10 @@
  </div>
  </div>
 
-      </form>
+     
      
       </div>
-     
-  </div>
+ 
       <!-- termina
        busqueda  -->
    </body>  

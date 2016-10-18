@@ -38,18 +38,22 @@ class ConsultaCordinadorController extends ControladorBase{
 
 					$tipo_documento=$_POST['tipo_documento'];
 					
+					//inicializar variables
+					$id_ciudad        = (isset($_POST['id_ciudad']))?$_POST['id_ciudad']:0;
+					$id_secretario    = (isset($_POST['id_secretario']))?$_POST['id_secretario']:0;
+					$id_impulsor      = (isset($_POST['id_impulsor']))?$_POST['id_impulsor']:0;
+					$identificacion   = (isset($_POST['identificacion']))?$_POST['identificacion']:'';
+					$numero_juicio    = (isset($_POST['numero_juicio']))?$_POST['numero_juicio']:'';
+					$estado_documento = (isset($_POST['estado_documento']))?$_POST['estado_documento']:'';
+					$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
+					$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
+					
+					
 					//buscar por citaciones
 					if($tipo_documento == "citaciones")
 					{
 						
-					    $id_ciudad=$_POST['id_ciudad'];
-						$id_secretario=$_POST['id_secretario'];
-						$id_impulsor=$_POST['id_impulsor'];
-						$identificacion=$_POST['identificacion'];
-						$numero_juicio=$_POST['numero_juicio'];
-						$estado_documento=$_POST['estado_documento'];
-						$fechadesde=$_POST['fecha_desde'];
-						$fechahasta=$_POST['fecha_hasta'];
+					    
 						
 					$citaciones= new CitacionesModel();
 
@@ -110,15 +114,6 @@ class ConsultaCordinadorController extends ControladorBase{
 					//buscar por providencias
 					if($tipo_documento == "providencias")
 					{
-					
-						$id_ciudad=$_POST['id_ciudad'];
-						$id_secretario=$_POST['id_secretario'];
-						$id_impulsor=$_POST['id_impulsor'];
-						$identificacion=$_POST['identificacion'];
-						$numero_juicio=$_POST['numero_juicio'];
-						$estado_documento=$_POST['estado_documento'];
-						$fechadesde=$_POST['fecha_desde'];
-						$fechahasta=$_POST['fecha_hasta'];
 						
 						$documentos=new DocumentosModel();
 						
@@ -180,14 +175,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					//buscar por oficios
 					if($tipo_documento == "oficios")
 					{
-						$id_ciudad=$_POST['id_ciudad'];
-						$id_secretario=$_POST['id_secretario'];
-						$id_impulsor=$_POST['id_impulsor'];
-						$identificacion=$_POST['identificacion'];
-						$numero_juicio=$_POST['numero_juicio'];
-						$estado_documento=$_POST['estado_documento'];
-						$fechadesde=$_POST['fecha_desde'];
-						$fechahasta=$_POST['fecha_hasta'];
+						
 	
 					$oficios= new OficiosModel();
 					
@@ -247,14 +235,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					//buscar por avoco conocimiento
 					if($tipo_documento == "avoco_conocimiento")
 					{
-						$id_ciudad=$_POST['id_ciudad'];
-						$id_secretario=$_POST['id_secretario'];
-						$id_impulsor=$_POST['id_impulsor'];
-						$identificacion=$_POST['identificacion'];
-						$numero_juicio=$_POST['numero_juicio'];
-						$estado_documento=$_POST['estado_documento'];
-						$fechadesde=$_POST['fecha_desde'];
-						$fechahasta=$_POST['fecha_hasta'];
+						
 						
 						$avoco_conocimiento =new AvocoConocimientoModel();
 						
@@ -265,22 +246,18 @@ class ConsultaCordinadorController extends ControladorBase{
 							  clientes.identificacion_clientes, 
 							  ciudad.nombre_ciudad, 
 							  asignacion_secretarios_view.secretarios, 
-							  asignacion_secretarios_view.impulsores, 
-							  usuarios.nombre_usuarios, 
-							  avoco_conocimiento.creado";
+							  asignacion_secretarios_view.impulsores,
+							  juicios.creado";
 
 					$tablas=" public.avoco_conocimiento, 
 							  public.juicios, 
 							  public.ciudad, 
 							  public.asignacion_secretarios_view, 
-							  public.clientes, 
-							  public.usuarios";
+							  public.clientes";
 
-					$where="avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
-						  avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-						  avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
+					$where="avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
-						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
+						  ciudad.id_ciudad = juicios.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes";
 
 					$id="avoco_conocimiento.id_avoco_conocimiento";
@@ -319,15 +296,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					//buscar por auto pago
 					if($tipo_documento == "auto_pago")
 					{
-						$id_ciudad=$_POST['id_ciudad'];
-						$id_secretario=$_POST['id_secretario'];
-						$id_impulsor=$_POST['id_impulsor'];
-						$identificacion=$_POST['identificacion'];
-						$numero_juicio=$_POST['numero_juicio'];
-						$estado_documento=$_POST['estado_documento'];
-						$fechadesde=$_POST['fecha_desde'];
-						$fechahasta=$_POST['fecha_hasta'];
-					
+											
 						$auto_pago =new AutoPagosModel();
 					
 					
@@ -586,32 +555,81 @@ class ConsultaCordinadorController extends ControladorBase{
 		$usuarios=new UsuariosModel();
 		$columnas = "usuarios.id_usuarios,usuarios.nombre_usuarios";
 		$tablas="usuarios,ciudad,rol";
-		$id="rol.id_rol";
-	
 		$where="rol.id_rol=usuarios.id_rol AND usuarios.id_ciudad=ciudad.id_ciudad
 		AND rol.nombre_rol='SECRETARIO' AND ciudad.id_ciudad='$idciudad'";
-	
+		$id="usuarios.nombre_usuarios";
+		
 		$resultSecretario=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
-	
+		
 		echo json_encode($resultSecretario);
 	}
 	
 	public function Impulsor()
 	{
-	
-		//CONSULTA DE USUARIOS POR SU ROL
-		$idusuarios=(int)$_POST["usuarios"];
-		$usuarios=new UsuariosModel();
-		$columnas = "asignacion_secretarios_view.id_abogado,
+		if(isset($_POST["id_ciudad"]))
+		{
+			//CONSULTA DE USUARIOS POR SU ROL
+			$id_ciudad=(int)$_POST["id_ciudad"];
+			$usuarios=new UsuariosModel();
+			$columnas = "usuarios.id_usuarios,usuarios.nombre_usuarios";
+			$tablas="usuarios,ciudad,rol";
+			$where="rol.id_rol=usuarios.id_rol AND usuarios.id_ciudad=ciudad.id_ciudad
+			AND rol.nombre_rol='ABOGADO IMPULSOR' AND ciudad.id_ciudad='$id_ciudad'";
+			$id="usuarios.nombre_usuarios";
+			
+			$resultado=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
+			
+			echo json_encode($resultado);
+			
+		}else if(isset($_POST["usuarios"]))
+		{
+			//CONSULTA DE USUARIOS POR SU ROL
+			$idusuarios=(int)$_POST["usuarios"];
+			$usuarios=new UsuariosModel();
+			$columnas = "asignacion_secretarios_view.id_abogado,
 					  asignacion_secretarios_view.impulsores";
-		$tablas="public.asignacion_secretarios_view";
-		$id="asignacion_secretarios_view.id_abogado";
+			$tablas="public.asignacion_secretarios_view";
+			$id="asignacion_secretarios_view.id_abogado";
+			
+			$where="public.asignacion_secretarios_view.id_secretario = '$idusuarios'";
+			
+			$resultImpulsor=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
+			
+			echo json_encode($resultImpulsor);
+		}
+		
+	}
 	
-		$where="public.asignacion_secretarios_view.id_secretario = '$idusuarios'";
-	
-		$resultImpulsor=$usuarios->getCondiciones($columnas ,$tablas , $where, $id);
-	
-		echo json_encode($resultImpulsor);
+	public function pruebamerge()
+	{
+		
+		$array1 = array("fila1"=>1,"fila2"=>2);
+		$array2 = array("fila1"=>3,"fila2"=>4);
+		//muestro los arrays
+		var_export ($array1);
+		echo '<br><br><br>';
+		var_export ($array2);
+		echo '<br><br><br>';
+		//uno los arrays y muestro el array resultante
+		$array_resultante= array_merge($array1,$array2);
+		$array_prueba=$array1+$array2;
+		var_export ($array_resultante);
+		echo '<br><br><br>';
+		var_export($array_prueba);
+		
+		echo '<br><br><br>';
+		$array1 = array("id1" => "value1");
+		
+		$array2 = array("id2" => "value2", "id3" => "value3", "id4" => "value4");
+		
+		$array3 = array_merge($array1, $array2/*, $arrayN, $arrayN*/);
+		$array4 = $array1 + $array2;
+		
+		echo '<pre>';
+		var_dump($array3);
+		var_dump($array4);
+		echo '</pre>';
+		
 	}
 }
 ?> 

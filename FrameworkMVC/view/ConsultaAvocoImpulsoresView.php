@@ -248,8 +248,7 @@
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
 	    		<th style="color:#456789;font-size:80%;">Secretario Entrante</th>
-	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
-	    		<th style="color:#456789;font-size:80%;">Secretario Saliente </th>
+	    		<th style="color:#456789;font-size:80%;">Impulsor Entrante</th>
 	    		<th style="color:#456789;font-size:80%;">Fecha </th>
 	    		<th></th>
 	    		<th></th>
@@ -265,8 +264,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?></td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
 		            
 		               <td style="color:#000000;font-size:90%;">

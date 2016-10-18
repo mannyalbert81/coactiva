@@ -47,7 +47,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 						 AND usuarios.id_usuarios = citaciones.id_usuarios
 						 AND citaciones.identificador='$id'";
 				
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Citaciones/';
+				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/Citaciones/';
 	
 	            $PHPJasperXML = new PHPJasperXML();
 				

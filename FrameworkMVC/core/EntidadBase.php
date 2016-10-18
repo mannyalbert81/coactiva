@@ -647,7 +647,7 @@ class EntidadBase{
 
     public function extraerEspacio($filePath,$addpage)
     {
-    	$ruta_exec_extract_line = $_SERVER['DOCUMENT_ROOT'].'/documentos/extraer/VerEspacioPdf.exe';
+    	$ruta_exec_extract_line = $_SERVER['DOCUMENT_ROOT'].'/coactiva/documentos/extraer/VerEspacioPdf.exe';
     	
     	$comando_extraer = 'start "" /b "' . $ruta_exec_extract_line . '" ' . $filePath . ' '. $addpage . ' ';
     	 
@@ -666,8 +666,8 @@ class EntidadBase{
     	//para metodos dentro del framework
     	//$id_usuario=$_SESSION['id_usuarios'];
     	
-    	$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/documentos/firmar/FirmadorElectronico.exe';
-    	$tmp = $_SERVER['DOCUMENT_ROOT'].'/documentos/tmp_documentos/';
+    	$ruta_ejecutable = $_SERVER['DOCUMENT_ROOT'].'/coactiva/documentos/firmar/FirmadorElectronico.exe';
+    	$tmp = $_SERVER['DOCUMENT_ROOT'].'/coactiva/documentos/tmp_documentos/';
     	
     	$moveTo = $tmp.$nombrePdf;
     	$moveOf = $destino.$nombrePdf;
