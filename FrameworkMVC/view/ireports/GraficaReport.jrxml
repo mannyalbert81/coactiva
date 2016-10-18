@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-10-17T12:32:00 -->
+<!-- 2016-10-17T18:22:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a455a1-55b5-45a2-b839-b4d01417d550">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -262,16 +262,14 @@ estados_procesales_juicios.nombre_estados_procesales_juicios]]>
 			</textField>
 			<pie3DChart>
 				<chart theme="generic">
-					<reportElement x="0" y="20" width="780" height="300" isPrintWhenDetailOverflows="true" uuid="c54fc6b7-a0d1-4441-873a-3863f2ac15d8"/>
+					<reportElement x="0" y="20" width="780" height="300" isPrintWhenDetailOverflows="true" uuid="71798085-c1bf-4e09-96ae-ffc3a147a02e"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<pieDataset>
 					<dataset incrementType="Group" incrementGroup="nombre_estados_procesales_juicios">
-						<datasetRun subDataset="GroupData" uuid="c46c23b7-585e-42a5-89e5-0df6cef8dedf">
-							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-						</datasetRun>
+						<datasetRun subDataset="GroupData" uuid="5dcc3f4a-92a3-469b-9087-7e7f1a46f138"/>
 					</dataset>
 					<keyExpression><![CDATA[$F{nombre_estados_procesales_juicios}]]></keyExpression>
 					<valueExpression><![CDATA[$F{juicios}]]></valueExpression>
