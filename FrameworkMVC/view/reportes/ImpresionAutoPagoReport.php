@@ -280,7 +280,7 @@ $dompdf->set_paper("A4", "portrait");
 
 $dompdf->render();
 $pdf = $dompdf->output();
-$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/AutoPagos/';
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/AutoPagos/';
 $filename = "Autopago".'.pdf';
 file_put_contents($directorio.$filename,$pdf);
 
