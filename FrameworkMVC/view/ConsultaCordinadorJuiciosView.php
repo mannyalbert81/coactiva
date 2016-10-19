@@ -281,7 +281,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("ConsultaCordinador","consulta_cordinador"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -295,7 +295,7 @@
   			
 		   <div class="row">
 		   <div class="col-xs-2 ">
-			   <p  class="formulario-subtitulo" >Tipo Documento:</p>
+			   <p  class="formulario-subtitulo" >Etapa Juicio:</p>
 			  
 			   <select name="tipo_documento" id="tipo_documento"  class="form-control">
 			    <?php foreach ($array_documentos as $val=>$doc){?>

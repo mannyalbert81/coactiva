@@ -277,15 +277,39 @@ class CitacionesController extends ControladorBase{
 			 				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
 			 				
 			 				//para generar el pdf
-			 				print "<script language='JavaScript'>
-			 				setTimeout(window.open('http://$host$uri/view/ireports/ContCitacionesGuardarReport.php?identificador=$identificador&estado=$_estado&nombre=$_nombre_citacion','popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0,visible=false'),1000);
-			 				
-			 				</script>";
-			 				
-			 				$this->notificacionCitador($_id_usuarios);
+			 				$columnas = " usuarios.nombre_usuarios, 
+										  tipo_citaciones.nombre_tipo_citaciones, 
+										  juicios.juicio_referido_titulo_credito, 
+										  citaciones.nombre_persona_recibe_citaciones, 
+										  citaciones.relacion_cliente_citaciones, 
+										  citaciones.fecha_citaciones, 
+										  ciudad.nombre_ciudad, 
+										  clientes.nombres_clientes, 
+										  clientes.identificacion_clientes, 
+										  clientes.direccion_clientes,
+			 						      citaciones.identificador";
 			 					
-			 				print("<script>window.location.replace('index.php?controller=Citaciones&action=index');</script>");
-			 			
+			 					
+			 				$tablas   = " public.citaciones, 
+										  public.juicios, 
+										  public.ciudad, 
+										  public.tipo_citaciones, 
+										  public.usuarios, 
+										  public.clientes";
+			 					
+			 				$where    = " citaciones.id_ciudad = ciudad.id_ciudad AND
+										  citaciones.id_usuarios = usuarios.id_usuarios AND
+										  juicios.id_juicios = citaciones.id_juicios AND
+										  tipo_citaciones.id_tipo_citaciones = citaciones.id_tipo_citaciones AND
+										  clientes.id_clientes = juicios.id_clientes AND
+													 				citaciones.identificador='$identificador'";
+			 				$id		  = "citaciones.identificador";
+			 					
+			 					
+			 				$resultSet= $citaciones->getCondiciones($columnas, $tablas, $where, $id);
+			 					
+			 				$this->report("Citaciones_Guardar",array( "resultSet"=>$resultSet));
+			 				
 			 			}
 			 				else
 			 				{
@@ -328,7 +352,7 @@ class CitacionesController extends ControladorBase{
 
 			}
 
-			//$this->redirect("Citaciones", "index");
+			$this->redirect("Citaciones", "index");
 
 
 			

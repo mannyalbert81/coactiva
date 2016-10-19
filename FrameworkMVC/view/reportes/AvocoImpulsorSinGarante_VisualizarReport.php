@@ -23,7 +23,7 @@ $identificador                                   ="";
 $host  = $_SERVER['HTTP_HOST'];
 $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/FrameworkMVC';
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/FrameworkMVC';
 //echo $directorio;
 //die();
 $dom=$directorio.'/view/dompdf/dompdf_config.inc.php';

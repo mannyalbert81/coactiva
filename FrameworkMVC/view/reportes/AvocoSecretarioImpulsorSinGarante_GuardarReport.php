@@ -122,7 +122,7 @@ $dompdf->set_paper("A4", "portrait");
 
 $dompdf->render();
 $pdf = $dompdf->output();
-$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Avoco/';
+$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/Avoco/';
 $filename = "Avoco".$identificador.'.pdf';
 file_put_contents($directorio.$filename,$pdf);
 
