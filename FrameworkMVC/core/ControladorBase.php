@@ -55,6 +55,18 @@ class ControladorBase{
         header("Location:index.php?controller=".$controlador."&action=".$accion);
     }
     
+    public function ireport($reporte,$datos){
+    	foreach ($datos as $id_assoc => $valor) {
+    		${$id_assoc}=$valor;
+    	}
+    	
+    	require_once 'core/AyudaVistas.php';
+    	$helper=new AyudaVistas();
+    	
+    	require_once 'view/ireports/'.$reporte.'Report.php';
+    
+    }
+    
     //Métodos para los controladores
 
 }

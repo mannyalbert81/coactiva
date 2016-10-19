@@ -77,19 +77,16 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 								  ciudad.nombre_ciudad, 
 								  asignacion_secretarios_view.secretarios, 
 								  asignacion_secretarios_view.impulsores, 
-								  usuarios.nombre_usuarios, 
 								  avoco_conocimiento.creado";
 
 					$tablas=" public.avoco_conocimiento, 
 							  public.juicios, 
 							  public.ciudad, 
 							  public.asignacion_secretarios_view, 
-							  public.clientes, 
-							  public.usuarios";
+							  public.clientes";
 
 					$where="avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
 						  avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-						  avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes
@@ -317,19 +314,16 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 							  ciudad.nombre_ciudad, 
 							  asignacion_secretarios_view.secretarios, 
 							  asignacion_secretarios_view.impulsores, 
-							  usuarios.nombre_usuarios, 
 							  avoco_conocimiento.creado";
 	
 					$tablas=" public.avoco_conocimiento, 
 							  public.juicios, 
 							  public.ciudad, 
 							  public.asignacion_secretarios_view, 
-							  public.clientes, 
-							  public.usuarios";
+							  public.clientes";
 	
 					$where="avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
 						  avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-						  avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes AND avoco_conocimiento.firma_impulsor='TRUE'";
@@ -432,7 +426,6 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 								  ciudad.nombre_ciudad,
 								  asignacion_secretarios_view.secretarios,
 								  asignacion_secretarios_view.impulsores,
-								  usuarios.nombre_usuarios,
 								  avoco_conocimiento.creado";
 	
 					$tablas="public.avoco_conocimiento,
@@ -440,11 +433,9 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 							  public.ciudad,
 							  public.asignacion_secretarios_view,
 							  public.clientes,
-							  public.usuarios,
 							  public.notificaciones";
 	
 					$where="avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-						  avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
 						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
 						  ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
 						  clientes.id_clientes = juicios.id_clientes
@@ -542,7 +533,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 	
 				$ruta = $resultAvoco [0]->ruta_documento;
 	
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	
 				header('Content-type: application/pdf');
 				header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -699,7 +690,7 @@ class ConsultaAvocoImpulsoresController extends ControladorBase{
 					$_id_documentos=$idsFiles;
 					$_nombreDocumentos="";
 	
-					$destino = $_SERVER['DOCUMENT_ROOT'].'/documentos/';
+					$destino = $_SERVER['DOCUMENT_ROOT'].'/coactiva/documentos/';
 						
 						
 						

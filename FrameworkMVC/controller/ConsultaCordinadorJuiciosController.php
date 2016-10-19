@@ -1,12 +1,12 @@
 <?php
-class ConsultaCordinadorController extends ControladorBase{
+class ConsultaCordinadorJuiciosController extends ControladorBase{
 
 	public function __construct() {
 		parent::__construct();
 	}
 
 
-	public function consulta_cordinador(){
+	public function index(){
 
 		session_start();
 		
@@ -19,18 +19,8 @@ class ConsultaCordinadorController extends ControladorBase{
 		$resultOfi=array();
 		$resultAvoCono=array();
 		$resultAutoPago=array();
-		
-		/*
-		$array=$_SESSION['tu_array_de_cualquier_dimension'];
-		// Y si no quieres la variable de sesión creada:
-		unset($_SESSION['tu_array_de_cualquier_dimension']);
-		// Y si realmente no usas sesiones en tu aplicación para nada ..
-		// Destruyes tu sesión.
-		session_destroy();
-		
-		// en $array vuelves a tener en este punto tu array tal cual .. sin más proceso que aplicar.
-		*/
-		
+		$result_etapa_juicio=array();
+	
 		$documentos_impulsores=new DocumentosModel();
 		$ciudad = new CiudadModel();
 		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
@@ -389,7 +379,7 @@ class ConsultaCordinadorController extends ControladorBase{
 				
 				
 
-				$this->view("ConsultaCordinador",array(
+				$this->view("ConsultaCordinadorJuicios",array(
 						"resultCita"=>$resultCita, "resultProv"=>$resultProv,"resultCiu"=>$resultCiu,"resultOfi"=>$resultOfi,
 						"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago
 							
@@ -418,165 +408,6 @@ class ConsultaCordinadorController extends ControladorBase{
 
 	}
 
-	
-	
-	  public function abrirPdf_citaciones()
-	  {
-		$citaciones = new CitacionesModel();
-	
-		if(isset($_GET['id']))
-		{
-				
-			$id_citacion = $_GET ['id'];
-				
-			$resultCitacion= $citaciones->getBy ( "id_citaciones='$id_citacion'" );
-				
-			if (! empty ( $resultCitacion )) {
-	
-				$nombrePdf = $resultCitacion [0]->nombre_citacion;
-	
-				$nombrePdf .= ".pdf";
-	
-				$ruta = $resultCitacion [0]->ruta_citacion;
-	
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
-	
-				header('Content-type: application/pdf');
-				header('Content-Disposition: inline; filename="'.$directorio.'"');
-				readfile($directorio);
-			}
-	
-	
-		}
-		
-	
-	  }
-	  
-	  
-	  public function abrirPdf_oficios()
-	  {
-	  	$oficios = new OficiosModel();
-	  
-	  	if(isset($_GET['id']))
-	  	{
-	  
-	  		$id_oficios = $_GET ['id'];
-	  
-	  		$resultOficios = $oficios->getBy ( "id_oficios='$id_oficios'" );
-	  
-	  		if (! empty ( $resultOficios )) {
-	  
-	  			$nombrePdf = $resultOficios [0]->nombre_oficio;
-	  
-	  			$nombrePdf .= ".pdf";
-	  
-	  			$ruta = $resultOficios [0]->ruta_oficio;
-	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
-	  
-	  			header('Content-type: application/pdf');
-	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
-	  			readfile($directorio);
-	  		}
-	  
-	  
-	  	}
-	  
-	  }
-	  
-	  public function abrirPdf_providencias()
-	  {
-	  	$documentos = new DocumentosModel();
-	  
-	  	if(isset($_GET['id']))
-	  	{
-	  
-	  		$id_documento = $_GET ['id'];
-	  
-	  		$resultDocumento = $documentos->getBy ( "id_documentos='$id_documento'" );
-	  
-	  		if (! empty ( $resultDocumento )) {
-	  
-	  			$nombrePdf = $resultDocumento [0]->nombre_documento;
-	  
-	  			$nombrePdf .= ".pdf";
-	  
-	  			$ruta = $resultDocumento [0]->ruta_documento;
-	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
-	  
-	  			header('Content-type: application/pdf');
-	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
-	  			readfile($directorio);
-	  		}
-	  
-	  
-	  	}
-	  
-	  }
-	  
-	  public function abrirPdf_avoco_conocimiento()
-	  {
-	  	$avoco_conocimiento = new AvocoConocimientoModel();
-	  
-	  	if(isset($_GET['id']))
-	  	{
-	  
-	  		$id_avoco_conocimiento = $_GET ['id'];
-	  
-	  		$resultAvoco= $avoco_conocimiento->getBy ( "id_avoco_conocimiento='$id_avoco_conocimiento'" );
-	  
-	  		if (! empty ( $resultAvoco )) {
-	  
-	  			$nombrePdf = $resultAvoco [0]->nombre_documento;
-	  
-	  			$nombrePdf .= ".pdf";
-	  
-	  			$ruta = $resultAvoco [0]->ruta_documento;
-	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
-	  
-	  			header('Content-type: application/pdf');
-	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
-	  			readfile($directorio);
-	  		}
-	  
-	  
-	  	}
-	  
-	  }
-	  
-	  
-	  public function abrirPdf_auto_pago()
-	  {
-	  	$auto_pago = new AutoPagosModel();
-	  	 
-	  	if(isset($_GET['id']))
-	  	{
-	  		 
-	  		$id_auto_pagos= $_GET ['id'];
-	  		 
-	  		$resultAuto_Pago = $auto_pago->getBy ( "id_auto_pagos='$id_auto_pagos'" );
-	  		 
-	  		if (! empty ( $resultAuto_Pago )) {
-	  			 
-	  			$nombrePdf = $resultAuto_Pago [0]->nombre_auto_pagos;
-	  			 
-	  			$nombrePdf .= ".pdf";
-	  			 
-	  			$ruta = $resultAuto_Pago [0]->ruta_auto_pagos;
-	  			 
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
-	  			 
-	  			header('Content-type: application/pdf');
-	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
-	  			readfile($directorio);
-	  		}
-	  		 
-	  		 
-	  	}
-	  	 
-	  }
 	  
 	
 	public function Secrtetarios()

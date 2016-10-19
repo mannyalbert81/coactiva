@@ -65,14 +65,121 @@
 		
 		
 		<!-- TERMINA NOTIFICAIONES -->
-       <script >
-		    // cada vez que se cambia el valor del combo
-		    $(document).ready(function(){
-		    
-		    $("#Guardar").click(function() 
+     
+     <script >
+	        $(document).ready(function() {
+			
+			var respuesta;
+
+			//function to call inside ajax callback 
+			function set_exists(x){
+				respuesta = x;
+			}
+			
+			$('#Guardar').click(function()
 			{
-		    
-		    	var fecha_citaciones= $("#fecha_citaciones").val();
+				$("#msg_alert").hide();
+
+				 var validarElementos=validarFields();
+				 
+				 if(validarElementos)
+				 {
+						 var selected = '';  
+ 
+						
+						var checkboxValues = "";
+							
+							$('input[type=checkbox]:checked').each(function() {
+								checkboxValues += $(this).val() + ",";
+								selected +=$(this)+' esta '+$(this).val()+', ';
+							});
+							
+							checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
+
+			
+						if (selected != '') 
+						{
+
+							
+						 var datos = {
+									   
+									 id_juicio:checkboxValues,
+									 id_tipo_citacion:$("#id_tipo_citaciones").val()
+								};
+
+								$.ajax({
+									url: "<?php echo $helper->url("Citaciones","ValidarJuicioCitacion"); ?>",
+									type: "POST",
+									async: false, 
+									data: datos,
+									success: function(data){
+										
+
+										var result= data;
+										var arrayJuicio=JSON.parse(data);
+
+										if(result==0)
+										{
+											set_exists(true);
+											 console.log('puede guardar datos');
+
+											 $("#resultado_consulta").text('1');
+											 
+											 
+										}else
+										{
+											set_exists(false);
+
+											var juicio_referido=arrayJuicio[0].juicio_referido_titulo_credito;
+											
+											$("#resultado_consulta").text(juicio_referido);
+											
+										}
+									}
+								});
+									
+							
+							
+							
+						}
+						else{
+						
+							alert('Debes seleccionar un juicio.');
+						   
+							set_exists(false);
+						}
+				 
+				 }
+				
+				    var juicio = $("#resultado_consulta").text();
+					var citacion = $("#id_tipo_citaciones option:selected").text();
+
+				   // alert(texto);
+
+				   if(juicio=='1')
+				   {
+					   set_exists(true);
+						  
+				   }else if(juicio==0)
+				   {
+					   set_exists(false);
+				   }else
+				   {
+					   $("#lbl_juicio").text(juicio);
+					   $("#lbl_citacion").text(citacion);
+					   $("#msg_alert").show();
+					 
+					   set_exists(false);
+				  }
+		
+		      return respuesta;
+		    }); 
+			
+			function validarFields()
+			{
+				var rpta=false;
+				
+				var fecha_citaciones= $("#fecha_citaciones").val();
 		     	var nombre_persona_recibe_citaciones = $("#nombre_persona_recibe_citaciones").val();
 		    	var relacion_cliente_citaciones = $("#relacion_cliente_citaciones").val();
 		    	 	
@@ -83,12 +190,12 @@
 			    	
 		    		$("#mensaje_fecha").text("Introduzca una Fecha");
 		    		$("#mensaje_fecha").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		            rpta=false;
 			    }
 		    	else 
 		    	{
 		    		$("#mensaje_fecha").fadeOut("slow"); //Muestra mensaje de error
-		            
+		            rpta=true;
 				}    
 				
 		    	if (nombre_persona_recibe_citaciones == "")
@@ -96,13 +203,13 @@
 			    	
 		    		$("#mensaje_recibe").text("Introduzca un Nombre");
 		    		$("#mensaje_recibe").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		            rpta=false;
 		            
 			    }
 		    	else 
 		    	{
 		    		$("#mensaje_recibe").fadeOut("slow"); //Muestra mensaje de error
-		            
+		            rpta=true;
 				}
 		    	
 		    	if (relacion_cliente_citaciones == "")
@@ -110,136 +217,46 @@
 			    	
 		    		$("#mensaje_relacion").text("Introduzca una Relacion con el Cliente");
 		    		$("#mensaje_relacion").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		           rpta=false;
 		            
 			    }
 		    	else 
 		    	{
 		    		$("#mensaje_relacion").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}   
-		
-			}); 
-
-
-		        $( "#fecha_citaciones" ).focus(function() {
+		            rpta=true;
+				}
+				
+				return rpta;
+			
+			}
+			
+			$( "#fecha_citaciones" ).focus(function() {
 				  $("#mensaje_fecha").fadeOut("slow");
 			    });
 				
-				$( "#nombre_persona_recibe_citaciones" ).focus(function() {
+			$( "#nombre_persona_recibe_citaciones" ).focus(function() {
 					$("#mensaje_recibe").fadeOut("slow");
     			});
-				$( "#relacion_cliente_citaciones" ).focus(function() {
+			$( "#relacion_cliente_citaciones" ).focus(function() {
 					$("#mensaje_relacion").fadeOut("slow");
     			});
-    			    
-		}); 
-
-	</script>
-	
-	
-		<script >
-	        $(document).ready(function() {
-			$('#Guardar').click(function(){
-
 				
 				
-		        var selected = '';  
-		          
-		        $('.marcados').each(function(){
-		            if (this.checked) {
-		                selected +=$(this)+' esta '+$(this).val()+', ';
-		            }
-		        }); 
-	
-		        if (selected != '') {
-
-		        	var checkboxValues = "";
-					
-					$('input[type=checkbox]:checked').each(function() {
-						checkboxValues += $(this).val() + ",";
-					});
-					
-					checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
- 
-			        
-		            return true;
-		        }
-		        else{
-		            alert('Debes seleccionar un juicio.');
-		           
-		            return false;
-		        }
-	
-	
-		      
-		    }); 
 	
 		});
 		</script>
 	
-	
-
-
-
-		 <script>
-    $(document).ready(function(){
-        $("#marcar_todo").change(function () {
-            if ($(this).is(':checked')) {
-               
-                $(".marcados").prop('checked', true); 
-            } else {
-                
-                $("input:checkbox").prop('checked', false);
-                $("input[type=checkbox]").prop('checked', false);
-            }
-        });
-        });
-    </script>
-
-    
-    <script >
-        $(document).ready(function() {
-        	 $("#div_alert").hide();
-		 	
-		$('#Guardar').click(function(){
-
-			
-
-			var output=false;
-
-			
-			
-		    var juicio = $("#resultado_consulta").text();
-		    var citacion = $("#id_tipo_citaciones option:selected").text();
-
-		   // alert(texto);
-
-		   if(juicio=='')
-		   {
-			   return true;
-				  
-		   }else
-		   {
-			  
-			   $("#mostrar_resultado").text('El juicio '+juicio+' ya tiene la '+citacion+' ');
-
-			   var res= $("#mostrar_resultado").text();
-			   alert(res);
-			   $("#div_alert").show();
-			   return false;
-		   }
 		
-			});
-
-		
-        });
-	</script>
 
 
 		
     </head>
     <body style="background-color: #d9e3e4;">
+    <span id="resultado_consulta" style="display: none;">0</span>
+     <div id="div_alert" class="alert alert-warning alert-dismissable" style="display: none">
+			     <button type="button" class="close" data-dismiss="alert">&times;</button>
+			     <span id="mostrar_resultado"></span>
+     </div>
     
     
        <?php include("view/modulos/modal.php"); ?>
@@ -337,7 +354,16 @@
 			  	<input type="text"  name="relacion_cliente_citaciones" id="relacion_cliente_citaciones" value="" class="form-control"/> 
 			    <div id="mensaje_relacion" class="errores"></div>
 			  </div>
+			 
+			 <div id="msg_alert" class="col-xs-12 col-md-12" style="margin-top:20px; display: none;">
+			  	<div class="alert alert-warning">
+				    <strong>Warning!</strong> El juicio <span id="lbl_juicio">juicio</span> ya tiene la <span id="lbl_citacion">citacion</span>
+				</div>
+			  </div>
 			 </div>
+			 
+			 
+			 
 			  
 			  <hr>
 		    	
