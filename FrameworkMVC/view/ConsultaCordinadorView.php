@@ -96,11 +96,10 @@
            var ddl_secretario = $(this).val();
 
           
-           $ddl_impulsor.empty();
-
           
             if(ddl_secretario != 0)
             {
+            	 $ddl_impulsor.empty();
             	
             	 var datos = {
                    	   
@@ -124,12 +123,7 @@
 
 
             }
-            else
-            {
-                
-         	   $ddl_resultado.empty();
-
-            }
+            
 		//alert("hola;");
 		});
         });
@@ -214,10 +208,30 @@
             }
 		//alert("hola;");
 		});
-        });
+	});
+		
+	</script>
 	
-       
+	<script type="text/javascript">
+	function call_generar_reporte()
+	{
+		var sql=<?php echo json_encode($sql);?>
 
+		$.ajax({
+            url:"<?php echo $helper->url("ConsultaCordinador","Reporte");?>"
+            ,type : "POST"
+            ,async: true
+            ,data : {_sql:sql}
+            ,success: function(msg){
+	            
+	            console.log(msg);
+            }
+    		});
+
+		
+	}
+	
+    
 	</script>
 
     </head>
@@ -229,6 +243,7 @@
        
        <?php $array_documentos=array("auto_pago"=>'Auto de Pago',"avoco_conocimiento"=>'Avoco Conocimiento',"citaciones"=>'Citaciones',"oficios"=>'Oficios',"providencias"=>'Providencias');?>
        <?php $array_estado_doc=array("true"=>'Firmado',"false"=>'No Firmado');?>
+       <?php //print_r($sql);?>
        <?php
        
        $sel_id_ciudad = "";
@@ -356,8 +371,10 @@
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
 		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion()" class="btn btn-warning " style="margin-top: 10px;"/> 	
 		 
-		 <?php if(!empty($resultSet))  {?>
-		 <a href="/FrameworkMVC/view/ireports/ContDocumentosGeneralReport.php?id_ciudad=<?php  echo $sel_id_ciudad ?>&identificacion=<?php  echo $sel_identificacion?>&numero_juicio=<?php  echo $sel_numero_juicio?>&fecha_desde=<?php  echo $sel_fecha_desde?>&fecha_hasta=<?php  echo $sel_fecha_hasta?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
+		 <?php if(!empty($resultCita)||!empty($resultProv)||!empty($resultOfi)||!empty($resultAvoCono)||!empty($resultAutoPago)||!empty($resultSet))  {?>
+		 
+		  <a href="<?php echo $helper->url("ConsultaCordinador","Reporte");?>" onclick=" window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false;" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
+		 
 		  <?php } else {?>
 		  
 		  <?php } ?>
@@ -373,9 +390,10 @@
         
         	<table class="table table-hover ">
         	
-               <?php if (!empty($resultCita)) {?>
-               	
-		
+ <?php if (!empty($resultCita)) {?>
+               	<tr>
+		        <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultCita)) echo "  ".count($resultCita);?></span>
+		        </tr>
                	<tr >
                	<th style="color:#456789;font-size:80%;"><b>Id</b></th>
                	<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
@@ -407,9 +425,11 @@
 		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_citaciones"); ?>&id=<?php echo $res->id_citaciones; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
 		               </td> 
 		    		</tr>
-		    		
-		    	<?php } }elseif (!empty($resultProv)) {?>
-		    		
+		
+		<?php } }elseif (!empty($resultProv)) {?>
+		    		<tr>
+		            <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultProv)) echo "  ".count($resultProv);?></span>
+		            </tr>
 		    		<tr >
 		    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
 		    		<th style="color:#456789;font-size:80%;"><b>Ciudad</b></th>
@@ -446,9 +466,11 @@
 		               </td> 
 		    		</tr>
 		    		
-		    	<?php } }elseif (!empty($resultOfi)) {?> 
+<?php } }elseif (!empty($resultOfi)) {?> 
 		    	
-		    	
+		     <tr>
+		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultOfi)) echo "  ".count($resultOfi);?></span>
+		     </tr>		
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Numero</th>
@@ -481,7 +503,7 @@
 		               </td> 
 		    		</tr>
 		    		
-		    		<?php } }elseif (!empty($resultAvoCono)) {?>  
+		 <?php } }elseif (!empty($resultAvoCono)) {?>  
 		    		
 		     <tr>
 		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultAvoCono)) echo "  ".count($resultAvoCono);?></span>
@@ -518,9 +540,11 @@
 		               </td> 
 		    		</tr>
 		    		
-		    		<?php } }elseif (!empty($resultAutoPago)) {?>  
+	<?php } }elseif (!empty($resultAutoPago)) {?>  
 		    			
-		    		
+		     <tr>
+		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultAutoPago)) echo "  ".count($resultAutoPago);?></span>
+		     </tr>		
 	         <tr >
 	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
 	    		<th style="color:#456789;font-size:80%;">Titulo</th>
@@ -546,7 +570,7 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado; ?>     </td> 
 		            
 		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_auto_pago"); ?>&id=<?php echo $res->id_auto_pagos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
+		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_auto_pago"); ?>&id=<?php echo $res->id_auto_pagos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success"  style="font-size:65%;">-- VER --</a>
 		               </td> 
 		    		</tr>
 		    		

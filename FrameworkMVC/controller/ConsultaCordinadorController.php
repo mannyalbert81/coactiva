@@ -9,7 +9,10 @@ class ConsultaCordinadorController extends ControladorBase{
 	public function consulta_cordinador(){
 
 		session_start();
-
+		
+		//eliminar variable de seesion para pasar sql al irepot
+		if(isset($_SESSION['data_ireport'])){unset($_SESSION['data_ireport']);}
+		
 		//Creamos el objeto usuario
 		$resultCita=array();
 		$resultProv=array();
@@ -17,6 +20,16 @@ class ConsultaCordinadorController extends ControladorBase{
 		$resultAvoCono=array();
 		$resultAutoPago=array();
 		
+		/*
+		$array=$_SESSION['tu_array_de_cualquier_dimension'];
+		// Y si no quieres la variable de sesión creada:
+		unset($_SESSION['tu_array_de_cualquier_dimension']);
+		// Y si realmente no usas sesiones en tu aplicación para nada ..
+		// Destruyes tu sesión.
+		session_destroy();
+		
+		// en $array vuelves a tener en este punto tu array tal cual .. sin más proceso que aplicar.
+		*/
 		
 		$documentos_impulsores=new DocumentosModel();
 		$ciudad = new CiudadModel();
@@ -44,7 +57,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					$id_impulsor      = (isset($_POST['id_impulsor']))?$_POST['id_impulsor']:0;
 					$identificacion   = (isset($_POST['identificacion']))?$_POST['identificacion']:'';
 					$numero_juicio    = (isset($_POST['numero_juicio']))?$_POST['numero_juicio']:'';
-					$estado_documento = (isset($_POST['estado_documento']))?$_POST['estado_documento']:'';
+					$estado_documento = (isset($_POST['estado_documento']))?$_POST['estado_documento']:0;
 					$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
 					$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
 					
@@ -237,8 +250,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					{
 						
 						
-						$avoco_conocimiento =new AvocoConocimientoModel();
-						
+				$avoco_conocimiento =new AvocoConocimientoModel();						
 						
 					$columnas = "avoco_conocimiento.id_avoco_conocimiento, 
 							  juicios.juicio_referido_titulo_credito, 
@@ -273,24 +285,43 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
+						if($id_secretario!=0){$where_1=" AND asignacion_secretarios_view.id_secretario='$id_secretario'";}
 						
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
+						if($id_impulsor!=0){$where_2=" AND asignacion_secretarios_view.id_abogado='$id_impulsor'";}
 						
 						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
 							
 						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
 						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
+						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  avoco_conocimiento.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
 						
+						$where_6="";
 						
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
+						if($estado_documento=='true'||$estado_documento=='false')
+						{
+							
+							if($id_secretario!=0&&$id_impulsor!=0)
+							{
+								$where_6=" AND avoco_conocimiento.firma_impulsor='$estado_documento' AND avoco_conocimiento.firma_secretario = '$estado_documento' ";
+							}else if($id_secretario!=0)
+							{
+								$where_6=" AND avoco_conocimiento.firma_secretario = '$estado_documento' ";
+							}else if($id_impulsor!=0)
+							{
+								$where_6=" AND avoco_conocimiento.firma_impulsor = '$estado_documento' ";
+							}
 						
+						}
+						
+						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5.$where_6;
+						
+						//echo $where_to;
+						//die();
 						
 						$resultAvoCono=$avoco_conocimiento->getCondiciones($columnas ,$tablas , $where_to, $id);
 						
+						$_SESSION['data_ireport']=array("documento"=>'avoco',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where).' ORDER BY '.$id);
 						
-					
 					}
 					
 					//buscar por auto pago
@@ -359,7 +390,8 @@ class ConsultaCordinadorController extends ControladorBase{
 				
 
 				$this->view("ConsultaCordinador",array(
-						"resultCita"=>$resultCita, "resultProv"=>$resultProv,"resultCiu"=>$resultCiu,"resultOfi"=>$resultOfi,"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago
+						"resultCita"=>$resultCita, "resultProv"=>$resultProv,"resultCiu"=>$resultCiu,"resultOfi"=>$resultOfi,
+						"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago
 							
 				));
 
@@ -407,7 +439,7 @@ class ConsultaCordinadorController extends ControladorBase{
 	
 				$ruta = $resultCitacion [0]->ruta_citacion;
 	
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	
 				header('Content-type: application/pdf');
 				header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -440,7 +472,7 @@ class ConsultaCordinadorController extends ControladorBase{
 	  
 	  			$ruta = $resultOficios [0]->ruta_oficio;
 	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	  
 	  			header('Content-type: application/pdf');
 	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -471,7 +503,7 @@ class ConsultaCordinadorController extends ControladorBase{
 	  
 	  			$ruta = $resultDocumento [0]->ruta_documento;
 	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	  
 	  			header('Content-type: application/pdf');
 	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -502,7 +534,7 @@ class ConsultaCordinadorController extends ControladorBase{
 	  
 	  			$ruta = $resultAvoco [0]->ruta_documento;
 	  
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	  
 	  			header('Content-type: application/pdf');
 	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -534,7 +566,7 @@ class ConsultaCordinadorController extends ControladorBase{
 	  			 
 	  			$ruta = $resultAuto_Pago [0]->ruta_auto_pagos;
 	  			 
-	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/' . $ruta . '/' . $nombrePdf;
+	  			$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/' . $ruta . '/' . $nombrePdf;
 	  			 
 	  			header('Content-type: application/pdf');
 	  			header('Content-Disposition: inline; filename="'.$directorio.'"');
@@ -631,5 +663,20 @@ class ConsultaCordinadorController extends ControladorBase{
 		echo '</pre>';
 		
 	}
+	
+	public function Reporte()
+	{
+		//echo /FrameworkMVC/view/ireports/ContCordinadorReport.php
+		session_start();
+		$sql=array();
+		$sql=$_SESSION['data_ireport'];
+		//unset($_SESSION['data_ireport']);
+		
+		$this->ireport("ContCordinador", array("sql"=>$sql));
+		
+	
+		
+	}	
+	
 }
 ?> 
