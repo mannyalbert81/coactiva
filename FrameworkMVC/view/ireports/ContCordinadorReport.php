@@ -33,7 +33,7 @@ $PHPJasperXML->load_xml_file("CordinadorReport.jrxml");
 ////$PHPJasperXML = new PHPJasperXML();
 ////$PHPJasperXML->xml_dismantle($xml); 
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
-$PHPJasperXML->outpage("D");
+$PHPJasperXML->outpage("I");
 
 
 ?>
