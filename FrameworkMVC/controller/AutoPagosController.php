@@ -295,9 +295,39 @@ class AutoPagosController extends ControladorBase{
 				$_accion_trazas  = "Guardar";
 				$_parametros_trazas = $_id_titulo_credito;
 				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-		
 				
-			   }
+				//para generar el pdf
+				$columnas = " ciudad.nombre_ciudad,
+				juicios.juicio_referido_titulo_credito,
+				juicios.creado,
+				clientes.nombres_clientes,
+				clientes.identificacion_garantes,
+				clientes.nombre_garantes,
+				clientes.identificacion_clientes,
+				titulo_credito.total_total_titulo_credito,
+				asignacion_secretarios_view.secretarios,
+				asignacion_secretarios_view.impulsores,
+				asignacion_secretarios_view.liquidador";
+					
+					
+				$tablas   = " public.ciudad,
+				public.juicios,
+				public.clientes,
+				public.titulo_credito,
+				public.asignacion_secretarios_view";
+					
+				$where    = " ciudad.id_ciudad = juicios.id_ciudad AND
+				juicios.id_clientes = clientes.id_clientes AND
+				titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+				asignacion_secretarios_view.id_abogado = titulo_credito.id_usuarios AND
+				auto_pagos.identificador='$identificador'";
+				$id		  = "auto_pagos.identificador";
+					
+					
+				$resultSet= $auto_pagos->getCondiciones($columnas, $tablas, $where, $id);
+					
+				$this->report("ImpresionAutoPago",array( "resultSet"=>$resultSet));
+		   }
 			   
 			   
 			$this->redirect("AutoPagos", "index");

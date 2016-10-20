@@ -2,22 +2,19 @@
 
 $base_url = "http://localhost:4000/FrameworkMVC/";
 
+$nombre_ciudad						     = "";	  
+$juicio_referido_titulo_credito          = "";	
+$creado			   						 = ""; 
+$nombres_clientes                        = ""; 
+$nombre_garantes       					 = ""; 
+$identificacion_garantes     			 = "";
+$identificacion_clientes   				 = "";
+$total_total_titulo_credito   			 = "";
+$secretarios  							 = "";
+$impulsores  							 = "";
+$liquidador  						     = "";
 
-
-$juicio_referido_titulo_credito						   = "";	  
-$creado                               			   = "";	
-$nombres_clientes			   = ""; 
-$identificacion_clientes                             = ""; 
-$nombre_garantes       = ""; 
-$identificacion_garantes     = "";
-$liquidador   = "";
-$secretarios   = "";
-$impulsores  = "";
-$id_titulo_credito  = "";
-$total_total_titulo_credito  = "";
 //require('view/fpdf/fpdf.php');
-
-
 
 require_once('view/dompdf/dompdf_config.inc.php' );;
 
@@ -229,51 +226,66 @@ $html =
 '<div >'.
 '<p>'.
 '
-
-		
-		
-VISTOS: Del (los) título (s) de crédito No. (s)<font color="#FFFFFF">a</font><strong>'.$id_titulo_credito.'</strong>
-que por concepto de EMISIÓN YUSO DE TARJETA DE CRÉDITO - CREDITO SI que ha (n) sido expedido (s) por el Banco
-del Fomento en Liquidación, y emitido (s) en fecha,<font color="#FFFFFF">a</font><strong>'.$creado.'</strong> de conformidad con la
-(s) liquidación (es) que se manda (n) agregar a los autos aparece que <font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong> con C.I. <font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong>, adeuda (n) a esta Institución Bancaria en
-Liquidación la suma de USD$ <font color="#FFFFFF">a</font><strong>'.$total.'</strong>
-DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), más los intereses, costas y gastos
-judiciales que se generen hasta la fecha de pago total. Y siendo la obligación líquida,
-determinada y de plazo vencido, en mi calidad de Liquidador del Banco Territorial S.A. en
-Liquidación conforme la designación a mí extendida mediante Resolución No. SB-2014-
-1059 emitida por el Ab. Pedro Solines Chacón en su calidad de Superintendente de
-Bancos, dada en la Superintendencia de Bancos en Quito Distrito Metropolitano con fecha
-02 de diciembre de 2014 debidamente inscrita en el Registro Mercantil del cantón
-Guayaquil el 04 de diciembre de 2014, cuyo desglose ordeno dejando copias certificadas
-en autos, y de conformidad con lo dispuesto en los Arts. 941, 945, 946. 948 y 951 del
-Código de Procedimiento Civil, INICIO el presente juicio coactivo contra <font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong>, registrado con C.I. Nº <font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong> ; y en consecuencia ORDENO que el
-(los) deudor (es) pague (n) al Banco Fomento. en Liquidación la cantidad adeudada,
-más los intereses generados hasta la fecha y los que se generen hasta la total cancelación
-de la deuda, intereses de mora, comisión, gastos judiciales, costas procesales, honorarios y
-otros accesorios legales, o dimita bienes en el término perentorio de tres días, contados
-desde que se cite con el auto de pago, apercibiéndole (s) que de no hacerlo se le
-embargará bienes que aseguren la recuperación de todo lo adeudado, de conformidad con
-lo dispuesto en el Art. 962 del Código de Procedimiento Civil, actúen en el presente juicio,
-como secretario e impulsor respectivamente, el Ab. <font color="#FFFFFF">a</font><strong>'.$secretarios.'</strong> y el(la)
-Ab. <font color="#FFFFFF">a</font><strong>'.$impulsores.'</strong> , quienes estando presentes aceptan los cargos conferidos y
-juran desempeñarlos fiel y legalmente, firmando para constancia con el suscrito Juez de
-Coactiva. Desglósese el (los) título (s) de crédito aparejado (s) a la coactiva, así como el
-documento habilitante que acredita la calidad invocada, dejándose las copias certificadas
-en autos, remitiéndose el original al departamento correspondiente para su respectiva
-custodia. En lo principal, por disposición de lo prescrito en la parte final del inciso
-primero del Art. 942 del Código de Procedimiento Civil, en concordancia con los Arts. 421
-y 426 del Código Adjetivo Civil, díctanse las siguientes medidas cautelares: UNO) Al tenor
-de lo dispuesto en los Arts. 6, 9 y 18 de la Ley del Sistema Nacional de Registro de Datos
-Públicos, notifíquese a los señores Registradores de la Propiedad del (los) cantón (es)
-Rumiñahui,Mejía,Pedro Vicente Maldonado,Pedro Moncayo,Puerto Quito,Cayambe,San
-Miguel de los Bancos,Quito, para que remitan a este Juzgado un certificado actualizado de
-bienes inmuebles que consten inscritos a nombre del (los) coactivado (s) debiéndose
-señalar linderos, medidas, superficie, historia de dominio; y, se inscriba la Prohibición de
-gravar y/o enajenar sobre los bienes inmuebles que el (los) coactivado (s) tenga inscritos
-a su nombre en dichos Registros. Hecho, remítase a la Secretaría de este Juzgado ubicado
-en la ciudad de Quito, José Luis Tamayo 935 y Foch, teléfono 026015479 ext. 5246; DOS)
-	
-		
+VISTOS: Del (los) título (s) de crédito No. (s)<font color="#FFFFFF">a</font><strong>'.$juicio_referido_titulo_credito.'</strong>
+que ha (n) sido expedido (s) por el Banco Fomento S.A. en Liquidación, y emitido (s) en fecha <font color="#FFFFFF">a
+</font><strong>'.$creado.'</strong>, de conformidad con la (s) liquidación (es) que se manda (n) agregar a los autos aparece que
+<font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong>con<font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'
+</strong>y<font color="#FFFFFF">a</font><strong>'.$nombre_garantes.'</strong>con<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'
+</strong>, adeuda (n) a esta Institución Bancaria en Liquidación la suma de USD$<font color="#FFFFFF">a</font>
+<strong>'.$total_total_titulo_credito.'</strong>DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), más los intereses y costas y
+gastos judiciales que se generen hasta la fecha de pago total. Y siendo la obligación líquida, determinada y de plazo vencido,
+en mi calidad de Liquidador del Banco Territorial S.A. en Liquidación, conforme a la designación a mi extendida y fundado en la
+orden de cobro contenidos ambos actos en la Resolución No. JB-2013-2438, emitida por el Ab. Pedro Solines Chacón, en su calidad 
+de Presidente de la Junta Bancaria, dada en la Superintendencia de Bancos y Seguros en Guayaquil con fecha 26 de marzo de 2013,
+inscrita en el Registro Mercantil del cantón Guayaquil el 27 de marzo de 2013, en la que se dispone la liquidación forzosa del
+Banco del Fomento, y de conformidad con lo dispuesto en los Arts. 941, 945, 946. 948 y 951 del Código de Procedimiento Civil, 
+INICIO el presente juicio coactivo contra<font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong>, registrado con 
+R.U.C. No.<font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong>y<font color="#FFFFFF">a</font>
+<strong>'.$nombre_garantes.'</strong>con<font color="#FFFFFF">a</font><strong>'.$identificacion_garantes.'</strong>y en
+consecuencia ORDENO que el (los) deudor (es) pague (n) al Banco Territorial S.A. en Liquidación la cantidad adeudada, más 
+los intereses generados hasta la fecha y los que se generen hasta la total cancelación de la deuda, intereses de mora, 
+comisión, gastos judiciales, costas procesales, honorarios y otros accesorios legales, o dimita bienes en el término 
+perentorio de tres días, contados desde que se cite con el auto de pago, apercibiéndole (s) que de no hacerlo se 
+le embargará bienes que aseguren la recuperación de todo lo adeudado, de conformidad con lo dispuesto en el Art. 
+962 del Código de Procedimiento Civil, actúen en el presente juicio, como secretario e impulsor respectivamente, 
+los abogados SECOAC y "+$F{impulsores}+", quienes estando presentes aceptan los cargos conferidos y juran desempeñarlos 
+fiel y legalmente, firmando para constancia con el suscrito Juez de Coactiva. Desglósese el (los) título (s) de crédito 
+aparejado (s) a la coactiva, así como el documento habilitante que acredita la calidad invocada, dejándose las copias 
+certificadas en autos, remitiéndose el original al departamento correspondiente para su respectiva custodia. En lo principal, 
+por disposición de lo prescrito en la parte final del inciso primero del Art. 942 del Código de Procedimiento Civil, en 
+concordancia con los Arts. 421 y 426 del Código Adjetivo Civil, díctanse las siguientes medidas cautelares: UNO) 
+Al tenor de lo dispuesto en los Arts. 6, 9 y 18 de la Ley del Sistema Nacional de Registro de Datos Públicos, 
+Notifíquese a los señores Registradores de la Propiedad CANTONES para que remitan a este Juzgado un certificado 
+actualizado de bienes inmuebles que consten inscritos a nombre del (los) coactivado (s) debiéndose señalar linderos, 
+medidas, superficie, historia de dominio; y, se inscriba la Prohibición de gravar y/o enajenar sobre los bienes inmuebles 
+que el (los) coactivado (s) tenga inscritos a su nombre en dichos Registros.  Hecho, remítase a la Secretaría de este 
+Juzgado ubicado en la ciudad de OFICINA;  DOS)  Prohibición de gravar y/o enajenar los vehículos del (los) coactivado 
+(s), para cuyo efecto notifíquese a la Comisión de Tránsito del Ecuador, a fin de que tome nota en sus registros de 
+la medida cautelar dispuesta, hecho lo cual, emita un certificado donde consten las características de los vehículos 
+sobre los cuales se ha registrado la medida cautelar ordenada; TRES) Se ordena la retención de valores de conformidad 
+con lo dispuesto en el Art. 425 del Código de Procedimiento Civil, hasta por la cantidad de USD$<font color="#FFFFFF">a
+</font><strong>'.$total_total_titulo_credito.'</strong>DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), retención que 
+se verificará en las inversiones que mantenga el (los) coactivado (s) en las instituciones bancarias y financieras
+que operan en el país, sean éstas cuentas corrientes, de ahorros, inversiones, depósitos a plazo, pólizas de acumulación
+y de cualquier otra operación en dicha institución, para lo cual deberá oficiarse a la Superintendencia de Bancos y
+Seguros. De conformidad con lo dispuesto en el Art. 428 del Código de Procedimiento Civil, las entidades bancarias
+sujetas al control de la Superintendencia de Bancos y Seguros, deberán informar a éste Juzgado en el término 
+improrrogable de 72 horas el cumplimiento de la retención ordenada. Sin perjuicio de que el secretario de 
+la causa notifique directamente a las instituciones que conforman el Sistema Financiero Nacional. CUATRO) 
+Ofíciese a la Superintendencia de Compañías, a fin de que remita un certificado de la situación actual legal 
+de la coactivada "+$F{nombres_clientes}+" , la nómina de socios y/o accionistas, y se inscriba la prohibición 
+de transferir las acciones y/o participaciones de la referida compañía coactivada. CINCO) Ofíciese al Registro
+Mercantil del cantón "+" INGRESE CANTONES "+", a fin de que emita un certificado actualizado en el que conste 
+el (los) nombre (s) de quien (es) ejerce (n) la representación legal, judicial y extrajudicial de la coactivada
+<font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong>.-  De conformidad con lo dispuesto en el 
+Art. 952 del Código de Procedimiento Civil, en el Art. 952 del Código de Procedimiento Civil, una vez 
+cumplida la notificación de las medidas cautelares ordenadas en este auto de pago, cítese al (los) coactivado 
+(s) en legal y debida forma en el domicilio señalado en el título de crédito o en el lugar donde se lo encuentre,
+previniéndole de la obligación que tiene de señalar casilla judicial para recibir futuras notificaciones 
+de conformidad con lo dispuesto en el Art. 75 del Código de Procedimiento Civil. Se ofrece reconocer los 
+abonos o cancelaciones que legalmente se comprobaren haberse realizado.<font color="#FFFFFF">a</font><b>- 
+Cúmplase, cítese y ofíciese.-</b>.<br>
+ <font color="#FFFFFF">MASOFTFIN</font>		
 '.
 '</p>'
 
