@@ -245,7 +245,61 @@ class OficiosController extends ControladorBase{
 					            $res=$consecutivo->UpdateBy("real_consecutivos=real_consecutivos+1", "consecutivos", "documento_consecutivos='OFICIOS'");
 					            
 					           
-		                      
+					            $traza=new TrazasModel();
+					            $_nombre_controlador = "Oficios";
+					            $_accion_trazas  = "Guardar";
+					            $_parametros_trazas = $numero_oficio;
+					            $resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+					            	
+					         $columnas = "  oficios.id_oficios,
+							oficios.creado,
+							oficios.numero_oficios,
+							juicios.id_juicios,
+							juicios.juicio_referido_titulo_credito,
+							juicios.id_titulo_credito,
+							clientes.nombres_clientes,
+							clientes.identificacion_clientes,
+							entidades.id_entidades,
+							entidades.nombre_entidades,
+							juicios.juicio_referido_titulo_credito,
+							oficios.creado,
+							juicios.creado,
+							titulo_credito.numero_titulo_credito,
+							titulo_credito.total_total_titulo_credito,
+							clientes.identificacion_clientes,
+							clientes.nombres_clientes,
+							clientes.direccion_clientes,
+							ciudad.nombre_ciudad,
+							asignacion_secretarios_view.secretarios,
+							asignacion_secretarios_view.impulsores,
+							asignacion_secretarios_view.liquidador,
+							oficios.numero_oficios,
+					        oficios.identificador";
+					            
+					            
+					        $tablas= "public.oficios,
+							public.juicios,
+							public.entidades,
+							public.clientes,
+							public.usuarios,
+							public.ciudad,
+							public.titulo_credito,
+							public.asignacion_secretarios_view";
+					            
+					       $where= "juicios.id_juicios = oficios.id_juicios AND
+					       entidades.id_entidades = oficios.id_entidades AND
+			     	       clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios
+				           AND juicios.id_usuarios = asignacion_secretarios_view.id_abogado
+					       AND titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND ciudad.id_ciudad = juicios.id_ciudad AND
+					       oficios.identificador='$identificador'";
+					       $id= "oficios.id_oficios";
+					            
+					            
+					       $resultSet= $oficios->getCondiciones($columnas, $tablas, $where, $id);
+					            
+					       $this->report("Oficios_Guardar",array( "resultSet"=>$resultSet));
+					            	
+					          
 							} catch (Exception $e)
 							{
 								$this->view("Error",array(
@@ -253,22 +307,7 @@ class OficiosController extends ControladorBase{
 								));
 							}
 							
-							$traza=new TrazasModel();
-							$_nombre_controlador = "Oficios";
-							$_accion_trazas  = "Guardar";
-							$_parametros_trazas = $numero_oficio;
-							$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-							
-							
-							$host  = $_SERVER['HTTP_HOST'];
-							$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-							
-							print "<script language='JavaScript'>
-							setTimeout(window.open('http://$host$uri/view/ireports/ContOficiosCrearReport.php?identificador=$identificador&estado=$_estado&nombre=$nombre_oficio','Popup','height=300,width=400,scrollTo,resizable=1,scrollbars=1,location=0'), 5000);
-							</script>";
-								
-							print("<script>window.location.replace('index.php?controller=Oficios&action=index');</script>");
-								
+									
 						}
 					
 					}
@@ -278,7 +317,7 @@ class OficiosController extends ControladorBase{
 				
 				}
 			 
-			//$this->redirect("Oficios", "index");
+			$this->redirect("Oficios", "index");
 
 		}
 		else
@@ -288,17 +327,9 @@ class OficiosController extends ControladorBase{
 					"resultado"=>"No tiene Permisos de Insertar Oficios"
 		
 			));
-		
-		
 		}
-	
 
-		
-		
 	}
-
-
-
 
 	public function borrarId()
 	{
