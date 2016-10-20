@@ -62,8 +62,13 @@ class ControladorBase{
     	
     	require_once 'core/AyudaVistas.php';
     	$helper=new AyudaVistas();
+    	/*
+    	include_once('./view/ireports/PhpJasperLibrary/class/tcpdf/tcpdf.php');
+    	include_once("./view/ireports/PhpJasperLibrary/class/PHPJasperXML.inc.php");
+    	include_once ('./view/ireports/conexion.php');
+    	*/
     	
-    	require_once 'view/ireports/'.$reporte.'Report.php';
+    	//require_once 'view/ireports/'.$reporte.'Report.php';
     
     }
     
