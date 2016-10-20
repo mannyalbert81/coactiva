@@ -4,12 +4,20 @@ $base_url = "http://localhost:4000/FrameworkMVC/";
 
 
 
-$identificacion_clientes						   = "";	  
-$total                               			   = "";	
-$juicio_referido_titulo_credito			   = ""; 
-$nombres_clientes                             = ""; 
-$nombre_ciudad                                 = ""; 
+$juicio_referido_titulo_credito						   = "";	  
+$creado                               			   = "";	
+$nombres_clientes			   = ""; 
+$identificacion_clientes                             = ""; 
+$nombre_garantes       = ""; 
+$identificacion_garantes     = "";
+$liquidador   = "";
+$secretarios   = "";
+$impulsores  = "";
+$id_titulo_credito  = "";
+$total_total_titulo_credito  = "";
 //require('view/fpdf/fpdf.php');
+
+
 
 require_once('view/dompdf/dompdf_config.inc.php' );;
 
@@ -222,12 +230,13 @@ $html =
 '<p>'.
 '
 
-VISTOS: Del (los) título (s) de crédito No. (s) 0000030092 que por concepto de EMISIÓN Y
-USO DE TARJETA DE CRÉDITO - CREDITO SI que ha (n) sido expedido (s) por el Banco
-Territorial S.A. en Liquidación, y emitido (s) en fecha 15/11/2014 , de conformidad con la
-(s) liquidación (es) que se manda (n) agregar a los autos aparece que CHACON SOLIS
-OSCAR STALIN con C.I. 0801852476, adeuda (n) a esta Institución Bancaria en
-Liquidación la suma de USD$ 2,362.86 ( DOS MIL TRESCIENTOS SESENTA y DOS 86/100
+		
+		
+VISTOS: Del (los) título (s) de crédito No. (s)<font color="#FFFFFF">a</font><strong>'.$id_titulo_credito.'</strong>
+que por concepto de EMISIÓN YUSO DE TARJETA DE CRÉDITO - CREDITO SI que ha (n) sido expedido (s) por el Banco
+del Fomento en Liquidación, y emitido (s) en fecha,<font color="#FFFFFF">a</font><strong>'.$creado.'</strong> de conformidad con la
+(s) liquidación (es) que se manda (n) agregar a los autos aparece que <font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong> con C.I. <font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong>, adeuda (n) a esta Institución Bancaria en
+Liquidación la suma de USD$ <font color="#FFFFFF">a</font><strong>'.$total.'</strong>
 DOLARES DE LOS ESTADOS UNIDOS DE AMÉRICA), más los intereses, costas y gastos
 judiciales que se generen hasta la fecha de pago total. Y siendo la obligación líquida,
 determinada y de plazo vencido, en mi calidad de Liquidador del Banco Territorial S.A. en
@@ -237,17 +246,16 @@ Bancos, dada en la Superintendencia de Bancos en Quito Distrito Metropolitano co
 02 de diciembre de 2014 debidamente inscrita en el Registro Mercantil del cantón
 Guayaquil el 04 de diciembre de 2014, cuyo desglose ordeno dejando copias certificadas
 en autos, y de conformidad con lo dispuesto en los Arts. 941, 945, 946. 948 y 951 del
-Código de Procedimiento Civil, INICIO el presente juicio coactivo contra CHACON SOLIS
-OSCAR STALIN, registrado con C.I. Nº 0801852476 ; y en consecuencia ORDENO que el
-(los) deudor (es) pague (n) al Banco Territorial S.A. en Liquidación la cantidad adeudada,
+Código de Procedimiento Civil, INICIO el presente juicio coactivo contra <font color="#FFFFFF">a</font><strong>'.$nombres_clientes.'</strong>, registrado con C.I. Nº <font color="#FFFFFF">a</font><strong>'.$identificacion_clientes.'</strong> ; y en consecuencia ORDENO que el
+(los) deudor (es) pague (n) al Banco Fomento. en Liquidación la cantidad adeudada,
 más los intereses generados hasta la fecha y los que se generen hasta la total cancelación
 de la deuda, intereses de mora, comisión, gastos judiciales, costas procesales, honorarios y
 otros accesorios legales, o dimita bienes en el término perentorio de tres días, contados
 desde que se cite con el auto de pago, apercibiéndole (s) que de no hacerlo se le
 embargará bienes que aseguren la recuperación de todo lo adeudado, de conformidad con
 lo dispuesto en el Art. 962 del Código de Procedimiento Civil, actúen en el presente juicio,
-como secretario e impulsor respectivamente, el Ab. Jéssica Mavel Bravo Palacios y el(la)
-Ab. Fabricio José Terán Dávila , quienes estando presentes aceptan los cargos conferidos y
+como secretario e impulsor respectivamente, el Ab. <font color="#FFFFFF">a</font><strong>'.$secretarios.'</strong> y el(la)
+Ab. <font color="#FFFFFF">a</font><strong>'.$impulsores.'</strong> , quienes estando presentes aceptan los cargos conferidos y
 juran desempeñarlos fiel y legalmente, firmando para constancia con el suscrito Juez de
 Coactiva. Desglósese el (los) título (s) de crédito aparejado (s) a la coactiva, así como el
 documento habilitante que acredita la calidad invocada, dejándose las copias certificadas
@@ -264,7 +272,7 @@ señalar linderos, medidas, superficie, historia de dominio; y, se inscriba la P
 gravar y/o enajenar sobre los bienes inmuebles que el (los) coactivado (s) tenga inscritos
 a su nombre en dichos Registros. Hecho, remítase a la Secretaría de este Juzgado ubicado
 en la ciudad de Quito, José Luis Tamayo 935 y Foch, teléfono 026015479 ext. 5246; DOS)
-		
+	
 		
 '.
 '</p>'
