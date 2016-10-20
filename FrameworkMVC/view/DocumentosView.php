@@ -447,10 +447,10 @@
 		      <div class="col-xs-12 col-md-6" style="text-align: center; margin-top:10px"  >
 		      </div>
 		       <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px"  >
-			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("Documentos","InsertaDocumentos"); ?>'" value="Guardar" class="btn btn-success" <?php echo $habilitar;?>/>
+			  <input type="submit" id="Guardar" name="Guardar" onclick="this.form.action='<?php  echo $helper->url("Documentos","Insertar_providencia"); //Insertar_providencia InsertaDocumentos ?>'" value="Guardar" class="btn btn-success" <?php echo $habilitar;?>/>
 			  </div>
 			   <div class="col-xs-12 col-md-3" style="text-align: center; margin-top:10px" >
-			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("Documentos","VisualizarDocumentos"); ?>'" value="Visualizar" class="btn btn-info" <?php echo $habilitar;?>/>
+			 <input type="submit" id="Visualizar" name="Visualizar" onclick="this.form.action='<?php echo $helper->url("Documentos","Visualizar_providencia"); //Visualizar_providencia VisualizarDocumentos ?>'" value="Visualizar" class="btn btn-info" <?php echo $habilitar;?>/>
 			 </div>
 			 
 			 <div class="col-xs-6 col-md-12" style="margin-top:50px">
