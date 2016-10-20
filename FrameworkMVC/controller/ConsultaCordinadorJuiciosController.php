@@ -22,6 +22,10 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 		$result_etapa_juicio=array();
 	
 		$documentos_impulsores=new DocumentosModel();
+		
+		$estados_procesales = new EstadosProcesalesModel();
+		$result_etapa_juicio=$estados_procesales->getAll("id_estados_procesales_juicios");
+		
 		$ciudad = new CiudadModel();
 		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
 		
@@ -381,7 +385,7 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 
 				$this->view("ConsultaCordinadorJuicios",array(
 						"resultCita"=>$resultCita, "resultProv"=>$resultProv,"resultCiu"=>$resultCiu,"resultOfi"=>$resultOfi,
-						"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago
+						"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago,"result_etapa_juicio"=>$result_etapa_juicio
 							
 				));
 

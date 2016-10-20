@@ -85,7 +85,7 @@ $estado=$_GET['estado'];
 				clientes.id_clientes = juicios.id_clientes AND
 				documentos.identificador= '$id'";
 				
-				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/documentos/Providencias/';
+				$directorio = $_SERVER ['DOCUMENT_ROOT'] . '/coactiva/documentos/Providencias/';
 	
 				$PHPJasperXML = new PHPJasperXML();
 				
