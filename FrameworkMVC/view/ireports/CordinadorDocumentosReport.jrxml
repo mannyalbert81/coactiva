@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-19T15:31:40 -->
+<!-- 2016-10-19T17:23:55 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -22,7 +22,7 @@
   WHERE avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado 
   AND juicios.id_juicios = avoco_conocimiento.id_juicios 
   AND ciudad.id_ciudad = juicios.id_ciudad 
-  AND clientes.id_clientes = juicios.id_clientes]]>
+  AND clientes.id_clientes = juicios.id_clientes ]]>
 	</queryString>
 	<field name="id_avoco_conocimiento" class="java.lang.String"/>
 	<field name="juicio_referido_titulo_credito" class="java.lang.String"/>

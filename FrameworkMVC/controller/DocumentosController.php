@@ -16,6 +16,7 @@ public function index(){
 		if (isset(  $_SESSION['usuario_usuarios']) )
 		{
 			
+			$usuarios=new UsuariosModel();
 			
 			$ciudad = new CiudadModel();
 			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
@@ -30,8 +31,6 @@ public function index(){
 			
 			$_id_usuarios= $_SESSION["id_usuarios"];
 			
-			//notificaciones
-			$juicios->MostrarNotificaciones($_id_usuarios);
 			
 			$columnas = " usuarios.id_ciudad,
 					  ciudad.nombre_ciudad,
@@ -54,6 +53,8 @@ public function index(){
 			
 			
 			$resulSet=array();
+			
+			$resultJuicio=array();
 
 			//NOTIFICACIONES
 			$documentos->MostrarNotificaciones($_SESSION['id_usuarios']);
@@ -94,12 +95,58 @@ public function index(){
 					juicios.id_usuarios = asignacion_secretarios_usuarios_view.id_abogado AND
 					juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
 					ciudad.id_ciudad = juicios.id_ciudad AND
-					asignacion_secretarios_usuarios_view.id_secretario='$_id_usuarios' AND
+					asignacion_secretarios_usuarios_view.id_abogado='$_id_usuarios' AND
 					clientes.identificacion_clientes='$identificacion'";
 						
-					$id="clientes.id_clientes";
+					$id="juicios.id_juicios";
 					
 					$resulSet=$juicio->getCondiciones($columnas,$tablas,$where,$id);
+				
+				}
+				
+				if(isset($_GET['id_juicios']))
+				{
+					$id_juicios=$_GET['id_juicios'];
+						
+					$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios,
+					  usuarios.id_usuarios";
+						
+					$tablas   = "public.usuarios,
+                     public.ciudad";
+				
+					$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+						
+					$id       = "usuarios.id_ciudad";
+				
+					$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
+				
+					$resulSecretario=$usuarios->getCondiciones("usuarios.id_usuarios,usuarios.nombre_usuarios",
+							"public.rol,public.usuarios",
+							"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='SECRETARIO' AND usuarios.id_estado=2 AND usuarios.id_usuarios_registra='$_id_usuarios'" ,
+							"usuarios.nombre_usuarios");
+				
+						
+					$colJuicio="juicios.id_juicios,
+					  clientes.identificacion_clientes,
+					  juicios.juicio_referido_titulo_credito";
+				
+					$tblJuicio="public.juicios,
+					  public.clientes";
+				
+					$whereJuicio="clientes.id_clientes = juicios.id_clientes AND
+					juicios.id_juicios='$id_juicios'";
+				
+					$resultJuicio=$juicio->getCondiciones($colJuicio, $tblJuicio, $whereJuicio, "juicios.id_juicios");
+						
+					$colAb = "asignacion_secretarios_view.id_abogado,asignacion_secretarios_view.impulsores";
+					$tblAb="public.asignacion_secretarios_view";
+					$idAb="asignacion_secretarios_view.impulsores";
+						
+					$whereAb=" asignacion_secretarios_view.id_secretario='$_id_usuarios'";
+						
+					$resultAb=$usuarios->getCondiciones($colAb ,$tblAb , $whereAb, $idAb);
 				
 				}
 					
@@ -112,13 +159,14 @@ public function index(){
 						"resultado"=>"No tiene Permisos de Acceso a Documentos"
 			
 				));
-				exit();
+				die();
 			
 			}
 			
 			$this->view("Documentos",array(
 					"resultCiu"=>$resultCiu, "resultEdit"=>$resultEdit, "resultJui"=>$resultJui, 
-					"resultEstPro"=>$resultEstPro,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos
+					"resultEstPro"=>$resultEstPro,"resulSet"=>$resulSet, "resultDatos"=>$resultDatos,
+					"resultJuicio"=>$resultJuicio
 			
 			));
 			
@@ -177,9 +225,9 @@ public function index(){
 				$_id_estados_procesales_juicios   = $_POST["id_estados_procesales_juicios"];
 				$_fecha_emision_documentos   = $_POST["fecha_emision_documentos"];
 				$_hora_emision_documentos   = $_POST["hora_emision_documentos"];
-				$_detalle_documentos   = $_POST["detalle_documentos"];
-				$_observacion_documentos   = $_POST["observacion_documentos"];
-				$_avoco_vistos_documentos   = $avoco. $_POST["avoco_vistos_documentos"];
+				$_detalle_documentos   = isset($_POST["detalle_documentos"])?$_POST["detalle_documentos"]:'';
+			    $_observacion_documentos   = isset($_POST["observacion_documentos"])?$_POST["observacion_documentos"]:'';
+			    $_texto_providencias   = $avoco. $_POST["texto_providencias"];
 				$_id_usuario_registra_documentos   = $_SESSION['id_usuarios'];
 				
 			
@@ -200,7 +248,7 @@ public function index(){
 						
 						$funcion = "ins_documentos_report";
 							
-						$parametros = " '$_id_ciudad' ,'$_id_juicio' , '$_id_estados_procesales_juicios' , '$_fecha_emision_documentos' , '$_hora_emision_documentos' , '$_detalle_documentos' , '$_observacion_documentos' , '$_avoco_vistos_documentos', '$_id_usuario_registra_documentos','$identificador','$nombre_documento','$repositorio_documento'";
+						$parametros = " '$_id_ciudad' ,'$_id_juicio' , '$_id_estados_procesales_juicios' , '$_fecha_emision_documentos' , '$_hora_emision_documentos' , '$_detalle_documentos' , '$_observacion_documentos' , '$_texto_providencias', '$_id_usuario_registra_documentos','$identificador','$nombre_documento','$repositorio_documento'";
 						$documentos->setFuncion($funcion);
 						
 						$documentos->setParametros($parametros);
@@ -272,17 +320,18 @@ public function index(){
 			$_id_estados_procesales_juicios   = $_POST["id_estados_procesales_juicios"];
 			$_fecha_emision_documentos   = $_POST["fecha_emision_documentos"];
 			$_hora_emision_documentos   = $_POST["hora_emision_documentos"];
-			$_detalle_documentos   = $_POST["detalle_documentos"];
-			$_observacion_documentos   = $_POST["observacion_documentos"];
-			$_avoco_vistos_documentos   = $_POST["avoco_vistos_documentos"];
+			$_detalle_documentos   = isset($_POST["detalle_documentos"])?$_POST["detalle_documentos"]:'';
+			$_observacion_documentos   = isset($_POST["observacion_documentos"])?$_POST["observacion_documentos"]:'';
+			$_texto_providencia   = $_POST["texto_providencias"];
 			$_id_usuario_registra_documentos   = $_SESSION['id_usuarios'];
+			
 			
 			//traer datos temporales para el reporte
 			$resultCiudad = $ciudad->getBy("id_ciudad='$_id_ciudad'");	
 			
 			//consulta datos de juicio
 			$columnas="juicios.juicio_referido_titulo_credito,
-			clientes.nombres_clientes";
+			clientes.nombres_clientes,clientes.identificacion_clientes";
 			
 			$tablas="public.juicios,public.clientes";
 			
@@ -298,7 +347,7 @@ public function index(){
 			$dato['cliente']=$resultJuicio[0]->nombres_clientes;
 			$dato['fecha_emision_documentos']=$_fecha_emision_documentos;
 			$dato['hora_emision_documentos']=$_hora_emision_documentos;
-			$dato['avoco_vistos_documentos']=$avoco.$_avoco_vistos_documentos;
+			$dato['avoco_vistos_documentos']=$avoco.$_texto_providencia;
 		
 			$traza=new TrazasModel();
 			$_nombre_controlador = "Documentos";
@@ -310,10 +359,11 @@ public function index(){
 			//cargar array q va por get
 			
 			$arrayGet['id_juicio']=$_id_juicio;
+			$arrayGet['identificacion']=$resultJuicio[0]->identificacion_clientes;
 			$arrayGet['juicio']=$resultJuicio[0]->juicio_referido_titulo_credito;
 			$arrayGet['detalle']=$_detalle_documentos;
 			$arrayGet['observacion']=$_observacion_documentos;
-			$arrayGet['avoco']=$_avoco_vistos_documentos;
+			$arrayGet['texto_providencia']=$_texto_providencia;
 			
 		}
 		

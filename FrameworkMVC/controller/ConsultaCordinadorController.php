@@ -666,15 +666,15 @@ class ConsultaCordinadorController extends ControladorBase{
 	
 	public function Reporte()
 	{
-		//echo /FrameworkMVC/view/ireports/ContCordinadorReport.php
 		session_start();
 		$sql=array();
 		$sql=$_SESSION['data_ireport'];
-		//unset($_SESSION['data_ireport']);
 		
-		$this->ireport("ContCordinador", array("sql"=>$sql));
+		require_once './core/AyudaVistas.php';
+		$helper=new AyudaVistas();
 		
-	
+		header("Location:view/ireports/ContCordinadorDocumentosReport.php");
+		
 		
 	}	
 	

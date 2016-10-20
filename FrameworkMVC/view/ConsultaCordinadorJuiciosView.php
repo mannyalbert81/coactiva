@@ -247,7 +247,7 @@
        <?php
        
        $sel_id_ciudad = "";
-       $sel_tipo_documento ="";
+       $sel_etapa_juicio ="";
        $sel_id_secretario = "";
        $sel_id_impulsor = "";
        $sel_identificacion="";
@@ -261,7 +261,7 @@
        {
        
        	$sel_id_ciudad = 			$_POST['id_ciudad'];
-       	$sel_tipo_documento = 		(isset($_POST['tipo_documento']))?$_POST['tipo_documento']:'';
+       	$sel_etapa_juicio = 		(isset($_POST['id_etapa_juicio']))?$_POST['id_etapa_juicio']:'';
        	$sel_estado_doc     = 		(isset($_POST['estado_documento']))?$_POST['estado_documento']:'';
        	$sel_id_secretario = 		$_POST['id_secretario'];
        	$sel_id_impulsor = 			$_POST['id_impulsor'];
@@ -297,9 +297,10 @@
 		   <div class="col-xs-2 ">
 			   <p  class="formulario-subtitulo" >Etapa Juicio:</p>
 			  
-			   <select name="tipo_documento" id="tipo_documento"  class="form-control">
-			    <?php foreach ($array_documentos as $val=>$doc){?>
-			    <option value="<?php echo $val; ?>"<?php echo ($val==$sel_tipo_documento)?'selected':'';?>><?php echo $doc;?></option>
+			   <select name="id_etapa_juicio" id="id_etapa_juicio"  class="form-control">
+			   <option value="0">--Seleccione--</option>
+			    <?php foreach ($result_etapa_juicio as $res){?>
+			    <option value="<?php echo $res->id_estados_procesales_juicios; ?>"<?php echo ($res->id_estados_procesales_juicios==$sel_etapa_juicio)?'selected':'';?>><?php echo $res->nombre_estados_procesales_juicios;?></option>
 			    <?php }?>
 			   </select>
 	      </div> 

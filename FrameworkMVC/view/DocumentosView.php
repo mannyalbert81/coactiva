@@ -206,16 +206,16 @@
        $sel_id_juicio="";
        $sel_detalle="";
        $sel_observacion="";
-       $sel_avoco="";
+       $texto="";
+       $sel_identificacion="";
+       $datosGet=array();
        
        
        if($_SERVER['REQUEST_METHOD']=='POST' )
        {
        
-       	if(!empty($resulSet)){
-       	$sel_juicios = $_POST['identificacion'];
-       	 }
-       	 
+       	$sel_identificacion=isset($_POST['identificacion'])?$_POST['identificacion']:'';
+       	
        }
         
        if($_SERVER['REQUEST_METHOD']=='GET')
@@ -229,23 +229,20 @@
        	
        	$_dato=unserialize($a);
        	
+       	$datosGet=$_dato;
+       	
        	$sel_juicios=$_dato['juicio'];
        	$sel_id_juicio=$_dato['id_juicio'];
        	$sel_detalle=$_dato['detalle'];
        	$sel_observacion=$_dato['observacion'];
-       	$sel_avoco=$_dato['avoco'];
+       	$texto=$_dato['texto_providencia'];
+       	$sel_identificacion=$_dato['identificacion'];
        	}
       
        }
         
-       
-       
-       $habilitar="disabled";
-       
-       if(!empty($resulSet) || $sel_juicios!=""){
-       	$habilitar="";
-       }
-       
+       $habilitar="readonly";
+      
 		   
 		?>
  
@@ -298,10 +295,9 @@
 			  
 		    <div class="col-xs-6 col-md-4" >
 			  <p  class="formulario-subtitulo" >Identificacion Clientes:</p>
-	          <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Identificacion Clientes" value="<?php echo $sel_juicios;?>">
-	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resulSet)){ foreach ($resulSet as $res){
-	         echo 	$res->id_juicios;
-	         }}elseif ($sel_id_juicio!=""){echo $sel_id_juicio;}?>">
+	          <input type="text" id="identificacion" name="identificacion" class="form-control" placeholder="Identificacion Clientes" value="<?php if (!empty($datosGet)){echo $datosGet['identificacion'];}elseif (!empty($resultJuicio)){ echo $resultJuicio[0]->identificacion_clientes; }else { echo $sel_identificacion;}  ?>">
+	         <input type="hidden" id="id_juicios" name="id_juicios" value="<?php if(!empty($resultJuicio)){ foreach ($resultJuicio as $res){
+	         echo 	$res->id_juicios;}}elseif (!empty($datosGet)){echo $datosGet['id_juicio'];}?>">
 		   	<div id="mensaje_juicio" class="errores"></div>	   
 		    </div>
 			  
@@ -361,7 +357,7 @@
 			          </td>  
 			          <td>
 			           		<div class="right">
-			                    <a href="<?php echo $helper->url("AvocoConocimiento","AvocoSecretario"); ?>&id_juicios=<?php echo $res->id_juicios; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:75%;">--Seleccionar--</a>
+			                    <a href="<?php echo $helper->url("Documentos","index"); ?>&id_juicios=<?php echo $res->id_juicios; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:75%;">--Seleccionar--</a>
 			                </div>
 			            
 			             </td>
@@ -409,17 +405,6 @@
 		   	<div id="mensaje_criterio" class="errores"></div>	   
 		    </div>
   		    
-  		    <div class="col-xs-6 col-md-3" style="margin-top:10px">
-			  <p  class="formulario-subtitulo" >Detalle:</p>
-			  <input type="text" id="detalle_documentos" name="detalle_documentos" placeholder="Ingrese" class="form-control" value="<?php echo $sel_detalle;?>" <?php echo $habilitar;?>>
-		   	   	<div id="mensaje_detalle" class="errores"></div>	   
-		    </div>
-  		    
-  		    <div class="col-xs-6 col-md-3" style="margin-top:10px">
-			  <p  class="formulario-subtitulo" >Observación:</p>
-	          <input type="text" id="observacion_documentos" name="observacion_documentos" class="form-control" placeholder="Ingrese" value="<?php echo $sel_observacion; ?>" <?php echo $habilitar;?>>
-		   	<div id="mensaje_observacion" class="errores"></div>	   
-		    </div>
 		    
 		    <?php } ?>
 		    
@@ -431,7 +416,7 @@
 		 <div class="form-group">
 		       
 	        <?php  include ("view/ckeditor/ckeditor.php");
-			   $valor = "$sel_avoco";
+			   $valor = "$texto";
 			   $CKEditor = new CKEditor();
 			   $config = array();
 			   $config['toolbar'] = array(
@@ -442,7 +427,7 @@
 			   		  array( 'Styles','Format','Font','FontSize')
 			   	  );
 			  $CKEditor->basePatch = "./ckeditor/";
-			   $CKEditor->editor("avoco_vistos_documentos",$valor,$config);
+			   $CKEditor->editor("texto_providencias",$valor,$config);
 			   //$CKEditor->replaceAll();
 	           ?> 
 	           
