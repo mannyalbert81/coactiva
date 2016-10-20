@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-09-13T12:46:30 -->
+<!-- 2016-10-19T18:54:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="595" pageHeight="842" columnWidth="454" leftMargin="85" rightMargin="56" topMargin="28" bottomMargin="28" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="cm"/>
 	<parameter name="_id_juicios" class="java.lang.Integer">
 		<parameterDescription><![CDATA[]]></parameterDescription>
@@ -13,6 +13,8 @@
 					clientes.id_clientes,
   					clientes.nombres_clientes, 
   					clientes.identificacion_clientes, 
+  					clientes.nombre_garantes,
+  					clientes.identificacion_garantes,
   					ciudad.nombre_ciudad, 
   					tipo_persona.nombre_tipo_persona, 
   					juicios.juicio_referido_titulo_credito, 
@@ -56,12 +58,14 @@
 	<field name="creado" class="java.lang.String"/>
 	<field name="total" class="java.lang.String"/>
 	<field name="nombres_clientes" class="java.lang.String"/>
+	<field name="nombre_garantes" class="java.lang.String"/>
+	<field name="identificacion_garantes" class="java.lang.String"/>
 	<title>
-		<band height="64" splitType="Stretch">
+		<band height="51" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<image>
-				<reportElement x="250" y="0" width="203" height="64" uuid="d2017c2b-07c1-4d14-b3a4-eba969dce5f4"/>
-				<imageExpression><![CDATA["C:/xampp/htdocs/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
+				<reportElement x="331" y="-2" width="123" height="50" uuid="ea17f82d-0f15-4891-b898-ebd2fa038e10"/>
+				<imageExpression><![CDATA["C:/xampp/htdocs/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -74,20 +78,38 @@
 			<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 			<staticText>
 				<reportElement x="0" y="0" width="454" height="49" uuid="58604a97-4957-4533-a1c5-ef73a2a781b0"/>
+				<box padding="3">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[JUZGADO DE COACTIVA BANCO NACIONAL DE FOMETO EN LIQUIDACION]]></text>
+				<text><![CDATA[JUZGADO DE COACTIVA BANCO NACIONAL DE FOMENTO EN LIQUIDACION]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="49" width="454" height="28" uuid="017e43b1-5fbf-42f2-be70-c9a618b596a1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["JUICIO COACTIVO No."+$F{juicio_referido_titulo_credito}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["JUICIO COACTIVO No." +$F{juicio_referido_titulo_credito}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="77" width="454" height="28" uuid="264953e0-9c45-4a00-ac03-08610cda0a02"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -95,6 +117,12 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="105" width="454" height="28" uuid="57b73730-35c2-4528-bf31-45c661bd6fd7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -102,6 +130,12 @@
 			</staticText>
 			<textField>
 				<reportElement x="0" y="133" width="454" height="28" uuid="c689d846-0d1e-4e90-bf88-0067500e92c8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -109,6 +143,12 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="161" width="454" height="28" uuid="0af482ca-9d7f-4532-9265-c3811e3be055"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -116,6 +156,12 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="189" width="454" height="28" uuid="2942486f-c196-4c30-b775-1199861b3fe0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -123,13 +169,25 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="217" width="454" height="28" uuid="561546c1-9ede-462a-a2ae-ae3235f70de1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[_______  PERSONAL      _____  POR TRES BOLETAS  ____ POR LA PRENSA]]></text>
+				<text><![CDATA[_______  PERSONAL      __X___  POR TRES BOLETAS  ____ POR LA PRENSA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="245" width="454" height="28" uuid="b95e7cf4-ac1b-46d1-ae12-a41dcbaaaadf"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -137,6 +195,12 @@
 			</staticText>
 			<textField>
 				<reportElement x="0" y="273" width="454" height="28" uuid="f20eace1-2554-4ce1-b5d4-343420e34283"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -144,6 +208,12 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="301" width="454" height="28" uuid="82068645-ec7c-4e67-be88-b15648e5be29"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -151,20 +221,38 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="329" width="454" height="28" uuid="79b49e25-ec2c-4f7f-bcfd-033869b646a3"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["GARANTE: "]]></textFieldExpression>
+				<textFieldExpression><![CDATA["GARANTE: "+$F{nombre_garantes}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="357" width="454" height="28" uuid="cdc31c75-f50a-4755-bb05-c68b3ef18860"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["C.I.-R.U.C.: "]]></textFieldExpression>
+				<textFieldExpression><![CDATA["C.I.-R.U.C.: "+$F{identificacion_garantes}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="385" width="454" height="28" uuid="6ed8a505-e365-43c2-8b26-f0ed9fe15dd2"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -172,6 +260,12 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="413" width="454" height="28" uuid="5a9e7593-44fd-4060-bd7c-1b6fc39dbe05"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -179,6 +273,12 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="441" width="454" height="28" uuid="b47723bf-57de-4a87-8733-dd9917e8dd34"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -186,6 +286,12 @@
 			</staticText>
 			<textField>
 				<reportElement x="0" y="469" width="454" height="28" uuid="1b9748e8-40e0-4ee8-ab71-054ff1d2486a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -193,6 +299,12 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="497" width="454" height="28" uuid="3522ce4e-4b1f-43bc-9035-05158ef01ac2"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -200,13 +312,25 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="525" width="454" height="28" uuid="b3e6e3b9-557a-4ce9-8bfa-0277fd068e93"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[LIQUIDADOR - JUEZ DE COACTIVA]]></text>
+				<text><![CDATA[LIQUIDADORA JUEZA DE COACTIVA]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="553" width="454" height="28" uuid="7a399625-eb07-4c82-b81b-45467521c825"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -214,13 +338,25 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="581" width="454" height="28" uuid="cacaf317-5674-42d1-8f6d-abe926d721b9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[SECRETARIO DE COACTIVA]]></text>
+				<text><![CDATA[SECRETARIO (A) DE COACTIVA]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="609" width="454" height="28" uuid="6a338ac1-f48e-4325-84b6-91563c7f213a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -228,11 +364,55 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="637" width="454" height="28" uuid="c3aa4c9f-0fa4-4ec8-9f8d-a28b94a8df97"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[IMPULSOR DE COACTIVA ]]></text>
+				<text><![CDATA[IMPULSOR (A) DE COACTIVA ]]></text>
 			</staticText>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="32">
+			<rectangle>
+				<reportElement x="0" y="8" width="453" height="20" forecolor="#000000" backcolor="#000000" uuid="99b2d563-206d-4578-be7e-4acd14238790"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="364" y="12" width="20" height="20" forecolor="#FFFFFF" uuid="0a7a40c5-4f1b-4f15-a07a-9a7c73b8c5cb"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="404" y="12" width="40" height="20" forecolor="#FFFFFF" uuid="2fc754ab-bdef-4908-ac2c-52831aa6c34f"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="384" y="11" width="20" height="20" forecolor="#FFFFFF" uuid="acfee867-65dc-44db-a728-696df01bd307"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="12" width="320" height="12" forecolor="#FFFFFF" uuid="ead98743-b617-4e2b-a323-5608697d9587"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tw Cen MT Condensed Extra Bold" size="10" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ Coactivas  - AllCoercive 2016 -www.masoft.net - Copyright]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
 </jasperReport>

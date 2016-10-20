@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<<<<<<< HEAD
+<!-- 2016-10-19T17:14:25 -->
+=======
 <!-- 2016-10-19T17:23:55 -->
+>>>>>>> branch 'master' of https://github.com/mannyalbert81/coactiva.git
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
@@ -212,7 +216,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="4" splitType="Stretch">
+		<band height="11" splitType="Stretch">
 			<textField evaluationTime="Page">
 				<reportElement x="456" y="1" width="41" height="3" uuid="cff0af5e-90fb-4bb3-b67b-c879cfc6588b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

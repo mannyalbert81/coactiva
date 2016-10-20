@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<<<<<<< HEAD
+<!-- 2016-10-19T18:14:24 -->
+=======
 <!-- 2016-10-19T15:31:32 -->
+>>>>>>> branch 'master' of https://github.com/mannyalbert81/coactiva.git
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
@@ -221,7 +225,7 @@ WHERE
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="370" y="0" width="130" height="10" uuid="efc7275e-71ea-4a16-9ca3-d33e5b0a08bf"/>
+				<reportElement x="371" y="0" width="130" height="10" uuid="efc7275e-71ea-4a16-9ca3-d33e5b0a08bf"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
