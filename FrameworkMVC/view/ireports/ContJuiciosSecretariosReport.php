@@ -84,7 +84,8 @@ if ($_GET['fecha_desde']!="" && $_GET['fecha_hasta']!="")
   					etapas_juicios.nombre_etapas, 
   					tipo_juicios.nombre_tipo_juicios, 
   					juicios.creado, 
-  					titulo_credito.total
+  					titulo_credito.total,
+ 		            titulo_credito.total_total_titulo_credito
 
 	from	                    public.clientes, 
 					  public.ciudad, 
