@@ -241,6 +241,12 @@ class AutoPagosController extends ControladorBase{
 
 			if (isset ($_POST["Guardar"])   )
 			{
+				$consecutivo= new ConsecutivosModel();
+				$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='AUTOPAGOS'");
+				$identificador=$resultConsecutivo[0]->real_consecutivos;
+				
+				$repositorio_documento="AutoPagos";
+				$nombre_auto_pagos=$repositorio_documento.$identificador;
 				
 				
 				$_array_titulo_credito = $_POST["id_titulo_credito"];
@@ -250,6 +256,8 @@ class AutoPagosController extends ControladorBase{
 				$_id_usuario_agente = $_POST["id_usuarioAgente"];
 				$_fecha_asignado=$_POST["fecha_asignacion"];
 				$_estado =$_POST["id_estado"];
+				
+				
 				
 				
 				foreach($_array_titulo_credito  as $id  )
@@ -307,10 +315,12 @@ class AutoPagosController extends ControladorBase{
 				titulo_credito.total_total_titulo_credito,
 				asignacion_secretarios_view.secretarios,
 				asignacion_secretarios_view.impulsores,
-				asignacion_secretarios_view.liquidador";
+				asignacion_secretarios_view.liquidador,
+				auto_pagos.identificador";
 					
-					
-				$tablas   = " public.ciudad,
+				$tablas   = " 
+				public.auto_pagos, 
+				public.ciudad,
 				public.juicios,
 				public.clientes,
 				public.titulo_credito,
@@ -322,8 +332,6 @@ class AutoPagosController extends ControladorBase{
 				asignacion_secretarios_view.id_abogado = titulo_credito.id_usuarios AND
 				auto_pagos.identificador='$identificador'";
 				$id		  = "auto_pagos.identificador";
-					
-					
 				$resultSet= $auto_pagos->getCondiciones($columnas, $tablas, $where, $id);
 					
 				$this->report("ImpresionAutoPago",array( "resultSet"=>$resultSet));

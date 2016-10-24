@@ -12,7 +12,6 @@ $nombre_tipo_citaciones                                     = "";
 $juicio_referido_titulo_credito			                    = ""; 
 $nombre_persona_recibe_citaciones                           = ""; 
 $relacion_cliente_citaciones                                = ""; 
-
 $fecha_citaciones						             = "";
 $nombre_ciudad                                       = "";
 $nombres_clientes			                         = "";
@@ -41,7 +40,6 @@ foreach($resultSet as $res)
 	$juicio_referido_titulo_credito			            =$res->juicio_referido_titulo_credito;
 	$nombre_persona_recibe_citaciones                   =$res->nombre_persona_recibe_citaciones;
 	$relacion_cliente_citaciones                        =$res->relacion_cliente_citaciones;
-	
 	$fecha_citaciones						            =$dias[date('w',strtotime($res->fecha_citaciones))]." ".date('d',strtotime($res->fecha_citaciones))." de ".$meses[date('n',strtotime($res->fecha_citaciones))-1]. " del ".date('Y',strtotime($res->fecha_citaciones)). " a las ".date("h:i:s",strtotime($res->fecha_citaciones)) ;
 	$nombre_ciudad                                      =$res->nombre_ciudad;
 	$nombres_clientes                                   =$res->nombres_clientes;
