@@ -251,6 +251,98 @@ class CiudadController extends ControladorBase{
 	}
 	
 	
+	//para firmar con liquidador
+	
+	public function firma_liquidador()
+	{
+		echo ('cambiar entrada');
+		die();
+		$user = new UsuariosModel();
+		$id_usuario='38';
+		
+		$permisosFirmar=$user->getPermisosFirmarPdfs($id_usuario,'00-26-B6-EF-AA-60');
+		
+		//para obtener rol de usuario
+		$consultaUsuarios=$user->getCondiciones("id_rol", "usuarios", "id_usuarios='$id_usuario'", "id_rol");
+		$id_rol=$consultaUsuarios[0]->id_rol;
+		
+		//saber si tiene permiso para firmar
+		
+		if($permisosFirmar['estado'])
+		{
+			$id_firma = $permisosFirmar['valor'];
+				
+			$cantidadFirmados=0;
+			$consultaUsuarios=null;
+				
+			$firmas= new FirmasDigitalesModel();
+			$avoco=new AvocoConocimientoModel();
+				
+			$_id_usuarios=$id_usuario;
+			//$_ruta=$rutaFiles;
+			$_id_documentos='457';
+			$_nombreDocumentos="";
+		
+			$destino = $_SERVER['DOCUMENT_ROOT'].'/coactiva/documentos/';
+				
+				
+				
+			$array_documento = explode(",", $_id_documentos);
+			$respuestaCliente="Documentos firmados (";
+				
+			foreach ($array_documento as $id )
+			{
+		
+		
+				if(!empty($id))
+				{
+					$cantidadFirmados=$cantidadFirmados+1;
+						
+					$id_avoco = $id;
+						
+					$resultDocumento=$avoco->getBy("id_avoco_conocimiento='$id_avoco'");
+						
+					$nombrePdf=$resultDocumento[0]->nombre_documento;
+						
+					$nombrePdf=$nombrePdf.".pdf";
+						
+					$_ruta=$resultDocumento[0]->ruta_documento;
+						
+					//para metodo dentro del farmework
+					//$id_rol=$_SESSION['id_rol'];
+						
+					$destino.=$_ruta.'/';
+		
+					try {
+							
+						$res=$firmas->FirmarPDFs( $destino, $nombrePdf, $id_firma,$id_rol,$_id_usuarios);
+		
+						$firmas->UpdateBy("firma_liquidador='TRUE'", "avoco_conocimiento", "id_avoco_conocimiento='$id_avoco'");
+						
+						//crear notificacion usa variable de session
+						//$this->notificacionImpulsor($nombrePdf);
+							
+						//$respuestaCliente.=$res[0].' ';
+		
+					} catch (Exception $e) {
+							
+						echo $e->getMessage();
+						
+						die();
+					}
+						
+		
+				}
+		
+		
+			}
+	}else{
+		echo ('sin perimisos');
+		die();
+	}
+}
+	
+	
 	
 }
 ?>

@@ -213,27 +213,19 @@
 	</script>
 	
 	<script type="text/javascript">
-	function call_generar_reporte()
-	{
-		var sql=<?php echo json_encode($sql);?>
+	$(document).ready(function(){
+		$("#tipo_documento").change(function(){
 
-		$.ajax({
-            url:"<?php echo $helper->url("ConsultaCordinador","Reporte");?>"
-            ,type : "POST"
-            ,async: true
-            ,data : {_sql:sql}
-            ,success: function(msg){
-	            
-	            console.log(msg);
-            }
-    		});
-
-		
-	}
-	
-    
+			 $("#id_impulsor").val(0);
+			 $("#id_secretario").val(0); 
+			 $("#id_ciudad").val(0);
+			 $("#estado_documento").val(0); 
+			
+			});
+		});
 	</script>
-
+	
+	
     </head>
     <body style="background-color: #d9e3e4;">
     
@@ -432,13 +424,13 @@
 		            </tr>
 		    		<tr >
 		    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-		    		<th style="color:#456789;font-size:80%;"><b>Ciudad</b></th>
+		    		<th style="color:#456789;font-size:80%;"><b>Juzgado</b></th>
 		    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
 		    		<th style="color:#456789;font-size:80%;">Cliente</th>
 		    		<th style="color:#456789;font-size:80%;">Identificacion</th>
 		    		<th style="color:#456789;font-size:80%;">Nombre Documento</th>
-		    		<th style="color:#456789;font-size:80%;">Impulsor</th>
-		    		<th style="color:#456789;font-size:80%;">secretarios</th>
+		    		<th style="color:#456789;font-size:80%;">Abogado</th>
+		    		<th style="color:#456789;font-size:80%;">Rol</th>
 		    		<th style="color:#456789;font-size:80%;">Fecha Emisión</th>
 		    		<th style="color:#456789;font-size:80%;">Hora Emision</th>
 		    		<th></th>
@@ -456,8 +448,8 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?></td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_documento; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_rol; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_emision_documentos; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->hora_emision_documentos; ?>     </td> 
 		               
@@ -478,6 +470,7 @@
 	    		<th style="color:#456789;font-size:80%;">Titulo Credito</th>
 	    		<th style="color:#456789;font-size:80%;">Cliente</th>
 	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
+	    		<th style="color:#456789;font-size:80%;">Abogado</th>
 	    		<th style="color:#456789;font-size:80%;">Entidades</th>
 	    		<th style="color:#456789;font-size:80%;">Creado</th>
 	             	
@@ -492,9 +485,10 @@
 	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_oficios; ?></td>
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_oficios; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?></td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?></td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td>
 		                <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_entidades; ?>     </td> 
 		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
 		            
