@@ -222,7 +222,6 @@ class CitacionesController extends ControladorBase{
 				 $identificador=$resultConsecutivo[0]->real_consecutivos;
 				 
 				 $repositorio_documento="Citaciones";
-				 
 				 $_nombre_citacion=$repositorio_documento.$identificador;
 					
 				 $_array_juicios = $_POST["id_juicios"];
