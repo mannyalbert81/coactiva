@@ -10,21 +10,12 @@ class IncidenciasController extends ControladorBase{
 
 	public function index(){
 	
-		//Creamos el objeto usuario
-     	
-		$resultSet=$ciudad->getAll("id_ciudad");
-				
-		$resultEdit = "";
-
-		
 		session_start();
 
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
 		{
 			$ciudad= new CiudadModel();
-			//NOTIFICACIONES
-			$ciudad->MostrarNotificaciones($_SESSION['id_usuarios']);
 			
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "Incidencias";
@@ -71,7 +62,7 @@ class IncidenciasController extends ControladorBase{
 		
 				
 				$this->view("Incidencias",array(
-						"resultSet"=>$resultSet, "resultEdit" =>$resultEdit
+						"resultSet"=>"", "resultEdit" =>""
 			
 				));
 		

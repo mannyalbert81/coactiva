@@ -112,6 +112,12 @@
 
 	</script>
      
+      <script>
+		function contador (campo, cuentacampo, limite) {
+		if (campo.value.length > limite) campo.value = campo.value.substring(0, limite);
+		else cuentacampo.value = limite - campo.value.length;
+		} 
+    </script>
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -124,8 +130,13 @@
        
        <?php
        
+       $sel_id_usuarios="";
        
-       
+       if($_SERVER['REQUEST_METHOD']=='POST' )
+       {
+       	$sel_id_usuarios = $_POST['id_usuarios'];
+       }
+        
 		   
 		?>
  
@@ -136,98 +147,59 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("Incidencias","InsertaIncidencias"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-6">
+      <form action="<?php echo $helper->url("Incidencias","InsertaIncidencias"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
             
          
         	    <h4 style="color:#ec971f;">Generar Incidencias</h4>
             	<hr/>
-            	
-		   		
-            
-          <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
-            
-            
-            
-        
-			   
-			   <div class="row">
-		       <div class="col-xs-12 col-md-12">
-			  	<p  class="formulario-subtitulo" >Nombres tipos de Ciudades</p>
-			  	<input type="text"  name="nombre_ciudad" id="nombre_ciudad" value="<?php echo $resEdit->nombre_ciudad; ?>" class="form-control"/> 
-			  	<input type="hidden"  name="id_ciudad"  value="<?php echo $resEdit->id_ciudad; ?>" class="form-control"/> 
-			    <div id="mensaje_nombres" class="errores"></div>
-			  </div>
-			   </div>
-		    
-		     <?php } } else {?>
-		    
-			   <div class="row">
-		       <div class="col-xs-6 col-md-6">
-			  	<p  class="formulario-subtitulo" >Nombres de Ciudades</p>
-			  	<input type="text"  name="nombre_ciudad" id="nombre_ciudad" value="" class="form-control"/> 
-			    <div id="mensaje_nombres" class="errores"></div>
-			  </div>
+            <div class="col-lg-6">
+			 <div class="row">
+		     <div class="col-xs-6 col-md-6">
+			    <p  class="formulario-subtitulo" style="" >Usuario:</p>
+			  	<select name="id_usuario" id="id_usuario"  class="form-control" readonly>
+			    <option value="<?php echo $_SESSION['id_usuarios'];  ?>" <?php if($sel_id_usuarios==$_SESSION['id_usuarios']){echo "selected";}?>  ><?php echo $_SESSION['nombre_usuarios'];  ?></option>  
+			    </select>
+		     </div>
 			 </div>
 
-		    <hr>
+		    <div class="row">
+		    <div class="col-xs-12 col-md-12" style="margin-top:10px">
+			  	<p  class="formulario-subtitulo" >Descripción:</p>
+	          	<textarea  class="form-control" id="descripcion_incidencia" name="descripcion_incidencia" wrap="physical" rows="8"  onKeyDown="contador(this.form.descripcion_incidencia,this.form.remLen,400);" onKeyUp="contador(this.form.descripcion_incidencia,this.form.remLen,400);"></textarea>
+	          	<p  class="formulario-subtitulo" >Te quedan <input type="text" name="remLen" size="2" maxlength="2" value="400" readonly="readonly"> letras por escribir. </p>
+	        		   
+		     </div>
+			 </div>
+		    </div>
 		    
-		    <?php } ?>
-		     
+		    
+		     <div class="col-lg-6">
+		     <div class="row">
+		    <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Imagen:</p>
+	          	<textarea  class="form-control" id="descripcion_incidencia" name="descripcion_incidencia" wrap="physical" rows="12"></textarea>
+	         </div>
+			 </div>
+		    </div>
+		 
+		    
+		     <div class="col-lg-12">
 		      <div class="row">
-			  <div class="col-xs-12 col-md-6" style="text-align: center;" >
+			  <div class="col-xs-12" style="text-align: center; margin-top:20px" >
 			  <input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
 			  </div>
-			  </div>     
+			  </div> 
+			  </div> 
+			    
               
             
-		 <hr>
+		 <br>
+		 <br>
+		 <br>
+		 <br>
           
        </form>
-       <!-- termina el form --> 
-       
-        <div class="col-lg-6">
-            <h4 style="color:#ec971f;">Lista de Incidencias</h4>
-            <hr/>
-        </div>
-        <section class="col-lg-6 usuario" style="height:400px;overflow-y:scroll;">
-        <table class="table table-hover ">
-	         <tr >
-	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Nombre</th>
-	    		
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-            
-	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
-	        		<tr>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_ciudad; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		              
-		           	   <td>
-			           		<div class="right">
-			                    <a href="<?php echo $helper->url("Incidencias","index"); ?>&id_ciudad=<?php echo $res->id_ciudad; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">Editar</a>
-			                </div>
-			            
-			             </td>
-			             <td>   
-			                	<div class="right">
-			                    <a href="<?php echo $helper->url("Incidencias","borrarId"); ?>&id_ciudad=<?php echo $res->id_ciudad; ?>" class="btn btn-danger" onClick="Borrar()" style="font-size:65%;">Borrar</a>
-			                </div>
-			                <hr/>
-		               </td>
-		    		</tr>
-		        <?php } } ?>
-            
-            <?php 
-            
-            //echo "<script type='text/javascript'> alert('Hola')  ;</script>";
-            
-            ?>
-            
-       	</table>     
-      </section>
-      </div>
+     </div>
       </div>
    </body>  
 
