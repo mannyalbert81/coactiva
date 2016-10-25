@@ -10,42 +10,35 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 
 		session_start();
 		
-		//eliminar variable de seesion para pasar sql al irepot
-		if(isset($_SESSION['data_ireport'])){unset($_SESSION['data_ireport']);}
 		
-		//Creamos el objeto usuario
-		$resultCita=array();
-		$resultProv=array();
-		$resultOfi=array();
-		$resultAvoCono=array();
-		$resultAutoPago=array();
-		$result_etapa_juicio=array();
-	
-		$documentos_impulsores=new DocumentosModel();
-		
-		$estados_procesales = new EstadosProcesalesModel();
-		$result_etapa_juicio=$estados_procesales->getAll("id_estados_procesales_juicios");
-		
-		$ciudad = new CiudadModel();
-		$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
+		$juicios = new JuiciosModel();
 		
             if (isset(  $_SESSION['usuario_usuarios']) )
 		    {
 			//notificaciones
-			$documentos_impulsores->MostrarNotificaciones($_SESSION['id_usuarios']);
+			$juicios->MostrarNotificaciones($_SESSION['id_usuarios']);
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "ConsultaCordinador";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $documentos_impulsores->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			
+			//variables de envio
+			$resultJuicio=array();
+			$where_sql=array();
+			
+			$estados_procesales = new EstadosProcesalesModel();
+			$result_etapa_juicio=$estados_procesales->getAll("id_estados_procesales_juicios");
+			
+			$ciudad = new CiudadModel();
+			$resultCiu = $ciudad->getBy("nombre_ciudad='QUITO' OR nombre_ciudad='GUAYAQUIL' ");
+			
+			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 
 			if (!empty($resultPer))
 			{
 					
 				if(isset($_POST["buscar"])){
 
-					$tipo_documento=$_POST['tipo_documento'];
-					
-					//inicializar variables
+					$id_etapa_juicio=(isset($_POST['id_etapa_juicio']))?$_POST['id_etapa_juicio']:'';
 					$id_ciudad        = (isset($_POST['id_ciudad']))?$_POST['id_ciudad']:0;
 					$id_secretario    = (isset($_POST['id_secretario']))?$_POST['id_secretario']:0;
 					$id_impulsor      = (isset($_POST['id_impulsor']))?$_POST['id_impulsor']:0;
@@ -55,337 +48,65 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 					$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
 					$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
 					
-					
-					//buscar por citaciones
-					if($tipo_documento == "citaciones")
-					{
-						
-					    
-						
-					$citaciones= new CitacionesModel();
-
-
-					$columnas = "citaciones.id_citaciones, 
-								  juicios.id_juicios, 
-								  juicios.juicio_referido_titulo_credito, 
-								  clientes.identificacion_clientes, 
-								  clientes.nombres_clientes, 
-								  citaciones.fecha_citaciones, 
-								  ciudad.nombre_ciudad, 
-								  citaciones.nombre_persona_recibe_citaciones, 
-								  citaciones.relacion_cliente_citaciones, 
-								  usuarios.nombre_usuarios";
-
-					$tablas=" public.citaciones, 
-							  public.ciudad, 
-							  public.clientes, 
-							  public.juicios, 
-							  public.usuarios";
-
-					$where="ciudad.id_ciudad = juicios.id_ciudad AND
-						  clientes.id_clientes = juicios.id_clientes AND
-						  juicios.id_juicios = citaciones.id_juicios AND
-						  usuarios.id_usuarios = citaciones.id_usuarios";
-
-					$id="citaciones.id_citaciones";
-						
-						
-						$where_0 = "";
-						$where_1 = "";
-						$where_2 = "";
-						$where_3 = "";
-						$where_4 = "";
-						$where_5 = "";
-						
-						
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
-						
-						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
-							
-						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  citaciones.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
-						
-						
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
-						
-						
-						$resultCita=$citaciones->getCondiciones($columnas ,$tablas , $where_to, $id);
-						
-					}
-					
-					//buscar por providencias
-					if($tipo_documento == "providencias")
-					{
-						
-						$documentos=new DocumentosModel();
-						
-						
-						$columnas = "documentos.id_documentos,
-						ciudad.nombre_ciudad,
-						juicios.juicio_referido_titulo_credito,
-						clientes.nombres_clientes,
-						clientes.identificacion_clientes,
-						documentos.nombre_documento,
-						asignacion_secretarios_view.impulsores,
-						asignacion_secretarios_view.secretarios,
-						documentos.fecha_emision_documentos,
-						documentos.hora_emision_documentos";
-						
-						$tablas=" public.ciudad, 
-								  public.clientes, 
-								  public.juicios, 
-								  public.asignacion_secretarios_view, 
-								  public.documentos";
-														
-						$where="clientes.id_clientes = juicios.id_clientes AND
-							  juicios.id_juicios = documentos.id_juicio AND
-							  asignacion_secretarios_view.id_abogado = documentos.id_usuario_registra_documentos AND
-							  documentos.id_ciudad = ciudad.id_ciudad";
-						
-						$id="documentos.id_documentos";
-						
-						
-						$where_0 = "";
-						$where_1 = "";
-						$where_2 = "";
-						$where_3 = "";
-						$where_4 = "";
-						$where_5 = "";
-						
-						
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND asignacion_secretarios_view.id_secretario='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND asignacion_secretarios_view.id_abogado='$id_impulsor'";}
-						
-						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
-							
-						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
-						
-						
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
-						
-						
-						$resultProv=$documentos->getCondiciones($columnas ,$tablas , $where_to, $id);
-						
-						
-					}
-					
-					//buscar por oficios
-					if($tipo_documento == "oficios")
-					{
-						
-	
-					$oficios= new OficiosModel();
-					
-					$columnas = "oficios.id_oficios,
-					oficios.creado,
-					oficios.numero_oficios,
+					$columnas="
 					juicios.id_juicios,
+					ciudad.nombre_ciudad,
 					juicios.juicio_referido_titulo_credito,
-					juicios.id_titulo_credito,
-					clientes.nombres_clientes,
-					clientes.identificacion_clientes,
-					entidades.id_entidades,
-					entidades.nombre_entidades";
-	
-					$tablas="public.oficios,
+					titulo_credito.numero_titulo_credito,
+					titulo_credito.fecha_ultimo_abono_titulo_credito,
+					titulo_credito.total_total_titulo_credito,
+					juicios.observaciones_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
+					juicios.estrategia_juicios,
+					asignacion_secretarios_view.impulsores,
+					clientes.identificacion_clientes, 
+                    clientes.nombres_clientes";
+					$from="
+					public.titulo_credito,
 					public.juicios,
-					public.entidades,
+					public.estados_procesales_juicios,
+					public.ciudad,
 					public.clientes,
-					public.usuarios";
-	
-					$where="juicios.id_juicios = oficios.id_juicios AND
-					entidades.id_entidades = oficios.id_entidades AND
-					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios";
-	
-					$id="oficios.id_oficios";
-						
-						$where_0 = "";
-						$where_1 = "";
-						$where_2 = "";
-						$where_3 = "";
-						$where_4 = "";
-						$where_5 = "";
-						
-						
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
-						
-						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
-							
-						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
-						
-						
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
-						
-						
-						$resultOfi=$oficios->getCondiciones($columnas ,$tablas , $where_to, $id);
-						
-						
+					public.asignacion_secretarios_view";
+					$where="
+					titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
+					ciudad.id_ciudad = juicios.id_ciudad AND
+					clientes.id_clientes = juicios.id_clientes AND
+					asignacion_secretarios_view.id_abogado = juicios.id_usuarios";
 					
-					}
+					$id="juicios.id_juicios";
 					
-					//buscar por avoco conocimiento
-					if($tipo_documento == "avoco_conocimiento")
-					{
-						
-						
-				$avoco_conocimiento =new AvocoConocimientoModel();						
-						
-					$columnas = "avoco_conocimiento.id_avoco_conocimiento, 
-							  juicios.juicio_referido_titulo_credito, 
-							  clientes.nombres_clientes, 
-							  clientes.identificacion_clientes, 
-							  ciudad.nombre_ciudad, 
-							  asignacion_secretarios_view.secretarios, 
-							  asignacion_secretarios_view.impulsores,
-							  juicios.creado";
-
-					$tablas=" public.avoco_conocimiento, 
-							  public.juicios, 
-							  public.ciudad, 
-							  public.asignacion_secretarios_view, 
-							  public.clientes";
-
-					$where="avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-						  juicios.id_juicios = avoco_conocimiento.id_juicios AND
-						  ciudad.id_ciudad = juicios.id_ciudad AND
-						  clientes.id_clientes = juicios.id_clientes";
-
-					$id="avoco_conocimiento.id_avoco_conocimiento";
-						
-						
-						$where_0 = "";
-						$where_1 = "";
-						$where_2 = "";
-						$where_3 = "";
-						$where_4 = "";
-						$where_5 = "";
-						
-						
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND asignacion_secretarios_view.id_secretario='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND asignacion_secretarios_view.id_abogado='$id_impulsor'";}
-						
-						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
-							
-						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  avoco_conocimiento.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
-						
-						$where_6="";
-						
-						if($estado_documento=='true'||$estado_documento=='false')
-						{
-							
-							if($id_secretario!=0&&$id_impulsor!=0)
-							{
-								$where_6=" AND avoco_conocimiento.firma_impulsor='$estado_documento' AND avoco_conocimiento.firma_secretario = '$estado_documento' ";
-							}else if($id_secretario!=0)
-							{
-								$where_6=" AND avoco_conocimiento.firma_secretario = '$estado_documento' ";
-							}else if($id_impulsor!=0)
-							{
-								$where_6=" AND avoco_conocimiento.firma_impulsor = '$estado_documento' ";
-							}
-						
-						}
-						
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5.$where_6;
-						
-						//echo $where_to;
-						//die();
-						
-						$resultAvoCono=$avoco_conocimiento->getCondiciones($columnas ,$tablas , $where_to, $id);
-						
-						$_SESSION['data_ireport']=array("documento"=>'avoco',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where).' ORDER BY '.$id);
-						
-					}
+					$where_1="";
+					$where_2="";
+					$where_3="";
+					$where_4="";
+					$where_5="";
+					$where_6="";
+					$where_7="";
 					
-					//buscar por auto pago
-					if($tipo_documento == "auto_pago")
-					{
-											
-						$auto_pago =new AutoPagosModel();
+					$where_1=($id_etapa_juicio!=0)?" AND estados_procesales_juicios.id_estados_procesales_juicios='$id_etapa_juicio'":'';
+					$where_2=($id_secretario!=0)?" AND asignacion_secretarios_view.id_secretario='$id_secretario'":'';
+					$where_3=($id_impulsor!=0)?" AND asignacion_secretarios_view.id_abogado='$id_impulsor'":'';
+					$where_4=($id_ciudad!=0)?" AND ciudad.id_ciudad='$id_ciudad'":'';
+					$where_5=($identificacion!="")?" AND clientes.identificacion_clientes='$identificacion'":'';
+					$where_6=($numero_juicio!=0)?" AND juicios.juicio_referido_titulo_credito='$numero_juicio'":'';
+					
+					if($fechadesde!="" && $fechahasta!=""){$where_7=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
 					
 					
-						$columnas = " auto_pagos.id_auto_pagos, 
-						  auto_pagos.id_titulo_credito, 
-						  clientes.identificacion_clientes, 
-						  clientes.nombres_clientes, 
-						  usuarios.nombre_usuarios, 
-						  auto_pagos.fecha_asiganacion_auto_pagos, 
-						  estado.nombre_estado";
+					$where_to=$where.$where_1.$where_2.$where_3.$where_4.$where_5.$where_6.$where_7;
 					
-						$tablas   = "public.auto_pagos, 
-								  public.usuarios, 
-								  public.titulo_credito, 
-								  public.estado, 
-								  public.clientes";
+					$resultJuicio=$juicios->getCondiciones($columnas, $from, $where_to, $id);
 					
-						$where    = "usuarios.id_usuarios = auto_pagos.id_usuario_impulsor AND
-								  titulo_credito.id_titulo_credito = auto_pagos.id_titulo_credito AND
-								  estado.id_estado = auto_pagos.id_estado AND
-								  clientes.id_clientes = titulo_credito.id_clientes ";
+					$where_sql=array()
 					
-						$id       = "auto_pagos.id_auto_pagos";
-					
-					
-						$where_0 = "";
-						$where_1 = "";
-						$where_2 = "";
-						$where_3 = "";
-						$where_4 = "";
-						$where_5 = "";
-					
-					
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
-					
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
-					
-						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
-							
-						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
-					
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
-					
-					
-						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
-					
-					
-						$resultAutoPago=$auto_pago->getCondiciones($columnas ,$tablas , $where_to, $id);
-					
-					
-							
-					}
-					
-				
-				
 				}
 				
 				
 
 				$this->view("ConsultaCordinadorJuicios",array(
-						"resultCita"=>$resultCita, "resultProv"=>$resultProv,"resultCiu"=>$resultCiu,"resultOfi"=>$resultOfi,
-						"resultAvoCono"=>$resultAvoCono,"resultAutoPago"=>$resultAutoPago,"result_etapa_juicio"=>$result_etapa_juicio
+						"resultCiu"=>$resultCiu,"result_etapa_juicio"=>$result_etapa_juicio,"resultJuicio"=>$resultJuicio
 							
 				));
 
@@ -501,16 +222,42 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 	
 	public function Reporte()
 	{
-		//echo /FrameworkMVC/view/ireports/ContCordinadorReport.php
-		session_start();
-		$sql=array();
-		$sql=$_SESSION['data_ireport'];
-		//unset($_SESSION['data_ireport']);
+		session_start ();
+		$sql = array ();
+		$sql = $_SESSION ['data_ireport'];
 		
-		$this->ireport("ContCordinador", array("sql"=>$sql));
+		switch ($sql['documento'])
+		{
+			case 'avoco':
+				$this->ireport_vizualizar ( "CordinadorAvoco", array (
+				"sql" => $sql ) );
+			break;
+			case 'auto_pago':
+				$this->ireport_vizualizar ( "CordinadorAuto_Pago", array (
+				"sql" => $sql ) );
+			break;
+			case 'citaciones':
+				$this->ireport_vizualizar ( "CordinadorCitaciones", array (
+				"sql" => $sql ) );
+			break;
+			case 'providencias':
+				$this->ireport_vizualizar ( "CordinadorProvidencias", array (
+				"sql" => $sql ) );
+			break;
+			case 'oficios':
+				$this->ireport_vizualizar ( "CordinadorOficios", array (
+				"sql" => $sql ) );
+			break;
+			default:
+				echo'error en la consulta';
+				unset($_SESSION ['data_ireport']);
+				die();
+			break;
+		}
 		
-	
 		
+		
+		// header("Location:view/ireports/ContCordinadorDocumentosReport.php");
 	}	
 	
 }
