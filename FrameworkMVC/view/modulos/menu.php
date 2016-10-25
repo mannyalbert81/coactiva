@@ -246,6 +246,22 @@ $controladores=$_SESSION['controladores'];
 </li>
 
 
+<li class="dropdown" style="<?php echo getcontrolador("MenuSoporte",$controladores) ?>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-refresh" ><?php echo " Soporte" ;?> </span> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          
+          <li style="<?php echo getcontrolador("Incidencias",$controladores) ?>">
+          <a href="index.php?controller=Incidencias&action=index"><span class=" glyphicon glyphicon-usd" aria-hidden="true"> Generar Incidencias</span> </a>
+          </li>
+          
+          <li style="<?php echo getcontrolador("RespuestaIncidencias",$controladores) ?>">
+          <a href="index.php?controller=RespuestaIncidencias&action=index"><span class=" glyphicon glyphicon-usd" aria-hidden="true"> Responder Incidencias</span> </a>
+          </li>
+          
+</ul>
+</li>
+
+
 </ul>
     </div>
   </div>
