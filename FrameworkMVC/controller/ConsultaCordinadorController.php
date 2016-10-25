@@ -20,16 +20,7 @@ class ConsultaCordinadorController extends ControladorBase{
 		$resultAvoCono=array();
 		$resultAutoPago=array();
 		
-		/*
-		$array=$_SESSION['tu_array_de_cualquier_dimension'];
-		// Y si no quieres la variable de sesión creada:
-		unset($_SESSION['tu_array_de_cualquier_dimension']);
-		// Y si realmente no usas sesiones en tu aplicación para nada ..
-		// Destruyes tu sesión.
-		session_destroy();
 		
-		// en $array vuelves a tener en este punto tu array tal cual .. sin más proceso que aplicar.
-		*/
 		
 		$documentos_impulsores=new DocumentosModel();
 		$ciudad = new CiudadModel();
@@ -48,6 +39,8 @@ class ConsultaCordinadorController extends ControladorBase{
 			{
 					
 				if(isset($_POST["buscar"])){
+					
+					unset($_SESSION ['data_ireport']);
 
 					$tipo_documento=$_POST['tipo_documento'];
 					
@@ -79,7 +72,7 @@ class ConsultaCordinadorController extends ControladorBase{
 								  citaciones.fecha_citaciones, 
 								  ciudad.nombre_ciudad, 
 								  citaciones.nombre_persona_recibe_citaciones, 
-								  citaciones.relacion_cliente_citaciones, 
+								  citaciones.relacion_cliente_citaciones,
 								  usuarios.nombre_usuarios";
 
 					$tablas=" public.citaciones, 
@@ -224,7 +217,8 @@ class ConsultaCordinadorController extends ControladorBase{
 					  juicios.juicio_referido_titulo_credito, 
 					  entidades.nombre_entidades, 
 					  clientes.identificacion_clientes, 
-					  clientes.nombres_clientes, 
+					  clientes.nombres_clientes,
+					  ciudad.nombre_ciudad,
 					  usuarios.nombre_usuarios,
 					titulo_credito.numero_titulo_credito";
 	
@@ -380,11 +374,13 @@ class ConsultaCordinadorController extends ControladorBase{
 					
 					
 						$columnas = " auto_pagos.id_auto_pagos, 
-								  titulo_credito.numero_titulo_credito, 
+								  titulo_credito.numero_titulo_credito,
+								  juicios.juicio_referido_titulo_credito,
 								  clientes.identificacion_clientes, 
 								  clientes.nombres_clientes, 
 								  usuarios.nombre_usuarios, 
-								  auto_pagos.fecha_asiganacion_auto_pagos, 
+								  auto_pagos.fecha_asiganacion_auto_pagos,
+								  ciudad.nombre_ciudad,
 								  estado.nombre_estado";
 					
 						$tablas   = "public.auto_pagos, 
@@ -392,13 +388,15 @@ class ConsultaCordinadorController extends ControladorBase{
 								  public.titulo_credito, 
 								  public.estado, 
 								  public.clientes,
-								  public.juicios";
+								  public.juicios,
+								  public.ciudad";
 					
 						$where    = "auto_pagos.id_usuario_impulsor = usuarios.id_usuarios AND
 								  titulo_credito.id_titulo_credito = auto_pagos.id_titulo_credito AND
 								  titulo_credito.id_clientes = clientes.id_clientes AND
 								  estado.id_estado = auto_pagos.id_estado AND 
-								  juicios.id_titulo_credito = titulo_credito.id_titulo_credito";
+								  juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+								  juicios.id_ciudad = ciudad.id_ciudad";
 					
 						$id       = "auto_pagos.id_auto_pagos";
 					
@@ -411,7 +409,7 @@ class ConsultaCordinadorController extends ControladorBase{
 						$where_5 = "";
 					
 					
-						if($id_ciudad!=0){$where_0=" AND auto_pagos.id_ciudad='$id_ciudad'";}
+						if($id_ciudad!=0){$where_0=" AND juicios.id_ciudad='$id_ciudad'";}
 					
 						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
 					
@@ -725,23 +723,33 @@ class ConsultaCordinadorController extends ControladorBase{
 		switch ($sql['documento'])
 		{
 			case 'avoco':
-				$this->ireport_vizualizar ( "CordinadorDocumentosReport", array (
+				$this->ireport_vizualizar ( "CordinadorAvoco", array (
 				"sql" => $sql ) );
 			break;
 			case 'auto_pago':
+				$this->ireport_vizualizar ( "CordinadorAuto_Pago", array (
+				"sql" => $sql ) );
 			break;
 			case 'citaciones':
+				$this->ireport_vizualizar ( "CordinadorCitaciones", array (
+				"sql" => $sql ) );
 			break;
 			case 'providencias':
+				$this->ireport_vizualizar ( "CordinadorProvidencias", array (
+				"sql" => $sql ) );
 			break;
 			case 'oficios':
+				$this->ireport_vizualizar ( "CordinadorOficios", array (
+				"sql" => $sql ) );
 			break;
 			default:
 				echo'error en la consulta';
+				unset($_SESSION ['data_ireport']);
 				die();
 			break;
 		}
-					// como parametro enviar el archivo jrxml no el contenedor
+		
+		
 		
 		// header("Location:view/ireports/ContCordinadorDocumentosReport.php");
 	}	

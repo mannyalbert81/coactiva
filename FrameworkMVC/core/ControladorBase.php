@@ -74,21 +74,15 @@ class ControladorBase{
     	$driver  = driver;
     	ini_set('display_errors', 0);
     	
-    	//print_r($sql);
     	$data=$sql;
-    	
     	
     	$archivo = './view/ireports/'.$reporte_jxml.'.jrxml';
     	
     	$PHPJasperXML = new PHPJasperXML();
-    	//$PHPJasperXML->debugsql=true;
     	
     	$PHPJasperXML->arrayParameter=array("_sql"=>$data['sql']);
-    	 
-    	//$PHPJasperXML->sql="SELECT avoco_conocimiento.id_avoco_conocimiento, juicios.juicio_referido_titulo_credito, clientes.nombres_clientes, clientes.identificacion_clientes, ciudad.nombre_ciudad, asignacion_secretarios_view.secretarios, asignacion_secretarios_view.impulsores, juicios.creado FROM public.avoco_conocimiento, public.juicios, public.ciudad, public.asignacion_secretarios_view, public.clientes WHERE avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND juicios.id_juicios = avoco_conocimiento.id_juicios AND ciudad.id_ciudad = juicios.id_ciudad AND clientes.id_clientes = juicios.id_clientes ORDER BY avoco_conocimiento.id_avoco_conocimiento";
-    	 
-    	$PHPJasperXML->load_xml_file($archivo);
     	
+    	$PHPJasperXML->load_xml_file($archivo);
     	
     	$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
     	$PHPJasperXML->outpage("I");
