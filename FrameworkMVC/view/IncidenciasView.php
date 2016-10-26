@@ -111,12 +111,15 @@
 		}); 
 
 	</script>
+	
+	
+	
      
       <script>
-		function contador (campo, cuentacampo, limite) {
-		if (campo.value.length > limite) campo.value = campo.value.substring(0, limite);
-		else cuentacampo.value = limite - campo.value.length;
-		} 
+      function contador (campo, cuentacampo, limite) {
+  		if (campo.value.length > limite) campo.value = campo.value.substring(0, limite);
+  		else cuentacampo.value = limite - campo.value.length;
+  		} 
     </script>
 
     </head>
@@ -149,8 +152,7 @@
        
       <form action="<?php echo $helper->url("Incidencias","InsertaIncidencias"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
             
-         
-        	    <h4 style="color:#ec971f;">Generar Incidencias</h4>
+	    <h4 style="color:#ec971f;">Generar Incidencias</h4>
             	<hr/>
             <div class="col-lg-6">
 			 <div class="row">
@@ -170,6 +172,8 @@
 	        		   
 		     </div>
 			 </div>
+			 
+			 
 		    </div>
 		    
 		    
@@ -177,7 +181,7 @@
 		     <div class="row">
 		    <div class="col-xs-12 col-md-12">
 			  	<p  class="formulario-subtitulo" >Imagen:</p>
-	          	<textarea  class="form-control" id="descripcion_incidencia" name="descripcion_incidencia" wrap="physical" rows="12"></textarea>
+	          	<textarea  class="form-control" id="imagen_incidencia" name="imagen_incidencia" wrap="physical" rows="12"></textarea>
 	         </div>
 			 </div>
 		    </div>
