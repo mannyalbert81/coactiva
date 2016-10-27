@@ -76,8 +76,10 @@ class ControladorBase{
     	
     	$data=$sql;
     	
-    	$archivo = './view/ireports/'.$reporte_jxml.'.jrxml';
+        //print_r($data['sql'])	; die();
     	
+    	$archivo = './view/ireports/'.$reporte_jxml.'.jrxml';
+    	//echo $archivo;   	die();
     	$PHPJasperXML = new PHPJasperXML();
     	
     	$PHPJasperXML->arrayParameter=array("_sql"=>$data['sql']);

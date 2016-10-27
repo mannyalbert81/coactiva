@@ -271,7 +271,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12" id="cordinador_juicios">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -350,12 +350,14 @@
 		 </div>
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion()" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> 	
 		 
 		 <?php if(!empty($resultJuicio))  {?>
 		 
-		  <a href="<?php echo $helper->url("ConsultaCordinadorJuicios","Reporte");?>" onclick=" window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false;" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
-		  <input type="hidden" name="data_report" id="data_report" value="<?php echo ?>"/>
+		 
+		 <!-- <?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?> -->
+		 <input type="submit" value="Reporte" class="btn btn-success" onclick = "this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?>'; this.form.target = '_blank';" />
+		 <input type="hidden" name="data_report" id="data_report" value="<?php echo $where_sql['where_to']; ?>"/>
 		 
 		  <?php } else {?>
 		  
