@@ -99,14 +99,14 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 					
 					$resultJuicio=$juicios->getCondiciones($columnas, $from, $where_to, $id);
 					
-					$where_sql=array()
+					$where_sql=array("where_to"=>$where_to);
 					
 				}
 				
-				
 
 				$this->view("ConsultaCordinadorJuicios",array(
-						"resultCiu"=>$resultCiu,"result_etapa_juicio"=>$result_etapa_juicio,"resultJuicio"=>$resultJuicio
+						"resultCiu"=>$resultCiu,"result_etapa_juicio"=>$result_etapa_juicio,"resultJuicio"=>$resultJuicio,
+						"where_sql"=>$where_sql
 							
 				));
 
@@ -188,77 +188,44 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 		
 	}
 	
-	public function pruebamerge()
-	{
-		
-		$array1 = array("fila1"=>1,"fila2"=>2);
-		$array2 = array("fila1"=>3,"fila2"=>4);
-		//muestro los arrays
-		var_export ($array1);
-		echo '<br><br><br>';
-		var_export ($array2);
-		echo '<br><br><br>';
-		//uno los arrays y muestro el array resultante
-		$array_resultante= array_merge($array1,$array2);
-		$array_prueba=$array1+$array2;
-		var_export ($array_resultante);
-		echo '<br><br><br>';
-		var_export($array_prueba);
-		
-		echo '<br><br><br>';
-		$array1 = array("id1" => "value1");
-		
-		$array2 = array("id2" => "value2", "id3" => "value3", "id4" => "value4");
-		
-		$array3 = array_merge($array1, $array2/*, $arrayN, $arrayN*/);
-		$array4 = $array1 + $array2;
-		
-		echo '<pre>';
-		var_dump($array3);
-		var_dump($array4);
-		echo '</pre>';
-		
-	}
-	
 	public function Reporte()
 	{
-		session_start ();
-		$sql = array ();
-		$sql = $_SESSION ['data_ireport'];
-		
-		switch ($sql['documento'])
+		$sql=array();
+		if(isset($_POST['data_report']))
 		{
-			case 'avoco':
-				$this->ireport_vizualizar ( "CordinadorAvoco", array (
-				"sql" => $sql ) );
-			break;
-			case 'auto_pago':
-				$this->ireport_vizualizar ( "CordinadorAuto_Pago", array (
-				"sql" => $sql ) );
-			break;
-			case 'citaciones':
-				$this->ireport_vizualizar ( "CordinadorCitaciones", array (
-				"sql" => $sql ) );
-			break;
-			case 'providencias':
-				$this->ireport_vizualizar ( "CordinadorProvidencias", array (
-				"sql" => $sql ) );
-			break;
-			case 'oficios':
-				$this->ireport_vizualizar ( "CordinadorOficios", array (
-				"sql" => $sql ) );
-			break;
-			default:
-				echo'error en la consulta';
-				unset($_SESSION ['data_ireport']);
-				die();
-			break;
+			$columnas="
+					juicios.id_juicios,
+					ciudad.nombre_ciudad,
+					juicios.juicio_referido_titulo_credito,
+					titulo_credito.numero_titulo_credito,
+					titulo_credito.fecha_ultimo_abono_titulo_credito,
+					titulo_credito.total_total_titulo_credito,
+					juicios.observaciones_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
+					juicios.estrategia_juicios,
+					asignacion_secretarios_view.impulsores,
+					clientes.identificacion_clientes,
+                    clientes.nombres_clientes";
+			$from="
+					public.titulo_credito,
+					public.juicios,
+					public.estados_procesales_juicios,
+					public.ciudad,
+					public.clientes,
+					public.asignacion_secretarios_view";
+			
+			$where=$_POST['data_report'];
+			
+			$consulta='SELECT '.$columnas.' FROM '.$from.' WHERE '.$where;
+			
+			$sql=array("sql"=>$consulta);
+			
+			//print_r($sql);die();
+			
+			
+			$this->ireport_vizualizar ( "CordinadorReport",array (
+					"sql" => $sql ) );
 		}
-		
-		
-		
-		// header("Location:view/ireports/ContCordinadorDocumentosReport.php");
-	}	
-	
+	}
 }
 ?> 
