@@ -179,12 +179,28 @@
 		    
 		     <div class="col-lg-6">
 		     <div class="row">
-		    <div class="col-xs-12 col-md-12">
-			  	<p  class="formulario-subtitulo" >Imagen:</p>
-	          	<textarea  class="form-control" id="imagen_incidencia" name="imagen_incidencia" wrap="physical" rows="12"></textarea>
+		     <div class="col-xs-12 col-md-12">
+			  	<p  class="formulario-subtitulo" >Seleccionar:</p>
+			  	<input type="file" id="image_incidencia" accept="image/*" name="image_incidencia[]" onchange="loadFile(event)" multiple/>
+	          </div>
+		    <div class="col-xs-12 col-md-12" style="height: 300px;">
+			  	<p  class="formulario-subtitulo" >Archivos:</p>
+	          	<div><img id="output" height="50px" width="50px"/></div>
 	         </div>
+	         
 			 </div>
 		    </div>
+		    
+		    <script>
+		    var loadFile = function(event) {
+		        var reader = new FileReader();
+		        reader.onload = function(){
+		          var output = document.getElementById('output');
+		          output.src = reader.result;
+		        };
+		        reader.readAsDataURL(event.target.files[0]);
+		      };
+            </script>
 		 
 		    
 		     <div class="col-lg-12">

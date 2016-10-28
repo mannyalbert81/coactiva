@@ -223,6 +223,41 @@
 			});
 		});    
 	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		//load_juicios(1);
+
+		$("#find").click(function(){
+
+			//console.log('hola');
+
+			load_juicios(1);
+			
+			});
+	});
+	
+	
+	function load_juicios(pagina){
+		var query= $("#c").val();
+		//url:'view/css/Contable/ajax/cargar_contable.php?action=ajax&page='+page+'&c='+c,
+		$("#juicios").fadeIn('slow');
+		$.ajax({
+			url:"<?php echo $helper->url("ConsultaCordinadorJuicios","cargaDatos");?>",
+            type : "POST",
+            async: true,			
+			data: {action:'ajax',page:pagina,c:query},
+			 beforeSend: function(objeto){
+			$("#juicios").html('<img src="view/images/ajax-loader.gif"> Cargando...');
+			},
+			success:function(data){
+				$(".div_contable").html(data).fadeIn('slow');
+				$("#juicios").html("");
+			}
+		})
+	}
+	
+	</script>
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -350,13 +385,14 @@
 		 </div>
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> 
+		 <input type="button" id="find" name="find" value="BuscarJQ" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 	
 		 
 		 <?php if(!empty($resultJuicio))  {?>
 		 
-		 
 		 <!-- <?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?> -->
-		 <input type="submit" value="Reporte" class="btn btn-success" onclick = "this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?>'; this.form.target = '_blank';" />
+		 <input type="submit" value="Reporte" class="btn btn-success" style="margin-top: 10px;" onclick = "this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?>'; this.form.target = '_blank';" />
 		 <input type="hidden" name="data_report" id="data_report" value="<?php echo $where_sql['where_to']; ?>"/>
 		 
 		  <?php } else {?>
@@ -364,112 +400,38 @@
 		  <?php } ?>
 		 </div>
 		</div>
+		
+		<div style="height: 200px; display: block;">
+		 <h4>Datos Juicios</h4>
+			  <div >					
+					<div id="juicios" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
+					<div class="div_contable" ></div><!-- Datos ajax Final -->
+		      </div>
+		       <br>
+				  
+		 </div>
         	
 		 </div>
 		 
+		 <!-- para la paginacion en nueva tabla -->
 		 
-		 <div class="col-lg-12">
+		 <!-- termina la paginacion -->
 		
-		 <section class="" style="height:300px;overflow-y:scroll;">
-        
-        	<table class="table table-hover ">
-        	
- <?php if (!empty($resultJuicio)) {?>
-               	<tr>
-		        <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultJuicio)) echo "  ".count($resultJuicio);?></span>
-		        </tr>
-                <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	            <th style="color:#456789;font-size:80%;">Estado Procesal</th>
-	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-	    		<th style="color:#456789;font-size:80%;">Abogado</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
-	    		<th style="color:#456789;font-size:80%;">N° Titulo Credito</th>
-	    		<th style="color:#456789;font-size:80%;">Cuantia</th>
-	    		<th style="color:#456789;font-size:80%;">Ultimo Pago</th>
-	    		<th style="color:#456789;font-size:80%;">Observación</th>
-	    		<th style="color:#456789;font-size:80%;">Estrategia</th>
-	    		
-	  		    </tr>
-					
-					
-                 <?php		foreach($resultJuicio as $res) {   ?>
-	          
-               		<tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estados_procesales_juicios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_ultimo_abono_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->observaciones_juicios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->estrategia_juicios; ?>     </td> 
-		               
-		    		</tr>
-		
-		<?php } }else {?>
-		    		
-		    		
-	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	            <th style="color:#456789;font-size:80%;">Estado Procesal</th>
-	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-	    		<th style="color:#456789;font-size:80%;">Abogado</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Juzgado</th>
-	    		<th style="color:#456789;font-size:80%;">N° Titulo Credito</th>
-	    		<th style="color:#456789;font-size:80%;">Cuantia</th>
-	    		<th style="color:#456789;font-size:80%;">Ultimo Pago</th>
-	    		<th style="color:#456789;font-size:80%;">Observación</th>
-	    		<th style="color:#456789;font-size:80%;">Estrategia</th>
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-		    		
-		    		<tr>
-	                  	<td></td>
-            			<td></td>
-            			<td></td>
-            			<td colspan="6" style="color:#ec971f;font-size:8;" style="text-aling:center;"> <?php echo '<span id="snResult">NO EXISTE DATOS PARA LA BUSQUEDA REQUERIDA</span>' ?></td>
-            			<td></td>
-            			<td></td>
-            			<td></td>
-	       				
-		   			</tr>
-		    		
-		    		<?php } ?>
-               
-       	</table>
-       </section>
-		</div>
 		 </form>
-		
-<div class="text-center">	
-  <ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>                       
- </div>
- </div>
+		 
+
+ 
+         
+ 
+   </div>
 
      
      
       </div>
  
-      <!-- termina
-       busqueda  -->
+      <!-- termina busqueda  -->
+       
+       
    </body>  
 
-    </html>   
+</html>   

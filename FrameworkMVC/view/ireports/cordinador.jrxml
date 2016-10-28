@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-28T09:01:48 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CordinadorReport" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
+<!-- 2016-10-28T08:51:14 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CordinadorReport" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\coactiva2016.xml"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="12"/>
 	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.default.font.name" value="Sans Serif"/>
-	<parameter name="_sql" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[$P{_sql}]]>
+		<![CDATA[SELECT
+ juicios.id_juicios,
+ ciudad.nombre_ciudad,
+  juicios.juicio_referido_titulo_credito,
+   titulo_credito.numero_titulo_credito,
+   titulo_credito.fecha_ultimo_abono_titulo_credito,
+   titulo_credito.total_total_titulo_credito,
+    juicios.observaciones_juicios,
+   estados_procesales_juicios.nombre_estados_procesales_juicios,
+    juicios.estrategia_juicios, asignacion_secretarios_view.impulsores,
+    clientes.identificacion_clientes, clientes.nombres_clientes
+   FROM public.titulo_credito, public.juicios,
+   public.estados_procesales_juicios,
+    public.ciudad, public.clientes,
+    public.asignacion_secretarios_view
+     WHERE
+     titulo_credito.id_titulo_credito = juicios.id_titulo_credito
+     AND estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios
+      AND ciudad.id_ciudad = juicios.id_ciudad
+    AND clientes.id_clientes = juicios.id_clientes
+    AND asignacion_secretarios_view.id_abogado = juicios.id_usuarios
+     AND estados_procesales_juicios.id_estados_procesales_juicios='10']]>
 	</queryString>
+	<field name="id_juicios" class="java.lang.Integer"/>
 	<field name="nombre_ciudad" class="java.lang.String"/>
 	<field name="nombres_clientes" class="java.lang.String"/>
 	<field name="identificacion_clientes" class="java.lang.String"/>
@@ -56,6 +77,9 @@
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="9" y="31" width="110" height="37" uuid="42a73a9b-72a2-4cd0-a612-0de5ccb1a49a"/>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -296,4 +320,15 @@
 			</staticText>
 		</band>
 	</pageFooter>
+	<noData>
+		<band height="61">
+			<staticText>
+				<reportElement x="346" y="18" width="194" height="30" uuid="ce235286-bf11-4de1-aa7f-c6f6ebda8129"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[NO EXITEN REGISTROS]]></text>
+			</staticText>
+		</band>
+	</noData>
 </jasperReport>

@@ -1,6 +1,7 @@
 <?php
 
 #<?php
+ob_end_clean();
 #Importas la librer�a PhpJasperLibrary
 include_once('PhpJasperLibrary/class/tcpdf/tcpdf.php');
 include_once("PhpJasperLibrary/class/PHPJasperXML.inc.php");
@@ -38,9 +39,10 @@ AND asignacion_secretarios_view.id_abogado = juicios.id_usuarios
 AND estados_procesales_juicios.id_estados_procesales_juicios='10'";
 
 $PHPJasperXML = new PHPJasperXML();
-//$PHPJasperXML->debugsql=false;
+//$PHPJasperXML->debugsql=true;
 $PHPJasperXML->load_xml_file("CordinadorReport.jrxml");
-$PHPJasperXML->arrayParameter=array("_sql" => $sql);
+//$PHPJasperXML->load_xml_file("cordinador.jrxml");
+//$PHPJasperXML->arrayParameter=array("_sql" => $sql);
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 $PHPJasperXML->outpage("I") 
 ?>

@@ -112,51 +112,86 @@ class IncidenciasController extends ControladorBase{
 		
 			//_nombre_tipo_identificacion
 			
-			if (isset ($_POST["descripcion_incidencia"]) )
-				
+			if(isset($_POST['Guardar']))
 			{
-				
-				
-				
 				$_descripcion_incidencia= $_POST["descripcion_incidencia"];
+				$_id_usuario=$_POST['id_usuario'];
 				
-				if(isset($_POST["id_incidencia"])) 
+				if ($_FILES['image_incidencia']['name']!="")
 				{
 					
-					$_id_incidencia = $_POST["id_incidencia"];
-					$colval = " descripcion_incidencia = '$_descripcion_incidencia'   ";
-					$tabla = "incidencia";
-					$where = "id_incidencia = '$_id_incidencia'    ";
-					
-					$resultado=$incidencia->UpdateBy($colval, $tabla, $where);
-					
-				}else {
-					
-			
-
 				
-				$funcion = "ins_incidencia";
-				
-				$parametros = " '$_descripcion_incidencia'  ";
+					if(is_array($_FILES['image_incidencia']['name'])) 
+					{
+											
+						$cantidad= count($_FILES["image_incidencia"]["name"]);
+						
+						
+						$directorio = $_SERVER['DOCUMENT_ROOT'].'/coactiva/incidencia/';
+						$hoy = date("Y-m-d");
+						
+						
+						for ($i=0; $i<$cantidad; $i++)
+						{
+							$nombre='_'.$_id_usuario.'_'.$hoy.'_';
+							$nombre .= $_FILES['image_incidencia']['name'][$i];
+							$tipo = $_FILES['image_incidencia']['type'];
+							$tamano = $_FILES['image_incidencia']['size'];
+							
+							move_uploaded_file($_FILES['image_incidencia']['tmp_name'][$i],$directorio.$nombre);
+							
+							$data = file_get_contents($directorio.$nombre);
+							
+							$imagen_incidencia = pg_escape_bytea($data);
+								
+							$funcion = "ins_incidencia";
+							
+							$parametros = "'$_descripcion_incidencia','$_id_usuario', '$imagen_incidencia'";
+							$incidencia->setFuncion($funcion);
+							
+							$incidencia->setParametros($parametros);
+							
+							$resultado=$incidencia->Insert();
+							
+							var_dump($resultado);
+							die('llego');
+						 
+						} 
+						
 					
-				$incidencia->setFuncion($funcion);
-		
-				$incidencia->setParametros($parametros);
-		
-		
-				$resultado=$incidencia->Insert();
-			 
-				$traza=new TrazasModel();
-				$_nombre_controlador = "Incidencias";
-				$_accion_trazas  = "Guardar";
-				$_parametros_trazas = $_descripcion_incidencia;
-				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+					}
+					
 				
 				}
-			 
-			 
-		
+					
+				else
+				{
+					    
+				
+						$funcion = "ins_incidencia";
+					
+						$parametros = "'$_descripcion_incidencia','$_id_usuario'";
+							
+						$incidencia->setFuncion($funcion);
+					
+						$incidencia->setParametros($parametros);
+					
+						$resultado=$incidencia->Insert();
+						
+						$traza=new TrazasModel();
+						$_nombre_controlador = "Incidencias";
+						$_accion_trazas  = "Guardar";
+						$_parametros_trazas = $_descripcion_incidencia;
+						$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
+					
+				}
+				
+				
+				
+						
+			
 			}
+				
 			$this->redirect("Incidencias", "index");
 
 		}

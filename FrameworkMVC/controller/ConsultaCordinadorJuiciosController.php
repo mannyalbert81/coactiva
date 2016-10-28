@@ -220,12 +220,193 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 			
 			$sql=array("sql"=>$consulta);
 			
-			//print_r($sql);die();
-			
-			
 			$this->ireport_vizualizar ( "CordinadorReport",array (
 					"sql" => $sql ) );
 		}
 	}
+	
+	//para la paginacion con ajax (Jquery)
+	public function prueba()
+	{
+		
+	}
+	
+	public function paginate($reload, $page, $tpages, $adjacents) {
+		
+		$prevlabel = "&lsaquo; Prev";
+		$nextlabel = "Next &rsaquo;";
+		$out = '<ul class="pagination pagination-large">';
+	
+		// previous label
+	
+		if($page==1) {
+			$out.= "<li class='disabled'><span><a>$prevlabel</a></span></li>";
+		} else if($page==2) {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(1)'>$prevlabel</a></span></li>";
+		}else {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(".($page-1).")'>$prevlabel</a></span></li>";
+	
+		}
+	
+		// first label
+		if($page>($adjacents+1)) {
+			$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(1)'>1</a></li>";
+		}
+		// interval
+		if($page>($adjacents+2)) {
+			$out.= "<li><a>...</a></li>";
+		}
+	
+		// pages
+	
+		$pmin = ($page>$adjacents) ? ($page-$adjacents) : 1;
+		$pmax = ($page<($tpages-$adjacents)) ? ($page+$adjacents) : $tpages;
+		for($i=$pmin; $i<=$pmax; $i++) {
+			if($i==$page) {
+				$out.= "<li class='active'><a>$i</a></li>";
+			}else if($i==1) {
+				$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(1)'>$i</a></li>";
+			}else {
+				$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(".$i.")'>$i</a></li>";
+			}
+		}
+	
+		// interval
+	
+		if($page<($tpages-$adjacents-1)) {
+			$out.= "<li><a>...</a></li>";
+		}
+	
+		// last
+	
+		if($page<($tpages-$adjacents)) {
+			$out.= "<li><a href='javascript:void(0);' onclick='load_juicios($tpages)'>$tpages</a></li>";
+		}
+	
+		// next
+	
+		if($page<$tpages) {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(".($page+1).")'>$nextlabel</a></span></li>";
+		}else {
+			$out.= "<li class='disabled'><span><a>$nextlabel</a></span></li>";
+		}
+	
+		$out.= "</ul>";
+		return $out;
+	}
+	
+	public function cargaDatos()
+	{
+		
+		$juicios = new JuiciosModel();
+		
+		$html="";
+		
+		$columnas="juicios.id_juicios,
+				    ciudad.nombre_ciudad,
+					juicios.juicio_referido_titulo_credito,
+					titulo_credito.numero_titulo_credito,
+					titulo_credito.fecha_ultimo_abono_titulo_credito,
+					titulo_credito.total_total_titulo_credito,
+					juicios.observaciones_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
+					juicios.estrategia_juicios,
+					asignacion_secretarios_view.impulsores,
+					clientes.identificacion_clientes,
+                    clientes.nombres_clientes";
+		
+		$from="		public.titulo_credito,
+					public.juicios,
+					public.estados_procesales_juicios,
+					public.ciudad,
+					public.clientes,
+					public.asignacion_secretarios_view";
+		
+		$where="	titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
+					ciudad.id_ciudad = juicios.id_ciudad AND
+					clientes.id_clientes = juicios.id_clientes AND
+					asignacion_secretarios_view.id_abogado = juicios.id_usuarios";
+			
+		$id="juicios.id_juicios";
+		
+		
+		
+		$resultJuicio=$juicios->getCondiciones($columnas, $from, $where, $id);
+		
+		$cantidadResult=count($resultJuicio);
+		
+		
+		$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
+		
+		if($action == 'ajax')
+		{		
+			
+			$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
+			
+			$per_page = 50; //la cantidad de registros que desea mostrar
+			$adjacents  = 4; //brecha entre páginas después de varios adyacentes
+			$offset = ($page - 1) * $per_page;
+			
+			$limit = " LIMIT   '$per_page' OFFSET '$offset'";
+			
+			
+			$resultJuicio=$juicios->getCondicionesPag($columnas, $from, $where, $id, $limit);
+			
+			$count_query   = $cantidadResult;
+			
+			$total_pages = ceil($cantidadResult/$per_page);
+							
+			if ($cantidadResult>0)
+			{
+				$html.='<section style="height:425px; overflow-y:scroll;">';
+				$html.='<table class="table table-hover">';
+				$html.='<thead>';
+				$html.='<tr class="info">';
+				$html.='<th># Comprobante</th>';
+				$html.='<th>Concepto</th>';
+				$html.='<th>Valor</th>';
+				$html.='<th>Acciones</th>';
+				$html.='</tr>';
+				$html.='</thead>';
+				$html.='<tbody>';
+				
+				foreach ($resultJuicio as $res)
+				{
+					$html.='<tr>';
+					$html.='<td>'.$res->nombre_ciudad.'</td>';
+					$html.='<td>'.$res->juicio_referido_titulo_credito.'</td>';
+					$html.='<td>'.$res->numero_titulo_credito.'</td>';
+					$html.='<td>';
+					$html.='<a href="/contabilidad/FrameworkMVC/view/ireports/ContComprobanteContableReport.php?id_ccomprobantes=<?php echo $id_ccomprobantes; ?>"onclick="window.open(this.href, this.target);return false" ><i class="glyphicon glyphicon-print"></i></a>';
+					$html.='</td>';
+					$html.='</tr>';
+					
+				}
+				
+				$html.='</tbody>';
+				$html.='</table>';
+				$html.='</section>';
+				$html.='<div class="table-pagination pull-right">';
+				$html.=''. $this->paginate("index.php", $page, $total_pages, $adjacents).'';
+				$html.='</div>';
+				$html.='<div class="col-md-3 col-lg-3 pull-left" style="margin-top:20px;">';
+				$html.='<span><strong>Registros: </strong>'.$cantidadResult.'</span>';
+				$html.='</div>';
+				$html.='';
+							
+			}else{
+					
+				$html.='<div class="alert alert-warning alert-dismissable">';
+				$html.='<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+				$html.='<h4>Aviso!!!</h4> No hay datos para mostrar';
+				$html.='</div>';
+							
+			}
+			
+			echo $html;
+		}
+	}
+	
 }
 ?> 
