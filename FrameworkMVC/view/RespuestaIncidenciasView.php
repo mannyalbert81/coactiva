@@ -5,7 +5,7 @@
       <head>
       
         <meta charset="utf-8"/>
-        <title>RespuestaIncidencias - coactiva 2016</title>
+        <title>Incidencias - coactiva 2016</title>
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		  			   
@@ -24,7 +24,7 @@
 			webshims.polyfill('forms forms-ext');
 		</script>
 		
-           <!-- AQUI NOTIFICAIONES -->
+		   <!-- AQUI NOTIFICAIONES -->
 		<script type="text/javascript" src="view/css/lib/alertify.js"></script>
 		<link rel="stylesheet" href="view/css/themes/alertify.core.css" />
 		<link rel="stylesheet" href="view/css/themes/alertify.default.css" />
@@ -34,7 +34,7 @@
 		<script>
 
 		function Ok(){
-				alertify.success("Has Pulsado en Guardar"); 
+				alertify.success("Has Pulsado en Reporte"); 
 				return false;
 			}
 			
@@ -44,7 +44,7 @@
 			}
 
 			function notificacion(){
-				alertify.success("Has Pulsado en Editar"); 
+				alertify.success("Has Pulsado en Buscar"); 
 				return false; 
 			}
 		</script>
@@ -52,6 +52,7 @@
 		
 		
 		<!-- TERMINA NOTIFICAIONES -->
+        
         
        <style>
             input{
@@ -64,54 +65,6 @@
                 
             
         </style>
-         
-         <script >
-		$(document).ready(function(){
-
-		    // cada vez que se cambia el valor del combo
-		    $("#Guardar").click(function() 
-			{
-		   
-		    	var nombre_ciudad = $("#nombre_ciudad").val();
-		    
-		   				
-		    	if (nombre_ciudad == "")
-		    	{
-			    	
-		    		$("#mensaje_nombres").text("Introduzca una ciudad ");
-		    		$("#mensaje_nombres").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_nombres").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}
-		    	
-		    	
-
-			
-		    					    
-
-			}); 
-
-
-		 
-				
-				$( "#nombre_ciudad" ).focus(function() {
-					$("#mensaje_nombres").fadeOut("slow");
-    			});
-				
-			
-		
-				
-		
-		      
-				    
-		}); 
-
-	</script>
-     
 
     </head>
     <body style="background-color: #d9e3e4;">
@@ -119,116 +72,80 @@
        <?php include("view/modulos/modal.php"); ?>
        <?php include("view/modulos/head.php"); ?>
        <?php include("view/modulos/menu.php"); ?>
-       
-       
-       
-       <?php
-       
-       
-       
-		   
-		?>
- 
-  
+    
   <div class="container">
   
   <div class="row" style="background-color: #ffffff;">
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("RespuestaIncidencias","InsertaRespuestaIncidencias"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-6">
-            
+      <form action="<?php echo $helper->url("RespuestaIncidencias","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
-        	    <h4 style="color:#ec971f;">Respuesta Incidencias</h4>
-            	<hr/>
-            	
-		   		
-            
-          <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
-            
-            
-            
-        
-			   
-			   <div class="row">
-		       <div class="col-xs-12 col-md-12">
-			  	<p  class="formulario-subtitulo" >Nombres tipos de Ciudades</p>
-			  	<input type="text"  name="nombre_ciudad" id="nombre_ciudad" value="<?php echo $resEdit->nombre_ciudad; ?>" class="form-control"/> 
-			  	<input type="hidden"  name="id_ciudad"  value="<?php echo $resEdit->id_ciudad; ?>" class="form-control"/> 
-			    <div id="mensaje_nombres" class="errores"></div>
-			  </div>
-			   </div>
-		    
-		     <?php } } else {?>
-		    
-			   <div class="row">
-		       <div class="col-xs-6 col-md-6">
-			  	<p  class="formulario-subtitulo" >Nombres de Ciudades</p>
-			  	<input type="text"  name="nombre_ciudad" id="nombre_ciudad" value="" class="form-control"/> 
-			    <div id="mensaje_nombres" class="errores"></div>
-			  </div>
-			 </div>
-
-		    <hr>
-		    
-		    <?php } ?>
-		     
-		      <div class="row">
-			  <div class="col-xs-12 col-md-6" style="text-align: center;" >
-			  <input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
-			  </div>
-			  </div>     
-              
-            
-		 <hr>
-          
-       </form>
-       <!-- termina el form --> 
-       
-        <div class="col-lg-6">
-            <h4 style="color:#ec971f;">Lista de Incidencias Respondidas</h4>
-            <hr/>
-        </div>
-        <section class="col-lg-6 usuario" style="height:400px;overflow-y:scroll;">
+         <!-- comienxza busqueda  -->
+         <div class="col-lg-12" style="margin-top: 10px">
+         
+       	 <h4 style="color:#ec971f;">INCIDENCIAS</h4>
+		 </div>
+		 
+		 
+		 <div class="col-lg-12">
+		 
+		 <div class="col-lg-12">
+		 <div class="col-lg-10"></div>
+		 <div class="col-lg-2">
+		 <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultSet)) echo "  ".count($resultSet);?></span>
+		 </div>
+		 </div>
+		 <div class="col-lg-12">
+		 
+		 
+		 <section class="" style="height:300px;overflow-y:scroll;">
         <table class="table table-hover ">
 	         <tr >
-	    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Nombre</th>
-	    		
-	    		<th></th>
+	            
+				<th style="color:#456789;font-size:80%;"><b>Id</b></th>
+	    		<th style="color:#456789;font-size:80%;">Descripcion</th>
+	    		<th style="color:#456789;font-size:80%;">Usuario</th>
+	    		<th style="color:#456789;font-size:80%;">Asunto</th>
+	    		<th style="color:#456789;font-size:80%;">Fecha</th>
+	    		<th style="color:#456789;font-size:80%;">Imagen</th>
+	    	
 	    		<th></th>
 	  		</tr>
             
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
-	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_ciudad; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		              
-		           	   <td>
-			           		<div class="right">
-			                    <a href="<?php echo $helper->url("RespuestaIncidencias","index"); ?>&id_ciudad=<?php echo $res->id_ciudad; ?>" class="btn btn-warning" onClick="notificacion()" style="font-size:65%;">Editar</a>
-			                </div>
-			            
-			             </td>
-			             <td>   
-			                	<div class="right">
-			                    <a href="<?php echo $helper->url("RespuestaIncidencias","borrarId"); ?>&id_ciudad=<?php echo $res->id_ciudad; ?>" class="btn btn-danger" onClick="Borrar()" style="font-size:65%;">Borrar</a>
-			                </div>
-			                <hr/>
-		               </td>
+	        		
+	        		  
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_incidencia; ?></td>
+	                   <td style="color:#000000;font-size:80%;"> <?php echo $res->descripcion_incidencia; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_usuario; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->asunto_incidencia; ?>     </td> 
+		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
+		                 <td style="color:#000000;font-size:80%;">
+		               <a href="/coactiva/FrameworkMVC/view/ireports/ContJuiciosSubReport.php?id_juicios=<?php echo $res->id_juicios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:80%;">Responder</a>
+		               </td> 
 		    		</tr>
-		        <?php } } ?>
-            
-            <?php 
-            
-            //echo "<script type='text/javascript'> alert('Hola')  ;</script>";
-            
-            ?>
-            
+		        <?php } }  ?>
+           
        	</table>     
       </section>
+      
       </div>
+		 
+		 		 
+		 </div>
+		 
+		
+		
+      
+       </form>
+     
       </div>
+     
+  </div>
+      <!-- termina
+       busqueda  -->
    </body>  
 
     </html>   

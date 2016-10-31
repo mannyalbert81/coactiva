@@ -6,217 +6,103 @@ class RespuestaIncidenciasController extends ControladorBase{
 		parent::__construct();
 	}
 
-
-
-	public function index(){
+public function index(){
 	
-	    session_start();
-
+		session_start();
+	
+		//Creamos el objeto usuario
+		$resultSet="";
+		$respuesta_incidencias=new RespuestaIncidenciasModel();
+		$ciudad = new CiudadModel();
+	
+		$_id_usuarios= $_SESSION["id_usuarios"];
+	
+		$columnas = " usuarios.id_ciudad,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios";
+			
+		$tablas   = "public.usuarios,
+                     public.ciudad";
+			
+		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
+			
+		$id       = "usuarios.id_ciudad";
+	
+			
+		$resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
+	
+	
+		$ciudad = new CiudadModel();
+		$resultCiu = $ciudad->getAll("nombre_ciudad");
+	
+	
+		$usuarios = new UsuariosModel();
+		$resultUsu = $usuarios->getAll("nombre_usuarios");
+	
+	
+		$respuesta_incidencias=new RespuestaIncidenciasModel();
+	
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
 		{
-			$ciudad= new CiudadModel();
-			
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "RespuestaIncidencias";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $ciudad->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-			
+			$resultPer = $respuesta_incidencias->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+	
 			if (!empty($resultPer))
 			{
-				if (isset ($_GET["id_ciudad"])   )
-				{
-
-					$nombre_controladores = "RespuestaIncidencias";
-					$id_rol= $_SESSION['id_rol'];
-					$resultPer = $ciudad->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+					
+				
+					$respuesta_incidencias=new RespuestaIncidenciasModel();
+	
+	
 						
-					if (!empty($resultPer))
-					{
+					$columnas = "incidencia.descripcion_incidencia,
+					incidencia.asunto_incidencia,
+					incidencia.creado,
+					incidencia.respuesta_incidencia,
+					incidencia.imagen_incidencia,
+					incidencia.id_incidencia,
+					incidencia.id_usuario,
+					usuarios.nombre_usuarios";
+	
+					$tablas=" public.incidencia,
+					public.usuarios";
+	
 					
-						$_id_ciudad = $_GET["id_ciudad"];
-						$columnas = " id_ciudad, nombre_ciudad";
-						$tablas   = "ciudad";
-						$where    = "id_ciudad = '$_id_ciudad' "; 
-						$id       = "nombre_ciudad";
-							
-						$resultEdit = $ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
-
-						$traza=new TrazasModel();
-						$_nombre_controlador = "RespuestaIncidencias";
-						$_accion_trazas  = "Editar";
-						$_parametros_trazas = $_id_ciudad;
-						$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-					}
-					else
-					{
-						$this->view("Error",array(
-								"resultado"=>"No tiene Permisos de Editar Respuesta Incidencias"
+					$id="incidencia.id_incidencia";
 					
-						));
-					
-					
-					}
-					
+					$where="incidencia.id_usuario = usuarios.id_usuarios";
+	
+	
+				
+					$resultSet=$respuesta_incidencias->getCondiciones($columnas ,$tablas , $where, $id);
+						 
+	
 				}
-		
-				
+	
+	
 				$this->view("RespuestaIncidencias",array(
-						"resultSet"=>"", "resultEdit" =>""
-			
+						"resultSet"=>$resultSet,"resultCiu"=>$resultCiu, "resultUsu"=>$resultUsu, "resultDatos"=>$resultDatos
+							
 				));
-		
-				
-				
+	
+	
 			}
 			else
 			{
 				$this->view("Error",array(
-						"resultado"=>"No tiene Permisos de Acceso a Respuesta Incidencias"
-				
+						"resultado"=>"No tiene Permisos de Acceso a Consulta Respuesta Incidencias"
+	
 				));
-				
-				exit();	
-			}
-				
-		}
-		else 
-		{
-				$this->view("ErrorSesion",array(
-						"resultSet"=>""
-			
-				));
-		
-		}
 	
-	}
-	
-	public function InsertaRespuestaIncidencias(){
-			
-		session_start();
-
-		
-		$ciudad=new CiudadModel();
-		$nombre_controladores = "RespuestaIncidencias";
-		$id_rol= $_SESSION['id_rol'];
-		$resultPer = $ciudad->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-		
-		
-		if (!empty($resultPer))
-		{
-		
-		
-		
-			$resultado = null;
-			$ciudad=new CiudadModel();
-		
-			//_nombre_tipo_identificacion
-			
-			if (isset ($_POST["nombre_ciudad"]) )
-				
-			{
-				
-				
-				
-				$_nombre_ciudad = $_POST["nombre_ciudad"];
-				
-				if(isset($_POST["id_ciudad"])) 
-				{
-					
-					$_id_ciudad = $_POST["id_ciudad"];
-					$colval = " nombre_ciudad = '$_nombre_ciudad'   ";
-					$tabla = "ciudad";
-					$where = "id_ciudad = '$_id_ciudad'    ";
-					
-					$resultado=$ciudad->UpdateBy($colval, $tabla, $where);
-					
-				}else {
-					
-			
-
-				
-				$funcion = "ins_ciudad";
-				
-				$parametros = " '$_nombre_ciudad'  ";
-					
-				$ciudad->setFuncion($funcion);
-		
-				$ciudad->setParametros($parametros);
-		
-		
-				$resultado=$ciudad->Insert();
-			 
-				$traza=new TrazasModel();
-				$_nombre_controlador = "RespuestaIncidencias";
-				$_accion_trazas  = "Guardar";
-				$_parametros_trazas = $_nombre_ciudad;
-				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-				
-				}
-			 
-			 
-		
+				exit();
 			}
-			$this->redirect("RespuestaIncidencias", "index");
-
-		}
-		else
-		{
-			$this->view("Error",array(
-					
-					"resultado"=>"No tiene Permisos de Insertar Respuesta Incidencias"
-		
-			));
-		
-		
-		}
 	
-
 		
-	}
-
-
-
-
-	public function borrarId()
-	{
-
-		session_start();
 		
-		$permisos_rol=new PermisosRolesModel();
-		$nombre_controladores = "Roles";
-		$id_rol= $_SESSION['id_rol'];
-		$resultPer = $permisos_rol->getPermisosEditar("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
-			
-		if (!empty($resultPer))
-		{
-			if(isset($_GET["id_ciudad"]))
-			{
-				$id_ciudad=(int)$_GET["id_ciudad"];
-				
-				$ciudad=new CiudadModel();
-				
-				$ciudad->deleteBy(" id_ciudad",$id_ciudad);
-				
-				$traza=new TrazasModel();
-				$_nombre_controlador = "Incidencias";
-				$_accion_trazas  = "Borrar";
-				$_parametros_trazas = $id_ciudad;
-				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-			}
-			
-			$this->redirect("RespuestaIncidencias", "index");
-			
-			
-		}
-		else
-		{
-			$this->view("Error",array(
-				"resultado"=>"No tiene Permisos de Borrar Respuesta Incidencias"
-			
-			));
-		}
-				
+	
 	}
 	
 	
