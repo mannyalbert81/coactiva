@@ -153,11 +153,18 @@ class IncidenciasController extends ControladorBase{
 							
 							$resultado=$incidencia->Insert();
 							
-							var_dump($resultado);
-							die('llego');
-						 
+													 
 						} 
 						
+						
+						$my_file = "tuarchivo.png"; // puede ser cualquier formato
+						$my_path = $_SERVER['DOCUMENT_ROOT']."/ruta_a_tu_archivo/";
+						$my_name = "Tu nombre";
+						$my_mail = "tumail@tudominio.com";
+						$my_replyto = "tumail@tudominio.com";
+						$my_subject = "Le adjuntamos la credencial de invuitación al evento";
+						$my_message = "Tu mensaje";
+						mail_attachment($my_file, $my_path, "casilla_destinatario@dominio.com", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
 					
 					}
 					
@@ -208,6 +215,38 @@ class IncidenciasController extends ControladorBase{
 	
 
 		
+	}
+	
+	
+	function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $message) {
+		$file = $path.$filename;
+		$file_size = filesize($file);
+		$handle = fopen($file, "r");
+		$content = fread($handle, $file_size);
+		fclose($handle);
+		$content = chunk_split(base64_encode($content));
+		$uid = md5(uniqid(time()));
+		$name = basename($file);
+		$header = "From: ".$from_name." <".$from_mail.">\r\n";
+		$header .= "Reply-To: ".$replyto."\r\n";
+		$header .= "MIME-Version: 1.0\r\n";
+		$header .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
+		$header .= "This is a multi-part message in MIME format.\r\n";
+		$header .= "--".$uid."\r\n";
+		$header .= "Content-type:text/plain; charset=iso-8859-1\r\n";
+		$header .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+		$header .= $message."\r\n\r\n";
+		$header .= "--".$uid."\r\n";
+		$header .= "Content-Type: application/octet-stream; name=\"".$filename."\"\r\n"; // use different content types here
+		$header .= "Content-Transfer-Encoding: base64\r\n";
+		$header .= "Content-Disposition: attachment; filename=\"".$filename."\"\r\n\r\n";
+		$header .= $content."\r\n\r\n";
+		$header .= "--".$uid."--";
+		if (mail($mailto, $subject, "", $header)) {
+			echo "mail send ... OK"; // or use booleans here
+		} else {
+			echo "mail send ... ERROR!";
+		}
 	}
 
 

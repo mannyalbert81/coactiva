@@ -163,12 +163,19 @@
 			    </select>
 		     </div>
 			 </div>
+			 
+			 <div class="row">
+		     <div class="col-xs-6 col-md-6">
+			    <p  class="formulario-subtitulo" style="" >Asunto:</p>
+			  	<input type="text" name="asunto_incidencia" id="asunto_incidencia" maxlength="30" class="form-control" value=""/>
+		     </div>
+			 </div>
 
 		    <div class="row">
 		    <div class="col-xs-12 col-md-12" style="margin-top:10px">
 			  	<p  class="formulario-subtitulo" >Descripción:</p>
 	          	<textarea  class="form-control" id="descripcion_incidencia" name="descripcion_incidencia" wrap="physical" rows="8"  onKeyDown="contador(this.form.descripcion_incidencia,this.form.remLen,400);" onKeyUp="contador(this.form.descripcion_incidencia,this.form.remLen,400);"></textarea>
-	          	<p  class="formulario-subtitulo" >Te quedan <input type="text" name="remLen" size="2" maxlength="2" value="400" readonly="readonly"> letras por escribir. </p>
+	          	<p  class="formulario-subtitulo" >Te quedan <input type="text"  style="border:none; color:black;" name="remLen" size="2" maxlength="2" value="400" readonly="readonly"> letras por escribir. </p>
 	        		   
 		     </div>
 			 </div>
@@ -206,7 +213,7 @@
 		     <div class="col-lg-12">
 		      <div class="row">
 			  <div class="col-xs-12" style="text-align: center; margin-top:20px" >
-			  <input type="submit" id="Guardar" name="Guardar" value="Guardar" onClick="Ok()" class="btn btn-success"/>
+			  <input type="submit" id="Enviar" name="Enviar" value="Enviar" onClick="Ok()" class="btn btn-info"/>
 			  </div>
 			  </div> 
 			  </div> 
