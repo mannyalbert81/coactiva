@@ -58,6 +58,17 @@ class EntidadBase{
     	return $resultSet;
     }
     
+    public function getCantidad($columna,$tabla,$where){
+    
+    	//parametro $columna puede ser todo (*) o una columna especifica
+    	$query=pg_query($this->con, "SELECT COUNT($columna) AS total FROM $tabla WHERE $where ");
+    	$resultSet = array();
+    
+    	while ($row = pg_fetch_object($query)) {
+    		$resultSet[]=$row;
+    	}
+    	return $resultSet;
+    }    
     
     
     public function getById($id){

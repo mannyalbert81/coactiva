@@ -230,23 +230,44 @@
 
 		$("#find").click(function(){
 
-			//console.log('hola');
-
 			load_juicios(1);
 			
 			});
 	});
-	
+
 	
 	function load_juicios(pagina){
-		var query= $("#c").val();
-		//url:'view/css/Contable/ajax/cargar_contable.php?action=ajax&page='+page+'&c='+c,
+		
+		//iniciar variables
+		 var con_etapa_juicio=$("#id_etapa_juicio").val();
+		 var con_ciudad=$("#id_ciudad").val();
+		 var con_secretario=$("#id_secretario").val();
+		 var con_impulsor=$("#id_impulsor").val();
+		 var con_identificacion=$("#identificacion").val();
+		 var con_juicio=$("#numero_juicio").val();
+		 var con_desde=$("#fecha_desde").val();
+		 var con_hasta=$("#fecha_hasta").val();
+
+		  var con_datos={
+				  id_etapa_juicio:con_etapa_juicio,
+				  id_ciudad:con_ciudad,
+				  id_secretario:con_secretario,
+				  id_impulsor:con_impulsor,
+				  identificacion:con_identificacion,
+				  numero_juicio:con_juicio,
+				  fecha_desde:con_desde,
+				  fecha_hasta:con_hasta,
+				  action:'ajax',
+				  page:pagina
+				  };
+
+
 		$("#juicios").fadeIn('slow');
 		$.ajax({
 			url:"<?php echo $helper->url("ConsultaCordinadorJuicios","cargaDatos");?>",
             type : "POST",
             async: true,			
-			data: {action:'ajax',page:pagina,c:query},
+			data: con_datos,
 			 beforeSend: function(objeto){
 			$("#juicios").html('<img src="view/images/ajax-loader.gif"> Cargando...');
 			},
@@ -256,6 +277,22 @@
 			}
 		})
 	}
+	
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#reporte").click(function(){
+
+			if (!$('#total_query').length){
+				
+				alert("Realice una Busqueda");
+			    return false;
+				}
+			
+			});
+	});
 	
 	</script>
 
@@ -306,7 +343,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12" id="cordinador_juicios">
+      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","_report"); ?>" method="post" enctype="multipart/form-data"  target="_blank" class="col-lg-12" id="cordinador_juicios">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -323,7 +360,7 @@
 			   <p  class="formulario-subtitulo" >Etapa Juicio:</p>
 			  
 			   <select name="id_etapa_juicio" id="id_etapa_juicio"  class="form-control">
-			   <option value="0">--Seleccione--</option>
+			   <option value="0">--Todos--</option>
 			    <?php foreach ($result_etapa_juicio as $res){?>
 			    <option value="<?php echo $res->id_estados_procesales_juicios; ?>"<?php echo ($res->id_estados_procesales_juicios==$sel_etapa_juicio)?'selected':'';?>><?php echo $res->nombre_estados_procesales_juicios;?></option>
 			    <?php }?>
@@ -385,24 +422,21 @@
 		 </div>
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> 
-		 <input type="button" id="find" name="find" value="BuscarJQ" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 <!-- <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> --> 
+		 <input type="button" id="find" name="find" value="Buscar" class="btn btn-warning " style="margin-top: 10px;"/> 	
 		 	
 		 
-		 <?php if(!empty($resultJuicio))  {?>
-		 
 		 <!-- <?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?> -->
-		 <input type="submit" value="Reporte" class="btn btn-success" style="margin-top: 10px;" onclick = "this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?>'; this.form.target = '_blank';" />
+		 <input type="submit" name="reporte" id="reporte" value="Reporte" class="btn btn-success" style="margin-top: 10px;" />
 		 <input type="hidden" name="data_report" id="data_report" value="<?php echo $where_sql['where_to']; ?>"/>
 		 
-		  <?php } else {?>
-		  
-		  <?php } ?>
+		 
 		 </div>
 		</div>
 		
 		<div style="height: 200px; display: block;">
-		 <h4>Datos Juicios</h4>
+		
+		 <h4 style="color:#ec971f;">Datos Juicios</h4>
 			  <div >					
 					<div id="juicios" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
 					<div class="div_contable" ></div><!-- Datos ajax Final -->

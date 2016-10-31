@@ -225,6 +225,130 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 		}
 	}
 	
+	public  function _report()
+	{
+		session_start();
+		
+		
+		$juicios = new JuiciosModel();
+		
+		if (isset(  $_SESSION['usuario_usuarios']) )
+		{	
+			//variables de envio
+			$resultJuicio=array();
+			$where_sql=array();
+			
+			$permisos_rol = new PermisosRolesModel();
+			$nombre_controladores = "ConsultaCordinador";
+			$id_rol= $_SESSION['id_rol'];				
+			
+			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+		
+			if (!empty($resultPer))
+			{
+					
+				if(isset($_POST["reporte"])&&isset($_POST["total_query"]))
+				{
+		
+					$id_etapa_juicio  = (isset($_POST['id_etapa_juicio']))?$_POST['id_etapa_juicio']:'';
+					$id_ciudad        = (isset($_POST['id_ciudad']))?$_POST['id_ciudad']:0;
+					$id_secretario    = (isset($_POST['id_secretario']))?$_POST['id_secretario']:0;
+					$id_impulsor      = (isset($_POST['id_impulsor']))?$_POST['id_impulsor']:0;
+					$identificacion   = (isset($_POST['identificacion']))?$_POST['identificacion']:'';
+					$numero_juicio    = (isset($_POST['numero_juicio']))?$_POST['numero_juicio']:'';
+					$estado_documento = (isset($_POST['estado_documento']))?$_POST['estado_documento']:0;
+					$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
+					$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
+						
+					$columnas="
+					juicios.id_juicios,
+					ciudad.nombre_ciudad,
+					juicios.juicio_referido_titulo_credito,
+					titulo_credito.numero_titulo_credito,
+					titulo_credito.fecha_ultimo_abono_titulo_credito,
+					titulo_credito.total_total_titulo_credito,
+					juicios.observaciones_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
+					juicios.estrategia_juicios,
+					asignacion_secretarios_view.impulsores,
+					clientes.identificacion_clientes,
+                    clientes.nombres_clientes";
+					$from="
+					public.titulo_credito,
+					public.juicios,
+					public.estados_procesales_juicios,
+					public.ciudad,
+					public.clientes,
+					public.asignacion_secretarios_view";
+					$where="
+					titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
+					ciudad.id_ciudad = juicios.id_ciudad AND
+					clientes.id_clientes = juicios.id_clientes AND
+					asignacion_secretarios_view.id_abogado = juicios.id_usuarios";
+						
+					$id="juicios.id_juicios";
+						
+					$where_1="";
+					$where_2="";
+					$where_3="";
+					$where_4="";
+					$where_5="";
+					$where_6="";
+					$where_7="";
+						
+					$where_1=($id_etapa_juicio!=0)?" AND estados_procesales_juicios.id_estados_procesales_juicios='$id_etapa_juicio'":'';
+					$where_2=($id_secretario!=0)?" AND asignacion_secretarios_view.id_secretario='$id_secretario'":'';
+					$where_3=($id_impulsor!=0)?" AND asignacion_secretarios_view.id_abogado='$id_impulsor'":'';
+					$where_4=($id_ciudad!=0)?" AND ciudad.id_ciudad='$id_ciudad'":'';
+					$where_5=($identificacion!="")?" AND clientes.identificacion_clientes='$identificacion'":'';
+					$where_6=($numero_juicio!=0)?" AND juicios.juicio_referido_titulo_credito='$numero_juicio'":'';
+						
+					if($fechadesde!="" && $fechahasta!=""){$where_7=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
+					
+					$where_to=$where.$where_1.$where_2.$where_3.$where_4.$where_5.$where_6.$where_7;
+					
+					$consulta='SELECT '.$columnas.' FROM '.$from.' WHERE '.$where_to;
+						
+					$sql=array("sql"=>$consulta);
+						
+					$this->ireport_vizualizar ( "CordinadorReport",array (
+							"sql" => $sql ) );
+					
+						
+				}else 
+				{
+					$this->view("Error",array(
+							
+							"resultado"=>"No hay Datos a mostrar"
+					
+					));
+				}
+				
+		
+			}
+			else
+			{
+				$this->view("Error",array(
+						"resultado"=>"No tiene Permisos de Consulta Cordinador"
+		
+				));
+		
+				exit();
+			}
+		
+		}
+		else
+		{
+			$this->view("ErrorSesion",array(
+					"resultSet"=>""
+		
+			));
+		
+		}
+		
+	}
+	
 	//para la paginacion con ajax (Jquery)
 	public function prueba()
 	{
@@ -300,7 +424,15 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 		
 		$juicios = new JuiciosModel();
 		
-		$html="";
+		$id_etapa_juicio=(isset($_POST['id_etapa_juicio']))?$_POST['id_etapa_juicio']:'';
+		$id_ciudad        = (isset($_POST['id_ciudad']))?$_POST['id_ciudad']:0;
+		$id_secretario    = (isset($_POST['id_secretario']))?$_POST['id_secretario']:0;
+		$id_impulsor      = (isset($_POST['id_impulsor']))?$_POST['id_impulsor']:0;
+		$identificacion   = (isset($_POST['identificacion']))?$_POST['identificacion']:'';
+		$numero_juicio    = (isset($_POST['numero_juicio']))?$_POST['numero_juicio']:'';
+		$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
+		$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
+		
 		
 		$columnas="juicios.id_juicios,
 				    ciudad.nombre_ciudad,
@@ -329,12 +461,32 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 					asignacion_secretarios_view.id_abogado = juicios.id_usuarios";
 			
 		$id="juicios.id_juicios";
+			
+		$where_1="";
+		$where_2="";
+		$where_3="";
+		$where_4="";
+		$where_5="";
+		$where_6="";
+		$where_7="";
+			
+		$where_1=($id_etapa_juicio!=0)?" AND estados_procesales_juicios.id_estados_procesales_juicios='$id_etapa_juicio'":'';
+		$where_2=($id_secretario!=0)?" AND asignacion_secretarios_view.id_secretario='$id_secretario'":'';
+		$where_3=($id_impulsor!=0)?" AND asignacion_secretarios_view.id_abogado='$id_impulsor'":'';
+		$where_4=($id_ciudad!=0)?" AND ciudad.id_ciudad='$id_ciudad'":'';
+		$where_5=($identificacion!="")?" AND clientes.identificacion_clientes='$identificacion'":'';
+		$where_6=($numero_juicio!=0)?" AND juicios.juicio_referido_titulo_credito='$numero_juicio'":'';		
+		if($fechadesde!="" && $fechahasta!=""){$where_7=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
+			
+			
+		$where_to=$where.$where_1.$where_2.$where_3.$where_4.$where_5.$where_6.$where_7;		
 		
 		
+		$resultJuicio=$juicios->getCantidad("*", $from, $where_to);
 		
-		$resultJuicio=$juicios->getCondiciones($columnas, $from, $where, $id);
+		$html="";
 		
-		$cantidadResult=count($resultJuicio);
+		$cantidadResult=(int)$resultJuicio[0]->total;
 		
 		
 		$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
@@ -345,13 +497,13 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 			$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
 			
 			$per_page = 50; //la cantidad de registros que desea mostrar
-			$adjacents  = 4; //brecha entre páginas después de varios adyacentes
+			$adjacents  = 9; //brecha entre páginas después de varios adyacentes
 			$offset = ($page - 1) * $per_page;
 			
 			$limit = " LIMIT   '$per_page' OFFSET '$offset'";
 			
 			
-			$resultJuicio=$juicios->getCondicionesPag($columnas, $from, $where, $id, $limit);
+			$resultJuicio=$juicios->getCondicionesPag($columnas, $from, $where_to, $id, $limit);
 			
 			$count_query   = $cantidadResult;
 			
@@ -359,27 +511,50 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 							
 			if ($cantidadResult>0)
 			{
+				
+	    		//<th style="color:#456789;font-size:80%;"></th>
+	    						
+				$html.='<div class="pull-left">';
+				$html.='<span class="form-control"><strong>Registros: </strong>'.$cantidadResult.'</span>';
+				$html.='<input type="hidden" value="'.$cantidadResult.'" id="total_query" name="total_query"/>' ;
+				$html.='</div><br>';
 				$html.='<section style="height:425px; overflow-y:scroll;">';
 				$html.='<table class="table table-hover">';
 				$html.='<thead>';
 				$html.='<tr class="info">';
-				$html.='<th># Comprobante</th>';
-				$html.='<th>Concepto</th>';
-				$html.='<th>Valor</th>';
-				$html.='<th>Acciones</th>';
+				$html.='<th><b>Id</b></th>';
+				$html.='<th>Estado Procesal</th>';
+				$html.='<th>Nº Juicio Referido</th>';
+				$html.='<th>Abogado</th>';
+				$html.='<th>Identificacion</th>';
+				$html.='<th>Cliente</th>';
+				$html.='<th>Juzgado</th>';
+				$html.='<th>N° Titulo Credito</th>';
+				$html.='<th>Cuantia</th>';
+				$html.='<th>Ultimo Pago</th>';
+				$html.='<th>Observación</th>';
+				$html.='<th>Estrategia</th>';
 				$html.='</tr>';
 				$html.='</thead>';
 				$html.='<tbody>';
 				
 				foreach ($resultJuicio as $res)
 				{
+					//<td style="color:#000000;font-size:80%;"> <?php echo ;</td>
+					
 					$html.='<tr>';
-					$html.='<td>'.$res->nombre_ciudad.'</td>';
-					$html.='<td>'.$res->juicio_referido_titulo_credito.'</td>';
-					$html.='<td>'.$res->numero_titulo_credito.'</td>';
-					$html.='<td>';
-					$html.='<a href="/contabilidad/FrameworkMVC/view/ireports/ContComprobanteContableReport.php?id_ccomprobantes=<?php echo $id_ccomprobantes; ?>"onclick="window.open(this.href, this.target);return false" ><i class="glyphicon glyphicon-print"></i></a>';
-					$html.='</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->id_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombre_estados_procesales_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->juicio_referido_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->impulsores.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->identificacion_clientes.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombres_clientes.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombre_ciudad.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->numero_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->total_total_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->fecha_ultimo_abono_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->observaciones_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->estrategia_juicios.'</td>';
 					$html.='</tr>';
 					
 				}
@@ -390,10 +565,8 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 				$html.='<div class="table-pagination pull-right">';
 				$html.=''. $this->paginate("index.php", $page, $total_pages, $adjacents).'';
 				$html.='</div>';
-				$html.='<div class="col-md-3 col-lg-3 pull-left" style="margin-top:20px;">';
-				$html.='<span><strong>Registros: </strong>'.$cantidadResult.'</span>';
-				$html.='</div>';
-				$html.='';
+				$html.='</section>';
+				
 							
 			}else{
 					
