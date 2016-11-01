@@ -108,7 +108,52 @@ public function index(){
 	
 	public function enviarRespuesta()
 	{
+		$return = Array('ok'=>TRUE);
 		
+		if(isset($_POST['id_incidencia'])&&isset($_POST['descripcion_respuesta'])&&isset($_POST['image_respuesta']))
+		{
+			$id_incidencia=$_POST['id_incidencia'];
+			$descripcion_respuesta=$_POST['descripcion_respuesta'];
+			
+			$upload_folder =$_SERVER['DOCUMENT_ROOT']."/coactiva/incidencia/respuesta";
+			
+			$nombre_archivo = $_FILES['image_respuesta']['name'];
+					
+			$tipo_archivo = $_FILES['image_respuesta']['type'];
+					
+			$tamano_archivo = $_FILES['image_respuesta']['size'];
+					
+			$tmp_archivo = $_FILES['image_respuesta']['tmp_name'];
+					
+			$archivador = $upload_folder . '/' . $nombre_archivo;
+			
+			if (!move_uploaded_file($tmp_archivo, $archivador)) {
+				
+				$funcion = "ins_respuesta_incidencia";
+				$parametros = "'$id_incidencia','$descripcion_respuesta','$_id_usuario', '$imagen_incidencia','$_asunto_incidencia'";
+				$incidencia->setFuncion($funcion);
+				$incidencia->setParametros($parametros);
+				$resultado=$incidencia->Insert();
+					
+			$return = Array('ok' => FALSE, 'msg' => "Ocurrio un error al subir el archivo. No pudo guardarse.", 'status' => "error");
+					
+			}
+			
+		}else{
+			//echo "2";
+		}
+		
+		
+		
+		
+		
+echo json_encode($return);
+		/*
+		$respuesta="";
+		
+		
+		
+		json_encode("hola");*/
 	}
 	
 	
