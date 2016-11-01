@@ -120,6 +120,7 @@ class IncidenciasController extends ControladorBase{
 				$_id_usuario=$_POST['id_usuario'];
 				$_asunto_incidencia = $_POST["asunto_incidencia"];
 				
+				
 				//parametro para pdf
 				$datos=array();
 				
@@ -154,7 +155,7 @@ class IncidenciasController extends ControladorBase{
 						$cantidad= count($_FILES["image_incidencia"]["name"]);
 						
 						
-						$directorio = $_SERVER['DOCUMENT_ROOT'].'/coactiva/incidencia/';
+						$directorio = $_SERVER['DOCUMENT_ROOT'].'/incidencia/';
 						$hoy = date("Y-m-d");
 						
 						//por defecto solo una imagen
@@ -168,23 +169,24 @@ class IncidenciasController extends ControladorBase{
 							move_uploaded_file($_FILES['image_incidencia']['tmp_name'][$i],$directorio.$nombre);
 							
 							$data = file_get_contents($directorio.$nombre);
-							
+							$_imagen_correo=$directorio.$nombre;
 							$imagen_incidencia = pg_escape_bytea($data);
 								
 							$funcion = "ins_incidencia";
-							
 							$parametros = "'$_descripcion_incidencia','$_id_usuario', '$imagen_incidencia','$_asunto_incidencia'";
 							$incidencia->setFuncion($funcion);
-							
 							$incidencia->setParametros($parametros);
+							$resultado=$incidencia->Insert();
 							
-							//$resultado=$incidencia->Insert();
+							
+							
+							
 							
 							//$mail=$incidencia->phpMailerSend(); die();
 							
-							
+							/*
 							$my_file = $nombre; // puede ser cualquier formato
-							$my_path = $_SERVER['DOCUMENT_ROOT']."/coactiva/incidencia/";
+							$my_path = $_SERVER['DOCUMENT_ROOT']."/incidencia/";
 							$my_name = "Danny";
 							$my_mail = "danny@masoft.net";//aqui va el correo_from
 							$my_replyto = "maycol@masoft.net";
@@ -193,10 +195,9 @@ class IncidenciasController extends ControladorBase{
 							//como parametro va el correo_to
 							$this->mail_attachment($my_file, $my_path, "steven@masoft.net", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
 						
-												 
+							*/					 
 						} 
 						
-						die();
 						
 						
 					}
@@ -206,28 +207,35 @@ class IncidenciasController extends ControladorBase{
 					
 				else
 				{
-					    
+					echo "paso al caso contrario";    
 				
-						$funcion = "ins_incidencia";
-					
-						$parametros = "'$_descripcion_incidencia','$_id_usuario'";
-							
-						$incidencia->setFuncion($funcion);
-					
-						$incidencia->setParametros($parametros);
-					
-						$resultado=$incidencia->Insert();
-						
-						$traza=new TrazasModel();
-						$_nombre_controlador = "Incidencias";
-						$_accion_trazas  = "Guardar";
-						$_parametros_trazas = $_descripcion_incidencia;
-						$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-					
 				}
 				
 				
+				$para = "maycol@masoft.net" .","."danny@masoft.net" ;
+				$titulo = "";
+					
+					
+				$columnas = " usuarios.nombre_usuarios, 
+							  usuarios.correo_usuarios, 
+							  rol.nombre_rol, 
+						     incidencia.id_incidencia,
+							  incidencia.asunto_incidencia, 
+							  incidencia.descripcion_incidencia, 
+							  incidencia.creado,
+						      incidencia.imagen_incidencia";
 				
+				$tablas   = "public.incidencia, 
+							  public.usuarios, 
+							  public.rol";
+				$where    = "usuarios.id_usuarios = incidencia.id_usuario AND
+                             rol.id_rol = usuarios.id_rol AND usuarios.id_usuarios='$_id_usuario' AND incidencia.descripcion_incidencia='$_descripcion_incidencia' AND incidencia.asunto_incidencia='$_asunto_incidencia'";
+				$id       = "incidencia.creado";
+				$lista = $incidencia->getCondiciones($columnas, $tablas, $where, $id);
+				
+				$imagen = $_imagen_correo;
+				
+				$incidencia->SendMail($para, $titulo, $lista, $imagen);
 						
 			
 			}
@@ -249,7 +257,7 @@ class IncidenciasController extends ControladorBase{
 
 		
 	}
-	
+	/*
 	
 	function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $mensaje) 
 	{
@@ -284,12 +292,6 @@ class IncidenciasController extends ControladorBase{
 		$message .= "--".$uid."--";
 		
 		
-		
-		$resultado=mail($mailto, $subject,$message, $header);
-		var_dump($resultado);
-		die();
-		
-		
 		if (mail($mailto, $subject,$message, $header)) {
 			echo "mail send ... OK"; // or use booleans here
 		} else {
@@ -297,7 +299,7 @@ class IncidenciasController extends ControladorBase{
 		}
 	}
 
-
+*/
 	
 	
 }

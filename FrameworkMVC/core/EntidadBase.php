@@ -255,48 +255,148 @@ class EntidadBase{
     }
     
     
-    public  function  SendMail($para, $titulo, $listaCartones)
+    public  function  SendMail($para, $titulo, $lista, $imagen)
     {
+    
+    	 
+    
+    
+    
     	// Varios destinatarios
-    	$para  = 'x.villamar@digitalworld.ec' . ', '; // atención a la coma
-    	$para .= 'manuel@masoft.net';
-    	
-    	
+    
+    	$para  = 'maycol@masoft.net' . ', '; // atención a la coma
+    
+    	$para .= 'danny@masoft.net';
+    
+    	//$para  = 'desarrollo@masoft.net' . ', '; // atención a la coma
+    	//$para .= 'manuel@masoft.net';
+    
+    	 
+    	 
     	// título
-    	$título = 'Cartones Registrados en el Sistema Coopseguros';
-    	
+    	$título = 'prueba';
+    	 
     	// mensaje
     	$mensaje_cabeza = '
-				<html>
-				<head>
-				  <title>Cartones Registrados en Coopseguros</title>
-				</head>
-				<body>
-				  <p>Listado de Cartones Registrados!</p>
-				  <table>
-				    <tr>
-				      <th>Número Carton</th>
-				    </tr>';
-    	
+    
+    <html>
+		<head>
+			<title>INCIDENCIAS</title>
+    		<meta charset="UTF-8">
+			    </head>
+				     <body style="background-color:#d9e3e4">
+				   <div style="background-color:#d93e1b">
+				<rigth><img src="http://localhost:4000/FrameworkMVC/view/images/logo-coctiva.png" WIDTH="350" HEIGHT="110" /></rigth>
+	             </div>
+    			<h2><center><b>INCIDENCIAS</b></center></h2>
+    
+    			<TABLE rules="all" WIDTH="100%">
+    
+    			<TR>
+									<TD WIDTH=200 bgcolor="#A4A4A4">
+									  <h4><center><b>Nombre</b>
+									</TD>
+					
+									<TD WIDTH=200 bgcolor="#A4A4A4">
+									  <h4><center><b>Correo</b>
+									</TD>
+    
+									<TD WIDTH=200 bgcolor="#A4A4A4">
+									  <h4><center><b>Rol</b>
+									</TD>
+					
+									<TD WIDTH=200 bgcolor="#A4A4A4">
+									  <h4><center><b>Descripción</b>
+									</TD>
+    								<TD WIDTH=200 bgcolor="#A4A4A4">
+									  <h4><center><b>Fecha</b>
+									</TD>
+    
+									
+								</TR>
+            
+								  ';
+    
     	$mensaje_detalle = "";
-    		for ($i=0;$i<count($listaCartones);$i++)
-			
-              {
-	    		  $mensaje_detalle .=  '<tr> <td>'. $listaCartones[$i] .'   </td></tr>' ;
-              }
-				  
-		$mensaje_pie =  '</table>
+    	
+    	foreach($lista as $res)
+    	{
+    		
+    		$mensaje_detalle .=  '<td><center>'. $res->nombre_usuarios .'   </td>' ;
+    		$mensaje_detalle .=  '<td><center>'. $res->correo_usuarios .'   </td>' ;
+    		$mensaje_detalle .=  '<td><center>'. $res->nombre_rol .'   </td>' ;
+    		$mensaje_detalle .=  '<td><justify>'. $res->descripcion_incidencia .'   </td>' ;
+    		$mensaje_detalle .=  '<td><center>'. $res->creado .'   </td>' ;
+    		
+    	}
+    	
+    	
+    	
+    
+    	$mensaje_pie =  '</table>
+    
+				<br/>
+				<br/>
+				<br/>
+    			
+    			
 				</body>
 				</html>
 				';
-    	$mensaje = $mensaje_cabeza . $mensaje_detalle . $mensaje_pie;
+    
+    	
+    	$mensaje_cabeza1 = '
+    	
+    <html>
+			<body>
+				
+			<TABLE rules="all" WIDTH="100%">
+    	
+    			
+    	
+								  ';
+    	
+    	$mensaje_detalle1 = "";
+    	 
+    	foreach($lista as $res)
+    	{
+    	$mensaje_detalle1 .=  '<td><center><input type="image" name="image" src="view/DevuelveImagen.php?id_valor='.$res->id_incidencia.'&id_nombre=id_incidencia&tabla=incidencia&campo=imagen_incidencia" alt="'.$res->id_incidencia.'" width="600" height="550"></td>' ;
+    	
+    	}
+    	 
+    	 
+    	 
+    	
+    	$mensaje_pie1 =  '</table>
+    	
+				<br/>
+				<br/>
+				<br/>
+    
+    			<TABLE WIDTH="100%">
+				<TR>
+                <tr style="background:#1C1C1C"><td WIDTH="1000" HEIGHT="50" align="center"><font color="white">All Coercive - Desarrollado por <a href="http://www.masoft.net">www.masoft.net</a> - Copyright © 2016-</font></td></tr>
+    	
+				</TR>
+                </TABLE>
+    			<br/>
+				<br/>
+				<br/>
+				<br/>
+				</body>
+				</html>
+				';
+    	
+    	$mensaje = $mensaje_cabeza . $mensaje_detalle . $mensaje_pie . $mensaje_cabeza1 . $mensaje_detalle1 . $mensaje_pie1;
+    	
+    	
     	// Para enviar un corre=o HTML, debe establecerse la cabecera Content-type
     	$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     	$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     	
     	// Cabeceras adicionales
-    	$cabeceras .= 'To: Manuel <desarrollo@masoft.net>, Kelly <manuel@masoft.net>' . "\r\n";
-    	$cabeceras .= 'From: aDocument <info@masoft.net>' . "\r\n";
+    	$cabeceras .= 'To: Maycol <maycol@masoft.net>, Kelly <maycol@masoft.net>' . "\r\n";
+    	$cabeceras .= 'From: allcoercive <maycol@masoft.net>' . "\r\n";
     	
     	// Enviarlo
     	mail($para, $título, $mensaje, $cabeceras );
