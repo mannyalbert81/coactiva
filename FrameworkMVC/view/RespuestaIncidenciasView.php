@@ -55,10 +55,16 @@
 		<!-- para el modal -->
   <!-- script generar respuesta -->
   
-  <script type="text/javascript">
-
+   <script>
+      function contador (campo,limite) {
+        var cuentacampo = $("#remLen");        
+  		if (campo.value.length > limite) campo.value = campo.value.substring(0, limite);
+  		else  var total = limite-campo.value.length; cuentacampo.val(total);
+  		} 
+    </script>
   
-				
+  <script type="text/javascript">
+		
 	function respuesta_incidencias(rowTabla){
 
 			  //id_respuesta_incidencia serial NOT NULL, //listo pgsql
@@ -68,7 +74,7 @@
 			  //imagen_respuesta_incidencia bytea,
 			  //creado timestamp with time zone, //listo en pgsql
 
-		   var id_incidencia = rowTabla.id;
+		   var id_incidencia_modal = rowTabla.id;
 		   var id_usuario = <?php echo $_SESSION['id_usuarios']; ?>;		        	
 		        	
 		   //console.log(id_incidencia+'\n'+id_usuario);
@@ -76,122 +82,59 @@
 		     $('#modal_incidencia').dialog({
 				                   autoOpen: false,
 				                   modal: true,
-				                   height: 450,
-				                   width: 500,
+				                   height: 500,
+				                   width: 800,
 				                   buttons: {
-				      	"Actualizar": function() {
+				      	"Enviar Respuesta": function() {
+
+				      		var inputFileImage = document.getElementById("image_respuesta");
+				      		var file = inputFileImage.files[0];
+				      		var data = new FormData();
+				      		data.append('image_respuesta',file);
+				      		data.append('id_incidencia',id_incidencia_modal);
+				      		data.append('descripcion_respuesta',$('#descripcion_respuesta').val());
 
 					          var datos = { 
-							         id_entidad_p_cuentas:$('#id_entidad').val(),
-							         id_p_cuentas:$('#modal_edit_id').val(),
-			                    	 nombre_p_cuentas:$('#modal_edit_nombre').val(),
-			                    	 codigo_p_cuentas:$('#modal_edit_codigo').val(),
-			                    	 id_moneda_p_cuentas:$('#modal_edit_id_moneda').val(),
-			                    	 n_p_cuentas:$('#modal_edit_naturaleza').val(),
-			                    	 id_centro_c_p_cuentas:$('#modal_edit_id_centro_c').val()
+							        
 			                    	 	 };
-				                     //alert(datos['id_entidad_p_cuentas']);
-				                     
-				                 var nombre_edit= $('#modal_edit_nombre').val();
-			                    
-			                     if(nombre_edit!='')
-			                     {
+				                 
 					                $.ajax({
 				                           url:"<?php echo $helper->url("RespuestaIncidencias","enviarRespuesta");?>"
 				                           ,type : "POST"
 				                           ,async: true
-				                           ,data : datos
+				                           ,data : data
+				                           ,contentType: false
+				                           ,processData: false
+				                           ,cache: false
 				                           ,success: function(msg){
+
+					                           console.log(msg.trim());
 
 												var res = msg.split('"');
 				                        	   
 					                           if(res[1]=='1' || res[1]==1)
 					                           {
-				                                $('#modal_edit_cuenta').dialog('close');
+				                                $('#modal_incidencia').dialog('close');
 				                                //loading();
 					                           }else
 					                           {
-					                        	   $('#modal_respuesta_grupo').html ("<span style='color:red'>!datos no han sido actualizados..</span>"); 
+					                            $('#modal_respuesta_incidencia').html ("<span style='color:red'>!datos no han sido actualizados..</span>"); 
 							                     
 					                           }
 				                           }
 				                   });
-				                     
-			                     }else
-			                     {
-			                    	 textFail("modal_edit_nombre");
-			                         $('#modal_respuesta_edit').html ("<span style='color:red'>!Existen campos vacios..</span>"); 
-			                           
-			                     }                      
-				   
+				                  
 				                },
 				                "Cancelar": function(){
-				                    $('#modal_incidencia').dialog('close');
+				                   $('#modal_incidencia').dialog('close');
+				                   $('#descripcion_respuesta').val('');
 				                }
 				            }    
 
 				        }); 
-
-				        var  html = "";
-				        html+="<h4 style='color:#ec971f;'>Respuesta Incidencia</h4><hr/>";
-				        html+="<div class = 'col-xs-12 col-md-6'>";
-				        html+="<div class='form-group'>";
-				        html+="<label for='modal_edit_codigo' class='control-label'>Codigo</label><br>";
-				        html+="<input type='text' class='form-control' id='modal_edit_codigo' name='modal_edit_codigo' value='' readonly >";
-				        html+="</div>";
-				        html+="</div><br>";	
-			            html+="<div class = 'col-xs-12 col-md-6'>";
-				        html+="<div class='form-group'>";
-				        html+="<label for='modal_edit_nombre' class='control-label'>Nombre</label><br>";
-				        html+="<input type='text' class='form-control' id='modal_edit_nombre' name='modal_edit_nombre' value='' onfocus='textSucces(this)' >";
-				        html+="<input type='hidden' class='form-control'  id='modal_edit_id' name='modal_edit_id' value=''  >";
-					    html+="</div>";
-				        html+="</div>";				        
-				        html+="<div class='col-xs-12 col-md-6'>";
-				        html+="<div class='form-group'>";
-				        html+="<label for='modal_edit_naturaleza' class='control-label'>Naturaleza</label>";
-				        html+="<select name='modal_edit_naturaleza' id='modal_edit_naturaleza'  class='form-control' >";
-				        html+="<?php if(!empty($n_plan_cuentas)){ foreach($n_plan_cuentas as $res=>$valor) {?>";
-				        html+="<option value='<?php echo $res; ?>' ><?php echo $valor; ?> </option>";
-						html+="<?php } }else{?>";
-						html+="<option value='-1' >Sin registros</option>";
-						html+="<?php }?>";
-					    html+="</select>"; 
-					    html+="<span class='help-block'></span>"; 
-					    html+="</div>";
-					    html+="</div>";
-				        html+="<div class='col-xs-12 col-md-6'>";
-				        html+="<div class='form-group'>";
-				        html+="<label for='modal_edit_id_centro_c' class='control-label'>Centro Costos</label>";
-				        html+="<select name='modal_edit_id_centro_c' id='modal_edit_id_centro_c'  class='form-control' >";
-				        html+="<?php if(!empty($resultCentroC)){ foreach($resultCentroC as $res) {?>";
-				        html+="<option value='<?php echo $res->id_centro_costos; ?>' ><?php echo $res->nombre_centro_costos; ?> </option>";
-						html+="<?php } }else{?>";
-						html+="<option value='-1' >Sin registros</option>";
-						html+="<?php }?>";
-					    html+="</select>"; 
-					    html+="<span class='help-block'></span>"; 
-					    html+="</div>";
-					    html+="</div>";
-					    html+="<div class='col-xs-12 col-md-6'>";
-				        html+="<div class='form-group'>";
-				        html+="<label for='modal_edit_id_moneda' class='control-label'>Moneda</label>";
-				        html+="<select name='modal_edit_id_moneda' id='modal_edit_id_moneda'  class='form-control' >";
-				        html+="<?php if(!empty($resultMoneda)){ foreach($resultMoneda as $res) {?>";
-				        html+="<option value='<?php echo $res->id_monedas; ?>' ><?php echo $res->nombre_monedas; ?> </option>";
-						html+="<?php } }else{?>";
-						html+="<option value='-1' >Sin Grupos</option>";
-						html+="<?php }?>";
-					    html+="</select>"; 
-					    html+="<span class='help-block'></span>"; 
-					    html+="</div>";
-					    html+="</div>";
-					    html+="<div class='col-xs-12 col-md-12' id='modal_respuesta_edit'></div><br>";
-
-					    				       
+		       
 				       // $('#modal_incidencia').html (html);  
 				       
-
 				        $('#modal_incidencia').dialog('open');
 						
 				    
@@ -295,61 +238,39 @@
      
   </div>
   
-  <div id="modal_incidencia">
+  <script>
+   var loadFile = function(event) {
+   var reader = new FileReader();
+   reader.onload = function(){
+   var output = document.getElementById('output');
+		output.src = reader.result;
+		        };
+	reader.readAsDataURL(event.target.files[0]);
+	};
+</script>
+  
+  <div id="modal_incidencia" style="display: none;">
+  
     <h4 style='color:#ec971f;'>Respuesta Incidencia</h4><hr/>
+    <div class = 'col-xs-12 col-md-6'>
+	<div class='form-group'>
+	<input type='hidden' class='form-control'  id='modal_respuesta_id' name='modal_respuesta_id' value=''  >
+	<p  class="formulario-subtitulo" >Descripción:</p>
+	<textarea  class="form-control" id="descripcion_respuesta" name="descripcion_respuesta" wrap="physical" rows="8"  onKeyDown="contador(this,400);" onKeyUp="contador(this,400);"></textarea>
+	<p  class="formulario-subtitulo" >Te quedan <input type="text"  style="border:none; color:black;" id="remLen" name="remLen" size="2" maxlength="2" value="400" readonly="readonly"> letras por escribir. </p>
+	</div>
+	</div>
 	<div class = 'col-xs-12 col-md-6'>
 	<div class='form-group'>
-	<label for='modal_edit_codigo' class='control-label'>Codigo</label><br>
-	<input type='text' class='form-control' id='modal_edit_codigo' name='modal_edit_codigo' value='' readonly >
+	<label for='image_incidencia' class='control-label'>Seleccionar</label><br>
+	<input type="file" id="image_respuesta" accept="image/*" name="image_respuesta" onchange="loadFile(event)" />
 	</div>
-	</div><br>	
-	<div class = 'col-xs-12 col-md-6'>
 	<div class='form-group'>
-	<label for='modal_edit_nombre' class='control-label'>Nombre</label><br>
-	<input type='text' class='form-control' id='modal_edit_nombre' name='modal_edit_nombre' value='' onfocus='textSucces(this)' >
-	<input type='hidden' class='form-control'  id='modal_edit_id' name='modal_edit_id' value=''  >
+	<div><img class = 'col-xs-12 col-md-12'  id="output" /></div>
 	</div>
-	</div>				        
-	<div class='col-xs-12 col-md-6'>
-	<div class='form-group'>
-	<label for='modal_edit_naturaleza' class='control-label'>Naturaleza</label>
-	<select name='modal_edit_naturaleza' id='modal_edit_naturaleza'  class='form-control' >
-	<?php if(!empty($n_plan_cuentas)){ foreach($n_plan_cuentas as $res=>$valor) {?>
-	<option value='<?php echo $res; ?>' ><?php echo $valor; ?> </option>
-	<?php } }else{?>
-	<option value='-1' >Sin registros</option>
-	<?php }?>
-	</select> 
-	<span class='help-block'></span> 
-	</div>
-	</div>
-	<div class='col-xs-12 col-md-6'>
-	<div class='form-group'>
-	<label for='modal_edit_id_centro_c' class='control-label'>Centro Costos</label>
-	<select name='modal_edit_id_centro_c' id='modal_edit_id_centro_c'  class='form-control' >
-	<?php if(!empty($resultCentroC)){ foreach($resultCentroC as $res) {?>
-	<option value='<?php echo $res->id_centro_costos; ?>' ><?php echo $res->nombre_centro_costos; ?> </option>
-	<?php } }else{?>
-	<option value='-1' >Sin registros</option>
-	<?php }?>
-	</select> 
-	<span class='help-block'></span> 
-	</div>
-	</div>
-	<div class='col-xs-12 col-md-6'>
-	<div class='form-group'>
-	<label for='modal_edit_id_moneda' class='control-label'>Moneda</label>
-	<select name='modal_edit_id_moneda' id='modal_edit_id_moneda'  class='form-control' >
-	<?php if(!empty($resultMoneda)){ foreach($resultMoneda as $res) {?>
-	<option value='<?php echo $res->id_monedas; ?>' ><?php echo $res->nombre_monedas; ?> </option>
-	<?php } }else{?>
-	<option value='-1' >Sin Grupos</option>
-	<?php }?>
-	</select>
-	<span class='help-block'></span>
-	</div>
-	</div>
-	<div class='col-xs-12 col-md-12' id='modal_respuesta_edit'></div><br>			        
+	</div>	
+	<div class='col-xs-12 col-md-12' id='modal_respuesta_incidencia'></div><br>			        
+  	
   </div>  
    </body>  
 
