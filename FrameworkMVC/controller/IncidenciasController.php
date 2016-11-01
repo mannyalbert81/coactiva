@@ -92,10 +92,12 @@ class IncidenciasController extends ControladorBase{
 	}
 	
 	public function InsertaIncidencias(){
-			
+		
+		
 		session_start();
 
 		$incidencia= new IncidenciaModel();
+		$usuarios = new UsuariosModel();
 		
 		$nombre_controladores = "Incidencias";
 		$id_rol= $_SESSION['id_rol'];
@@ -104,18 +106,23 @@ class IncidenciasController extends ControladorBase{
 		
 		if (!empty($resultPer))
 		{
-		
-		
-		
+			
 			$resultado = null;
 			$incidencia=new IncidenciaModel();
 		
 			//_nombre_tipo_identificacion
 			
-			if(isset($_POST['Guardar']))
+			if(isset($_POST['Enviar']))
 			{
+				//phpinfo();
+				//die();
 				$_descripcion_incidencia= $_POST["descripcion_incidencia"];
 				$_id_usuario=$_POST['id_usuario'];
+				$_asunto_incidencia = $_POST["asunto_incidencia"];
+				
+				//parametro para pdf
+				$datos=array();
+				
 				
 				if ($_FILES['image_incidencia']['name']!="")
 				{
@@ -123,15 +130,35 @@ class IncidenciasController extends ControladorBase{
 				
 					if(is_array($_FILES['image_incidencia']['name'])) 
 					{
-											
+						$correo_from="";
+						
+						$resultUsuario=$usuarios->getBy("id_usuarios='$_id_usuario'");
+						
+						$correo_from=$resultUsuario[0]->correo_usuarios;
+						
+						$correo_to="";
+						
+						$resultUsuario=$usuarios->getCondiciones("usuarios.correo_usuarios",
+																"public.usuarios,public.rol",
+																"rol.id_rol = usuarios.id_rol AND rol.nombre_rol='ADMINISTRADOR'",
+																"rol.id_rol");
+						
+						foreach ($resultUsuario as $res)
+						{
+							$correo_to.=$res->correo_usuarios.',';
+						}
+						
+						$correo_to=substr($correo_to,0,-1);
+						
+									
 						$cantidad= count($_FILES["image_incidencia"]["name"]);
 						
 						
 						$directorio = $_SERVER['DOCUMENT_ROOT'].'/coactiva/incidencia/';
 						$hoy = date("Y-m-d");
 						
-						
-						for ($i=0; $i<$cantidad; $i++)
+						//por defecto solo una imagen
+						for ($i=0; $i<1; $i++)
 						{
 							$nombre='_'.$_id_usuario.'_'.$hoy.'_';
 							$nombre .= $_FILES['image_incidencia']['name'][$i];
@@ -146,26 +173,32 @@ class IncidenciasController extends ControladorBase{
 								
 							$funcion = "ins_incidencia";
 							
-							$parametros = "'$_descripcion_incidencia','$_id_usuario', '$imagen_incidencia'";
+							$parametros = "'$_descripcion_incidencia','$_id_usuario', '$imagen_incidencia','$_asunto_incidencia'";
 							$incidencia->setFuncion($funcion);
 							
 							$incidencia->setParametros($parametros);
 							
-							$resultado=$incidencia->Insert();
+							//$resultado=$incidencia->Insert();
 							
-													 
+							//$mail=$incidencia->phpMailerSend(); die();
+							
+							
+							$my_file = $nombre; // puede ser cualquier formato
+							$my_path = $_SERVER['DOCUMENT_ROOT']."/coactiva/incidencia/";
+							$my_name = "Danny";
+							$my_mail = "danny@masoft.net";//aqui va el correo_from
+							$my_replyto = "maycol@masoft.net";
+							$my_subject = $_asunto_incidencia;
+							$my_message = $_descripcion_incidencia;
+							//como parametro va el correo_to
+							$this->mail_attachment($my_file, $my_path, "steven@masoft.net", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
+						
+												 
 						} 
 						
+						die();
 						
-						$my_file = "tuarchivo.png"; // puede ser cualquier formato
-						$my_path = $_SERVER['DOCUMENT_ROOT']."/ruta_a_tu_archivo/";
-						$my_name = "Tu nombre";
-						$my_mail = "tumail@tudominio.com";
-						$my_replyto = "tumail@tudominio.com";
-						$my_subject = "Le adjuntamos la credencial de invuitación al evento";
-						$my_message = "Tu mensaje";
-						mail_attachment($my_file, $my_path, "casilla_destinatario@dominio.com", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
-					
+						
 					}
 					
 				
@@ -218,7 +251,9 @@ class IncidenciasController extends ControladorBase{
 	}
 	
 	
-	function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $message) {
+	function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $mensaje) 
+	{
+		
 		$file = $path.$filename;
 		$file_size = filesize($file);
 		$handle = fopen($file, "r");
@@ -227,22 +262,35 @@ class IncidenciasController extends ControladorBase{
 		$content = chunk_split(base64_encode($content));
 		$uid = md5(uniqid(time()));
 		$name = basename($file);
-		$header = "From: ".$from_name." <".$from_mail.">\r\n";
-		$header .= "Reply-To: ".$replyto."\r\n";
+		
+		$eol = PHP_EOL;
+		
+		// Basic headers
+		$header = "From: ".$from_name." <".$from_mail.">".$eol;
+		$header .= "Reply-To: ".$replyto.$eol;
 		$header .= "MIME-Version: 1.0\r\n";
-		$header .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
-		$header .= "This is a multi-part message in MIME format.\r\n";
-		$header .= "--".$uid."\r\n";
-		$header .= "Content-type:text/plain; charset=iso-8859-1\r\n";
-		$header .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-		$header .= $message."\r\n\r\n";
-		$header .= "--".$uid."\r\n";
-		$header .= "Content-Type: application/octet-stream; name=\"".$filename."\"\r\n"; // use different content types here
-		$header .= "Content-Transfer-Encoding: base64\r\n";
-		$header .= "Content-Disposition: attachment; filename=\"".$filename."\"\r\n\r\n";
-		$header .= $content."\r\n\r\n";
-		$header .= "--".$uid."--";
-		if (mail($mailto, $subject, "", $header)) {
+		$header .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"";
+		
+		// Put everything else in $message
+		$message = "--".$uid.$eol;
+		$message .= "Content-Type: text/html; charset=ISO-8859-1".$eol;
+		$message .= "Content-Transfer-Encoding: 8bit".$eol.$eol;
+		$message .= $mensaje.$eol;
+		$message .= "--".$uid.$eol;
+		$message .= "Content-Type: application/pdf; name=\"".$filename."\"".$eol;
+		$message .= "Content-Transfer-Encoding: base64".$eol;
+		$message .= "Content-Disposition: attachment; filename=\"".$filename."\"".$eol;
+		$message .= $content.$eol;
+		$message .= "--".$uid."--";
+		
+		
+		
+		$resultado=mail($mailto, $subject,$message, $header);
+		var_dump($resultado);
+		die();
+		
+		
+		if (mail($mailto, $subject,$message, $header)) {
 			echo "mail send ... OK"; // or use booleans here
 		} else {
 			echo "mail send ... ERROR!";

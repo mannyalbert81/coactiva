@@ -829,5 +829,42 @@ class EntidadBase{
     	$_SESSION['controladores']=$resultPermisos;
     }
     
+    //php PHPMailer class
+    
+    public  function  phpMailerSend()
+    {
+    	
+    	require("PHPMailer/PHPMailerAutoload.php");
+    	
+    	$mail = new PHPMailer();
+    	$mail->IsSMTP();
+    	$mail->SMTPDebug = 2;
+    	$mail->SMTPAuth = true;
+    	$mail->SMTPSecure="ssl";
+    	$mail->Host = "smtp.gmail.com";
+    	$mail->Port = 465;
+    	$mail->Username="hevy.craw@gmail.com";
+    	$mail->Password="cr@w19\\";
+    	$mail->From="hevy.craw@gmail.com";
+    	$mail->FromName="Danny";
+    	$mail->addReplyTo("hevy.craw@gmail.com","Danny");
+    	$mail->Subject="Envío de email usando SMTP de Gmail";
+    	//indico destinatario
+    	$address = "steven@masoft.net";
+    	$body = "Hola amigo
+    	";
+    	$body .= "probando PHPMailer.
+   
+    	";
+    	$body .= "Saludos";
+    	$mail->Body = $body;
+    	$mail->AltBody = "Hola amigo\nprobando PHPMailer\n\nSaludos";
+    	$mail->addAddress($address,"Steven");
+    	$mail->addAttachment("core/conectar.php", "conectar.php");
+    	$exito=$mail->send();
+    	
+    	die($exito);
+    }
+    
 }
 ?>

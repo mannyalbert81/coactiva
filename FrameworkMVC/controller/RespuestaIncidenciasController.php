@@ -106,5 +106,11 @@ public function index(){
 	}
 	
 	
+	public function enviarRespuesta()
+	{
+		
+	}
+	
+	
 }
 ?>
