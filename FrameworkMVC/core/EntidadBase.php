@@ -286,7 +286,7 @@ class EntidadBase{
 			    </head>
 				     <body style="background-color:#d9e3e4">
 				   <div style="background-color:#d93e1b">
-				<rigth><img src="http://localhost:4000/FrameworkMVC/view/images/logo-coctiva.png" WIDTH="350" HEIGHT="110" /></rigth>
+				<rigth><img src="http://localhost:4000/coactiva/FrameworkMVC/view/images/logo-coctiva.png" WIDTH="350" HEIGHT="110" /></rigth>
 	             </div>
     			<h2><center><b>INCIDENCIAS</b></center></h2>
     
@@ -389,7 +389,8 @@ class EntidadBase{
     	
     	$mensaje = $mensaje_cabeza . $mensaje_detalle . $mensaje_pie . $mensaje_cabeza1 . $mensaje_detalle1 . $mensaje_pie1;
     	
-    	
+    	echo($mensaje);
+    	die();
     	// Para enviar un corre=o HTML, debe establecerse la cabecera Content-type
     	$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     	$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
