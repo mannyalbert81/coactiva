@@ -301,7 +301,7 @@
      	if($_SERVER['REQUEST_METHOD']=='POST' )
      		{
      			
-     			$sel_nombre_usuarios= $_POST['id_usuarioAgente'];
+     			
      			$sel_id_ciudad=$_POST['id_ciudad'];
      			$sel_fecha_asignacion=$_POST['fecha_asignacion'];
      	

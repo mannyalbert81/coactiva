@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-25T15:08:15 -->
+<!-- 2016-11-07T14:41:12 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuariosReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="536544f0-7708-44b6-b9b7-fcff2889a866">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="view\ireports\CoactivaDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
 		<![CDATA[SELECT rol.nombre_rol,
 	ciudad.nombre_ciudad,
@@ -45,7 +45,6 @@ WHERE
 			</rectangle>
 			<image>
 				<reportElement x="18" y="14" width="115" height="50" uuid="e2513711-73e8-45b4-9a5e-c5fb8639290c"/>
-				<imageExpression><![CDATA["C:/xampp/htdocs/coactiva/FrameworkMVC/view/ireports/PhpJasperLibrary/class/tcpdf/images/LOGO FOMENTO.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="27" width="800" height="20" forecolor="#000000" backcolor="#000000" uuid="8f293454-e993-45b7-b77a-5d7f90aa6b88"/>

@@ -157,7 +157,7 @@ class FirmasDigitalesController extends ControladorBase{
 				$_id_usuarios =  $_POST["abogados"] ;
 				
 				$firmas_digitales = new FirmasDigitalesModel();
-				$directorio = $_SERVER['DOCUMENT_ROOT'].'/uploads/';
+				$directorio = $_SERVER['DOCUMENT_ROOT'].'/coactiva/uploads/';
 					
 				$nombre = $_FILES['imagen_firmas_digitales']['name'];
 				$tipo = $_FILES['imagen_firmas_digitales']['type'];

@@ -420,17 +420,7 @@
   			 <p  class="formulario-subtitulo">-- Sin Garante --</p>
   			 <input type="radio" name="tipo_avoco" id="sin_garante" value="sin_garante" <?php echo $habilitar;?> <?php if (!empty($datosGet)){if($datosGet['tipoAvoco']=="sin_garante"){echo $checked; }}?>/>
   			</div>
-  			 <!-- 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo" >-- Solo Secretario --</p>
-  			 <input type="radio" name="tipo_avoco" id="secretario" value="secretario" <?php echo $habilitar;?>/>
-  			</div>
-  			 
-  			 <div class="col-xs-3 col-md-3" style="text-align: center;">
-  			 <p  class="formulario-subtitulo">-- Solo Impulsor --</p>
-  			 <input type="radio" name="tipo_avoco" id="impulsor" value="impulsor" <?php echo $habilitar;?>/>
-  			</div>
-  			 -->
+  			
   			 </div>
   			
   			</div>

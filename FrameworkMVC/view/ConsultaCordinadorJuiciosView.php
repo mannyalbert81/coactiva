@@ -213,25 +213,87 @@
 	</script>
 	
 	<script type="text/javascript">
-	function call_generar_reporte()
-	{
-		var sql=<?php echo json_encode($sql);?>
+	$(document).ready(function(){
+		$("#id_etapa_juicio").change(function(){
 
-		$.ajax({
-            url:"<?php echo $helper->url("ConsultaCordinador","Reporte");?>"
-            ,type : "POST"
-            ,async: true
-            ,data : {_sql:sql}
-            ,success: function(msg){
-	            
-	            console.log(msg);
-            }
-    		});
+			 $("#id_impulsor").val(0);
+			 $("#id_secretario").val(0); 
+			 $("#id_ciudad").val(0);
+			
+			});
+		});    
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		//load_juicios(1);
 
+		$("#find").click(function(){
+
+			load_juicios(1);
+			
+			});
+	});
+
+	
+	function load_juicios(pagina){
 		
+		//iniciar variables
+		 var con_etapa_juicio=$("#id_etapa_juicio").val();
+		 var con_ciudad=$("#id_ciudad").val();
+		 var con_secretario=$("#id_secretario").val();
+		 var con_impulsor=$("#id_impulsor").val();
+		 var con_identificacion=$("#identificacion").val();
+		 var con_juicio=$("#numero_juicio").val();
+		 var con_desde=$("#fecha_desde").val();
+		 var con_hasta=$("#fecha_hasta").val();
+
+		  var con_datos={
+				  id_etapa_juicio:con_etapa_juicio,
+				  id_ciudad:con_ciudad,
+				  id_secretario:con_secretario,
+				  id_impulsor:con_impulsor,
+				  identificacion:con_identificacion,
+				  numero_juicio:con_juicio,
+				  fecha_desde:con_desde,
+				  fecha_hasta:con_hasta,
+				  action:'ajax',
+				  page:pagina
+				  };
+
+
+		$("#juicios").fadeIn('slow');
+		$.ajax({
+			url:"<?php echo $helper->url("ConsultaCordinadorJuicios","cargaDatos");?>",
+            type : "POST",
+            async: true,			
+			data: con_datos,
+			 beforeSend: function(objeto){
+			$("#juicios").html('<img src="view/images/ajax-loader.gif"> Cargando...');
+			},
+			success:function(data){
+				$(".div_contable").html(data).fadeIn('slow');
+				$("#juicios").html("");
+			}
+		})
 	}
 	
-    
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#reporte").click(function(){
+
+			if (!$('#total_query').length){
+				
+				alert("Realice una Busqueda");
+			    return false;
+				}
+			
+			});
+	});
+	
 	</script>
 
     </head>
@@ -281,7 +343,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","index"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("ConsultaCordinadorJuicios","_report"); ?>" method="post" enctype="multipart/form-data"  target="_blank" class="col-lg-12" id="cordinador_juicios">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -298,7 +360,7 @@
 			   <p  class="formulario-subtitulo" >Etapa Juicio:</p>
 			  
 			   <select name="id_etapa_juicio" id="id_etapa_juicio"  class="form-control">
-			   <option value="0">--Seleccione--</option>
+			   <option value="0">--Todos--</option>
 			    <?php foreach ($result_etapa_juicio as $res){?>
 			    <option value="<?php echo $res->id_estados_procesales_juicios; ?>"<?php echo ($res->id_estados_procesales_juicios==$sel_etapa_juicio)?'selected':'';?>><?php echo $res->nombre_estados_procesales_juicios;?></option>
 			    <?php }?>
@@ -345,17 +407,7 @@
         </div>
 	     
 	    <div class="row"> 
-	     <div class="col-xs-2 ">
-			   <p  class="formulario-subtitulo" >Estado Documento:</p>
-			  
-			 <select name="estado_documento" id="estado_documento"  class="form-control">
-			   <option value="0"  >--Seleccione--</option>
-			   <?php foreach ($array_estado_doc as $val=>$estado){?>
-			   <option value="<?php echo $val; ?>" <?php echo ($val==$sel_estado_doc )?'selected':'';?>  ><?php echo $estado; ?></option>
-			   <?php }?>
-			 </select>
-	    </div> 
-         
+	              
          <div class="col-xs-2 ">
          		<p class="formulario-subtitulo" >Desde:</p>
 			  	<input type="date"  name="fecha_desde" id="fecha_desde" value="<?php echo $sel_fecha_desde;?>" class="form-control " placeholder="Seleccione"/> 
@@ -370,261 +422,50 @@
 		 </div>
   			</div>
   		<div class="col-lg-12" style="text-align: center; margin-bottom: 20px">
-		 <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion()" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 <!-- <input type="submit" id="buscar" name="buscar" value="Buscar" onClick="notificacion(); this.form.action = '<?php  echo $helper->url("ConsultaCordinadorJuicios","index"); ?>'; this.form.target = '_self';" class="btn btn-warning " style="margin-top: 10px;"/> --> 
+		 <input type="button" id="find" name="find" value="Buscar" class="btn btn-warning " style="margin-top: 10px;"/> 	
+		 	
 		 
-		 <?php if(!empty($resultCita)||!empty($resultProv)||!empty($resultOfi)||!empty($resultAvoCono)||!empty($resultAutoPago)||!empty($resultSet))  {?>
+		 <!-- <?php  echo $helper->url("ConsultaCordinadorJuicios","Reporte"); ?> -->
+		 <input type="submit" name="reporte" id="reporte" value="Reporte" class="btn btn-success" style="margin-top: 10px;" />
+		 <input type="hidden" name="data_report" id="data_report" value="<?php echo $where_sql['where_to']; ?>"/>
 		 
-		  <a href="<?php echo $helper->url("ConsultaCordinador","Reporte");?>" onclick=" window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false;" style="margin-top: 10px;" class="btn btn-success">Reporte</a>
 		 
-		  <?php } else {?>
-		  
-		  <?php } ?>
 		 </div>
 		</div>
+		
+		<div style="height: 200px; display: block;">
+		
+		 <h4 style="color:#ec971f;">Datos Juicios</h4>
+			  <div >					
+					<div id="juicios" style="position: absolute;	text-align: center;	top: 55px;	width: 100%;display:none;"></div><!-- Carga gif animado -->
+					<div class="div_contable" ></div><!-- Datos ajax Final -->
+		      </div>
+		       <br>
+				  
+		 </div>
         	
 		 </div>
 		 
+		 <!-- para la paginacion en nueva tabla -->
 		 
-		 <div class="col-lg-12">
+		 <!-- termina la paginacion -->
 		
-		 <section class="" style="height:300px;overflow-y:scroll;">
-        
-        	<table class="table table-hover ">
-        	
- <?php if (!empty($resultCita)) {?>
-               	<tr>
-		        <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultCita)) echo "  ".count($resultCita);?></span>
-		        </tr>
-               	<tr >
-               	<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-               	<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-               	<th style="color:#456789;font-size:80%;">Identificacion</th>
-               	<th style="color:#456789;font-size:80%;">Cliente</th>
-               	<th style="color:#456789;font-size:80%;">Fecha</th>
-               	<th style="color:#456789;font-size:80%;">Ciudad</th>
-               	<th style="color:#456789;font-size:80%;">Persona Recibe</th>
-               	<th style="color:#456789;font-size:80%;">Relacion</th>
-               	<th style="color:#456789;font-size:80%;">Usuarios</th>
-               	 
-               	<th></th>
-               	<th></th>
-               	</tr>
-               	
-                 <?php		foreach($resultCita as $res) {   ?>
-	          
-               		<tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_juicios; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_citaciones; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_persona_recibe_citaciones; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->relacion_cliente_citaciones; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_citaciones"); ?>&id=<?php echo $res->id_citaciones; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
-		               </td> 
-		    		</tr>
-		
-		<?php } }elseif (!empty($resultProv)) {?>
-		    		<tr>
-		            <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultProv)) echo "  ".count($resultProv);?></span>
-		            </tr>
-		    		<tr >
-		    		<th style="color:#456789;font-size:80%;"><b>Id</b></th>
-		    		<th style="color:#456789;font-size:80%;"><b>Ciudad</b></th>
-		    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-		    		<th style="color:#456789;font-size:80%;">Cliente</th>
-		    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-		    		<th style="color:#456789;font-size:80%;">Nombre Documento</th>
-		    		<th style="color:#456789;font-size:80%;">Impulsor</th>
-		    		<th style="color:#456789;font-size:80%;">secretarios</th>
-		    		<th style="color:#456789;font-size:80%;">Fecha Emisión</th>
-		    		<th style="color:#456789;font-size:80%;">Hora Emision</th>
-		    		<th></th>
-		    		<th></th>
-		    		</tr>
-		    		
-		    		<?php 
-		    		
-		    		foreach($resultProv as $res) {   ?>
-		
-               		<tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_documentos; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_documento; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_emision_documentos; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->hora_emision_documentos; ?>     </td> 
-		               
-		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_providencias"); ?>&id=<?php echo $res->id_documentos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
-		               </td> 
-		    		</tr>
-		    		
-<?php } }elseif (!empty($resultOfi)) {?> 
-		    	
-		     <tr>
-		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultOfi)) echo "  ".count($resultOfi);?></span>
-		     </tr>		
-	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Numero</th>
-	    		<th style="color:#456789;font-size:80%;">Juicio</th>
-	    		<th style="color:#456789;font-size:80%;">Titulo Credito</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Entidades</th>
-	    		<th style="color:#456789;font-size:80%;">Creado</th>
-	             	
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-        
-		    
-		    	<?php  foreach($resultOfi as $res) {   ?>
-
-				       		<tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_oficios; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->numero_oficios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		                <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_entidades; ?>     </td> 
-		                 <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
-		            
-		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_oficios"); ?>&id=<?php echo $res->id_oficios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
-		               </td> 
-		    		</tr>
-		    		
-		 <?php } }elseif (!empty($resultAvoCono)) {?>  
-		    		
-		     <tr>
-		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultAvoCono)) echo "  ".count($resultAvoCono);?></span>
-		     </tr>	
-	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Ciudad</th>
-	    		<th style="color:#456789;font-size:80%;">Secretario</th>
-	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
-	    		<th style="color:#456789;font-size:80%;">Creado</th>
-
-	    		
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-		    		<?php foreach($resultAvoCono as $res) {   ?>
-		    		
-
-				     <tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_avoco_conocimiento; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->juicio_referido_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_ciudad; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->secretarios; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->impulsores; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->creado; ?>     </td> 
-		            
-		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_avoco_conocimiento"); ?>&id=<?php echo $res->id_avoco_conocimiento; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:65%;">-- VER --</a>
-		               </td> 
-		    		</tr>
-		    		
-	<?php } }elseif (!empty($resultAutoPago)) {?>  
-		    			
-		     <tr>
-		     <span class="form-control"><strong>Registros:</strong><?php if(!empty($resultAutoPago)) echo "  ".count($resultAutoPago);?></span>
-		     </tr>		
-	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Titulo</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Usuario</th>
-	    		<th style="color:#456789;font-size:80%;">Fecha </th>
-	    		<th style="color:#456789;font-size:80%;">Estado</th>
-	    		
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-		    			
-			    		<?php	foreach($resultAutoPago as $res) {?>
-
-		      		<tr>
-	        		   <td style="color:#000000;font-size:80%;"> <?php echo $res->id_auto_pagos; ?></td>
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->id_titulo_credito; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombres_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->identificacion_clientes; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_usuarios; ?></td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->fecha_asiganacion_auto_pagos; ?>     </td> 
-		               <td style="color:#000000;font-size:80%;"> <?php echo $res->nombre_estado; ?>     </td> 
-		            
-		               <td style="color:#000000;font-size:80%;">
-		               <a href="<?php echo $helper->url("ConsultaCordinador","abrirPdf_auto_pago"); ?>&id=<?php echo $res->id_auto_pagos; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success"  style="font-size:65%;">-- VER --</a>
-		               </td> 
-		    		</tr>
-		    		
-		    		<?php }}else {?>
-		    		
-		    		
-	         <tr >
-	            <th style="color:#456789;font-size:80%;"><b>Id</b></th>
-	    		<th style="color:#456789;font-size:80%;">Nº Juicio Referido</th>
-	    		<th style="color:#456789;font-size:80%;">Cliente</th>
-	    		<th style="color:#456789;font-size:80%;">Identificacion</th>
-	    		<th style="color:#456789;font-size:80%;">Estado Procesal</th>
-	    		<th style="color:#456789;font-size:80%;">Fecha Emisión</th>
-	    		<th style="color:#456789;font-size:80%;">Impulsor</th>
-	    		
-	    		<th></th>
-	    		<th></th>
-	  		</tr>
-		    		
-		    		<tr>
-	                  	<td></td>
-            			<td></td>
-            			<td></td>
-            			<td colspan="5" style="color:#ec971f;font-size:8;" style="text-aling:center;"> <?php echo '<span id="snResult">NO EXISTE DATOS PARA ESOS FILTROS</span>' ?></td>
-	       				
-		   </tr>
-		    		
-		    		<?php } ?>
-               
-       	</table>
-       </section>
-		</div>
 		 </form>
-		
-<div class="text-center">	
-  <ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>                       
- </div>
- </div>
+		 
+
+ 
+         
+ 
+   </div>
 
      
      
       </div>
  
-      <!-- termina
-       busqueda  -->
+      <!-- termina busqueda  -->
+       
+       
    </body>  
 
-    </html>   
+</html>   

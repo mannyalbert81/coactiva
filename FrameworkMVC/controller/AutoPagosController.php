@@ -241,6 +241,12 @@ class AutoPagosController extends ControladorBase{
 
 			if (isset ($_POST["Guardar"])   )
 			{
+				$consecutivo= new ConsecutivosModel();
+				$resultConsecutivo= $consecutivo->getBy("documento_consecutivos='AUTOPAGOS'");
+				$identificador=$resultConsecutivo[0]->real_consecutivos;
+				
+				$repositorio_documento="AutoPagos";
+				$nombre_auto_pagos=$repositorio_documento.$identificador;
 				
 				
 				$_array_titulo_credito = $_POST["id_titulo_credito"];
@@ -250,6 +256,8 @@ class AutoPagosController extends ControladorBase{
 				$_id_usuario_agente = $_POST["id_usuarioAgente"];
 				$_fecha_asignado=$_POST["fecha_asignacion"];
 				$_estado =$_POST["id_estado"];
+				
+				
 				
 				
 				foreach($_array_titulo_credito  as $id  )
@@ -295,9 +303,39 @@ class AutoPagosController extends ControladorBase{
 				$_accion_trazas  = "Guardar";
 				$_parametros_trazas = $_id_titulo_credito;
 				$resultado = $traza->AuditoriaControladores($_accion_trazas, $_parametros_trazas, $_nombre_controlador);
-		
 				
-			   }
+				//para generar el pdf
+				$columnas = " ciudad.nombre_ciudad,
+				juicios.juicio_referido_titulo_credito,
+				juicios.creado,
+				clientes.nombres_clientes,
+				clientes.identificacion_garantes,
+				clientes.nombre_garantes,
+				clientes.identificacion_clientes,
+				titulo_credito.total_total_titulo_credito,
+				asignacion_secretarios_view.secretarios,
+				asignacion_secretarios_view.impulsores,
+				asignacion_secretarios_view.liquidador,
+				auto_pagos.identificador";
+					
+				$tablas   = " 
+				public.auto_pagos, 
+				public.ciudad,
+				public.juicios,
+				public.clientes,
+				public.titulo_credito,
+				public.asignacion_secretarios_view";
+					
+				$where    = " ciudad.id_ciudad = juicios.id_ciudad AND
+				juicios.id_clientes = clientes.id_clientes AND
+				titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+				asignacion_secretarios_view.id_abogado = titulo_credito.id_usuarios AND
+				auto_pagos.identificador='$identificador'";
+				$id		  = "auto_pagos.identificador";
+				$resultSet= $auto_pagos->getCondiciones($columnas, $tablas, $where, $id);
+					
+				$this->report("ImpresionAutoPago",array( "resultSet"=>$resultSet));
+		   }
 			   
 			   
 			$this->redirect("AutoPagos", "index");

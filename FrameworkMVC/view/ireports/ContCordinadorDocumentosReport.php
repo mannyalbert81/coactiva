@@ -1,5 +1,4 @@
-<?php
-
+ <?php
 
 #<?php
 #Importas la librer�a PhpJasperLibrary
@@ -14,8 +13,6 @@ $db      = db;
 $driver  = driver;
 ini_set('display_errors', 0);
 
-
-$array_datos=$_SERVER['data_ireport'];
 
 $sql="SELECT avoco_conocimiento.id_avoco_conocimiento,
  juicios.juicio_referido_titulo_credito,
@@ -41,7 +38,7 @@ $sql="SELECT avoco_conocimiento.id_avoco_conocimiento,
 
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->sql=$sql;
+//$PHPJasperXML->sql=$sql;
 $PHPJasperXML->load_xml_file("CordinadorDocumentosReport.jrxml");
 
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);

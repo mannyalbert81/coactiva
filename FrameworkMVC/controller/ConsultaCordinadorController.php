@@ -20,16 +20,7 @@ class ConsultaCordinadorController extends ControladorBase{
 		$resultAvoCono=array();
 		$resultAutoPago=array();
 		
-		/*
-		$array=$_SESSION['tu_array_de_cualquier_dimension'];
-		// Y si no quieres la variable de sesión creada:
-		unset($_SESSION['tu_array_de_cualquier_dimension']);
-		// Y si realmente no usas sesiones en tu aplicación para nada ..
-		// Destruyes tu sesión.
-		session_destroy();
 		
-		// en $array vuelves a tener en este punto tu array tal cual .. sin más proceso que aplicar.
-		*/
 		
 		$documentos_impulsores=new DocumentosModel();
 		$ciudad = new CiudadModel();
@@ -48,6 +39,8 @@ class ConsultaCordinadorController extends ControladorBase{
 			{
 					
 				if(isset($_POST["buscar"])){
+					
+					unset($_SESSION ['data_ireport']);
 
 					$tipo_documento=$_POST['tipo_documento'];
 					
@@ -79,7 +72,7 @@ class ConsultaCordinadorController extends ControladorBase{
 								  citaciones.fecha_citaciones, 
 								  ciudad.nombre_ciudad, 
 								  citaciones.nombre_persona_recibe_citaciones, 
-								  citaciones.relacion_cliente_citaciones, 
+								  citaciones.relacion_cliente_citaciones,
 								  usuarios.nombre_usuarios";
 
 					$tablas=" public.citaciones, 
@@ -106,9 +99,7 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
+						if($id_secretario!=0 ){$where_1=" AND usuarios.id_usuarios='$id_secretario' ";}
 						
 						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
 							
@@ -116,11 +107,20 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  citaciones.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
 						
+						if($estado_documento=='true'||$estado_documento=='false')
+						{
+							$where_2=" AND citaciones.firma_citador='$estado_documento' ";
+													
+						}
+						
 						
 						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
 						
 						
 						$resultCita=$citaciones->getCondiciones($columnas ,$tablas , $where_to, $id);
+						
+						$_SESSION['data_ireport']=array("documento"=>'citaciones',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where_to).' ORDER BY '.$id);
+						
 						
 					}
 					
@@ -131,27 +131,29 @@ class ConsultaCordinadorController extends ControladorBase{
 						$documentos=new DocumentosModel();
 						
 						
-						$columnas = "documentos.id_documentos,
-						ciudad.nombre_ciudad,
-						juicios.juicio_referido_titulo_credito,
-						clientes.nombres_clientes,
-						clientes.identificacion_clientes,
-						documentos.nombre_documento,
-						asignacion_secretarios_view.impulsores,
-						asignacion_secretarios_view.secretarios,
-						documentos.fecha_emision_documentos,
-						documentos.hora_emision_documentos";
+						$columnas = " documentos.id_documentos, 
+							  ciudad.nombre_ciudad, 
+							  juicios.juicio_referido_titulo_credito, 
+							  clientes.nombres_clientes, 
+							  clientes.identificacion_clientes, 
+							  documentos.nombre_documento, 
+							  usuarios.nombre_usuarios, 
+							  rol.nombre_rol, 
+							  documentos.fecha_emision_documentos, 
+							  documentos.hora_emision_documentos";
 						
-						$tablas=" public.ciudad, 
-								  public.clientes, 
-								  public.juicios, 
-								  public.asignacion_secretarios_view, 
-								  public.documentos";
+						$tablas="public.documentos, 
+							  public.ciudad, 
+							  public.juicios, 
+							  public.usuarios, 
+							  public.clientes, 
+							  public.rol";
 														
-						$where="clientes.id_clientes = juicios.id_clientes AND
+						$where="ciudad.id_ciudad = documentos.id_ciudad AND
 							  juicios.id_juicios = documentos.id_juicio AND
-							  asignacion_secretarios_view.id_abogado = documentos.id_usuario_registra_documentos AND
-							  documentos.id_ciudad = ciudad.id_ciudad";
+							  usuarios.id_usuarios = documentos.id_usuario_registra_documentos AND
+							  clientes.id_clientes = juicios.id_clientes AND
+							  rol.id_rol = usuarios.id_rol";
 						
 						$id="documentos.id_documentos";
 						
@@ -166,9 +168,7 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 							
-						if($id_secretario!=0){$where_1=" AND asignacion_secretarios_view.id_secretario='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND asignacion_secretarios_view.id_abogado='$id_impulsor'";}
+						if($id_secretario!=0){$where_1=" AND ( usuarios.id_usuarios='$id_secretario' OR usuarios.id_usuarios='$id_impulsor' )";}
 						
 						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
 							
@@ -176,11 +176,30 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
 						
+						if($estado_documento=='true'||$estado_documento=='false')
+						{
+						
+							if($id_secretario!=0&&$id_impulsor!=0)
+							{
+								$where_2=" AND documentos.firma_impulsor='$estado_documento' AND documentos.firma_secretario = '$estado_documento' ";
+							}else if($id_secretario!=0)
+							{
+								$where_2=" AND documentos.firma_secretario = '$estado_documento' ";
+							}else if($id_impulsor!=0)
+							{
+								$where_2=" AND documentos.firma_impulsor = '$estado_documento' ";
+							}
+						
+						}
 						
 						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
 						
 						
 						$resultProv=$documentos->getCondiciones($columnas ,$tablas , $where_to, $id);
+						
+						$_SESSION['data_ireport']=array("documento"=>'providencias',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where_to).' ORDER BY '.$id);
+						
+						
 						
 						
 					}
@@ -192,26 +211,31 @@ class ConsultaCordinadorController extends ControladorBase{
 	
 					$oficios= new OficiosModel();
 					
-					$columnas = "oficios.id_oficios,
-					oficios.creado,
-					oficios.numero_oficios,
-					juicios.id_juicios,
-					juicios.juicio_referido_titulo_credito,
-					juicios.id_titulo_credito,
-					clientes.nombres_clientes,
-					clientes.identificacion_clientes,
-					entidades.id_entidades,
-					entidades.nombre_entidades";
+					$columnas = "oficios.id_oficios, 
+					  oficios.creado, 
+					  oficios.numero_oficios, 
+					  juicios.juicio_referido_titulo_credito, 
+					  entidades.nombre_entidades, 
+					  clientes.identificacion_clientes, 
+					  clientes.nombres_clientes,
+					  ciudad.nombre_ciudad,
+					  usuarios.nombre_usuarios,
+					titulo_credito.numero_titulo_credito";
 	
-					$tablas="public.oficios,
-					public.juicios,
-					public.entidades,
-					public.clientes,
-					public.usuarios";
+					$tablas="public.oficios, 
+					  public.juicios, 
+					  public.entidades, 
+					  public.usuarios, 
+					  public.clientes,
+						public.ciudad,
+						public.titulo_credito";
 	
 					$where="juicios.id_juicios = oficios.id_juicios AND
-					entidades.id_entidades = oficios.id_entidades AND
-					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios";
+					  entidades.id_entidades = oficios.id_entidades AND
+					  usuarios.id_usuarios = oficios.id_usuario_registra_oficios AND
+					  clientes.id_clientes = juicios.id_clientes AND
+					  ciudad.id_ciudad = juicios.id_ciudad AND
+						titulo_credito.id_titulo_credito = juicios.id_titulo_credito";
 	
 					$id="oficios.id_oficios";
 						
@@ -223,31 +247,49 @@ class ConsultaCordinadorController extends ControladorBase{
 						$where_5 = "";
 						
 						
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
+					if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
 							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
-						
-						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
+						if($id_secretario!=0){$where_1=" AND ( usuarios.id_usuarios='$id_secretario' OR usuarios.id_usuarios='$id_impulsor' )";}
 						
 						if($identificacion!=""){$where_3=" AND clientes.identificacion_clientes='$identificacion'";}
 							
 						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
 						
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
+						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  oficios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
 						
+						if($estado_documento=='true'||$estado_documento=='false')
+						{
+						
+							if($id_secretario!=0&&$id_impulsor!=0)
+							{
+								$where_2=" AND oficios.firma_impulsor='$estado_documento' AND oficios.firma_secretario = '$estado_documento' ";
+							}else if($id_secretario!=0)
+							{
+								$where_2=" AND oficios.firma_secretario = '$estado_documento' ";
+							}else if($id_impulsor!=0)
+							{
+								$where_2=" AND oficios.firma_impulsor = '$estado_documento' ";
+							}else {
+								
+								$where_2=" AND oficios.firma_impulsor='$estado_documento' AND oficios.firma_secretario = '$estado_documento' ";
+							}
+						
+						}
 						
 						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
-						
-						
+												
 						$resultOfi=$oficios->getCondiciones($columnas ,$tablas , $where_to, $id);
+						
+						$_SESSION['data_ireport']=array("documento"=>'oficios',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where_to).' ORDER BY '.$id);
+						
 						
 						
 					
 					}
 					
-					//buscar por avoco conocimiento
-					if($tipo_documento == "avoco_conocimiento")
-					{
+			//buscar por avoco conocimiento
+			if($tipo_documento == "avoco_conocimiento")
+			{
 						
 						
 				$avoco_conocimiento =new AvocoConocimientoModel();						
@@ -320,7 +362,7 @@ class ConsultaCordinadorController extends ControladorBase{
 						
 						$resultAvoCono=$avoco_conocimiento->getCondiciones($columnas ,$tablas , $where_to, $id);
 						
-						$_SESSION['data_ireport']=array("documento"=>'avoco',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where).' ORDER BY '.$id);
+						$_SESSION['data_ireport']=array("documento"=>'avoco',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where_to).' ORDER BY '.$id);
 						
 					}
 					
@@ -332,23 +374,29 @@ class ConsultaCordinadorController extends ControladorBase{
 					
 					
 						$columnas = " auto_pagos.id_auto_pagos, 
-						  auto_pagos.id_titulo_credito, 
-						  clientes.identificacion_clientes, 
-						  clientes.nombres_clientes, 
-						  usuarios.nombre_usuarios, 
-						  auto_pagos.fecha_asiganacion_auto_pagos, 
-						  estado.nombre_estado";
+								  titulo_credito.numero_titulo_credito,
+								  juicios.juicio_referido_titulo_credito,
+								  clientes.identificacion_clientes, 
+								  clientes.nombres_clientes, 
+								  usuarios.nombre_usuarios, 
+								  auto_pagos.fecha_asiganacion_auto_pagos,
+								  ciudad.nombre_ciudad,
+								  estado.nombre_estado";
 					
 						$tablas   = "public.auto_pagos, 
 								  public.usuarios, 
 								  public.titulo_credito, 
 								  public.estado, 
-								  public.clientes";
+								  public.clientes,
+								  public.juicios,
+								  public.ciudad";
 					
-						$where    = "usuarios.id_usuarios = auto_pagos.id_usuario_impulsor AND
+						$where    = "auto_pagos.id_usuario_impulsor = usuarios.id_usuarios AND
 								  titulo_credito.id_titulo_credito = auto_pagos.id_titulo_credito AND
-								  estado.id_estado = auto_pagos.id_estado AND
-								  clientes.id_clientes = titulo_credito.id_clientes ";
+								  titulo_credito.id_clientes = clientes.id_clientes AND
+								  estado.id_estado = auto_pagos.id_estado AND 
+								  juicios.id_titulo_credito = titulo_credito.id_titulo_credito AND
+								  juicios.id_ciudad = ciudad.id_ciudad";
 					
 						$id       = "auto_pagos.id_auto_pagos";
 					
@@ -361,9 +409,7 @@ class ConsultaCordinadorController extends ControladorBase{
 						$where_5 = "";
 					
 					
-						if($id_ciudad!=0){$where_0=" AND ciudad.id_ciudad='$id_ciudad'";}
-							
-						if($id_secretario!=0){$where_1=" AND usuarios.id_usuarios='$id_secretario'";}
+						if($id_ciudad!=0){$where_0=" AND juicios.id_ciudad='$id_ciudad'";}
 					
 						if($id_impulsor!=0){$where_2=" AND usuarios.id_usuarios='$id_impulsor'";}
 					
@@ -371,13 +417,17 @@ class ConsultaCordinadorController extends ControladorBase{
 							
 						if($numero_juicio!=""){$where_4=" AND juicios.juicio_referido_titulo_credito='$numero_juicio'";}
 					
-						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  documentos.fecha_emision_documentos BETWEEN '$fechadesde' AND '$fechahasta'";}
-					
+						if($fechadesde!="" && $fechahasta!=""){$where_5=" AND  auto_pagos.fecha_asiganacion_auto_pagos BETWEEN '$fechadesde' AND '$fechahasta'";}
+						
+						
 					
 						$where_to  = $where . $where_0 . $where_1 . $where_2. $where_3 . $where_4 . $where_5;
 					
 					
 						$resultAutoPago=$auto_pago->getCondiciones($columnas ,$tablas , $where_to, $id);
+						
+						$_SESSION['data_ireport']=array("documento"=>'auto_pago',"sql"=>'SELECT '.trim($columnas).' FROM '.trim($tablas).' WHERE '.trim($where_to).' ORDER BY '.$id);
+						
 					
 					
 							
@@ -666,16 +716,42 @@ class ConsultaCordinadorController extends ControladorBase{
 	
 	public function Reporte()
 	{
-		session_start();
-		$sql=array();
-		$sql=$_SESSION['data_ireport'];
+		session_start ();
+		$sql = array ();
+		$sql = $_SESSION ['data_ireport'];
 		
-		require_once './core/AyudaVistas.php';
-		$helper=new AyudaVistas();
+		switch ($sql['documento'])
+		{
+			case 'avoco':
+				$this->ireport_vizualizar ( "CordinadorAvoco", array (
+				"sql" => $sql ) );
+			break;
+			case 'auto_pago':
+				$this->ireport_vizualizar ( "CordinadorAuto_Pago", array (
+				"sql" => $sql ) );
+			break;
+			case 'citaciones':
+				$this->ireport_vizualizar ( "CordinadorCitaciones", array (
+				"sql" => $sql ) );
+			break;
+			case 'providencias':
+				$this->ireport_vizualizar ( "CordinadorProvidencias", array (
+				"sql" => $sql ) );
+			break;
+			case 'oficios':
+				$this->ireport_vizualizar ( "CordinadorOficios", array (
+				"sql" => $sql ) );
+			break;
+			default:
+				echo'error en la consulta';
+				unset($_SESSION ['data_ireport']);
+				die();
+			break;
+		}
 		
-		header("Location:view/ireports/ContCordinadorDocumentosReport.php");
 		
 		
+		// header("Location:view/ireports/ContCordinadorDocumentosReport.php");
 	}	
 	
 }

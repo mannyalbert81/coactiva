@@ -24,7 +24,7 @@ $secretarios									 = "";
 $impulsores										 = "";
 $liquidador										 = "";
 $numero_oficios									 = "";
-$identificador                                       = "";
+$identificador                                   = "";
 
 require_once('view/dompdf/dompdf_config.inc.php' );
 
@@ -92,7 +92,7 @@ $html =
 <strong>'.$nombre_ciudad.',</strong><font color="#FFFFFF">a</font>'.$creado.'
 <br>
 </font>'
-.'</p>'.
+.'</p>'.  
 
 
 '<p style="text-align: justify;">'.
