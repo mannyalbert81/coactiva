@@ -109,11 +109,15 @@ public function index(){
 	public function enviarRespuesta()
 	{
 		$return = Array('ok'=>TRUE);
+		session_start();
+		
+		$respuesta_incidencia = new RespuestaIncidenciaModel();
 		
 		if(isset($_POST['id_incidencia'])&&isset($_POST['descripcion_respuesta'])&&isset($_POST['image_respuesta']))
 		{
 			$id_incidencia=$_POST['id_incidencia'];
 			$descripcion_respuesta=$_POST['descripcion_respuesta'];
+			$id_usuarios=$_SESSION['id_usuarios'];
 			
 			$upload_folder =$_SERVER['DOCUMENT_ROOT']."/coactiva/incidencia/respuesta";
 			
@@ -130,10 +134,12 @@ public function index(){
 			if (!move_uploaded_file($tmp_archivo, $archivador)) {
 				
 				$funcion = "ins_respuesta_incidencia";
-				$parametros = "'$id_incidencia','$descripcion_respuesta','$_id_usuario', '$imagen_incidencia','$_asunto_incidencia'";
-				$incidencia->setFuncion($funcion);
-				$incidencia->setParametros($parametros);
-				$resultado=$incidencia->Insert();
+				//parametros
+				//_id_incidencia integer,_id_usuario integer,_descripcion_respuesta_incidencia character varying, _imagen_respuesta_incidencia bytea
+				$parametros = "'$id_incidencia','$id_usuarios','$descripcion_respuesta','$imagen_incidencia'";
+				$respuesta_incidencia->setFuncion($funcion);
+				$respuesta_incidencia->setParametros($parametros);
+				$resultado=$respuesta_incidencia->Insert();
 					
 			$return = Array('ok' => FALSE, 'msg' => "Ocurrio un error al subir el archivo. No pudo guardarse.", 'status' => "error");
 					
