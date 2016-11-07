@@ -67,17 +67,10 @@
 		
 	function respuesta_incidencias(rowTabla){
 
-			  //id_respuesta_incidencia serial NOT NULL, //listo pgsql
-			  //id_incidencia integer, //listo
-			  //id_usuario_responde integer, //listo
-			  //descripcion_respuesta_incidencia character varying(400),
-			  //imagen_respuesta_incidencia bytea,
-			  //creado timestamp with time zone, //listo en pgsql
-
 		   var id_incidencia_modal = rowTabla.id;
 		   var id_usuario = <?php echo $_SESSION['id_usuarios']; ?>;		        	
 		        	
-		   //console.log(id_incidencia+'\n'+id_usuario);
+		   //console.log(id_incidencia_modal+'\n'+id_usuario);
 		   
 		     $('#modal_incidencia').dialog({
 				                   autoOpen: false,
@@ -108,19 +101,20 @@
 				                           ,cache: false
 				                           ,success: function(msg){
 
-					                           console.log(msg.trim());
-
-												var res = msg.split('"');
+												var datos =JSON.parse(msg);
+												console.log(datos);
 				                        	   
-					                           if(res[1]=='1' || res[1]==1)
+					                           if(datos['ok'])
 					                           {
+					                        	//console.log('llego');
 				                                $('#modal_incidencia').dialog('close');
+				                                var header = "<?php echo $helper->url("RespuestaIncidencias","index"); ?>";
+				                                window.location = header;
 				                                //loading();
 					                           }else
 					                           {
 					                            $('#modal_respuesta_incidencia').html ("<span style='color:red'>!datos no han sido actualizados..</span>"); 
-							                     
-					                           }
+							                   }
 				                           }
 				                   });
 				                  
@@ -136,10 +130,7 @@
 				       // $('#modal_incidencia').html (html);  
 				       
 				        $('#modal_incidencia').dialog('open');
-						
-				    
-
-
+					
 		        }
 
 		

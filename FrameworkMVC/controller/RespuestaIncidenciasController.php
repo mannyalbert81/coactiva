@@ -12,7 +12,7 @@ public function index(){
 	
 		//Creamos el objeto usuario
 		$resultSet="";
-		$respuesta_incidencias=new RespuestaIncidenciasModel();
+		$respuesta_incidencias=new RespuestaIncidenciaModel();
 		$ciudad = new CiudadModel();
 	
 		$_id_usuarios= $_SESSION["id_usuarios"];
@@ -40,7 +40,7 @@ public function index(){
 		$resultUsu = $usuarios->getAll("nombre_usuarios");
 	
 	
-		$respuesta_incidencias=new RespuestaIncidenciasModel();
+		$respuesta_incidencias=new RespuestaIncidenciaModel();
 	
 	
 		if (isset(  $_SESSION['usuario_usuarios']) )
@@ -54,7 +54,7 @@ public function index(){
 			{
 					
 				
-					$respuesta_incidencias=new RespuestaIncidenciasModel();
+					$respuesta_incidencias=new RespuestaIncidenciaModel();
 	
 	
 						
@@ -73,7 +73,7 @@ public function index(){
 					
 					$id="incidencia.id_incidencia";
 					
-					$where="incidencia.id_usuario = usuarios.id_usuarios";
+					$where="incidencia.id_usuario = usuarios.id_usuarios AND respuesta_incidencia=false";
 	
 	
 				
@@ -111,10 +111,12 @@ public function index(){
 		$return = Array('ok'=>TRUE);
 		session_start();
 		
-		$respuesta_incidencia = new RespuestaIncidenciaModel();
 		
-		if(isset($_POST['id_incidencia'])&&isset($_POST['descripcion_respuesta'])&&isset($_POST['image_respuesta']))
+		if(isset($_POST['id_incidencia'])&&isset($_POST['descripcion_respuesta'])&&isset($_FILES['image_respuesta']))
 		{
+			
+			$respuesta_incidencia = new RespuestaIncidenciaModel();
+			
 			$id_incidencia=$_POST['id_incidencia'];
 			$descripcion_respuesta=$_POST['descripcion_respuesta'];
 			$id_usuarios=$_SESSION['id_usuarios'];
@@ -131,35 +133,41 @@ public function index(){
 					
 			$archivador = $upload_folder . '/' . $nombre_archivo;
 			
-			if (!move_uploaded_file($tmp_archivo, $archivador)) {
+			if (move_uploaded_file($tmp_archivo, $archivador)) 
+			{
+				$data = file_get_contents($archivador);
+				$imagen_respuesta = pg_escape_bytea($data);
 				
 				$funcion = "ins_respuesta_incidencia";
 				//parametros
 				//_id_incidencia integer,_id_usuario integer,_descripcion_respuesta_incidencia character varying, _imagen_respuesta_incidencia bytea
-				$parametros = "'$id_incidencia','$id_usuarios','$descripcion_respuesta','$imagen_incidencia'";
+				$parametros = "'$id_incidencia','$id_usuarios','$descripcion_respuesta','$imagen_respuesta'";
 				$respuesta_incidencia->setFuncion($funcion);
 				$respuesta_incidencia->setParametros($parametros);
 				$resultado=$respuesta_incidencia->Insert();
+				
+				$update=$respuesta_incidencia->UpdateBy("respuesta_incidencia='true'", "incidencia", "id_incidencia='$id_incidencia'");
+				
+				if(!$resultado)
+				{
+					$return = Array('ok' => FALSE,'msg'=>"Datos no registrados");
 					
-			$return = Array('ok' => FALSE, 'msg' => "Ocurrio un error al subir el archivo. No pudo guardarse.", 'status' => "error");
+				}
+				
+					
+			}else {
+				$return = Array('ok' => FALSE, 'msg' => "Ocurrio un error al subir el archivo. No pudo guardarse.", 'status' => "error");
 					
 			}
 			
 		}else{
-			//echo "2";
+			
+			$return = Array('ok' => FALSE, 'msg' => "Ocurrio un error al enviar sus Datos");
+			
 		}
 		
+		echo json_encode($return);
 		
-		
-		
-		
-echo json_encode($return);
-		/*
-		$respuesta="";
-		
-		
-		
-		json_encode("hola");*/
 	}
 	
 	
