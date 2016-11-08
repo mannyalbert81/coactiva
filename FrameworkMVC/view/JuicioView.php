@@ -163,7 +163,7 @@
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
          
-       	 <h4 style="color:#ec971f;">Consulta Cordinador</h4>
+       	 <h4 style="color:#ec971f;">Seguimiento Juicio</h4>
        	 
        	 
        	 <div class="panel panel-default">
