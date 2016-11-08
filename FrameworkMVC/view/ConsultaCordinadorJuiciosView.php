@@ -302,10 +302,7 @@
        <?php include("view/modulos/modal.php"); ?>
        <?php include("view/modulos/head.php"); ?>
        <?php include("view/modulos/menu.php"); ?>
-       
-       <?php $array_documentos=array("auto_pago"=>'Auto de Pago',"avoco_conocimiento"=>'Avoco Conocimiento',"citaciones"=>'Citaciones',"oficios"=>'Oficios',"providencias"=>'Providencias');?>
-       <?php $array_estado_doc=array("true"=>'Firmado',"false"=>'No Firmado');?>
-       <?php //print_r($sql);?>
+      
        <?php
        
        $sel_id_ciudad = "";

@@ -752,19 +752,17 @@ class JuicioController extends ControladorBase{
 	
 		//Creamos el objeto usuario
 		$resultSet="";
+		
+		$result_etapa_juicio=array();
 	
 		$ciudad = new CiudadModel();
 	
 	
 		$_id_usuarios= $_SESSION["id_usuarios"];
-	    $columnas = " usuarios.id_ciudad,
-					  ciudad.nombre_ciudad,
-					  usuarios.nombre_usuarios";
-		$tablas   = "public.usuarios,
-                     public.ciudad";
-		$where    = "ciudad.id_ciudad = usuarios.id_ciudad AND usuarios.id_usuarios = '$_id_usuarios'";
-		$id       = "usuarios.id_ciudad";
-	    $resultDatos=$ciudad->getCondiciones($columnas ,$tablas ,$where, $id);
+	    
+	    
+	    $estados_procesales = new EstadosProcesalesModel();
+	    $result_etapa_juicio=$estados_procesales->getAll("id_estados_procesales_juicios");
 	
 		$juicios = new JuiciosModel();
 	
@@ -774,155 +772,18 @@ class JuicioController extends ControladorBase{
 			$permisos_rol = new PermisosRolesModel();
 			$nombre_controladores = "JuicioMixto";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $juicios->getPermisosVer("   controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$resultPer = $juicios->getPermisosVer(" controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 	
 			if (!empty($resultPer))
 			{
 					
-				if(isset($_POST["buscar"])){
-	 
-				    //RESULT CITACIONES IMPULSORES
-					$citaciones= new CitacionesModel();
-					
-					$columnas_citaciones = "citaciones.id_citaciones,
-					juicios.id_juicios,
-  					juicios.juicio_referido_titulo_credito,
- 					clientes.nombres_clientes,
-  					clientes.identificacion_clientes,
-  					citaciones.fecha_citaciones,
-  					ciudad.nombre_ciudad,
-  					ciudad.id_ciudad,
-  					tipo_citaciones.id_tipo_citaciones,
-  					tipo_citaciones.nombre_tipo_citaciones,
-  					citaciones.nombre_persona_recibe_citaciones,
-  					citaciones.relacion_cliente_citaciones,
-  					usuarios.nombre_usuarios";
-					
-					$tablas_citaciones=" public.citaciones,
-  					public.juicios,
-  					public.ciudad,
-  					public.tipo_citaciones,
-  					public.usuarios,
-  					public.clientes";
-					
-					$where_citaciones="juicios.id_juicios = citaciones.id_juicios AND
-					ciudad.id_ciudad = citaciones.id_ciudad AND
-					tipo_citaciones.id_tipo_citaciones = citaciones.id_tipo_citaciones AND
-					usuarios.id_usuarios = citaciones.id_usuarios AND
-					clientes.id_clientes = juicios.id_clientes";
-					
-					$id_citaciones="citaciones.id_citaciones";
-					
-					$result_citaciones=$citaciones->getCondiciones($columnas_citaciones ,$tablas_citaciones , $where_citaciones, $id_citaciones);
+				if(isset($_POST["buscar"]))
+				{
 				
-				
-				   //CONSULTA DOCUMENTOS IMPULSORES
-				
-					$documentos_impulsores=new DocumentosModel();
-					
-					$columnas_documentos_impulsores = "documentos.id_documentos,
-					ciudad.nombre_ciudad,
-					juicios.juicio_referido_titulo_credito,
-					clientes.nombres_clientes,
-					clientes.identificacion_clientes,
-					estados_procesales_juicios.nombre_estados_procesales_juicios,
-				    documentos.fecha_emision_documentos,
-					documentos.hora_emision_documentos,
-					documentos.detalle_documentos,
-					documentos.observacion_documentos,
-					documentos.avoco_vistos_documentos,
-					documentos.ruta_documento,
-					documentos.nombre_documento,
-					usuarios.id_usuarios,
-					usuarios.nombre_usuarios,
-					usuarios.imagen_usuarios";
-					
-					$tablas_documentos_impulsores=" public.documentos,
-					public.ciudad,
-					public.juicios,
-					public.usuarios,
-					public.clientes,
-					public.estados_procesales_juicios";
-					
-					$where_documentos_impulsores= "ciudad.id_ciudad = documentos.id_ciudad AND
-					juicios.id_juicios = documentos.id_juicio AND
-					usuarios.id_usuarios = documentos.id_usuario_registra_documentos AND
-					clientes.id_clientes = juicios.id_clientes AND
-					estados_procesales_juicios.id_estados_procesales_juicios = documentos.id_estados_procesales_juicios";
-							
-					$id_documentos_impulsores= "documentos.id_documentos";
-				
-				    $result_documentos_impulsores=$documentos_impulsores->getCondiciones($columnas_documentos_impulsores ,$tablas_documentos_impulsores , $where_documentos_impulsores, $id_documentos_impulsores);
-						
-				    
-				    //CONSULTA OFICIOS IMPULSORES
-				
-				    $oficios= new OficiosModel();
-				    	
-				    $columnas_oficios = "oficios.id_oficios,
-					oficios.creado,
-					oficios.numero_oficios,
-					juicios.id_juicios,
-					juicios.juicio_referido_titulo_credito,
-					juicios.id_titulo_credito,
-					clientes.nombres_clientes,
-					clientes.identificacion_clientes,
-					entidades.id_entidades,
-					entidades.nombre_entidades";
-				    
-				    $tablas_oficios="public.oficios,
-					public.juicios,
-					public.entidades,
-					public.clientes,
-					public.usuarios";
-				    
-				    $where_oficios="juicios.id_juicios = oficios.id_juicios AND
-					entidades.id_entidades = oficios.id_entidades AND
-					clientes.id_clientes = juicios.id_clientes AND usuarios.id_usuarios = oficios.id_usuario_registra_oficios";
-				    
-				    $id_oficios="oficios.id_oficios";
-				    
-				    $result_oficios=$oficios->getCondiciones($columnas_oficios ,$tablas_oficios , $where_oficios, $id_oficios);
-				    
-				    
-				    //CONSULTA AVOCO CONOCIMIENTO IMPULSORES
-				    
-				    $avoco=new AvocoConocimientoModel();
-				    
-				    $columnas_avoco = "avoco_conocimiento.id_avoco_conocimiento,
-					juicios.juicio_referido_titulo_credito,
-					clientes.nombres_clientes,
-					clientes.identificacion_clientes,
-					ciudad.nombre_ciudad,
-					asignacion_secretarios_view.secretarios,
-					asignacion_secretarios_view.impulsores,
-					usuarios.nombre_usuarios,
-					avoco_conocimiento.creado";
-				    
-				    $tablas_avoco = " public.avoco_conocimiento,
-					public.juicios,
-					public.ciudad,
-					public.asignacion_secretarios_view,
-					public.clientes,
-					public.usuarios";
-				    
-				    $where_avoco= "avoco_conocimiento.id_secretario = asignacion_secretarios_view.id_secretario AND
-					avoco_conocimiento.id_impulsor = asignacion_secretarios_view.id_abogado AND
-					avoco_conocimiento.secretario_reemplazo = usuarios.id_usuarios AND
-					juicios.id_juicios = avoco_conocimiento.id_juicios AND
-					ciudad.id_ciudad = avoco_conocimiento.id_ciudad AND
-					clientes.id_clientes = juicios.id_clientes";
-				    
-				    $id_avoco="avoco_conocimiento.id_avoco_conocimiento";
-				    
-				    $result_avoco=$avoco->getCondiciones($columnas_avoco ,$tablas_avoco , $where_avoco, $id_avoco);
-				 
-				    //CONSULTA AUTOS DE PAGO
-				    
 				}
 	
 				$this->view("Juicio",array(
-						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultEdit"=>""
+						"result_etapa_juicio"=>$result_etapa_juicio,"resultSet"=>$resultSet, "resultEdit"=>""
 							
 				));
 	
@@ -950,5 +811,244 @@ class JuicioController extends ControladorBase{
 	
 	}
 	
+	public function reporte()
+	{
+		
+	}
+	
+	public function paginate($reload, $page, $tpages, $adjacents) {
+	
+		$prevlabel = "&lsaquo; Prev";
+		$nextlabel = "Next &rsaquo;";
+		$out = '<ul class="pagination pagination-large">';
+	
+		// previous label
+	
+		if($page==1) {
+			$out.= "<li class='disabled'><span><a>$prevlabel</a></span></li>";
+		} else if($page==2) {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(1)'>$prevlabel</a></span></li>";
+		}else {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(".($page-1).")'>$prevlabel</a></span></li>";
+	
+		}
+	
+		// first label
+		if($page>($adjacents+1)) {
+			$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(1)'>1</a></li>";
+		}
+		// interval
+		if($page>($adjacents+2)) {
+			$out.= "<li><a>...</a></li>";
+		}
+	
+		// pages
+	
+		$pmin = ($page>$adjacents) ? ($page-$adjacents) : 1;
+		$pmax = ($page<($tpages-$adjacents)) ? ($page+$adjacents) : $tpages;
+		for($i=$pmin; $i<=$pmax; $i++) {
+			if($i==$page) {
+				$out.= "<li class='active'><a>$i</a></li>";
+			}else if($i==1) {
+				$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(1)'>$i</a></li>";
+			}else {
+				$out.= "<li><a href='javascript:void(0);' onclick='load_juicios(".$i.")'>$i</a></li>";
+			}
+		}
+	
+		// interval
+	
+		if($page<($tpages-$adjacents-1)) {
+			$out.= "<li><a>...</a></li>";
+		}
+	
+		// last
+	
+		if($page<($tpages-$adjacents)) {
+			$out.= "<li><a href='javascript:void(0);' onclick='load_juicios($tpages)'>$tpages</a></li>";
+		}
+	
+		// next
+	
+		if($page<$tpages) {
+			$out.= "<li><span><a href='javascript:void(0);' onclick='load_juicios(".($page+1).")'>$nextlabel</a></span></li>";
+		}else {
+			$out.= "<li class='disabled'><span><a>$nextlabel</a></span></li>";
+		}
+	
+		$out.= "</ul>";
+		return $out;
+	}
+	
+	public function cargaDatos()
+	{
+		session_start();
+		
+		$rol = new RolesModel();
+		$juicios  = new JuiciosModel();
+		
+		$id_rol = $_SESSION['id_rol'];
+		$id_usuarios = $_SESSION['id_usuarios'];
+		
+		$resultRol=$rol->getBy("id_rol='$id_rol'");
+		$nombre_rol='';
+		if(!empty($resultRol))
+		{
+			$nombre_rol=$resultRol[0]->nombre_rol;
+		}else {die('session caducada');}
+		
+	
+		$id_estado_procesal = (isset($_POST['id_estado_procesal']))?$_POST['id_estado_procesal']:'';		
+		$identificacion   = (isset($_POST['identificacion']))?$_POST['identificacion']:'';
+		$numero_juicio    = (isset($_POST['numero_juicio']))?$_POST['numero_juicio']:'';
+		$fechadesde       = (isset($_POST['fecha_desde']))?$_POST['fecha_desde']:'';
+		$fechahasta       = (isset($_POST['fecha_hasta']))?$_POST['fecha_hasta']:'';
+	
+	
+		$columnas="juicios.id_juicios,
+				    ciudad.nombre_ciudad,
+					juicios.juicio_referido_titulo_credito,
+					titulo_credito.numero_titulo_credito,
+					titulo_credito.fecha_ultimo_abono_titulo_credito,
+					titulo_credito.total_total_titulo_credito,
+					juicios.observaciones_juicios,
+					estados_procesales_juicios.nombre_estados_procesales_juicios,
+					juicios.estrategia_juicios,
+					asignacion_secretarios_view.impulsores,
+					clientes.identificacion_clientes,
+                    clientes.nombres_clientes";
+	
+		$from="		public.titulo_credito,
+					public.juicios,
+					public.estados_procesales_juicios,
+					public.ciudad,
+					public.clientes,
+					public.asignacion_secretarios_view";
+	
+		$where="	titulo_credito.id_titulo_credito = juicios.id_titulo_credito AND
+					estados_procesales_juicios.id_estados_procesales_juicios = juicios.id_estados_procesales_juicios AND
+					ciudad.id_ciudad = juicios.id_ciudad AND
+					clientes.id_clientes = juicios.id_clientes AND
+					asignacion_secretarios_view.id_abogado = juicios.id_usuarios";
+			
+		$id="juicios.id_juicios";
+			
+		$where_1="";
+		$where_2="";
+		$where_3="";
+		$where_4="";
+		$where_5="";
+					
+		$where_1=($id_estado_procesal!=0)?" AND estados_procesales_juicios.id_estados_procesales_juicios='$id_estado_procesal'":'';
+		$where_2=($identificacion!="")?" AND clientes.identificacion_clientes='$identificacion'":'';
+		$where_3=($numero_juicio!=0)?" AND juicios.juicio_referido_titulo_credito='$numero_juicio'":'';
+		if($fechadesde!="" && $fechahasta!=""){$where_4=" AND  juicios.creado BETWEEN '$fechadesde' AND '$fechahasta'";}
+		
+		if($nombre_rol=='ABOGADO IMPULSOR'){ $where_5=" AND juicios.id_usuarios='$id_usuarios'"; 
+		}else if ($nombre_rol=='SECRETARIO'){$where_5=" AND asignacion_secretarios_view.id_secretario='$id_usuarios'";}
+		
+		
+		$where_to=$where.$where_1.$where_2.$where_3.$where_4.$where_5;
+	
+	
+		$resultJuicio=$juicios->getCantidad("*", $from, $where_to);
+	
+		$html="";
+	
+		$cantidadResult=(int)$resultJuicio[0]->total;
+	
+	
+		$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
+	
+		if($action == 'ajax')
+		{
+				
+			$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
+				
+			$per_page = 50; //la cantidad de registros que desea mostrar
+			$adjacents  = 9; //brecha entre páginas después de varios adyacentes
+			$offset = ($page - 1) * $per_page;
+				
+			$limit = " LIMIT   '$per_page' OFFSET '$offset'";
+				
+				
+			$resultJuicio=$juicios->getCondicionesPag($columnas, $from, $where_to, $id, $limit);
+				
+			$count_query   = $cantidadResult;
+				
+			$total_pages = ceil($cantidadResult/$per_page);
+				
+			if ($cantidadResult>0)
+			{
+	
+				//<th style="color:#456789;font-size:80%;"></th>
+					
+				$html.='<div class="pull-left">';
+				$html.='<span class="form-control"><strong>Registros: </strong>'.$cantidadResult.'</span>';
+				$html.='<input type="hidden" value="'.$cantidadResult.'" id="total_query" name="total_query"/>' ;
+				$html.='</div><br>';
+				$html.='<section style="height:425px; overflow-y:scroll;">';
+				$html.='<table class="table table-hover">';
+				$html.='<thead>';
+				$html.='<tr class="info">';
+				$html.='<th><b>Id</b></th>';
+				$html.='<th>Estado Procesal</th>';
+				$html.='<th>Nº Juicio Referido</th>';
+				$html.='<th>Abogado</th>';
+				$html.='<th>Identificacion</th>';
+				$html.='<th>Cliente</th>';
+				$html.='<th>Juzgado</th>';
+				$html.='<th>N° Titulo Credito</th>';
+				$html.='<th>Cuantia</th>';
+				$html.='<th>Ultimo Pago</th>';
+				$html.='<th>Observación</th>';
+				$html.='<th>Estrategia</th>';
+				$html.='</tr>';
+				$html.='</thead>';
+				$html.='<tbody>';
+	
+				foreach ($resultJuicio as $res)
+				{
+					//<td style="color:#000000;font-size:80%;"> <?php echo ;</td>
+						
+					$html.='<tr>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->id_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombre_estados_procesales_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->juicio_referido_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->impulsores.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->identificacion_clientes.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombres_clientes.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->nombre_ciudad.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->numero_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->total_total_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->fecha_ultimo_abono_titulo_credito.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->observaciones_juicios.'</td>';
+					$html.='<td style="color:#000000;font-size:80%;">'.$res->estrategia_juicios.'</td>';
+					$html.='</tr>';
+						
+				}
+	
+				$html.='</tbody>';
+				$html.='</table>';
+				$html.='</section>';
+				$html.='<div class="table-pagination pull-right">';
+				$html.=''. $this->paginate("index.php", $page, $total_pages, $adjacents).'';
+				$html.='</div>';
+				$html.='</section>';
+	
+					
+			}else{
+					
+				$html.='<div class="alert alert-warning alert-dismissable">';
+				$html.='<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+				$html.='<h4>Aviso!!!</h4> No hay datos para mostrar';
+				$html.='</div>';
+					
+			}
+				
+			echo $html;
+		}
+	}
+		
 }
 ?>      
