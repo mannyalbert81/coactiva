@@ -125,6 +125,17 @@ class EntidadBase{
     
     	return $resultSet;
     }
+    
+    public function getCondicionesGroup($columnas ,$tablas , $where, $grupo){
+    	 
+    	$query=pg_query($this->con, "SELECT $columnas FROM $tablas WHERE $where GROUP BY $grupo ");
+    	$resultSet = array();
+    	while ($row = pg_fetch_object($query)) {
+    		$resultSet[]=$row;
+    	}
+    
+    	return $resultSet;
+    }
   
     public function getCondicionesPag($columnas ,$tablas , $where, $id, $limit){
     	 
