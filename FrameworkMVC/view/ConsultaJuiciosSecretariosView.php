@@ -165,7 +165,7 @@
   
        <!-- empieza el form --> 
        
-      <form action="<?php echo $helper->url("Juicio","consulta_secretario"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
+      <form action="<?php echo $helper->url("Juicio","secretario_Consulta"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12">
          
          <!-- comienxza busqueda  -->
          <div class="col-lg-12" style="margin-top: 10px">
@@ -272,7 +272,8 @@
 	    		<th></th>
 	    		<th></th>
 	  		</tr>
-            
+                <?php  $paginas =   0;  ?>
+		        <?php  $registros = 0; ?>
 	            <?php if (!empty($resultSet)) {  foreach($resultSet as $res) {?>
 	        		<tr>
 	        		
@@ -292,12 +293,46 @@
 		               <td style="color:#000000;font-size:80%;"> <?php echo $res->total_total_titulo_credito; ?>     </td> 
 		               <td style="color:#000000;font-size:80%;">
 		               <a href="/FrameworkMVC/view/ireports/ContJuiciosSubReport.php?id_juicios=<?php echo $res->id_juicios; ?>" onclick="window.open(this.href, this.target, ' width=1000, height=800, menubar=no');return false" class="btn btn-success" onClick="Ok()" style="font-size:80%;">Ver</a>
-		               </td> 
+		               </td>
+		               <?php  $registros = $registros + 1 ; ?> 
 		    		</tr>
 		        <?php } }  ?>
            
        	</table>     
       </section>
+      <?php if (!empty($resultSet)) { ?>
+      <table class="table">
+      <?php echo $paginasTotales; ?><br><?php echo $ultima_pagina;?>
+				<th class="text-center">
+				    	<nav>
+						  <ul id="pagina" name="pagina" class="pagination">
+						    <?php if ($paginasTotales > 0) {?>
+						    		<?php if ($ultima_pagina > 1 ) {?>
+						    			<input type="submit" value="<?php echo "<<"; ?>" id="anterior_pagina"    name="anterior_pagina" class="btn btn-info"/>
+						    		<?php }?>
+						    <?php for ($i = $ultima_pagina; $i< $paginasTotales+1; $i++)  { ?>
+						    		
+						    		<?php if ($i  < $ultima_pagina + 5) {  ?>
+						    			<input type="hidden" value="<?php echo $i+1; ?>" id="ultima_pagina"    name="ultima_pagina" class="btn btn-info"/>
+						    			<input type="submit" value="<?php echo $i; ?>" id="pagina"  <?php if ($i == $pagina_actual ) { echo 'style="color: #1454a3 " '; }  ?>     name="pagina" class="btn btn-info"/>
+						    			
+						    		<?php } ?>
+						    		<?php if ($paginasTotales  == $i) {  ?>
+						    			<input type="submit" value="<?php echo ">>"; ?>" id="siguiente_pagina"    name="siguiente_pagina" class="btn btn-info"/>
+						    		<?php } ?>
+						    		
+						    <?php    } }?>
+						    
+						  </ul>
+						</nav>	   	   
+			
+				</th>
+				<tr class="bg-primary">
+						<p class="text-center"> <strong> Registros Cargados: <?php echo  $registros?> Registros Totales: <?php echo  $registrosTotales?> </strong>  </p>
+	     		  	
+				</tr>			
+		</table>
+		<?php }?>
       
       </div>
 		 
