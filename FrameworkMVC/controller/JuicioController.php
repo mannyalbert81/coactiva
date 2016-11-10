@@ -1435,7 +1435,7 @@ class JuicioController extends ControladorBase{
 					$juiciosTotales = $resultcantidad[0]->total;
 					
 					$paginaActual  = $_POST['pagina'];
-					$ultima_pagina = $_POST['ultima_pagina'];
+					$ultima_pagina = $_POST['pagina'];
 						
 					$paginasTotales = ceil($juiciosTotales / $registrosPorPagina);
 						
@@ -1611,6 +1611,8 @@ class JuicioController extends ControladorBase{
 	
 	
 				}*/
+				echo $paginaActual;
+				//die();
 				
 				$this->view("ConsultaJuiciosSecretarios",array(
 						"resultSet"=>$resultSet,"resultDatos"=>$resultDatos, "resultImpul"=>$resultImpul,"arraySel"=>$arraySel,
