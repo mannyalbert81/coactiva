@@ -5,12 +5,10 @@ class ConsultaCordinadorJuiciosController extends ControladorBase{
 		parent::__construct();
 	}
 
-
 	public function index(){
 
 		session_start();
-		
-		
+				
 		$juicios = new JuiciosModel();
 		
             if (isset(  $_SESSION['usuario_usuarios']) )

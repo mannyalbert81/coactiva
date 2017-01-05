@@ -5,7 +5,6 @@ class ConsultaCordinadorController extends ControladorBase{
 		parent::__construct();
 	}
 
-
 	public function consulta_cordinador(){
 
 		session_start();
@@ -57,9 +56,7 @@ class ConsultaCordinadorController extends ControladorBase{
 					
 					//buscar por citaciones
 					if($tipo_documento == "citaciones")
-					{
-						
-					    
+					{					    
 						
 					$citaciones= new CitacionesModel();
 
