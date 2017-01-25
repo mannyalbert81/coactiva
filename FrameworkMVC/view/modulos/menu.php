@@ -246,6 +246,19 @@ $controladores=$_SESSION['controladores'];
 </li>
 
 
+<li class="dropdown" style="<?php echo getcontrolador("MenuAmortizacion",$controladores) ?>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-refresh" ><?php echo " Menu Amortizacion" ;?> </span> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          
+          <li style="<?php echo getcontrolador("TablaAmortizacion",$controladores) ?>">
+          <a href="index.php?controller=TablaAmortizacion&action=index"><span class=" glyphicon glyphicon-usd" aria-hidden="true"> Crear Tabla Amortizacion</span> </a>
+          </li>
+          
+          
+</ul>
+</li>
+
+
 <li class="dropdown" style="<?php echo getcontrolador("MenuSoporte",$controladores) ?>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-refresh" ><?php echo " Soporte" ;?> </span> <span class="caret"></span></a>
           <ul class="dropdown-menu">
