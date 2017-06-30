@@ -90,7 +90,7 @@ $estado=$_GET['estado'];
 			 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db, $driver);
 			
 			 $PHPJasperXML->outpage("F",$directorio.$nombre.'.pdf');
-			 
+			//hola 
 			 
 	
            }else {
