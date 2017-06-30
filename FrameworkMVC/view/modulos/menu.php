@@ -109,6 +109,14 @@ $controladores=$_SESSION['controladores'];
           <li style="<?php echo getcontrolador("Citaciones",$controladores) ?>">
           <a href="index.php?controller=Citaciones&action=consulta"><span class="glyphicon glyphicon-link" aria-hidden="true"> Citaciones</span> </a>
           </li>
+          
+           <li style="<?php echo getcontrolador("ConsultaCitacionesLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaCitacionesLiquidador&action=consulta_liquidador"><span class="glyphicon glyphicon-link" aria-hidden="true"> Citaciones</span> </a>
+          </li>
+           <li style="<?php echo getcontrolador("ConsultaOficiosLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaOficiosLiquidador&action=consulta_oficios_liquidador_firmados"><span class="glyphicon glyphicon-copy" aria-hidden="true"> Oficios</span> </a>
+          </li>
+          
           <li style="<?php echo getcontrolador("Oficios",$controladores) ?>">
           <a href="index.php?controller=Oficios&action=consulta"><span class="glyphicon glyphicon-copy" aria-hidden="true"> Oficios</span> </a>
           </li>
@@ -136,11 +144,17 @@ $controladores=$_SESSION['controladores'];
           <li style="<?php echo getcontrolador("ConsultaDocumentosSecretarios",$controladores) ?>">
           <a href="index.php?controller=ConsultaDocumentosSecretarios&action=consulta_secretarios_firmados"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>
           </li>
+          <li style="<?php echo getcontrolador("ConsultaDocumentosLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaDocumentosLiquidador&action=consulta_liquidador_firmados"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>
+          </li>
           <li style="<?php echo getcontrolador("ConsultaAvocoImpulsores",$controladores) ?>">
           <a href="index.php?controller=ConsultaAvocoImpulsores&action=consulta_impulsores_avoco_firmados"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>
           </li>
           <li style="<?php echo getcontrolador("ConsultaAvocoSecretarios",$controladores) ?>">
           <a href="index.php?controller=ConsultaAvocoSecretarios&action=consulta_secretarios_avoco_firmados"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>
+          </li>	
+           <li style="<?php echo getcontrolador("ConsultaAvocoLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaAvocoLiquidador&action=consulta_liquidador_avoco_firmados"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>
           </li>	
           <li style="<?php echo getcontrolador("ConsultaCordinador",$controladores) ?>">
           <a href="index.php?controller=ConsultaCordinador&action=consulta_cordinador"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Documentos Generales</span> </a>
@@ -226,11 +240,18 @@ $controladores=$_SESSION['controladores'];
           <li style="<?php echo getcontrolador("FirmarOficios",$controladores) ?>">
           <a href="index.php?controller=FirmarOficios&action=consulta_oficios_secretarios"><span class="glyphicon glyphicon-leaf" aria-hidden="true"> Oficios</span> </a>
           </li>
+          <li style="<?php echo getcontrolador("ConsultaOficiosLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaOficiosLiquidador&action=consulta_oficios_liquidador"><span class="glyphicon glyphicon-leaf" aria-hidden="true"> Oficios</span> </a>
+          </li>
           <li style="<?php echo getcontrolador("ConsultaDocumentosImpulsores",$controladores) ?>">
           <a href="index.php?controller=ConsultaDocumentosImpulsores&action=consulta_impulsores"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>
           </li>
           <li style="<?php echo getcontrolador("ConsultaDocumentosSecretarios",$controladores) ?>">
           <a href="index.php?controller=ConsultaDocumentosSecretarios&action=consulta_secretarios"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>           
+          </li>
+          
+           <li style="<?php echo getcontrolador("ConsultaDocumentosLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaDocumentosLiquidador&action=consulta_liquidador"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Providencias</span> </a>           
           </li>
           
           <li style="<?php echo getcontrolador("ConsultaAvocoImpulsores",$controladores) ?>">
@@ -239,6 +260,12 @@ $controladores=$_SESSION['controladores'];
           <li style="<?php echo getcontrolador("ConsultaAvocoSecretarios",$controladores) ?>">
           <a href="index.php?controller=ConsultaAvocoSecretarios&action=consulta_secretarios_avoco"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>           
           </li>
+          
+          <li style="<?php echo getcontrolador("ConsultaAvocoLiquidador",$controladores) ?>">
+          <a href="index.php?controller=ConsultaAvocoLiquidador&action=consulta_liquidador_avoco"><span class=" glyphicon glyphicon-console" aria-hidden="true"> Avoco Conocimiento</span> </a>
+          </li>
+         
+          
           <li style="<?php echo getcontrolador("Citaciones",$controladores) ?>">
           <a href="index.php?controller=Citaciones&action=consulta_firmar"><span class="glyphicon glyphicon-link" aria-hidden="true"> Citaciones</span> </a>
           </li>
